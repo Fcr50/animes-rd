@@ -27,6 +27,7 @@ export function initCompare(animes) {
   s1.addEventListener("change", renderCompare);
   s2.addEventListener("change", renderCompare);
 
+  renderVenn3();
   renderCompare();
 }
 
@@ -37,6 +38,77 @@ function renderCompare() {
   renderVenn(p1, p2);
   renderRadar(p1, p2);
   renderCommonTable(p1, p2);
+}
+
+function renderVenn3() {
+  const wrap = document.getElementById("venn3-container");
+  if (!wrap) return;
+
+  const rColor = PERSON_COLORS["Rafael"],   rLight = PERSON_LIGHTS["Rafael"];
+  const fColor = PERSON_COLORS["Fernando"], fLight = PERSON_LIGHTS["Fernando"];
+  const dColor = PERSON_COLORS["Dudu"],     dLight = PERSON_LIGHTS["Dudu"];
+
+  const R = animesOf(allAnimes, "Rafael");
+  const F = animesOf(allAnimes, "Fernando");
+  const D = animesOf(allAnimes, "Dudu");
+
+  const all3Len = allAnimes.filter(a =>
+    a.quemAssistiu.includes("Rafael") &&
+    a.quemAssistiu.includes("Fernando") &&
+    a.quemAssistiu.includes("Dudu")
+  ).length;
+
+  const rfLen = commonAnimes(allAnimes, "Rafael", "Fernando").length - all3Len;
+  const rdLen = commonAnimes(allAnimes, "Rafael", "Dudu").length    - all3Len;
+  const fdLen = commonAnimes(allAnimes, "Fernando", "Dudu").length  - all3Len;
+
+  const onlyR = R.length - rfLen - rdLen - all3Len;
+  const onlyF = F.length - rfLen - fdLen - all3Len;
+  const onlyD = D.length - rdLen - fdLen - all3Len;
+
+  function label(x, y, count, color, sublabel) {
+    return `
+      <text x="${x}" y="${y}" text-anchor="middle" font-size="20" font-weight="700" fill="${color}">${count}</text>
+      ${sublabel ? `<text x="${x}" y="${y + 16}" text-anchor="middle" font-size="10" fill="${color}" opacity="0.8">${sublabel}</text>` : ""}
+    `;
+  }
+
+  wrap.innerHTML = `
+    <div style="display:flex;flex-direction:column;align-items:center;padding:8px 0">
+      <svg viewBox="0 0 360 300" style="width:100%;max-width:400px" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <style>circle{mix-blend-mode:screen}</style>
+        </defs>
+        <!-- Rafael (topo esquerda) -->
+        <circle cx="140" cy="125" r="105" fill="${rColor}22" stroke="${rColor}" stroke-width="2"/>
+        <!-- Fernando (topo direita) -->
+        <circle cx="220" cy="125" r="105" fill="${fColor}22" stroke="${fColor}" stroke-width="2"/>
+        <!-- Dudu (baixo centro) -->
+        <circle cx="180" cy="200" r="105" fill="${dColor}22" stroke="${dColor}" stroke-width="2"/>
+
+        <!-- Só Rafael -->
+        ${label(78, 100, onlyR, rLight, "só R")}
+        <!-- Só Fernando -->
+        ${label(282, 100, onlyF, fLight, "só F")}
+        <!-- Só Dudu -->
+        ${label(180, 278, onlyD, dLight, "só D")}
+        <!-- R∩F (não D) -->
+        ${label(180, 75, rfLen, "#e9d5ff", "R∩F")}
+        <!-- R∩D (não F) -->
+        ${label(108, 198, rdLen, "#a7f3d0", "R∩D")}
+        <!-- F∩D (não R) -->
+        ${label(252, 198, fdLen, "#fbcfe8", "F∩D")}
+        <!-- Todos -->
+        ${label(180, 158, all3Len, "#ffffff", "todos")}
+      </svg>
+
+      <div style="display:flex;gap:24px;margin-top:4px;font-size:12px;color:var(--muted)">
+        <span style="color:${rLight}">● Rafael: ${R.length}</span>
+        <span style="color:${fLight}">● Fernando: ${F.length}</span>
+        <span style="color:${dLight}">● Dudu: ${D.length}</span>
+      </div>
+    </div>
+  `;
 }
 
 function renderVenn(p1, p2) {
