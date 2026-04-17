@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-17T01:00:34.535Z",
+  "updatedAt": "2026-04-17T01:02:22.996Z",
   "total": 175,
   "animes": [
     {
@@ -591,6 +591,31 @@
       "controversia": 2.6
     },
     {
+      "id": "3dc6beab-c784-82df-be47-01cf93907b4f",
+      "nome": "Death Note",
+      "quemAssistiu": [
+        "Fernando",
+        "Rafael",
+        "Dudu",
+        "Hacksuya"
+      ],
+      "nota": "9.13",
+      "generos": [
+        "Drama 😢",
+        "Terror 👻",
+        "Shounen 💥"
+      ],
+      "comentarios": "",
+      "files": [],
+      "notaRafael": 9,
+      "notaFernando": 9.4,
+      "notaDudu": 9,
+      "maisDeUmVoto": "sim",
+      "qtdVotos": 3,
+      "notaSort": 9.133333333333,
+      "controversia": 0.4
+    },
+    {
       "id": "3416beab-c784-8162-8533-f1789d92b00f",
       "nome": "Spy x Family",
       "quemAssistiu": [
@@ -687,31 +712,6 @@
       "maisDeUmVoto": "sim",
       "qtdVotos": 2,
       "notaSort": 9.1,
-      "controversia": 0.2
-    },
-    {
-      "id": "3dc6beab-c784-82df-be47-01cf93907b4f",
-      "nome": "Death Note",
-      "quemAssistiu": [
-        "Fernando",
-        "Rafael",
-        "Dudu",
-        "Hacksuya"
-      ],
-      "nota": "9.07",
-      "generos": [
-        "Drama 😢",
-        "Terror 👻",
-        "Shounen 💥"
-      ],
-      "comentarios": "",
-      "files": [],
-      "notaRafael": 9,
-      "notaFernando": 9.2,
-      "notaDudu": 9,
-      "maisDeUmVoto": "sim",
-      "qtdVotos": 3,
-      "notaSort": 9.066666666667,
       "controversia": 0.2
     },
     {
