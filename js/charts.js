@@ -89,13 +89,13 @@ function renderVotesRankingChart(animes) {
 function renderVotesPieChart(animes) {
   const ctx = document.getElementById("chartVotesPie");
   if (!ctx) return;
-  const counts = { 1: 0, 2: 0, 3: 0 };
-  animes.forEach((a) => { if (a.qtdVotos >= 1 && a.qtdVotos <= 3) counts[a.qtdVotos]++; });
+  const counts = { 1: 0, 2: 0, 3: 0, 4: 0 };
+  animes.forEach((a) => { if (a.qtdVotos >= 1 && a.qtdVotos <= 4) counts[a.qtdVotos]++; });
   new Chart(ctx, {
     type: "doughnut",
     data: {
-      labels: ["1 pessoa", "2 pessoas", "3 pessoas (todos)"],
-      datasets: [{ data: [counts[1], counts[2], counts[3]], backgroundColor: ["rgba(124,58,237,0.8)", "rgba(236,72,153,0.8)", "rgba(52,211,153,0.8)"], borderColor: "#0f0f1a", borderWidth: 3, hoverOffset: 8 }],
+      labels: ["1 pessoa", "2 pessoas", "3 pessoas", "4 pessoas (todos)"],
+      datasets: [{ data: [counts[1], counts[2], counts[3], counts[4]], backgroundColor: ["rgba(124,58,237,0.8)", "rgba(236,72,153,0.8)", "rgba(52,211,153,0.8)", "rgba(6,182,212,0.8)"], borderColor: "#0f0f1a", borderWidth: 3, hoverOffset: 8 }],
     },
     options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: "bottom", labels: { padding: 16, boxWidth: 12 } } }, animation: { duration: 900 } },
   });
@@ -124,6 +124,7 @@ export function renderPersonNotasChart(canvasId, animes, person, color) {
     if (person === "Rafael") return a.notaRafael;
     if (person === "Fernando") return a.notaFernando;
     if (person === "Dudu") return a.notaDudu;
+    if (person === "Hacksuya") return a.notaHacksuya;
     return null;
   }
   const top = animesOf(animes, person).filter((a) => pNota(a) !== null).sort((a, b) => pNota(b) - pNota(a)).slice(0, 10);

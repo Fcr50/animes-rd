@@ -26,24 +26,27 @@ export function personKey(name) {
   return name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
-export const PEOPLE = ["Rafael", "Fernando", "Dudu"];
+export const PEOPLE = ["Rafael", "Fernando", "Dudu", "Hacksuya"];
 
 export const PERSON_COLORS = {
   Rafael: "#7c3aed",
   Fernando: "#ec4899",
   Dudu: "#34d399",
+  Hacksuya: "#06b6d4",
 };
 
 export const PERSON_LIGHTS = {
   Rafael: "#a78bfa",
   Fernando: "#f9a8d4",
   Dudu: "#6ee7b7",
+  Hacksuya: "#67e8f9",
 };
 
 export function getPersonNota(anime, person) {
   if (person === "Rafael") return anime.notaRafael;
   if (person === "Fernando") return anime.notaFernando;
   if (person === "Dudu") return anime.notaDudu;
+  if (person === "Hacksuya") return anime.notaHacksuya;
   return null;
 }
 

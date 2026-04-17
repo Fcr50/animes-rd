@@ -75,6 +75,7 @@ async function main() {
       notaRafael: getNumber(p["Nota Rafael ⭐"]),
       notaFernando: getNumber(p["Nota Fernando ⭐"]),
       notaDudu: getNumber(p["Nota Dudu ⭐"]),
+      notaHacksuya: getNumber(p["Nota Hacksuya ⭐"]),
       maisDeUmVoto: getFormula(p["2+ Votos ✅"]),
       qtdVotos: getFormula(p["Qtd. Votos 🗳️"]),
       notaSort: getFormula(p["_Nota Sort"]),

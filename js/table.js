@@ -6,7 +6,6 @@ let allAnimes = [];
 let filtered = [];
 let sortCol = "notaSort";
 let sortDir = -1;
-let visibleCount = 20;
 
 export function initTable(animes) {
   allAnimes = animes;
@@ -37,6 +36,7 @@ function renderFilters() {
     </select>
     <select id="filter-votes">
       <option value="">Qtd. votos</option>
+      <option value="4">4 votos</option>
       <option value="3">3 votos</option>
       <option value="2">2 votos</option>
       <option value="1">1 voto</option>
@@ -62,7 +62,6 @@ function applyFilters() {
     return true;
   });
 
-  visibleCount = 20;
   sortData();
   renderTable();
 }
@@ -87,7 +86,7 @@ function renderTable() {
     return;
   }
 
-  tbody.innerHTML = filtered.slice(0, visibleCount).map((a, i) => {
+  tbody.innerHTML = filtered.map((a, i) => {
     const nota = a.nota !== null ? Number(a.nota).toFixed(2) : "—";
     const notaCls = notaColor(a.nota);
     const genres = a.generos.slice(0, 2).map((g) => `<span class="badge badge-genre">${g}</span>`).join("");
@@ -108,23 +107,6 @@ function renderTable() {
     `;
   }).join("");
 
-  let loadMoreBtn = document.getElementById("load-more-btn");
-  if (filtered.length > visibleCount) {
-    if (!loadMoreBtn) {
-      loadMoreBtn = document.createElement("button");
-      loadMoreBtn.id = "load-more-btn";
-      loadMoreBtn.style.cssText = "display:block;margin:16px auto;padding:10px 32px;background:var(--accent,#7c6ff7);color:#fff;border:none;border-radius:8px;font-size:1rem;cursor:pointer;";
-      tbody.closest("table").insertAdjacentElement("afterend", loadMoreBtn);
-      loadMoreBtn.addEventListener("click", () => {
-        visibleCount += 20;
-        renderTable();
-      });
-    }
-    loadMoreBtn.textContent = `Carregar mais 20 (${filtered.length - visibleCount} restantes)`;
-    loadMoreBtn.style.display = "block";
-  } else if (loadMoreBtn) {
-    loadMoreBtn.style.display = "none";
-  }
 }
 
 function renderModal() {
@@ -161,6 +143,7 @@ window.openModal = function(idx) {
     { person: "Rafael", nota: a.notaRafael, color: PERSON_LIGHTS.Rafael },
     { person: "Fernando", nota: a.notaFernando, color: PERSON_LIGHTS.Fernando },
     { person: "Dudu", nota: a.notaDudu, color: PERSON_LIGHTS.Dudu },
+    { person: "Hacksuya", nota: a.notaHacksuya, color: PERSON_LIGHTS.Hacksuya },
   ];
 
   document.getElementById("modal-notes").innerHTML = notas.map((n) => `
@@ -216,7 +199,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       document.querySelectorAll("thead th").forEach((h) => h.classList.remove("sorted"));
       th.classList.add("sorted");
-      visibleCount = 20;
       sortData();
       renderTable();
     });
