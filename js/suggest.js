@@ -248,9 +248,14 @@ async function renderSubmissionForm() {
           officialTitleEl.textContent = `Encontrado: ${animeData.officialTitle}`;
 
           const duplicates = await checkDuplicates(animeData.malId, name);
-          duplicateEl.textContent = duplicates.length > 0
-            ? `⚠️ Possível duplicata: "${duplicates[0]}" já está na lista`
+          const isDuplicate = duplicates.length > 0;
+          duplicateEl.style.color = isDuplicate ? "#ef4444" : "var(--faint)";
+          duplicateEl.textContent = isDuplicate
+            ? `🚫 "${duplicates[0]}" já está na lista`
             : "";
+          document.getElementById("submit-anime-button").disabled = isDuplicate;
+          document.getElementById("submit-anime-button").style.opacity = isDuplicate ? "0.4" : "1";
+          document.getElementById("submit-anime-button").style.cursor = isDuplicate ? "not-allowed" : "pointer";
         } else {
           statusEl.textContent = "não encontrado — preencha manualmente";
           statusEl.style.color = "var(--faint)";
@@ -444,8 +449,8 @@ async function handleSubmitAnime() {
 
   const duplicates = await checkDuplicates(currentAnimeData?.malId, name);
   if (duplicates.length > 0) {
-    const confirm = window.confirm(`⚠️ "${duplicates[0]}" já existe na lista. Deseja submeter mesmo assim?`);
-    if (!confirm) return;
+    alert(`🚫 "${duplicates[0]}" já está na lista. Submissão bloqueada.`);
+    return;
   }
 
   const genres = genresRaw.split(',').map(g => g.trim()).filter(g => g);
