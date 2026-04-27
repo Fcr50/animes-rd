@@ -4,7 +4,6 @@ const path = require("path");
 
 const notion = new Client({ auth: process.env.NOTION_API_KEY });
 const DATABASE_ID = process.env.NOTION_DATABASE_ID;
-const NOTION_VERSION = process.env.NOTION_VERSION || "2022-06-28";
 
 function getText(prop) {
   if (!prop) return "";
@@ -41,8 +40,6 @@ function getFiles(prop) {
 }
 
 const PEOPLE = ["Rafael", "Fernando", "Dudu", "Hacksuya"];
-const userNameCache = new Map();
-let warnedCommentsPermission = false;
 
 function normalizeName(value) {
   return value
@@ -90,96 +87,6 @@ function getComments(properties) {
   return comments;
 }
 
-function getRichText(richText) {
-  return (richText || []).map((text) => text.plain_text).join("").trim();
-}
-
-function personFromAuthor(name) {
-  if (!name) return "Comentário";
-  const normalized = normalizeName(name);
-  return PEOPLE.find((person) => normalized.includes(normalizeName(person))) || name;
-}
-
-async function getUserName(userId) {
-  if (!userId) return "";
-  if (userNameCache.has(userId)) return userNameCache.get(userId);
-
-  try {
-    const user = await notion.users.retrieve({ user_id: userId });
-    const name = user.name || "";
-    userNameCache.set(userId, name);
-    return name;
-  } catch {
-    userNameCache.set(userId, "");
-    return "";
-  }
-}
-
-async function fetchPageComments(pageId) {
-  const comments = [];
-  let cursor = undefined;
-
-  do {
-    const url = new URL("https://api.notion.com/v1/comments");
-    url.searchParams.set("block_id", pageId);
-    url.searchParams.set("page_size", "100");
-    if (cursor) url.searchParams.set("start_cursor", cursor);
-
-    const response = await fetch(url, {
-      headers: {
-        Authorization: `Bearer ${process.env.NOTION_API_KEY}`,
-        "Notion-Version": NOTION_VERSION,
-      },
-    });
-
-    if (response.status === 403) {
-      if (!warnedCommentsPermission) {
-        console.warn("Notion integration cannot read comments. Enable Read comments capability to sync page comments.");
-        warnedCommentsPermission = true;
-      }
-      return [];
-    }
-
-    if (!response.ok) {
-      const message = await response.text();
-      console.warn(`Could not fetch comments for page ${pageId}: ${response.status} ${message}`);
-      return comments;
-    }
-
-    const data = await response.json();
-    for (const comment of data.results || []) {
-      const text = getRichText(comment.rich_text);
-      if (!text) continue;
-
-      const authorName = await getUserName(comment.created_by?.id);
-      comments.push({
-        person: personFromAuthor(authorName),
-        text,
-        createdAt: comment.created_time || null,
-      });
-    }
-
-    cursor = data.has_more ? data.next_cursor : undefined;
-  } while (cursor);
-
-  return comments;
-}
-
-async function mapLimit(items, limit, mapper) {
-  const results = [];
-  let index = 0;
-
-  async function worker() {
-    while (index < items.length) {
-      const currentIndex = index++;
-      results[currentIndex] = await mapper(items[currentIndex], currentIndex);
-    }
-  }
-
-  await Promise.all(Array.from({ length: Math.min(limit, items.length) }, worker));
-  return results;
-}
-
 async function fetchAllPages() {
   const results = [];
   let cursor = undefined;
@@ -203,10 +110,9 @@ async function main() {
   const pages = await fetchAllPages();
   console.log(`Found ${pages.length} entries.`);
 
-  const animes = (await mapLimit(pages, 4, async (page) => {
+  const animes = pages.map((page) => {
     const p = page.properties;
-    const propertyComments = getComments(p);
-    const pageComments = await fetchPageComments(page.id);
+    const comments = getComments(p);
 
     return {
       id: page.id,
@@ -215,7 +121,7 @@ async function main() {
       nota: getFormula(p["Nota ⭐"]),
       generos: getMultiSelect(p["🎭 Gênero"]),
       comentarios: getText(p["Comentários 💬"]),
-      comments: [...propertyComments, ...pageComments],
+      comments,
       files: getFiles(p["Files & media"]),
       notaRafael: getNumber(p["Nota Rafael ⭐"]),
       notaFernando: getNumber(p["Nota Fernando ⭐"]),
@@ -226,7 +132,7 @@ async function main() {
       notaSort: getFormula(p["_Nota Sort"]),
       controversia: getFormula(p["🌶️ Controvérsia"]),
     };
-  })).filter((a) => a.nome);
+  }).filter((a) => a.nome);
 
   animes.sort((a, b) => (b.notaSort || 0) - (a.notaSort || 0));
 

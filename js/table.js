@@ -45,6 +45,27 @@ function commentsForAnime(anime) {
     .filter((comment) => comment.text);
 }
 
+function renderCommentPreview(anime) {
+  const comments = commentsForAnime(anime);
+  if (!comments.length) return `<span class="comment-empty">—</span>`;
+
+  return `
+    <div class="comment-preview-list">
+      ${comments.slice(0, 2).map((comment) => {
+        const person = comment.person || "Comentário";
+        const color = PERSON_LIGHTS[person] || "var(--muted)";
+        return `
+          <div class="comment-preview">
+            <strong style="color:${color}">${escapeHTML(person)}</strong>
+            <span>${escapeHTML(comment.text)}</span>
+          </div>
+        `;
+      }).join("")}
+      ${comments.length > 2 ? `<span class="comment-more">+${comments.length - 2}</span>` : ""}
+    </div>
+  `;
+}
+
 export function initTable(animes) {
   allAnimes = animes;
   filtered = [...animes];
@@ -132,10 +153,7 @@ function renderTable() {
     const viewers = a.quemAssistiu.map((p) => `<span class="badge badge-${p.toLowerCase()}">${p}</span>`).join("");
     const contr = a.controversia !== null ? Number(a.controversia).toFixed(1) : "—";
     const contrCls = a.controversia > 1.5 ? "controversia-hot" : "controversia";
-    const comments = commentsForAnime(a);
-    const commentSummary = comments.length
-      ? `<span class="comment-pill">${comments.length} ${comments.length === 1 ? "comentário" : "comentários"}</span>`
-      : `<span class="comment-empty">—</span>`;
+    const commentSummary = renderCommentPreview(a);
 
     return `
       <tr data-idx="${i}" onclick="openModal(${allAnimes.indexOf(a)})">
