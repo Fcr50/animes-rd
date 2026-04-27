@@ -1,5 +1,6 @@
 node_modules/
 scripts/node_modules/
+scripts/serviceAccountKey.json
 .env
 .DS_Store
 *.log

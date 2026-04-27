@@ -1,64 +1,59 @@
 # ✦ Animes RD
 
-Site estático hospedado no GitHub Pages que consome dados do Notion e exibe gráficos, rankings e comparações dos animes assistidos por **Rafael**, **Fernando** e **Dudu**.
+Site estático hospedado no GitHub Pages que exibe gráficos, rankings e comparações dos animes assistidos pelo grupo. Os dados são gerenciados no Firebase Firestore e sincronizados via GitHub Actions para manter o site rápido e gratuito.
 
 ## 🔗 Páginas
 
 | Página | Descrição |
 |---|---|
-| `index.html` | Tabela geral com busca, filtros e modal de detalhes |
-| `charts.html` | Gráficos gerais: gêneros, notas, dispersão, controvérsia |
-| `compare.html` | Comparação entre 2 pessoas: Venn, radar, notas lado a lado |
+| `index.html` | Tabela geral com busca, filtros e rankings |
+| `suggest.html` | **Nova!** Sugira animes, vote (Assisti/Não Assisti) e avalie |
+| `charts.html` | Gráficos gerais: gêneros, notas, controversia |
+| `compare.html` | Comparação entre 2 pessoas: Venn, radar, notas |
 | `rafael.html` | Perfil individual do Rafael |
 | `fernando.html` | Perfil individual do Fernando |
 | `dudu.html` | Perfil individual do Dudu |
+| `hacksuya.html` | Perfil individual do Hacksuya |
 
 ---
 
-## 🚀 Setup
+## 🛠️ Como funciona o Fluxo
 
-### 1. Clone e suba o repositório
+1.  **Sugestão**: Qualquer membro logado (via Google) pode sugerir um anime em `suggest.html`.
+2.  **Votação**: Todos os membros (`Rafael`, `Fernando`, `Dudu`, `Hacksuya`) devem votar no anime pendente.
+    *   Opções: "Assisti" (com nota e comentário) ou "Não Assisti".
+3.  **Aprovação**: Uma GitHub Action roda periodicamente (ou manualmente).
+    *   Se todos votaram, o anime é movido para a coleção principal.
+    *   O arquivo `data/animes.json` é atualizado e o site sofre o deploy.
 
-```bash
-git clone https://github.com/SEU_USER/animes-rd.git
-cd animes-rd
-git add .
-git commit -m "feat: initial setup"
-git push origin main
-```
+---
 
-### 2. Crie a Notion Integration
+## 🚀 Setup do Projeto
 
-1. Acesse [notion.so/my-integrations](https://www.notion.so/my-integrations)
-2. Clique em **New integration**
-3. Dê um nome (ex: `Animes RD Site`) e clique em **Submit**
-4. Copie a **Internal Integration Secret** (`secret_xxx...`)
+### 1. Configuração do Firebase
 
-### 3. Compartilhe o database com a integration
+1.  Crie um projeto no [Firebase Console](https://console.firebase.google.com/).
+2.  Ative o **Firestore Database** e o **Authentication** (habilite o provedor **Google**).
+3.  Crie um **App Web** no Firebase e copie as configurações para o arquivo `js/firebase-config.js`.
+4.  Gere uma chave privada em **Configurações do Projeto > Contas de Serviço > Gerar nova chave privada**. Salve como `scripts/serviceAccountKey.json` (apenas para uso local).
 
-1. Abra o database **Animes RD** no Notion
-2. Clique nos `...` no canto superior direito → **Add connections**
-3. Selecione a integration que você criou
+### 2. Configuração do GitHub
 
-### 4. Adicione os secrets no GitHub
-
-No seu repositório: **Settings → Secrets and variables → Actions → New repository secret**
+Adicione o seguinte Secret no seu repositório (**Settings > Secrets > Actions**):
 
 | Nome | Valor |
 |---|---|
-| `NOTION_API_KEY` | `secret_xxx...` (sua integration key) |
-| `NOTION_DATABASE_ID` | `a2e6beabc78483ac879e015a5695384b` |
+| `FIREBASE_SERVICE_ACCOUNT_KEY` | Conteúdo completo do arquivo JSON da chave de serviço |
 
-### 5. Ative o GitHub Pages
+### 3. Migração Inicial (Opcional)
 
-**Settings → Pages → Source: Deploy from branch → Branch: `main` / `(root)` → Save**
+Se você já tem dados no `data/animes.json`, suba-os para o Firebase:
 
-### 6. Rode o workflow pela primeira vez
-
-**Actions → Fetch Notion Data → Run workflow**
-
-Isso vai buscar os dados do Notion, salvar em `data/animes.json` e fazer commit automático.
-Após isso, o site atualiza automaticamente todo dia às 06h e a cada push.
+```bash
+cd scripts
+npm install
+node migrate-to-firebase.js
+```
 
 ---
 
@@ -66,27 +61,19 @@ Após isso, o site atualiza automaticamente todo dia às 06h e a cada push.
 
 ```
 animes-rd/
-├── index.html              # Página inicial
-├── charts.html             # Gráficos gerais
-├── compare.html            # Comparação entre pessoas
-├── rafael.html             # Perfil Rafael
-├── fernando.html           # Perfil Fernando
-├── dudu.html               # Perfil Dudu
-├── css/
-│   └── style.css           # Estilos globais
+├── suggest.html            # Página de submissão e votação
 ├── js/
-│   ├── data.js             # Carrega e processa animes.json
-│   ├── table.js            # Tabela com filtros, ordenação e modal
-│   ├── charts.js           # Todos os gráficos (Chart.js)
-│   └── compare.js          # Lógica de comparação, Venn e radar
+│   ├── firebase-config.js  # Configurações do seu Firebase
+│   ├── suggest.js          # Lógica de votação e Firestore em tempo real
+│   └── data.js             # Processa o JSON estático para o site
 ├── data/
-│   └── animes.json         # Gerado automaticamente pelo GitHub Action
+│   └── animes.json         # Gerado pela GitHub Action
 ├── scripts/
-│   ├── fetch-notion.js     # Script Node.js que busca dados do Notion
-│   └── package.json
+│   ├── export-and-approve-from-firebase.js # Lógica de aprovação
+│   └── migrate-to-firebase.js             # Script de migração inicial
 └── .github/
     └── workflows/
-        └── fetch-notion.yml  # GitHub Action
+        └── update-from-firebase.yml        # Automação de aprovação/export
 ```
 
 ---
@@ -94,26 +81,8 @@ animes-rd/
 ## 🛠️ Desenvolvimento local
 
 ```bash
-# Instale um servidor local (necessário por causa dos ES modules)
+# Necessário servidor local para ES Modules
 npx serve .
-# ou
-python3 -m http.server 8000
 ```
 
-Abra `http://localhost:8000` no navegador.
-
-Para testar o fetch do Notion localmente:
-
-```bash
-cd scripts
-npm install
-NOTION_API_KEY=secret_xxx NOTION_DATABASE_ID=a2e6beab... node fetch-notion.js
-```
-
----
-
-## 📦 Dependências
-
-- [Chart.js 4.4](https://www.chartjs.org/) — gráficos (CDN)
-- [@notionhq/client](https://github.com/makenotion/notion-sdk-js) — apenas no script de fetch (Node.js)
-- Sem frameworks JS no frontend
+Abra `http://localhost:3000` no navegador.

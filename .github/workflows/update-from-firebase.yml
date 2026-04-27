@@ -1,0 +1,51 @@
+name: Update Anime Data from Firebase
+
+# Controls when the action will run.
+# Triggers the workflow on push to the main branch, or manually.
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+  schedule:
+    # Runs at midnight UTC every day, and at 6:00 AM UTC every day
+    - cron: '0 0 * * *'
+    - cron: '0 6 * * *'
+
+# A job that runs on a runner.
+jobs:
+  update_data:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: scripts/package-lock.json
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: scripts
+
+      - name: Export and Approve Animes
+        env:
+          # These secrets are configured in your GitHub repository settings
+          FIREBASE_SERVICE_ACCOUNT_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
+        run: node export-and-approve-from-firebase.js
+        working-directory: scripts
+
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name 'GitHub Actions Bot'
+          git config --global user.email 'actions@github.com'
+          git add data/animes.json
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore: update animes data from Firebase"
+            git push
+          fi
