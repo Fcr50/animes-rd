@@ -42,26 +42,50 @@ function normalizeName(str) {
 
 async function checkDuplicates(malId, inputName) {
   const found = [];
+  const normInput = normalizeName(inputName);
 
-  if (malId && db) {
-    const [animesSnap, pendingSnap] = await Promise.all([
-      getDocs(query(collection(db, "animes"), where("malId", "==", malId))),
-      getDocs(query(collection(db, "pending_animes"), where("malId", "==", malId))),
-    ]);
-    animesSnap.forEach(d => found.push(d.data().nome));
-    pendingSnap.forEach(d => found.push(d.data().nome));
+  if (db) {
+    // 1. Verifica por malId (mais preciso)
+    if (malId) {
+      const [animesSnap, pendingSnap] = await Promise.all([
+        getDocs(query(collection(db, "animes"), where("malId", "==", malId))),
+        getDocs(query(collection(db, "pending_animes"), where("malId", "==", malId))),
+      ]);
+      animesSnap.forEach(d => found.push(d.data().nome));
+      pendingSnap.forEach(d => found.push(d.data().nome));
+    }
+
+    // 2. Verifica na fila de pendentes por nome normalizado (evita duplicatas sem malId)
+    if (found.length === 0) {
+      const pendingAll = await getDocs(collection(db, "pending_animes"));
+      pendingAll.forEach(d => {
+        const data = d.data();
+        if (normalizeName(data.nome) === normInput) {
+          found.push(data.nome);
+        }
+      });
+    }
+    
+    // 3. Verifica na coleção principal por nome normalizado (evita duplicatas sem malId)
+    if (found.length === 0) {
+        const animesAll = await getDocs(collection(db, "animes"));
+        animesAll.forEach(d => {
+          const data = d.data();
+          if (normalizeName(data.nome) === normInput) {
+            found.push(data.nome);
+          }
+        });
+      }
   }
 
   if (found.length > 0) return found;
 
-  // Fuzzy fallback contra animes exportados (sem malId)
+  // Fuzzy fallback contra animes exportados no JSON (caso o Firestore falhe)
   try {
-    const res = await fetch("../data/animes.json");
+    const res = await fetch("data/animes.json");
     const data = await res.json();
-    const normInput = normalizeName(inputName);
     for (const anime of data.animes || []) {
-      const normAnime = normalizeName(anime.nome);
-      if (normAnime === normInput || normAnime.includes(normInput) || normInput.includes(normAnime)) {
+      if (normalizeName(anime.nome) === normInput) {
         found.push(anime.nome);
       }
     }
@@ -439,23 +463,32 @@ function renderUIForUser(user) {
 }
 
 async function handleSubmitAnime() {
-  const name = document.getElementById("anime-name").value.trim();
-  const genresRaw = document.getElementById("anime-genres").value.trim();
+  const nameInput = document.getElementById("anime-name");
+  const genresInput = document.getElementById("anime-genres");
+  const name = nameInput.value.trim();
+  const genresRaw = genresInput.value.trim();
 
   if (!name || !genresRaw) {
     alert("Preencha todos os campos.");
     return;
   }
 
-  const duplicates = await checkDuplicates(currentAnimeData?.malId, name);
-  if (duplicates.length > 0) {
-    alert(`🚫 "${duplicates[0]}" já está na lista. Submissão bloqueada.`);
-    return;
-  }
-
-  const genres = genresRaw.split(',').map(g => g.trim()).filter(g => g);
+  // Desabilita o botão para evitar múltiplos cliques
+  const submitBtn = document.getElementById("submit-anime-button");
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Verificando...";
 
   try {
+    const duplicates = await checkDuplicates(currentAnimeData?.malId, name);
+    if (duplicates.length > 0) {
+      alert(`🚫 "${duplicates[0]}" já está na lista (ou fila de aprovação). Submissão cancelada.`);
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Submeter Anime";
+      return;
+    }
+
+    const genres = genresRaw.split(',').map(g => g.trim()).filter(g => g);
+
     await addDoc(pendingAnimesRef, {
       nome: name,
       generos: genres,
@@ -468,13 +501,22 @@ async function handleSubmitAnime() {
       status: "pending"
     });
 
-    alert("Anime sugerido!");
-    document.getElementById("anime-name").value = "";
-    document.getElementById("anime-genres").value = "";
+    alert("Anime sugerido com sucesso!");
+    nameInput.value = "";
+    genresInput.value = "";
     currentAnimeData = null;
+    
+    // Limpa os avisos
+    document.getElementById("genres-status").textContent = "";
+    document.getElementById("official-title").textContent = "";
+    document.getElementById("duplicate-warning").textContent = "";
+
   } catch (error) {
     console.error(error);
-    alert("Erro ao sugerir.");
+    alert("Erro ao sugerir anime. Tente novamente.");
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Submeter Anime";
   }
 }
 
