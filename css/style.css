@@ -170,9 +170,11 @@ a { color: inherit; text-decoration: none; }
   border-radius: 14px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: center;
   min-height: 360px;
   padding: 28px;
+  text-align: center;
 }
 
 .hero-panel h2 {
@@ -187,6 +189,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 .mini-metrics {
+  justify-content: center;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
