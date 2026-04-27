@@ -846,6 +846,178 @@ tbody td { padding: 12px 14px; vertical-align: middle; }
   line-height: 1.65;
 }
 
+.anime-edit-panel {
+  background: rgba(124,58,237,0.08);
+  border: 1px solid rgba(167,139,250,0.22);
+  border-radius: 8px;
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+  padding: 16px;
+}
+
+.anime-edit-panel h3 {
+  color: var(--paper);
+  font-family: 'Newsreader', serif;
+  font-size: 24px;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin: 0;
+}
+
+.anime-edit-panel p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
+  margin: 6px 0 0;
+}
+
+.anime-edit-head,
+.anime-edit-actions {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.edit-field {
+  display: grid;
+  gap: 7px;
+}
+
+.edit-field span {
+  color: var(--faint);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.edit-field input,
+.edit-field textarea {
+  background: rgba(16,16,20,0.72);
+  border: 1px solid rgba(243,239,230,0.14);
+  border-radius: 8px;
+  color: var(--text);
+  outline: none;
+  padding: 10px 12px;
+  transition: border-color 0.18s ease;
+  width: 100%;
+}
+
+.edit-field input {
+  max-width: 120px;
+}
+
+.edit-field textarea {
+  min-height: 86px;
+  resize: vertical;
+}
+
+.edit-field input:focus,
+.edit-field textarea:focus {
+  border-color: var(--accent);
+}
+
+.edit-button {
+  background: var(--accent);
+  border: none;
+  border-radius: 999px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 800;
+  padding: 10px 15px;
+}
+
+.edit-button:disabled {
+  cursor: progress;
+  opacity: 0.55;
+}
+
+.edit-link-button {
+  background: none;
+  border: none;
+  color: var(--faint);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.edit-status {
+  color: var(--faint);
+  font-size: 12px;
+}
+
+.user-selection-overlay {
+  align-items: center;
+  background: rgba(0,0,0,0.78);
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  padding: 16px;
+  position: fixed;
+  z-index: 300;
+}
+
+.user-selection-modal {
+  background: var(--card);
+  border: 1px solid rgba(243,239,230,0.18);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  max-width: 420px;
+  padding: 26px;
+  width: 100%;
+}
+
+.user-selection-modal h3 {
+  color: var(--paper);
+  font-family: 'Newsreader', serif;
+  font-size: 30px;
+  font-weight: 650;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.user-selection-modal p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
+  margin-bottom: 18px;
+}
+
+.person-select-list {
+  display: grid;
+  gap: 10px;
+}
+
+.person-select-list button {
+  align-items: center;
+  background: rgba(243,239,230,0.06);
+  border: 1px solid rgba(243,239,230,0.14);
+  border-radius: 8px;
+  color: var(--text);
+  cursor: pointer;
+  display: flex;
+  font-weight: 800;
+  gap: 10px;
+  padding: 12px;
+  text-align: left;
+}
+
+.person-select-list button:hover {
+  border-color: var(--accent);
+}
+
+.person-select-list span {
+  border-radius: 50%;
+  height: 12px;
+  width: 12px;
+}
+
 .modal-meta {
   display: flex;
   flex-wrap: wrap;
@@ -2199,4 +2371,29 @@ body.dark-theme .venn-circle:nth-child(2) {
 
 body.dark-theme .diff-highlight {
   background: rgba(251,113,133,0.18);
+}
+
+body:not(.dark-theme) .anime-edit-panel,
+body:not(.dark-theme) .user-selection-modal {
+  background: #fffdf7;
+  border: 2px solid #171717;
+  box-shadow: 7px 7px 0 rgba(23,23,23,0.08);
+}
+
+body:not(.dark-theme) .anime-edit-panel h3,
+body:not(.dark-theme) .user-selection-modal h3 {
+  color: #171717;
+}
+
+body:not(.dark-theme) .edit-field input,
+body:not(.dark-theme) .edit-field textarea {
+  background: #fffaf0;
+  border: 2px solid #171717;
+  color: #171717;
+}
+
+body:not(.dark-theme) .person-select-list button {
+  background: #fffaf0;
+  border: 2px solid #171717;
+  color: #171717;
 }

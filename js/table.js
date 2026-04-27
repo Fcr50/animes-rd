@@ -1,11 +1,30 @@
 // js/table.js — tabela com filtros, ordenação e modal
 
-import { formatNota, notaColor, PEOPLE, PERSON_LIGHTS } from "./data.js";
+import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
+import { getFirestore, doc, runTransaction, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+
+import { firebaseConfig } from "./firebase-config.js";
+import { formatNota, notaColor, PEOPLE, PERSON_COLORS, PERSON_LIGHTS } from "./data.js";
 
 let allAnimes = [];
 let filtered = [];
 let sortCol = "notaSort";
 let sortDir = -1;
+let currentModalIndex = null;
+let currentUser = null;
+
+const isFirebaseConfigured = firebaseConfig.apiKey !== "SUA_API_KEY";
+const app = isFirebaseConfigured ? (getApps()[0] || initializeApp(firebaseConfig)) : null;
+const auth = app ? getAuth(app) : null;
+const db = app ? getFirestore(app) : null;
+
+const NOTE_FIELDS = {
+  Rafael: "notaRafael",
+  Fernando: "notaFernando",
+  Dudu: "notaDudu",
+  Hacksuya: "notaHacksuya",
+};
 
 function escapeHTML(value) {
   return String(value ?? "")
@@ -43,6 +62,46 @@ function commentsForAnime(anime) {
       return { person, text: match[2].trim() };
     })
     .filter((comment) => comment.text);
+}
+
+function getPersonComment(anime, person) {
+  return commentsForAnime(anime).find((comment) => comment.person === person)?.text || "";
+}
+
+function setPersonComment(anime, person, text) {
+  const trimmed = text.trim();
+  const comments = commentsForAnime(anime).filter((comment) => comment.person !== person);
+  if (trimmed) comments.push({ person, text: trimmed });
+  return comments;
+}
+
+function recalculateAnime(anime) {
+  const notes = PEOPLE
+    .map((person) => ({ person, score: anime[NOTE_FIELDS[person]] }))
+    .filter((item) => item.score !== null && item.score !== undefined && !Number.isNaN(Number(item.score)));
+
+  const scores = notes.map((item) => Number(item.score));
+  const avg = scores.length ? scores.reduce((sum, score) => sum + score, 0) / scores.length : null;
+  const max = scores.length ? Math.max(...scores) : null;
+  const min = scores.length ? Math.min(...scores) : null;
+
+  return {
+    ...anime,
+    quemAssistiu: notes.map((item) => item.person),
+    qtdVotos: notes.length,
+    nota: avg === null ? null : avg.toFixed(2),
+    notaSort: avg === null ? 0 : Number(avg.toFixed(2)),
+    controversia: scores.length > 1 ? Number((max - min).toFixed(1)) : 0,
+    maisDeUmVoto: notes.length > 1 ? "sim" : "nao",
+  };
+}
+
+function getStoredPersonName(uid) {
+  return localStorage.getItem(`user-${uid}-personName`);
+}
+
+function setStoredPersonName(uid, personName) {
+  localStorage.setItem(`user-${uid}-personName`, personName);
 }
 
 export function initTable(animes) {
@@ -162,6 +221,7 @@ function renderModal() {
       <div class="notes-grid" id="modal-notes"></div>
       <div id="modal-meta" class="modal-meta"></div>
       <div id="modal-comment"></div>
+      <div id="modal-edit"></div>
     </div>
   `;
   div.addEventListener("click", (e) => { if (e.target === div) closeModal(); });
@@ -171,6 +231,7 @@ function renderModal() {
 window.openModal = function(idx) {
   const a = allAnimes[idx];
   if (!a) return;
+  currentModalIndex = idx;
 
   document.getElementById("modal-title").textContent = a.nome;
 
@@ -207,6 +268,8 @@ window.openModal = function(idx) {
   const commentEl = document.getElementById("modal-comment");
   commentEl.innerHTML = renderComments(a);
 
+  document.getElementById("modal-edit").innerHTML = renderEditForm(a);
+
   document.getElementById("modal-overlay").classList.add("open");
   document.body.style.overflow = "hidden";
 };
@@ -234,14 +297,236 @@ function renderComments(anime) {
   `;
 }
 
+function renderAuthBox() {
+  if (!isFirebaseConfigured) {
+    return `<p class="edit-status">Firebase nÃ£o configurado para ediÃ§Ã£o.</p>`;
+  }
+
+  if (!currentUser) {
+    return `
+      <section class="anime-edit-panel">
+        <h3>Editar sua nota</h3>
+        <p>FaÃ§a login para editar apenas a sua nota e o seu comentÃ¡rio.</p>
+        <button class="edit-button" type="button" data-login-action>Login com Google</button>
+      </section>
+    `;
+  }
+
+  if (!currentUser.personName) {
+    return `
+      <section class="anime-edit-panel">
+        <h3>Editar sua nota</h3>
+        <p>Associe sua conta a um dos membros antes de editar.</p>
+        <button class="edit-button" type="button" data-select-person-action>Selecionar meu nome</button>
+      </section>
+    `;
+  }
+
+  return "";
+}
+
+function renderEditForm(anime) {
+  const authBox = renderAuthBox();
+  if (authBox) return authBox;
+
+  const person = currentUser.personName;
+  const field = NOTE_FIELDS[person];
+  if (!field) return "";
+
+  const currentScore = anime[field];
+  const hasScore = currentScore !== null && currentScore !== undefined;
+  const score = hasScore ? Number(currentScore).toFixed(1) : "5.0";
+  const comment = getPersonComment(anime, person);
+  const color = PERSON_LIGHTS[person] || "var(--accent)";
+
+  return `
+    <section class="anime-edit-panel">
+      <div class="anime-edit-head">
+        <div>
+          <h3>Seu registro</h3>
+          <p>Editando como <strong style="color:${color}">${escapeHTML(person)}</strong></p>
+        </div>
+        <button class="edit-link-button" type="button" data-logout-action>Sair</button>
+      </div>
+      <label class="edit-field">
+        <span>Nota</span>
+        <input id="anime-edit-score" type="number" min="0" max="10" step="0.1" value="${score}" />
+      </label>
+      <label class="edit-field">
+        <span>ComentÃ¡rio</span>
+        <textarea id="anime-edit-comment" maxlength="600" placeholder="Escreva seu comentÃ¡rio...">${escapeHTML(comment)}</textarea>
+      </label>
+      <div class="anime-edit-actions">
+        <button class="edit-button" type="button" data-save-anime-edit>${hasScore || comment ? "Salvar alteraÃ§Ãµes" : "Enviar nota"}</button>
+        <span id="anime-edit-status" class="edit-status"></span>
+      </div>
+    </section>
+  `;
+}
+
+function refreshOpenModal() {
+  if (currentModalIndex !== null) window.openModal(currentModalIndex);
+}
+
+function showUserSelectionModal() {
+  if (!currentUser) return;
+  document.getElementById("user-selection-overlay")?.remove();
+
+  const overlay = document.createElement("div");
+  overlay.id = "user-selection-overlay";
+  overlay.className = "user-selection-overlay";
+  overlay.innerHTML = `
+    <div class="user-selection-modal">
+      <h3>Quem Ã© vocÃª?</h3>
+      <p>Essa escolha define qual nota e comentÃ¡rio vocÃª pode editar.</p>
+      <div class="person-select-list">
+        ${PEOPLE.map((person) => `
+          <button type="button" data-person-name="${person}">
+            <span style="background:${PERSON_COLORS[person]}"></span>
+            ${person}
+          </button>
+        `).join("")}
+      </div>
+    </div>
+  `;
+  overlay.addEventListener("click", (event) => {
+    if (event.target === overlay) overlay.remove();
+    const button = event.target.closest("[data-person-name]");
+    if (!button) return;
+    const personName = button.dataset.personName;
+    setStoredPersonName(currentUser.uid, personName);
+    currentUser.personName = personName;
+    overlay.remove();
+    refreshOpenModal();
+  });
+  document.body.appendChild(overlay);
+}
+
+async function handleLogin() {
+  if (!auth) return;
+  await signInWithPopup(auth, new GoogleAuthProvider());
+}
+
+async function handleLogout() {
+  if (!auth) return;
+  await signOut(auth);
+}
+
+function updateAnimeLocally(id, nextAnime) {
+  allAnimes = allAnimes.map((anime) => anime.id === id ? nextAnime : anime);
+  filtered = filtered.map((anime) => anime.id === id ? nextAnime : anime);
+  sortData();
+  renderTable();
+  currentModalIndex = allAnimes.findIndex((anime) => anime.id === id);
+  refreshOpenModal();
+}
+
+async function saveAnimeEdit(anime) {
+  if (!db || !currentUser?.personName) return;
+
+  const scoreEl = document.getElementById("anime-edit-score");
+  const commentEl = document.getElementById("anime-edit-comment");
+  const statusEl = document.getElementById("anime-edit-status");
+  const button = document.querySelector("[data-save-anime-edit]");
+  const person = currentUser.personName;
+  const noteField = NOTE_FIELDS[person];
+  const rawScore = scoreEl.value.trim();
+  const score = rawScore === "" ? null : Number(rawScore);
+  const comment = commentEl.value.trim();
+
+  if (score !== null && (Number.isNaN(score) || score < 0 || score > 10)) {
+    statusEl.textContent = "Use uma nota entre 0 e 10.";
+    return;
+  }
+
+  button.disabled = true;
+  statusEl.textContent = "Salvando...";
+
+  try {
+    const docRef = doc(db, "animes", anime.id);
+    let updatedAnime = null;
+
+    await runTransaction(db, async (transaction) => {
+      const snap = await transaction.get(docRef);
+      if (!snap.exists()) throw new Error("Anime nÃ£o encontrado no Firebase.");
+
+      const current = { ...anime, ...snap.data(), id: anime.id };
+      current[noteField] = score;
+      current.comments = setPersonComment(current, person, comment);
+      current.comentarios = current.comments
+        .map((item) => `${item.person}: ${item.text}`)
+        .join("\n");
+      updatedAnime = recalculateAnime(current);
+
+      transaction.update(docRef, {
+        [noteField]: score,
+        comments: updatedAnime.comments,
+        comentarios: updatedAnime.comentarios,
+        quemAssistiu: updatedAnime.quemAssistiu,
+        qtdVotos: updatedAnime.qtdVotos,
+        nota: updatedAnime.nota,
+        notaSort: updatedAnime.notaSort,
+        controversia: updatedAnime.controversia,
+        maisDeUmVoto: updatedAnime.maisDeUmVoto,
+        updatedAt: serverTimestamp(),
+      });
+    });
+
+    updateAnimeLocally(anime.id, updatedAnime);
+  } catch (error) {
+    console.error(error);
+    statusEl.textContent = `Erro ao salvar: ${error.message || error}`;
+  } finally {
+    button.disabled = false;
+  }
+}
+
 window.closeModal = function() {
   document.getElementById("modal-overlay")?.classList.remove("open");
   document.body.style.overflow = "";
+  currentModalIndex = null;
 };
+
+document.addEventListener("click", async (event) => {
+  const loginButton = event.target.closest("[data-login-action]");
+  if (loginButton) {
+    await handleLogin();
+    return;
+  }
+
+  const selectButton = event.target.closest("[data-select-person-action]");
+  if (selectButton) {
+    showUserSelectionModal();
+    return;
+  }
+
+  const logoutButton = event.target.closest("[data-logout-action]");
+  if (logoutButton) {
+    await handleLogout();
+    return;
+  }
+
+  const saveButton = event.target.closest("[data-save-anime-edit]");
+  if (saveButton && currentModalIndex !== null) {
+    await saveAnimeEdit(allAnimes[currentModalIndex]);
+  }
+});
 
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") window.closeModal();
 });
+
+if (auth) {
+  onAuthStateChanged(auth, (user) => {
+    currentUser = user ? {
+      uid: user.uid,
+      displayName: user.displayName,
+      email: user.email,
+      personName: getStoredPersonName(user.uid),
+    } : null;
+    refreshOpenModal();
+  });
+}
 
 // Sorting via column headers
 document.addEventListener("DOMContentLoaded", () => {
