@@ -39,6 +39,54 @@ function getFiles(prop) {
   }).filter(Boolean);
 }
 
+const PEOPLE = ["Rafael", "Fernando", "Dudu", "Hacksuya"];
+
+function normalizeName(value) {
+  return value
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+
+function parseNamedComments(text) {
+  if (!text) return [];
+  const peoplePattern = PEOPLE.join("|");
+  const linePattern = new RegExp(`^\\s*(${peoplePattern})\\s*[:\\-–—]\\s*(.+)$`, "i");
+
+  return text
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => {
+      const match = line.match(linePattern);
+      if (!match) return null;
+      const person = PEOPLE.find((p) => normalizeName(p) === normalizeName(match[1]));
+      return person ? { person, text: match[2].trim() } : null;
+    })
+    .filter(Boolean);
+}
+
+function getComments(properties) {
+  const comments = [];
+
+  for (const [name, prop] of Object.entries(properties)) {
+    if (!normalizeName(name).includes("coment")) continue;
+
+    const text = getText(prop).trim();
+    if (!text) continue;
+
+    const person = PEOPLE.find((p) => normalizeName(name).includes(normalizeName(p)));
+    if (person) {
+      comments.push({ person, text });
+      continue;
+    }
+
+    comments.push(...parseNamedComments(text));
+  }
+
+  return comments;
+}
+
 async function fetchAllPages() {
   const results = [];
   let cursor = undefined;
@@ -71,6 +119,7 @@ async function main() {
       nota: getFormula(p["Nota ⭐"]),
       generos: getMultiSelect(p["🎭 Gênero"]),
       comentarios: getText(p["Comentários 💬"]),
+      comments: getComments(p),
       files: getFiles(p["Files & media"]),
       notaRafael: getNumber(p["Nota Rafael ⭐"]),
       notaFernando: getNumber(p["Nota Fernando ⭐"]),

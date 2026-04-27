@@ -7,6 +7,44 @@ let filtered = [];
 let sortCol = "notaSort";
 let sortDir = -1;
 
+function escapeHTML(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function normalizeName(value) {
+  return String(value ?? "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+
+function commentsForAnime(anime) {
+  if (Array.isArray(anime.comments) && anime.comments.length) {
+    return anime.comments.filter((comment) => comment?.text);
+  }
+
+  if (!anime.comentarios) return [];
+
+  const peoplePattern = PEOPLE.join("|");
+  const linePattern = new RegExp(`^\\s*(${peoplePattern})\\s*[:\\-–—]\\s*(.+)$`, "i");
+  return String(anime.comentarios)
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => {
+      const match = line.match(linePattern);
+      if (!match) return { person: null, text: line };
+      const person = PEOPLE.find((p) => normalizeName(p) === normalizeName(match[1]));
+      return { person, text: match[2].trim() };
+    })
+    .filter((comment) => comment.text);
+}
+
 export function initTable(animes) {
   allAnimes = animes;
   filtered = [...animes];
@@ -82,7 +120,7 @@ function renderTable() {
   if (!tbody) return;
 
   if (!filtered.length) {
-    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--faint)">Nenhum anime encontrado</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--faint)">Nenhum anime encontrado</td></tr>`;
     return;
   }
 
@@ -94,14 +132,19 @@ function renderTable() {
     const viewers = a.quemAssistiu.map((p) => `<span class="badge badge-${p.toLowerCase()}">${p}</span>`).join("");
     const contr = a.controversia !== null ? Number(a.controversia).toFixed(1) : "—";
     const contrCls = a.controversia > 1.5 ? "controversia-hot" : "controversia";
+    const comments = commentsForAnime(a);
+    const commentSummary = comments.length
+      ? `<span class="comment-pill">${comments.length} ${comments.length === 1 ? "comentário" : "comentários"}</span>`
+      : `<span class="comment-empty">—</span>`;
 
     return `
       <tr data-idx="${i}" onclick="openModal(${allAnimes.indexOf(a)})">
-        <td><span class="anime-name">${a.nome}</span></td>
+        <td><span class="anime-name">${escapeHTML(a.nome)}</span></td>
         <td>${genres}${moreGenres}</td>
         <td>${viewers}</td>
         <td><span class="nota ${notaCls}">${nota}</span></td>
         <td>${a.qtdVotos ?? "—"}</td>
+        <td>${commentSummary}</td>
         <td><span class="${contrCls}">${contr > 0 ? "🌶️ " + contr : contr}</span></td>
       </tr>
     `;
@@ -167,15 +210,34 @@ window.openModal = function(idx) {
     metaItems.map((m) => `<span class="meta-item">${m}</span>`).join("");
 
   const commentEl = document.getElementById("modal-comment");
-  if (a.comentarios) {
-    commentEl.innerHTML = `<div class="modal-comment">${a.comentarios}</div>`;
-  } else {
-    commentEl.innerHTML = "";
-  }
+  commentEl.innerHTML = renderComments(a);
 
   document.getElementById("modal-overlay").classList.add("open");
   document.body.style.overflow = "hidden";
 };
+
+function renderComments(anime) {
+  const comments = commentsForAnime(anime);
+  if (!comments.length) return "";
+
+  return `
+    <section class="modal-comments">
+      <h3>Comentários</h3>
+      <div class="comment-list">
+        ${comments.map((comment) => {
+          const person = comment.person || "Comentário";
+          const color = PERSON_LIGHTS[person] || "var(--muted)";
+          return `
+            <article class="comment-item">
+              <strong style="color:${color}">${escapeHTML(person)}</strong>
+              <p>${escapeHTML(comment.text)}</p>
+            </article>
+          `;
+        }).join("")}
+      </div>
+    </section>
+  `;
+}
 
 window.closeModal = function() {
   document.getElementById("modal-overlay")?.classList.remove("open");
