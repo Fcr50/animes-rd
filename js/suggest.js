@@ -19,14 +19,58 @@ const GENRE_TRANSLATION = {
   "Isekai": "Isekai", "Thriller": "Suspense",
 };
 
-async function fetchAnimeGenres(name) {
+async function fetchAnimeData(name) {
   const res = await fetch(`https://api.jikan.moe/v4/anime?q=${encodeURIComponent(name)}&limit=1`);
   if (!res.ok) throw new Error("Jikan API error");
   const data = await res.json();
   const anime = data.data?.[0];
   if (!anime) return null;
-  return anime.genres.map(g => GENRE_TRANSLATION[g.name] || g.name);
+  return {
+    genres: anime.genres.map(g => GENRE_TRANSLATION[g.name] || g.name),
+    malId: anime.mal_id,
+    officialTitle: anime.title_english || anime.title,
+    allTitles: [anime.title, anime.title_english, anime.title_japanese,
+      ...(anime.titles?.map(t => t.title) || [])].filter(Boolean),
+  };
 }
+
+function normalizeName(str) {
+  return (str || '').toLowerCase()
+    .normalize("NFD").replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-z0-9\s]/g, "").trim();
+}
+
+async function checkDuplicates(malId, inputName) {
+  const found = [];
+
+  if (malId && db) {
+    const [animesSnap, pendingSnap] = await Promise.all([
+      getDocs(query(collection(db, "animes"), where("malId", "==", malId))),
+      getDocs(query(collection(db, "pending_animes"), where("malId", "==", malId))),
+    ]);
+    animesSnap.forEach(d => found.push(d.data().nome));
+    pendingSnap.forEach(d => found.push(d.data().nome));
+  }
+
+  if (found.length > 0) return found;
+
+  // Fuzzy fallback contra animes exportados (sem malId)
+  try {
+    const res = await fetch("../data/animes.json");
+    const data = await res.json();
+    const normInput = normalizeName(inputName);
+    for (const anime of data.animes || []) {
+      const normAnime = normalizeName(anime.nome);
+      if (normAnime === normInput || normAnime.includes(normInput) || normInput.includes(normAnime)) {
+        found.push(anime.nome);
+      }
+    }
+  } catch {}
+
+  return found;
+}
+
+let currentAnimeData = null;
 
 // Inicializa Firebase App e Auth apenas se as chaves foram preenchidas
 const isFirebaseConfigured = firebaseConfig.apiKey !== "SUA_API_KEY";
@@ -148,10 +192,14 @@ async function renderSubmissionForm() {
       return;
   }
 
+  currentAnimeData = null;
+
   submissionFormContainer.innerHTML = `
     <div class="form-group">
       <label for="anime-name">Nome do Anime</label>
       <input type="text" id="anime-name" placeholder="Ex: Death Note" required />
+      <div id="official-title" style="font-size:12px; color:#34d399; margin-top:4px; min-height:16px"></div>
+      <div id="duplicate-warning" style="font-size:12px; color:#f59e0b; margin-top:4px; min-height:16px"></div>
     </div>
     <div class="form-group">
       <label for="anime-genres">
@@ -169,30 +217,48 @@ async function renderSubmissionForm() {
 
   document.getElementById("submit-anime-button").addEventListener("click", handleSubmitAnime);
 
-  let genreDebounce;
+  let searchDebounce;
   document.getElementById("anime-name").addEventListener("input", () => {
-    clearTimeout(genreDebounce);
+    clearTimeout(searchDebounce);
     const name = document.getElementById("anime-name").value.trim();
     const statusEl = document.getElementById("genres-status");
-    if (name.length < 3) { statusEl.textContent = ""; return; }
+    const officialTitleEl = document.getElementById("official-title");
+    const duplicateEl = document.getElementById("duplicate-warning");
+
+    if (name.length < 3) {
+      statusEl.textContent = "";
+      officialTitleEl.textContent = "";
+      duplicateEl.textContent = "";
+      currentAnimeData = null;
+      return;
+    }
 
     statusEl.style.color = "var(--faint)";
     statusEl.textContent = "buscando...";
 
-    genreDebounce = setTimeout(async () => {
+    searchDebounce = setTimeout(async () => {
       try {
-        const genres = await fetchAnimeGenres(name);
-        const genresInput = document.getElementById("anime-genres");
-        if (genres && genres.length > 0) {
-          genresInput.value = genres.join(", ");
+        const animeData = await fetchAnimeData(name);
+        currentAnimeData = animeData;
+
+        if (animeData) {
+          document.getElementById("anime-genres").value = animeData.genres.join(", ");
           statusEl.textContent = "✓ preenchido automaticamente";
           statusEl.style.color = "#34d399";
+          officialTitleEl.textContent = `Encontrado: ${animeData.officialTitle}`;
+
+          const duplicates = await checkDuplicates(animeData.malId, name);
+          duplicateEl.textContent = duplicates.length > 0
+            ? `⚠️ Possível duplicata: "${duplicates[0]}" já está na lista`
+            : "";
         } else {
           statusEl.textContent = "não encontrado — preencha manualmente";
           statusEl.style.color = "var(--faint)";
+          officialTitleEl.textContent = "";
+          duplicateEl.textContent = "";
         }
       } catch {
-        document.getElementById("genres-status").textContent = "";
+        statusEl.textContent = "";
       }
     }, 700);
   });
@@ -376,12 +442,19 @@ async function handleSubmitAnime() {
     return;
   }
 
+  const duplicates = await checkDuplicates(currentAnimeData?.malId, name);
+  if (duplicates.length > 0) {
+    const confirm = window.confirm(`⚠️ "${duplicates[0]}" já existe na lista. Deseja submeter mesmo assim?`);
+    if (!confirm) return;
+  }
+
   const genres = genresRaw.split(',').map(g => g.trim()).filter(g => g);
 
   try {
     await addDoc(pendingAnimesRef, {
       nome: name,
       generos: genres,
+      malId: currentAnimeData?.malId || null,
       submittedBy: currentUser.uid,
       submittedByName: currentUser.personName,
       createdAt: serverTimestamp(),
@@ -393,6 +466,7 @@ async function handleSubmitAnime() {
     alert("Anime sugerido!");
     document.getElementById("anime-name").value = "";
     document.getElementById("anime-genres").value = "";
+    currentAnimeData = null;
   } catch (error) {
     console.error(error);
     alert("Erro ao sugerir.");
