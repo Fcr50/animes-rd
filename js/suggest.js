@@ -7,6 +7,27 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChang
 import { firebaseConfig } from "./firebase-config.js";
 import { PEOPLE, PERSON_COLORS, PERSON_LIGHTS, personKey, getPersonNota, formatNota, notaColor } from "./data.js";
 
+const GENRE_TRANSLATION = {
+  "Action": "Ação", "Adventure": "Aventura", "Comedy": "Comédia", "Drama": "Drama",
+  "Fantasy": "Fantasia", "Horror": "Terror", "Mystery": "Mistério", "Romance": "Romance",
+  "Sci-Fi": "Ficção Científica", "Slice of Life": "Slice of Life", "Sports": "Esportes",
+  "Supernatural": "Sobrenatural", "Psychological": "Psicológico", "Ecchi": "Ecchi",
+  "Mecha": "Mecha", "Music": "Música", "Historical": "Histórico", "Military": "Militar",
+  "Magic": "Magia", "Martial Arts": "Artes Marciais", "Vampire": "Vampiro",
+  "Demons": "Demônios", "School": "Escola", "Space": "Espaço", "Samurai": "Samurai",
+  "Police": "Policial", "Harem": "Harém", "Game": "Jogo", "Parody": "Paródia",
+  "Isekai": "Isekai", "Thriller": "Suspense",
+};
+
+async function fetchAnimeGenres(name) {
+  const res = await fetch(`https://api.jikan.moe/v4/anime?q=${encodeURIComponent(name)}&limit=1`);
+  if (!res.ok) throw new Error("Jikan API error");
+  const data = await res.json();
+  const anime = data.data?.[0];
+  if (!anime) return null;
+  return anime.genres.map(g => GENRE_TRANSLATION[g.name] || g.name);
+}
+
 // Inicializa Firebase App e Auth apenas se as chaves foram preenchidas
 const isFirebaseConfigured = firebaseConfig.apiKey !== "SUA_API_KEY";
 let app, auth, db;
@@ -133,8 +154,11 @@ async function renderSubmissionForm() {
       <input type="text" id="anime-name" placeholder="Ex: Death Note" required />
     </div>
     <div class="form-group">
-      <label for="anime-genres">Gêneros (separados por vírgula)</label>
-      <input type="text" id="anime-genres" placeholder="Ação, Suspense, Sobrenatural" required />
+      <label for="anime-genres">
+        Gêneros
+        <span id="genres-status" style="font-size:12px; font-weight:normal; margin-left:8px; color:var(--faint)"></span>
+      </label>
+      <input type="text" id="anime-genres" placeholder="Preenchido automaticamente ao digitar o nome" />
     </div>
     <div class="form-group">
       <label for="anime-submitter">Submetido por</label>
@@ -144,6 +168,34 @@ async function renderSubmissionForm() {
   `;
 
   document.getElementById("submit-anime-button").addEventListener("click", handleSubmitAnime);
+
+  let genreDebounce;
+  document.getElementById("anime-name").addEventListener("input", () => {
+    clearTimeout(genreDebounce);
+    const name = document.getElementById("anime-name").value.trim();
+    const statusEl = document.getElementById("genres-status");
+    if (name.length < 3) { statusEl.textContent = ""; return; }
+
+    statusEl.style.color = "var(--faint)";
+    statusEl.textContent = "buscando...";
+
+    genreDebounce = setTimeout(async () => {
+      try {
+        const genres = await fetchAnimeGenres(name);
+        const genresInput = document.getElementById("anime-genres");
+        if (genres && genres.length > 0) {
+          genresInput.value = genres.join(", ");
+          statusEl.textContent = "✓ preenchido automaticamente";
+          statusEl.style.color = "#34d399";
+        } else {
+          statusEl.textContent = "não encontrado — preencha manualmente";
+          statusEl.style.color = "var(--faint)";
+        }
+      } catch {
+        document.getElementById("genres-status").textContent = "";
+      }
+    }, 700);
+  });
 }
 
 function renderPendingAnimes(animes) {
