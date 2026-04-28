@@ -1377,12 +1377,9 @@ body::before {
   color: #fff8e7;
 }
 
-.member-card:nth-child(1),
-.news-card:nth-child(1) { background: #fff5ca; }
-.member-card:nth-child(2),
-.news-card:nth-child(2) { background: #ffe0ef; }
-.member-card:nth-child(3),
-.news-card:nth-child(3) { background: #daf5eb; }
+.member-card:nth-child(1) { background: #fff5ca; }
+.member-card:nth-child(2) { background: #ffe0ef; }
+.member-card:nth-child(3) { background: #daf5eb; }
 .member-card:nth-child(4) { background: #dff5ff; }
 
 .rank-block li,
@@ -2192,10 +2189,7 @@ body.dark-theme .post-card:nth-child(4),
 body.dark-theme .member-card:nth-child(1),
 body.dark-theme .member-card:nth-child(2),
 body.dark-theme .member-card:nth-child(3),
-body.dark-theme .member-card:nth-child(4),
-body.dark-theme .news-card:nth-child(1),
-body.dark-theme .news-card:nth-child(2),
-body.dark-theme .news-card:nth-child(3) {
+body.dark-theme .member-card:nth-child(4) {
   background: linear-gradient(180deg, rgba(243,239,230,0.08), rgba(243,239,230,0.025)), var(--card);
 }
 
@@ -2371,7 +2365,6 @@ body.dark-theme .post-card:nth-child(4) {
 
 body.dark-theme .grid-2 > .card:nth-child(1),
 body.dark-theme .grid-3 > .card:nth-child(1),
-body.dark-theme .news-card:nth-child(1),
 body.dark-theme .blog-categories a:nth-child(2) {
   background:
     linear-gradient(145deg, rgba(124,58,237,0.22), rgba(24,23,29,0.96) 64%),
@@ -2381,7 +2374,6 @@ body.dark-theme .blog-categories a:nth-child(2) {
 
 body.dark-theme .grid-2 > .card:nth-child(2),
 body.dark-theme .grid-3 > .card:nth-child(2),
-body.dark-theme .news-card:nth-child(2),
 body.dark-theme .blog-categories a:nth-child(3) {
   background:
     linear-gradient(145deg, rgba(236,72,153,0.2), rgba(24,23,29,0.96) 64%),
@@ -2390,12 +2382,16 @@ body.dark-theme .blog-categories a:nth-child(3) {
 }
 
 body.dark-theme .grid-3 > .card:nth-child(3),
-body.dark-theme .news-card:nth-child(3),
 body.dark-theme .blog-categories a:nth-child(4) {
   background:
     linear-gradient(145deg, rgba(52,211,153,0.18), rgba(24,23,29,0.96) 64%),
     var(--card);
   border-color: rgba(134,239,172,0.32);
+}
+
+body.dark-theme .news-card {
+  background: var(--card);
+  border-color: rgba(243,239,230,0.16);
 }
 
 body.dark-theme .blog-categories a:nth-child(5),
