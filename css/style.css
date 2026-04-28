@@ -3140,3 +3140,11 @@ body.dark-theme .edit-field textarea:focus,
   border: 2px solid rgba(7,18,20,0.78);
   border-radius: 999px;
 }
+
+body:has(#venn4-container) .page-header h1 {
+  background: linear-gradient(90deg, #ffd6e8 0%, #e9d5ff 45%, #bae6fd 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
