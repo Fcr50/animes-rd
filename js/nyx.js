@@ -61,6 +61,17 @@ function pickSingleRecommendation(animes, person) {
   return list[Math.floor(Math.random() * list.length)];
 }
 
+function chatPhrase(animeName) {
+  const phrases = [
+    `Eu recomendo esse aqui: ${animeName}`,
+    `Você vai gostar desse: ${animeName}`,
+    `Acho que esse combina contigo: ${animeName}`,
+    `Minha dica de agora é: ${animeName}`,
+    `Vai nesse sem medo: ${animeName}`,
+  ];
+  return phrases[Math.floor(Math.random() * phrases.length)];
+}
+
 function renderPeople(current) {
   const tabs = document.getElementById("nyx-people");
   tabs.innerHTML = PEOPLE.map(
@@ -99,10 +110,20 @@ function renderRecommendations(data, person) {
 function pushChatMessage(text) {
   const log = document.getElementById("nyx-chat-log");
   if (!log) return;
-  const msg = document.createElement("div");
-  msg.className = "nyx-chat-msg";
-  msg.textContent = text;
-  log.appendChild(msg);
+  const row = document.createElement("div");
+  row.className = "nyx-chat-row";
+
+  const avatar = document.createElement("img");
+  avatar.className = "nyx-chat-avatar";
+  avatar.src = "assets/nyx-hero.png?v=1";
+  avatar.alt = "Nyx";
+
+  const bubble = document.createElement("div");
+  bubble.className = "nyx-chat-bubble";
+  bubble.textContent = text;
+
+  row.append(avatar, bubble);
+  log.appendChild(row);
   log.scrollTop = log.scrollHeight;
 }
 
@@ -123,7 +144,7 @@ async function init() {
 
   document.getElementById("nyx-recommend-btn")?.addEventListener("click", () => {
     const anime = pickSingleRecommendation(data.animes, selectedPerson);
-    pushChatMessage(anime ? anime.nome : "Sem recomendacoes agora");
+    pushChatMessage(anime ? chatPhrase(anime.nome) : "Não encontrei uma recomendação nova agora.");
   });
 }
 
