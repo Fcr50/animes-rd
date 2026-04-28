@@ -92,17 +92,17 @@
       </div>
       <div class="stat-card">
         <div class="stat-label">Média geral</div>
-        <div class="stat-value" style="color:#34d399">${avgAll ? avgAll.toFixed(2) : "—"}</div>
+        <div class="stat-value" style="color:#ff9dcc">${avgAll ? avgAll.toFixed(2) : "—"}</div>
         <div class="stat-sub">de 10</div>
       </div>
       <div class="stat-card">
         <div class="stat-label">Mais controverso 🌶️</div>
-        <div class="stat-value" style="color:#ef4444">${mostContr ? mostContr.controversia.toFixed(1) : "—"}</div>
+        <div class="stat-value" style="color:#86efac">${mostContr ? mostContr.controversia.toFixed(1) : "—"}</div>
         <div class="stat-sub" title="${mostContr?.nome}">${mostContr?.nome?.slice(0, 22) || "—"}</div>
       </div>
       <div class="stat-card">
         <div class="stat-label">Melhor nota ⭐</div>
-        <div class="stat-value" style="color:#f59e0b">${topRated ? Number(topRated.nota).toFixed(2) : "—"}</div>
+        <div class="stat-value" style="color:#67e8f9">${topRated ? Number(topRated.nota).toFixed(2) : "—"}</div>
         <div class="stat-sub" title="${topRated?.nome}">${topRated?.nome?.slice(0, 22) || "—"}</div>
       </div>
     `;
