@@ -45,7 +45,6 @@ async function checkDuplicates(malId, inputName) {
   const normInput = normalizeName(inputName);
 
   if (db) {
-    // 1. Verifica por malId (mais preciso)
     if (malId) {
       const [animesSnap, pendingSnap] = await Promise.all([
         getDocs(query(collection(db, "animes"), where("malId", "==", malId))),
@@ -55,39 +54,28 @@ async function checkDuplicates(malId, inputName) {
       pendingSnap.forEach(d => found.push(d.data().nome));
     }
 
-    // 2. Verifica na fila de pendentes por nome normalizado (evita duplicatas sem malId)
     if (found.length === 0) {
       const pendingAll = await getDocs(collection(db, "pending_animes"));
       pendingAll.forEach(d => {
-        const data = d.data();
-        if (normalizeName(data.nome) === normInput) {
-          found.push(data.nome);
-        }
+        if (normalizeName(d.data().nome) === normInput) found.push(d.data().nome);
       });
     }
     
-    // 3. Verifica na coleção principal por nome normalizado (evita duplicatas sem malId)
     if (found.length === 0) {
         const animesAll = await getDocs(collection(db, "animes"));
         animesAll.forEach(d => {
-          const data = d.data();
-          if (normalizeName(data.nome) === normInput) {
-            found.push(data.nome);
-          }
+          if (normalizeName(d.data().nome) === normInput) found.push(d.data().nome);
         });
       }
   }
 
   if (found.length > 0) return found;
 
-  // Fuzzy fallback contra animes exportados no JSON (caso o Firestore falhe)
   try {
     const res = await fetch("data/animes.json");
     const data = await res.json();
     for (const anime of data.animes || []) {
-      if (normalizeName(anime.nome) === normInput) {
-        found.push(anime.nome);
-      }
+      if (normalizeName(anime.nome) === normInput) found.push(anime.nome);
     }
   } catch {}
 
@@ -95,11 +83,9 @@ async function checkDuplicates(malId, inputName) {
 }
 
 let currentAnimeData = null;
-
-// Inicializa Firebase App e Auth apenas se as chaves foram preenchidas
 const isFirebaseConfigured = firebaseConfig.apiKey !== "SUA_API_KEY";
 let app, auth, db;
-let currentUser = null; // Guarda as informações do usuário logado
+let currentUser = null;
 
 if (isFirebaseConfigured) {
   app = initializeApp(firebaseConfig);
@@ -108,19 +94,12 @@ if (isFirebaseConfigured) {
 }
 
 const pendingAnimesRef = isFirebaseConfigured ? collection(db, "pending_animes") : null;
-
-// --- Elementos do DOM ---
 const submissionFormContainer = document.getElementById("submission-form-container");
 const pendingAnimesContainer = document.getElementById("pending-animes-container");
 const userNavContainer = document.getElementById("user-nav");
 
-// --- Funções de UI ---
-
 function renderLoginLogoutButton() {
-  if (!isFirebaseConfigured) {
-    userNavContainer.innerHTML = "<p style='color: var(--faint);'>Firebase não configurado.</p>";
-    return;
-  }
+  if (!isFirebaseConfigured || !userNavContainer) return;
 
   if (currentUser) {
     userNavContainer.innerHTML = `
@@ -134,23 +113,18 @@ function renderLoginLogoutButton() {
         <button id="logout-button" style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); color: #ef4444; cursor: pointer; padding: 4px 8px; border-radius: 4px; font-size: 12px;">Sair</button>
       </div>
     `;
-    document.getElementById("logout-button").addEventListener("click", handleLogout);
-
-    // Só permite selecionar/mudar o nome se personName NÃO estiver definido
+    document.getElementById("logout-button")?.addEventListener("click", handleLogout);
     if (!currentUser.personName) {
-      document.getElementById("user-profile-link").addEventListener("click", (e) => {
+      document.getElementById("user-profile-link")?.addEventListener("click", (e) => {
         e.preventDefault();
         showUserSelectionModal();
       });
     } else {
-        // Se o nome já está definido, o clique não faz nada (apenas o link normal)
-        document.getElementById("user-profile-link").addEventListener("click", (e) => {
-            e.preventDefault(); // Evita que a página role para o topo
-        });
+        document.getElementById("user-profile-link")?.addEventListener("click", (e) => e.preventDefault());
     }
   } else {
     userNavContainer.innerHTML = "<button id='login-button' style='padding: 6px 12px; background: var(--accent); color: white; border: none; border-radius: 4px; cursor: pointer;'>Login com Google</button>";
-    document.getElementById("login-button").addEventListener("click", handleLogin);
+    document.getElementById("login-button")?.addEventListener("click", handleLogin);
   }
 }
 
@@ -158,7 +132,6 @@ function showUserSelectionModal() {
     const overlay = document.createElement('div');
     overlay.id = 'user-selection-overlay';
     overlay.style = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); display:flex; align-items:center; justify-content:center; z-index:1000;';
-    
     const modal = document.createElement('div');
     modal.style = 'background:var(--card-bg); padding:30px; border-radius:12px; max-width:400px; width:90%; border:1px solid var(--border)';
     
@@ -169,19 +142,12 @@ function showUserSelectionModal() {
         </button>
     `).join('');
 
-    modal.innerHTML = `
-        <h3 style="margin-top:0; margin-bottom:20px; color:white">Quem é você?</h3>
-        <p style="color:var(--faint); margin-bottom:20px; font-size:14px">Selecione seu nome para associar à sua conta Google.</p>
-        ${optionsHtml}
-    `;
-    
+    modal.innerHTML = `<h3 style="margin-top:0; margin-bottom:20px; color:white">Quem é você?</h3>${optionsHtml}`;
     overlay.appendChild(modal);
     document.body.appendChild(overlay);
-    
     modal.querySelectorAll('.person-select-btn').forEach(btn => {
         btn.addEventListener('click', () => {
-            const name = btn.getAttribute('data-name');
-            associateUserWithPerson(name);
+            associateUserWithPerson(btn.getAttribute('data-name'));
             document.body.removeChild(overlay);
         });
     });
@@ -195,266 +161,124 @@ async function associateUserWithPerson(personName) {
 }
 
 async function renderSubmissionForm() {
+  if (!submissionFormContainer) return;
   if (!currentUser) {
-    submissionFormContainer.innerHTML = `
-        <div style="text-align:center; padding:20px; border:1px dashed var(--border); border-radius:8px">
-            <p style="color:var(--faint)">Faça login para sugerir novos animes.</p>
-            <button onclick="document.getElementById('login-button').click()" style="margin-top:10px; padding:8px 16px; background:var(--accent); color:white; border:none; border-radius:4px; cursor:pointer">Fazer Login</button>
-        </div>
-    `;
+    submissionFormContainer.innerHTML = `<div style="text-align:center; padding:20px; border:1px dashed var(--border); border-radius:8px"><p style="color:var(--faint)">Faça login para sugerir novos animes.</p><button id="login-prompt-btn" style="margin-top:10px; padding:8px 16px; background:var(--accent); color:white; border:none; border-radius:4px; cursor:pointer">Fazer Login</button></div>`;
+    document.getElementById("login-prompt-btn")?.addEventListener("click", handleLogin);
     return;
   }
-
   if (!currentUser.personName) {
-      submissionFormContainer.innerHTML = `
-        <div style="text-align:center; padding:20px; border:1px dashed var(--border); border-radius:8px">
-            <p style="color:var(--faint)">Você precisa associar seu nome antes de sugerir.</p>
-            <button id="select-name-prompt" style="margin-top:10px; padding:8px 16px; background:var(--accent); color:white; border:none; border-radius:4px; cursor:pointer">Selecionar Meu Nome</button>
-        </div>
-      `;
-      document.getElementById("select-name-prompt").addEventListener("click", showUserSelectionModal);
+      submissionFormContainer.innerHTML = `<div style="text-align:center; padding:20px; border:1px dashed var(--border); border-radius:8px"><p style="color:var(--faint)">Associe seu nome antes de sugerir.</p><button id="select-name-prompt" style="margin-top:10px; padding:8px 16px; background:var(--accent); color:white; border:none; border-radius:4px; cursor:pointer">Selecionar Meu Nome</button></div>`;
+      document.getElementById("select-name-prompt")?.addEventListener("click", showUserSelectionModal);
       return;
   }
 
-  currentAnimeData = null;
-
   submissionFormContainer.innerHTML = `
-    <div class="form-group">
-      <label for="anime-name">Nome do Anime</label>
-      <input type="text" id="anime-name" placeholder="Ex: Death Note" required />
-      <div id="official-title" style="font-size:12px; color:#34d399; margin-top:4px; min-height:16px"></div>
-      <div id="duplicate-warning" style="font-size:12px; color:#f59e0b; margin-top:4px; min-height:16px"></div>
-    </div>
-    <div class="form-group">
-      <label for="anime-genres">
-        Gêneros
-        <span id="genres-status" style="font-size:12px; font-weight:normal; margin-left:8px; color:var(--faint)"></span>
-      </label>
-      <input type="text" id="anime-genres" placeholder="Preenchido automaticamente ao digitar o nome" />
-    </div>
-    <div class="form-group">
-      <label for="anime-submitter">Submetido por</label>
-      <input type="text" id="anime-submitter" value="${currentUser.personName}" readonly disabled style="background:rgba(255,255,255,0.05); color:var(--faint)" />
-    </div>
+    <div class="form-group"><label>Nome do Anime</label><input type="text" id="anime-name" placeholder="Ex: Death Note" required /><div id="official-title" style="font-size:12px; color:#34d399; margin-top:4px; min-height:16px"></div><div id="duplicate-warning" style="font-size:12px; color:#f59e0b; margin-top:4px; min-height:16px"></div></div>
+    <div class="form-group"><label>Gêneros <span id="genres-status" style="font-size:12px; font-weight:normal; color:var(--faint)"></span></label><input type="text" id="anime-genres" placeholder="Ação, Drama..." /></div>
+    <div class="form-group"><label>Submetido por</label><input type="text" value="${currentUser.personName}" readonly disabled style="background:rgba(255,255,255,0.05); color:var(--faint)" /></div>
     <button id="submit-anime-button" style="width:100%; padding:12px; background:var(--accent); color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer">Submeter Anime</button>
   `;
 
-  document.getElementById("submit-anime-button").addEventListener("click", handleSubmitAnime);
-
+  document.getElementById("submit-anime-button")?.addEventListener("click", handleSubmitAnime);
+  const animeNameInput = document.getElementById("anime-name");
   let searchDebounce;
-  document.getElementById("anime-name").addEventListener("input", () => {
+  animeNameInput?.addEventListener("input", () => {
     clearTimeout(searchDebounce);
-    const name = document.getElementById("anime-name").value.trim();
-    const statusEl = document.getElementById("genres-status");
-    const officialTitleEl = document.getElementById("official-title");
-    const duplicateEl = document.getElementById("duplicate-warning");
-
-    if (name.length < 3) {
-      statusEl.textContent = "";
-      officialTitleEl.textContent = "";
-      duplicateEl.textContent = "";
-      currentAnimeData = null;
-      return;
-    }
-
-    statusEl.style.color = "var(--faint)";
-    statusEl.textContent = "buscando...";
-
+    const name = animeNameInput.value.trim();
+    if (name.length < 3) return;
     searchDebounce = setTimeout(async () => {
-      try {
-        const animeData = await fetchAnimeData(name);
-        currentAnimeData = animeData;
-
-        if (animeData) {
-          document.getElementById("anime-genres").value = animeData.genres.join(", ");
-          statusEl.textContent = "✓ preenchido automaticamente";
-          statusEl.style.color = "#34d399";
-          officialTitleEl.textContent = `Encontrado: ${animeData.officialTitle}`;
-
-          const duplicates = await checkDuplicates(animeData.malId, name);
-          const isDuplicate = duplicates.length > 0;
-          duplicateEl.style.color = isDuplicate ? "#ef4444" : "var(--faint)";
-          duplicateEl.textContent = isDuplicate
-            ? `🚫 "${duplicates[0]}" já está na lista`
-            : "";
-          document.getElementById("submit-anime-button").disabled = isDuplicate;
-          document.getElementById("submit-anime-button").style.opacity = isDuplicate ? "0.4" : "1";
-          document.getElementById("submit-anime-button").style.cursor = isDuplicate ? "not-allowed" : "pointer";
-        } else {
-          statusEl.textContent = "não encontrado — preencha manualmente";
-          statusEl.style.color = "var(--faint)";
-          officialTitleEl.textContent = "";
-          duplicateEl.textContent = "";
-        }
-      } catch {
-        statusEl.textContent = "";
+      const animeData = await fetchAnimeData(name);
+      currentAnimeData = animeData;
+      if (animeData) {
+        document.getElementById("anime-genres").value = animeData.genres.join(", ");
+        document.getElementById("official-title").textContent = `Encontrado: ${animeData.officialTitle}`;
+        const duplicates = await checkDuplicates(animeData.malId, name);
+        document.getElementById("duplicate-warning").textContent = duplicates.length ? `🚫 "${duplicates[0]}" já existe` : "";
       }
     }, 700);
   });
 }
 
 function renderPendingAnimes(animes) {
+  if (!pendingAnimesContainer) return;
   if (!animes || animes.length === 0) {
     pendingAnimesContainer.innerHTML = "<p style='color: var(--faint); text-align:center; padding:40px'>Nenhum anime pendente no momento.</p>";
     return;
   }
 
-  let html = "";
-  animes.forEach(anime => {
-    const isVotedByCurrentUser = anime.votedUserIds?.includes(currentUser?.uid);
-    const userVote = currentUser && currentUser.personName ? anime.votes?.[currentUser.personName] : null;
-    const votesCount = anime.votedUserIds?.length || 0;
-    
-    let votesStatusHtml = PEOPLE.map(p => {
-        const hasVoted = anime.votes && anime.votes[p];
-        const color = hasVoted ? '#34d399' : 'rgba(255,255,255,0.1)';
-        return `<span title="${p}: ${hasVoted ? 'Já votou' : 'Pendente'}" style="display:inline-block; width:8px; height:8px; border-radius:50%; background:${color}; margin-right:4px"></span>`;
-    }).join('');
+  pendingAnimesContainer.innerHTML = animes.map(anime => {
+    const isVoted = anime.votedUserIds?.includes(currentUser?.uid);
+    const userVote = currentUser?.personName ? anime.votes?.[currentUser.personName] : null;
+    let dots = PEOPLE.map(p => `<span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:${anime.votes?.[p] ? '#34d399' : 'rgba(255,255,255,0.1)'}; margin-right:4px"></span>`).join('');
 
-    html += `
-      <div class="vote-card" style="background:var(--card-bg); border:1px solid var(--border); margin-bottom:20px; border-radius:12px; overflow:hidden">
-        <div style="padding:20px">
-            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px">
-                <h3 style="margin:0; font-size:20px">${anime.nome}</h3>
-                <div style="display:flex">${votesStatusHtml}</div>
-            </div>
-            <p style="margin:0 0 15px 0; font-size:14px; color:var(--faint)">${(anime.generos || []).join(' • ')}</p>
-            <div style="font-size:12px; color:var(--faint); margin-bottom:20px">
-                Sugerido por <strong>${anime.submittedByName}</strong> em ${anime.createdAt ? new Date(anime.createdAt.seconds * 1000).toLocaleDateString() : '...'}
-            </div>
-
-            ${currentUser ? `
-                <div style="background:rgba(255,255,255,0.03); border-radius:8px; padding:15px">
-                    ${!currentUser.personName ? `
-                        <p style="margin:0; text-align:center; font-size:14px">
-                            <a href="#" onclick="window.showUserSelectionModal(); return false;" style="color:var(--accent)">Associe seu nome</a> para votar.
-                        </p>
-                    ` : isVotedByCurrentUser ? `
-                        <div style="display:flex; justify-content:space-between; align-items:center">
-                            <span style="color:#34d399; font-size:14px">✓ Você já votou</span>
-                            <span style="background:rgba(52,211,153,0.1); color:#34d399; padding:2px 8px; border-radius:4px; font-weight:bold">${userVote ? userVote.score.toFixed(1) : '—'}</span>
+    return `
+      <div class="vote-card" style="background:var(--card-bg); border:1px solid var(--border); margin-bottom:20px; border-radius:12px; padding:20px">
+        <div style="display:flex; justify-content:space-between"><h3>${anime.nome}</h3><div>${dots}</div></div>
+        <p style="font-size:14px; color:var(--faint)">${(anime.generos || []).join(' • ')}</p>
+        <div style="font-size:12px; color:var(--faint); margin-bottom:15px">Sugerido por <strong>${anime.submittedByName}</strong></div>
+        ${currentUser ? `
+            <div style="background:rgba(255,255,255,0.03); border-radius:8px; padding:15px">
+                ${!currentUser.personName ? `<p><a href="#" onclick="showUserSelectionModal(); return false;">Associe seu nome</a> para votar.</p>` : 
+                isVoted ? `<p style="color:#34d399">✓ Votado: ${userVote?.score !== null ? userVote.score.toFixed(1) : 'Não assisti'}</p><button onclick="handleEditVote('${anime.id}')" style="background:none; border:none; color:var(--faint); font-size:12px; text-decoration:underline; cursor:pointer">Editar</button>` : `
+                    <div class="vote-controls">
+                        <div style="display:flex; gap:15px; margin-bottom:15px">
+                            <label><input type="radio" name="watch-status-${anime.id}" value="watched" checked onchange="document.getElementById('watched-fields-${anime.id}').style.display='block'"> Assisti</label>
+                            <label><input type="radio" name="watch-status-${anime.id}" value="not-watched" onchange="document.getElementById('watched-fields-${anime.id}').style.display='none'"> Não assisti</label>
                         </div>
-                        ${userVote && userVote.comment ? `<p style="margin:10px 0 0 0; font-size:13px; font-style:italic; color:var(--faint)">"${userVote.comment}"</p>` : ''}
-                        <button onclick="window.handleEditVote('${anime.id}')" style="margin-top:10px; background:none; border:none; color:var(--faint); font-size:12px; text-decoration:underline; cursor:pointer; padding:0">Editar voto</button>
-                    ` : `
-                        <h4 style="margin:0 0 15px 0; font-size:14px">Seu Voto:</h4>
-                        <div class="vote-controls">
-                            <div style="display:flex; gap:15px; margin-bottom:15px">
-                                <label style="display:flex; align-items:center; gap:5px; font-size:14px; cursor:pointer">
-                                    <input type="radio" name="watch-status-${anime.id}" value="watched" checked onchange="document.getElementById('watched-fields-${anime.id}').style.display = 'block'"> Assisti
-                                </label>
-                                <label style="display:flex; align-items:center; gap:5px; font-size:14px; cursor:pointer">
-                                    <input type="radio" name="watch-status-${anime.id}" value="not-watched" onchange="document.getElementById('watched-fields-${anime.id}').style.display = 'none'"> Não assisti
-                                </label>
-                            </div>
-                            
-                            <div id="watched-fields-${anime.id}">
-                                <div style="display:flex; justify-content:space-between; margin-bottom:5px">
-                                    <span style="font-size:12px">Nota: <strong id="score-val-${anime.id}">5.0</strong></span>
-                                    <span style="font-size:12px; color:var(--faint)">0 - 10</span>
-                                </div>
-                                <input type="range" id="score-${anime.id}" min="0" max="10" step="0.1" value="5.0" style="width:100%; margin-bottom:15px" oninput="document.getElementById('score-val-${anime.id}').innerText = parseFloat(this.value).toFixed(1)">
-                                <textarea id="comment-${anime.id}" placeholder="Algum comentário sobre o anime? (opcional)" style="width:100%; background:rgba(0,0,0,0.2); border:1px solid var(--border); color:white; padding:10px; border-radius:6px; font-size:14px; margin-bottom:15px; min-height:60px"></textarea>
-                            </div>
-                            <button onclick="window.handleCastVote('${anime.id}')" style="width:100%; padding:10px; background:var(--accent); border:none; color:white; border-radius:6px; cursor:pointer; font-weight:bold">Confirmar Voto</button>
+                        <div id="watched-fields-${anime.id}">
+                            <div style="display:flex; justify-content:space-between"><span style="font-size:12px">Nota: <strong id="score-val-${anime.id}">5.0</strong></span></div>
+                            <input type="range" id="score-${anime.id}" min="0" max="10" step="0.1" value="5.0" style="width:100%" oninput="document.getElementById('score-val-${anime.id}').innerText=parseFloat(this.value).toFixed(1)">
+                            <textarea id="comment-${anime.id}" placeholder="Comentário (opcional)" style="width:100%; margin-top:10px; background:rgba(0,0,0,0.2); border:1px solid var(--border); color:white; border-radius:6px"></textarea>
                         </div>
-                    `}
-                </div>
-            ` : ''}
-        </div>
+                        <button onclick="handleCastVote('${anime.id}')" style="margin-top:15px; width:100%; padding:10px; background:var(--accent); border:none; color:white; border-radius:6px; cursor:pointer; font-weight:bold">Confirmar Voto</button>
+                    </div>
+                `}
+            </div>
+        ` : ''}
       </div>
     `;
-  });
-
-  pendingAnimesContainer.innerHTML = html;
+  }).join('');
 }
 
-// Expondo funções para o escopo global
 window.handleCastVote = async (animeId) => {
-    if (!currentUser || !currentUser.personName) {
-        alert("Faça login e associe seu nome antes de votar.");
-        return;
-    }
-
+    if (!currentUser?.personName) return;
     const watchStatus = document.querySelector(`input[name="watch-status-${animeId}"]:checked`).value;
     const score = watchStatus === 'watched' ? parseFloat(document.getElementById(`score-${animeId}`).value) : null;
     const comment = watchStatus === 'watched' ? document.getElementById(`comment-${animeId}`).value : "";
-    
     try {
         const docRef = doc(db, "pending_animes", animeId);
-        await runTransaction(db, async (transaction) => {
-            const animeDoc = await transaction.get(docRef);
-            if (!animeDoc.exists()) throw "Anime não encontrado";
-            
-            const data = animeDoc.data();
+        await runTransaction(db, async (t) => {
+            const snap = await t.get(docRef);
+            const data = snap.data();
             const votes = data.votes || {};
             const votedUserIds = data.votedUserIds || [];
-            
-            votes[currentUser.personName] = {
-                score,
-                comment,
-                votedAt: new Date()
-            };
-            
-            if (!votedUserIds.includes(currentUser.uid)) {
-                votedUserIds.push(currentUser.uid);
-            }
-            
-            transaction.update(docRef, { votes, votedUserIds });
+            votes[currentUser.personName] = { score, comment, votedAt: new Date() };
+            if (!votedUserIds.includes(currentUser.uid)) votedUserIds.push(currentUser.uid);
+            t.update(docRef, { votes, votedUserIds });
         });
         alert("Voto registrado!");
-    } catch (e) {
-        console.error(e);
-        alert("Erro ao votar: " + e.message);
-    }
+    } catch (e) { alert("Erro ao votar."); }
 };
 
 window.handleEditVote = (animeId) => {
-    const anime = lastAnimesData.find(a => a.id === animeId);
-    if (!anime) return;
-    
-    // Força re-render para mostrar controles de voto novamente
     const animeIdx = lastAnimesData.findIndex(a => a.id === animeId);
-    const updatedAnime = {...anime, votedUserIds: anime.votedUserIds.filter(id => id !== currentUser.uid)};
+    if (animeIdx === -1) return;
+    const updatedAnime = {...lastAnimesData[animeIdx], votedUserIds: lastAnimesData[animeIdx].votedUserIds.filter(id => id !== currentUser.uid)};
     const newAnimes = [...lastAnimesData];
     newAnimes[animeIdx] = updatedAnime;
     renderPendingAnimes(newAnimes);
 };
 
-// --- Funções de Firebase ---
+window.showUserSelectionModal = showUserSelectionModal;
 
-async function handleLogin() {
-  const provider = new GoogleAuthProvider();
-  try {
-    await signInWithPopup(auth, provider);
-  } catch (error) {
-    console.error("Erro no login:", error);
-  }
-}
-
-async function handleLogout() {
-  try {
-    await signOut(auth);
-    currentUser = null;
-    localStorage.removeItem('current-user-session'); // Opcional
-    renderUIForUser(null);
-  } catch (error) {
-    console.error("Erro no logout:", error);
-  }
-}
+async function handleLogin() { await signInWithPopup(auth, new GoogleAuthProvider()); }
+async function handleLogout() { await signOut(auth); }
 
 async function processUser(user) {
   const storedPersonName = localStorage.getItem(`user-${user.uid}-personName`);
-  currentUser = {
-      uid: user.uid,
-      displayName: user.displayName,
-      email: user.email,
-      personName: storedPersonName
-  };
-  
-  if (!storedPersonName) {
-      showUserSelectionModal();
-  }
+  currentUser = { uid: user.uid, displayName: user.displayName, email: user.email, personName: storedPersonName };
+  if (!storedPersonName) showUserSelectionModal();
 }
 
 function renderUIForUser(user) {
@@ -463,100 +287,47 @@ function renderUIForUser(user) {
 }
 
 async function handleSubmitAnime() {
-  const nameInput = document.getElementById("anime-name");
-  const genresInput = document.getElementById("anime-genres");
-  const name = nameInput.value.trim();
-  const genresRaw = genresInput.value.trim();
-
-  if (!name || !genresRaw) {
-    alert("Preencha todos os campos.");
-    return;
-  }
-
-  // Desabilita o botão para evitar múltiplos cliques
+  const name = document.getElementById("anime-name")?.value.trim();
+  const genresRaw = document.getElementById("anime-genres")?.value.trim();
+  if (!name || !genresRaw) { alert("Preencha todos os campos."); return; }
   const submitBtn = document.getElementById("submit-anime-button");
   submitBtn.disabled = true;
-  submitBtn.textContent = "Verificando...";
-
   try {
     const duplicates = await checkDuplicates(currentAnimeData?.malId, name);
-    if (duplicates.length > 0) {
-      alert(`🚫 "${duplicates[0]}" já está na lista (ou fila de aprovação). Submissão cancelada.`);
-      submitBtn.disabled = false;
-      submitBtn.textContent = "Submeter Anime";
-      return;
-    }
-
-    const genres = genresRaw.split(',').map(g => g.trim()).filter(g => g);
-
+    if (duplicates.length > 0) { alert(`🚫 "${duplicates[0]}" já está na lista.`); return; }
     await addDoc(pendingAnimesRef, {
-      nome: name,
-      generos: genres,
-      malId: currentAnimeData?.malId || null,
-      submittedBy: currentUser.uid,
-      submittedByName: currentUser.personName,
-      createdAt: serverTimestamp(),
-      votes: {},
-      votedUserIds: [],
-      status: "pending"
+      nome: name, generos: genresRaw.split(',').map(g => g.trim()).filter(Boolean),
+      malId: currentAnimeData?.malId || null, submittedBy: currentUser.uid,
+      submittedByName: currentUser.personName, createdAt: serverTimestamp(),
+      votes: {}, votedUserIds: [], status: "pending"
     });
-
-    alert("Anime sugerido com sucesso!");
-    nameInput.value = "";
-    genresInput.value = "";
+    alert("Anime sugerido!");
+    document.getElementById("anime-name").value = "";
+    document.getElementById("anime-genres").value = "";
     currentAnimeData = null;
-    
-    // Limpa os avisos
-    document.getElementById("genres-status").textContent = "";
-    document.getElementById("official-title").textContent = "";
-    document.getElementById("duplicate-warning").textContent = "";
-
-  } catch (error) {
-    console.error(error);
-    alert("Erro ao sugerir anime. Tente novamente.");
-  } finally {
-    submitBtn.disabled = false;
-    submitBtn.textContent = "Submeter Anime";
-  }
+  } catch (e) { alert("Erro ao sugerir."); } finally { submitBtn.disabled = false; }
 }
-
-// --- Listener para Animes Pendentes ---
 
 let unsubscribePendingListener = null;
 let lastAnimesData = [];
 
 function startPendingAnimesListener() {
-  if (!db || !currentUser) return;
-
-  // Limpa listener anterior se existir para evitar duplicados
-  if (unsubscribePendingListener) {
-    unsubscribePendingListener();
-  }
-
+  if (!db || !currentUser || !pendingAnimesContainer) return;
+  if (unsubscribePendingListener) unsubscribePendingListener();
   const q = query(pendingAnimesRef, orderBy("createdAt", "desc"));
-
   unsubscribePendingListener = onSnapshot(q, (snapshot) => {
     const animes = [];
-    snapshot.forEach(doc => {
-      animes.push({ ...doc.data(), id: doc.id });
-    });
+    snapshot.forEach(doc => animes.push({ ...doc.data(), id: doc.id }));
     lastAnimesData = animes;
     renderPendingAnimes(animes);
-  }, (error) => {
-    console.error("Erro no listener de pendentes:", error);
-    if (error.code === 'permission-denied') {
-        pendingAnimesContainer.innerHTML = "<p style='color: var(--error); text-align:center; padding:40px'>Acesso negado. Você tem permissão para ver esta lista?</p>";
-    } else {
-        pendingAnimesContainer.innerHTML = "<p style='color: var(--error); text-align:center; padding:40px'>Erro ao carregar fila de aprovação.</p>";
-    }
+  }, (e) => {
+    console.error(e);
+    pendingAnimesContainer.innerHTML = "<p style='color:var(--error); text-align:center; padding:40px'>Erro ao carregar fila.</p>";
   });
 }
 
-// --- Inicialização ---
-
 async function init() {
   if (!isFirebaseConfigured) return;
-
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       await processUser(user);
@@ -564,14 +335,9 @@ async function init() {
       startPendingAnimesListener();
     } else {
       currentUser = null;
-      if (unsubscribePendingListener) {
-        unsubscribePendingListener();
-        unsubscribePendingListener = null;
-      }
+      if (unsubscribePendingListener) { unsubscribePendingListener(); unsubscribePendingListener = null; }
       renderUIForUser(null);
-      if (pendingAnimesContainer) {
-        pendingAnimesContainer.innerHTML = "<p style='color: var(--faint); text-align:center; padding:40px'>Faça login para ver a fila de aprovação.</p>";
-      }
+      if (pendingAnimesContainer) pendingAnimesContainer.innerHTML = "<p style='color:var(--faint); text-align:center; padding:40px'>Faça login para ver a fila.</p>";
     }
   });
 }
