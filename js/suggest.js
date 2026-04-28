@@ -560,6 +560,7 @@ async function init() {
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       await processUser(user);
+      renderUIForUser(currentUser);
       startPendingAnimesListener();
     } else {
       currentUser = null;
@@ -568,7 +569,9 @@ async function init() {
         unsubscribePendingListener = null;
       }
       renderUIForUser(null);
-      pendingAnimesContainer.innerHTML = "<p style='color: var(--faint); text-align:center; padding:40px'>Faça login para ver a fila de aprovação.</p>";
+      if (pendingAnimesContainer) {
+        pendingAnimesContainer.innerHTML = "<p style='color: var(--faint); text-align:center; padding:40px'>Faça login para ver a fila de aprovação.</p>";
+      }
     }
   });
 }
