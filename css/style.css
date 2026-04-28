@@ -2301,6 +2301,50 @@ body.dark-theme .theme-toggle:hover {
   color: #151318;
 }
 
+.nav a {
+  border-color: rgba(187,247,208,0.16);
+}
+
+.nav a:hover {
+  background: rgba(187,247,208,0.08);
+  border-color: rgba(186,230,253,0.3);
+  color: var(--paper);
+}
+
+.nav a.active,
+body.dark-theme .nav a.active {
+  background: linear-gradient(135deg, rgba(187,247,208,0.94), rgba(186,230,253,0.9));
+  border-color: rgba(220,252,231,0.72);
+  color: #10211d;
+  box-shadow: 0 8px 24px rgba(186,230,253,0.12);
+}
+
+body:not(.dark-theme) .nav a {
+  border-color: rgba(61,113,133,0.14);
+  color: #5f594f;
+}
+
+body:not(.dark-theme) .nav a:hover {
+  background: rgba(187,247,208,0.3);
+  border-color: rgba(61,113,133,0.22);
+  color: #171717;
+}
+
+body:not(.dark-theme) .nav a.active {
+  background: linear-gradient(135deg, #dcfce7, #dff6ff);
+  border-color: rgba(61,113,133,0.18);
+  color: #10211d;
+}
+
+body.dark-theme .nav a {
+  border-color: rgba(187,247,208,0.14);
+}
+
+body.dark-theme .nav a:hover {
+  background: rgba(187,247,208,0.09);
+  border-color: rgba(186,230,253,0.3);
+}
+
 body.dark-theme .page-header,
 body.dark-theme .section-head,
 body.dark-theme .person-hero,
