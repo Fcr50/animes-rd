@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-28T00:53:21.052Z",
+  "updatedAt": "2026-04-28T01:06:11.532Z",
   "total": 176,
   "animes": [
     {
@@ -381,35 +381,6 @@
       "malId": 5114
     },
     {
-      "id": "3416beab-c784-81d6-8d5d-c361251e6d01",
-      "nome": "Horimiya",
-      "quemAssistiu": [
-        "Fernando",
-        "Rafael"
-      ],
-      "nota": "9.35",
-      "generos": [
-        "Romance 💖",
-        "Slice of Life 🍃",
-        "Comédia 😂"
-      ],
-      "comentarios": "",
-      "files": [],
-      "notaRafael": 10,
-      "notaFernando": 8.7,
-      "notaDudu": null,
-      "notaHacksuya": null,
-      "maisDeUmVoto": "sim",
-      "qtdVotos": 2,
-      "notaSort": 9.35,
-      "controversia": 1.3,
-      "migratedAt": {
-        "_seconds": 1777314441,
-        "_nanoseconds": 493000000
-      },
-      "malId": 42897
-    },
-    {
       "id": "3416beab-c784-8142-8f36-fe93636e2c44",
       "nome": "Solo Leveling",
       "quemAssistiu": [
@@ -760,6 +731,44 @@
       "malId": 50265
     },
     {
+      "id": "3416beab-c784-8180-946e-eab169d95644",
+      "nome": "Overflow",
+      "generos": [
+        "Ecchi🔥",
+        "hentai💦"
+      ],
+      "files": [],
+      "notaFernando": 9,
+      "notaDudu": null,
+      "notaHacksuya": null,
+      "migratedAt": {
+        "_seconds": 1777314441,
+        "_nanoseconds": 493000000
+      },
+      "malId": 40746,
+      "quemAssistiu": [
+        "Rafael",
+        "Fernando"
+      ],
+      "qtdVotos": 2,
+      "maisDeUmVoto": "sim",
+      "comments": [
+        {
+          "person": "Rafael",
+          "text": "Me disseram que é o melhor do gênero!👀"
+        }
+      ],
+      "comentarios": "Rafael: Me disseram que é o melhor do gênero!👀",
+      "controversia": 0.2,
+      "notaSort": 9.1,
+      "notaRafael": 9.2,
+      "nota": "9.10",
+      "updatedAt": {
+        "_seconds": 1777338056,
+        "_nanoseconds": 979000000
+      }
+    },
+    {
       "id": "3416beab-c784-81b0-aa04-edb1635d2ab1",
       "nome": "DanMachi",
       "quemAssistiu": [
@@ -968,34 +977,6 @@
       "malId": 6987
     },
     {
-      "id": "3416beab-c784-8180-946e-eab169d95644",
-      "nome": "Overflow",
-      "quemAssistiu": [
-        "Fernando",
-        "Rafael"
-      ],
-      "nota": "9.00",
-      "generos": [
-        "Ecchi🔥",
-        "hentai💦"
-      ],
-      "comentarios": "",
-      "files": [],
-      "notaRafael": null,
-      "notaFernando": 9,
-      "notaDudu": null,
-      "notaHacksuya": null,
-      "maisDeUmVoto": "nao",
-      "qtdVotos": 1,
-      "notaSort": 9,
-      "controversia": 0,
-      "migratedAt": {
-        "_seconds": 1777314441,
-        "_nanoseconds": 493000000
-      },
-      "malId": 40746
-    },
-    {
       "id": "3416beab-c784-8183-ac74-f6b222d9fc09",
       "nome": "Yowamushi Pedal",
       "quemAssistiu": [
@@ -1170,6 +1151,45 @@
         "_nanoseconds": 493000000
       },
       "malId": 28171
+    },
+    {
+      "id": "3416beab-c784-81d6-8d5d-c361251e6d01",
+      "nome": "Horimiya",
+      "generos": [
+        "Romance 💖",
+        "Slice of Life 🍃",
+        "Comédia 😂"
+      ],
+      "files": [],
+      "notaFernando": 8.7,
+      "notaDudu": null,
+      "notaHacksuya": null,
+      "maisDeUmVoto": "sim",
+      "qtdVotos": 2,
+      "migratedAt": {
+        "_seconds": 1777314441,
+        "_nanoseconds": 493000000
+      },
+      "malId": 42897,
+      "controversia": 0.5,
+      "quemAssistiu": [
+        "Rafael",
+        "Fernando"
+      ],
+      "comments": [
+        {
+          "person": "Rafael",
+          "text": "Melhor anime de romance s2"
+        }
+      ],
+      "notaSort": 8.95,
+      "notaRafael": 9.2,
+      "comentarios": "Rafael: Melhor anime de romance s2",
+      "nota": "8.95",
+      "updatedAt": {
+        "_seconds": 1777337620,
+        "_nanoseconds": 79000000
+      }
     },
     {
       "id": "3416beab-c784-8197-b350-c58ecfdc1042",
