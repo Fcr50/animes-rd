@@ -3148,3 +3148,8 @@ body:has(#venn4-container) .page-header h1 {
   color: transparent;
   -webkit-text-fill-color: transparent;
 }
+
+#stats-grid .stat-card:nth-child(1) .stat-label { color: #b69cff; }
+#stats-grid .stat-card:nth-child(2) .stat-label { color: #ff9dcc; }
+#stats-grid .stat-card:nth-child(3) .stat-label { color: #86efac; }
+#stats-grid .stat-card:nth-child(4) .stat-label { color: #67e8f9; }

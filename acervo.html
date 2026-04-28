@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Acervo — Animes RD</title>
-  <link rel="stylesheet" href="css/style.css?v=user-note-cards-1" />
+  <link rel="stylesheet" href="css/style.css?v=archive-stat-labels-1" />
   <script type="module" src="./js/theme.js?v=dark-default-1"></script>
 </head>
 <body>
@@ -96,12 +96,12 @@
         <div class="stat-sub">de 10</div>
       </div>
       <div class="stat-card">
-        <div class="stat-label">Mais controverso 🌶️</div>
+        <div class="stat-label">Mais controverso</div>
         <div class="stat-value" style="color:#86efac">${mostContr ? mostContr.controversia.toFixed(1) : "—"}</div>
         <div class="stat-sub" title="${mostContr?.nome}">${mostContr?.nome?.slice(0, 22) || "—"}</div>
       </div>
       <div class="stat-card">
-        <div class="stat-label">Melhor nota ⭐</div>
+        <div class="stat-label">Melhor nota</div>
         <div class="stat-value" style="color:#67e8f9">${topRated ? Number(topRated.nota).toFixed(2) : "—"}</div>
         <div class="stat-sub" title="${topRated?.nome}">${topRated?.nome?.slice(0, 22) || "—"}</div>
       </div>
