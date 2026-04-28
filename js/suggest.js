@@ -210,11 +210,31 @@ function renderPendingAnimes(animes) {
   pendingAnimesContainer.innerHTML = animes.map(anime => {
     const isVoted = anime.votedUserIds?.includes(currentUser?.uid);
     const userVote = currentUser?.personName ? anime.votes?.[currentUser.personName] : null;
-    let dots = PEOPLE.map(p => `<span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:${anime.votes?.[p] ? '#34d399' : 'rgba(255,255,255,0.1)'}; margin-right:4px"></span>`).join('');
+    
+    // Substituindo bolinhas por iniciais coloridas
+    let dots = PEOPLE.map(p => {
+        const hasVoted = anime.votes && anime.votes[p];
+        const color = PERSON_COLORS[p] || '#ccc';
+        const lightColor = PERSON_LIGHTS[p] || 'rgba(255,255,255,0.1)';
+        
+        return `
+          <span title="${p}: ${hasVoted ? 'Já votou' : 'Pendente'}" 
+                style="display:inline-flex; width:22px; height:22px; border-radius:50%; 
+                       align-items:center; justify-content:center; font-size:11px; font-weight:bold;
+                       margin-right:4px; border: 1px solid ${hasVoted ? color : 'rgba(255,255,255,0.1)'};
+                       background: ${hasVoted ? lightColor : 'transparent'}; 
+                       color: ${hasVoted ? color : 'rgba(255,255,255,0.2)'};
+                       opacity: ${hasVoted ? '1' : '0.5'}">
+            ${p[0]}
+          </span>`;
+    }).join('');
 
     return `
       <div class="vote-card" style="background:var(--card-bg); border:1px solid var(--border); margin-bottom:20px; border-radius:12px; padding:20px">
-        <div style="display:flex; justify-content:space-between"><h3>${anime.nome}</h3><div>${dots}</div></div>
+        <div style="display:flex; justify-content:space-between; align-items: flex-start;">
+            <h3 style="margin:0">${anime.nome}</h3>
+            <div style="display:flex">${dots}</div>
+        </div>
         <p style="font-size:14px; color:var(--faint)">${(anime.generos || []).join(' • ')}</p>
         <div style="font-size:12px; color:var(--faint); margin-bottom:15px">Sugerido por <strong>${anime.submittedByName}</strong></div>
         ${currentUser ? `
