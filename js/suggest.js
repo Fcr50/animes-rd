@@ -17,7 +17,7 @@ const GENRE_TRANSLATION = {
   "Demons": "Demônios 😈", "School": "Escola 🏫", "Space": "Espaço 👨‍🚀", "Samurai": "Samurai ⚔️",
   "Police": "Policial 👮", "Harem": "Harém 👫", "Game": "Jogo 🎮", "Parody": "Paródia 🤡",
   "Isekai": "Isekai 🌀", "Thriller": "Suspense 😱", "Gourmet": "Culinária 🍳", "Avant Garde": "Experimental 🧪",
-  "Suspense": "Suspense 😱", "Award Winning": "Premiado 🏆", "Boys Love": "BL 👬", "Girls Love": "GL 👭"
+  "Suspense": "Suspense 😱", "Award Winning": "Premiado 🏆", "Boys Love": "BL 👬", "Girls Love": "GL 👭", "Hentai" : "Hentai 💦"
 };
 
 async function fetchAnimeData(name) {
