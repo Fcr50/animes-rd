@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-28T18:14:38.740Z",
+  "updatedAt": "2026-04-28T18:39:14.913Z",
   "total": 180,
   "animes": [
     {
@@ -1075,6 +1075,50 @@
       }
     },
     {
+      "id": "3416beab-c784-81d2-8228-dd19f2a20da9",
+      "nome": "Sword Art Online",
+      "generos": [
+        "Ação ⚔️",
+        "Isekai 🌍✨",
+        "Romance 💖"
+      ],
+      "files": [],
+      "notaFernando": 9,
+      "notaDudu": 8.7,
+      "notaHacksuya": null,
+      "maisDeUmVoto": "sim",
+      "migratedAt": {
+        "_seconds": 1777314441,
+        "_nanoseconds": 493000000
+      },
+      "malId": 11757,
+      "controversia": 0.7,
+      "quemAssistiu": [
+        "Rafael",
+        "Fernando",
+        "Dudu"
+      ],
+      "qtdVotos": 3,
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Um clássico, definiu o gold standard dos Isekais na época que lançou, hoje reconheço que ele tem muitos defeitos, mas ainda assim tem um lugar reservado no meu coração."
+        },
+        {
+          "person": "Rafael",
+          "text": "Uma obra de arte, o anime que me fez gostar de animes, definiu uma geração de isekais, é Kirito pra todo lado!"
+        }
+      ],
+      "notaSort": 9.03,
+      "notaRafael": 9.4,
+      "comentarios": "Dudu: Um clássico, definiu o gold standard dos Isekais na época que lançou, hoje reconheço que ele tem muitos defeitos, mas ainda assim tem um lugar reservado no meu coração.\nRafael: Uma obra de arte, o anime que me fez gostar de animes, definiu uma geração de isekais, é Kirito pra todo lado!",
+      "nota": "9.03",
+      "updatedAt": {
+        "_seconds": 1777400487,
+        "_nanoseconds": 352000000
+      }
+    },
+    {
       "id": "3416beab-c784-8118-8c7c-ddfce1e7c19e",
       "nome": "Ping Pong the Animation",
       "quemAssistiu": [
@@ -1732,45 +1776,6 @@
       "updatedAt": {
         "_seconds": 1777399711,
         "_nanoseconds": 688000000
-      }
-    },
-    {
-      "id": "3416beab-c784-81d2-8228-dd19f2a20da9",
-      "nome": "Sword Art Online",
-      "nota": "8.85",
-      "generos": [
-        "Ação ⚔️",
-        "Isekai 🌍✨",
-        "Romance 💖"
-      ],
-      "files": [],
-      "notaRafael": null,
-      "notaFernando": 9,
-      "notaDudu": 8.7,
-      "notaHacksuya": null,
-      "maisDeUmVoto": "sim",
-      "qtdVotos": 2,
-      "notaSort": 8.85,
-      "controversia": 0.3,
-      "migratedAt": {
-        "_seconds": 1777314441,
-        "_nanoseconds": 493000000
-      },
-      "malId": 11757,
-      "quemAssistiu": [
-        "Fernando",
-        "Dudu"
-      ],
-      "comments": [
-        {
-          "person": "Dudu",
-          "text": "Um clássico, definiu o gold standard dos Isekais na época que lançou, hoje reconheço que ele tem muitos defeitos, mas ainda assim tem um lugar reservado no meu coração."
-        }
-      ],
-      "comentarios": "Dudu: Um clássico, definiu o gold standard dos Isekais na época que lançou, hoje reconheço que ele tem muitos defeitos, mas ainda assim tem um lugar reservado no meu coração.",
-      "updatedAt": {
-        "_seconds": 1777399750,
-        "_nanoseconds": 508000000
       }
     },
     {
@@ -2645,7 +2650,6 @@
         "Dudu"
       ],
       "nota": "8.50",
-      "comentarios": "",
       "files": [],
       "notaRafael": null,
       "notaFernando": 8,
@@ -2664,18 +2668,23 @@
         "Shounen 💥",
         "Drama 😢",
         "Esportes ⚽"
-      ]
+      ],
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Acompanhar a jornada do nosso mano Ippo é muito bom, anime de esporte das antigas, se você relevar a animação dos anos 90 vai se surpreender."
+        }
+      ],
+      "comentarios": "Dudu: Acompanhar a jornada do nosso mano Ippo é muito bom, anime de esporte das antigas, se você relevar a animação dos anos 90 vai se surpreender.",
+      "updatedAt": {
+        "_seconds": 1777400104,
+        "_nanoseconds": 120000000
+      }
     },
     {
       "id": "3416beab-c784-81d4-af65-fbcfea3f7265",
       "nome": "Date a Live",
-      "quemAssistiu": [
-        "Rafael",
-        "Dudu",
-        "Hacksuya"
-      ],
       "nota": "8.50",
-      "comentarios": "",
       "files": [],
       "notaRafael": null,
       "notaFernando": null,
@@ -2695,7 +2704,21 @@
         "Romance 💖",
         "Fantasia 🧙",
         "Ecchi 🔥"
-      ]
+      ],
+      "quemAssistiu": [
+        "Dudu"
+      ],
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Aquele ecchi muito bom, nada de especial, mas gostosinho."
+        }
+      ],
+      "comentarios": "Dudu: Aquele ecchi muito bom, nada de especial, mas gostosinho.",
+      "updatedAt": {
+        "_seconds": 1777400122,
+        "_nanoseconds": 617000000
+      }
     },
     {
       "id": "3416beab-c784-81eb-857a-c4280805559d",
@@ -2825,17 +2848,11 @@
     {
       "id": "3416beab-c784-81a7-aa0f-d3397ba4b544",
       "nome": "Dragon Ball Z",
-      "quemAssistiu": [
-        "Fernando",
-        "Rafael",
-        "Dudu"
-      ],
       "nota": "8.35",
       "generos": [
         "Ação ⚔️",
         "Shounen 💥"
       ],
-      "comentarios": "",
       "files": [],
       "notaRafael": null,
       "notaFernando": 8.7,
@@ -2849,23 +2866,31 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 813
+      "malId": 813,
+      "quemAssistiu": [
+        "Fernando",
+        "Dudu"
+      ],
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Um clássico, mas confesso que nunca fui muito fã."
+        }
+      ],
+      "comentarios": "Dudu: Um clássico, mas confesso que nunca fui muito fã.",
+      "updatedAt": {
+        "_seconds": 1777400138,
+        "_nanoseconds": 317000000
+      }
     },
     {
       "id": "3416beab-c784-81d0-92f1-d43dd89cd635",
       "nome": "Another",
-      "quemAssistiu": [
-        "Fernando",
-        "Rafael",
-        "Dudu",
-        "Hacksuya"
-      ],
       "nota": "8.35",
       "generos": [
         "Terror 👻",
         "Drama 😢"
       ],
-      "comentarios": "",
       "files": [],
       "notaRafael": null,
       "notaFernando": 8.2,
@@ -2879,22 +2904,32 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 11111
+      "malId": 11111,
+      "quemAssistiu": [
+        "Fernando",
+        "Dudu"
+      ],
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Um dos primeiros animes de suspense que eu assisti, tenho trauma de elevador e descer escada com guarda-chuva até hoje."
+        }
+      ],
+      "comentarios": "Dudu: Um dos primeiros animes de suspense que eu assisti, tenho trauma de elevador e descer escada com guarda-chuva até hoje.",
+      "updatedAt": {
+        "_seconds": 1777400165,
+        "_nanoseconds": 315000000
+      }
     },
     {
       "id": "3416beab-c784-811a-85e2-c5d4362f8634",
       "nome": "Tokyo Ghoul",
-      "quemAssistiu": [
-        "Dudu",
-        "Hacksuya"
-      ],
       "nota": "8.30",
       "generos": [
         "Ação ⚔️",
         "Drama 😢",
         "Terror 👻"
       ],
-      "comentarios": "",
       "files": [],
       "notaRafael": null,
       "notaFernando": null,
@@ -2908,23 +2943,31 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 22319
+      "malId": 22319,
+      "quemAssistiu": [
+        "Dudu"
+      ],
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "O mangá aparentemente está muito bom, mas o anime infelizmente foi bem rushado da 2 temporada pra frente. A opening da temporada 1 é muito boa."
+        }
+      ],
+      "comentarios": "Dudu: O mangá aparentemente está muito bom, mas o anime infelizmente foi bem rushado da 2 temporada pra frente. A opening da temporada 1 é muito boa.",
+      "updatedAt": {
+        "_seconds": 1777400204,
+        "_nanoseconds": 566000000
+      }
     },
     {
       "id": "3416beab-c784-813f-9c49-e374655cc241",
       "nome": "Kill la Kill",
-      "quemAssistiu": [
-        "Fernando",
-        "Dudu",
-        "Hacksuya"
-      ],
       "nota": "8.30",
       "generos": [
         "Ação ⚔️",
         "Shounen 💥",
         "Comédia 😂"
       ],
-      "comentarios": "",
       "files": [],
       "notaRafael": null,
       "notaFernando": 8.6,
@@ -2938,17 +2981,26 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 18679
+      "malId": 18679,
+      "quemAssistiu": [
+        "Fernando",
+        "Dudu"
+      ],
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Lembro que achei bem legal na época, e o ecchi está até na dose certa."
+        }
+      ],
+      "comentarios": "Dudu: Lembro que achei bem legal na época, e o ecchi está até na dose certa.",
+      "updatedAt": {
+        "_seconds": 1777400363,
+        "_nanoseconds": 649000000
+      }
     },
     {
       "id": "3416beab-c784-8181-9245-f6de5a388320",
       "nome": "Accel World",
-      "quemAssistiu": [
-        "Fernando",
-        "Rafael",
-        "Dudu",
-        "Hacksuya"
-      ],
       "nota": "8.30",
       "generos": [
         "Ação ⚔️",
@@ -2956,7 +3008,6 @@
         "Fantasia 🧙",
         "Romance 💖"
       ],
-      "comentarios": "",
       "files": [],
       "notaRafael": null,
       "notaFernando": 8.1,
@@ -2970,7 +3021,22 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 11759
+      "malId": 11759,
+      "quemAssistiu": [
+        "Fernando",
+        "Dudu"
+      ],
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Assisti logo depois de SAO, e me falaram recentemente que ele faz parte do mesmo universo, muito bom."
+        }
+      ],
+      "comentarios": "Dudu: Assisti logo depois de SAO, e me falaram recentemente que ele faz parte do mesmo universo, muito bom.",
+      "updatedAt": {
+        "_seconds": 1777400383,
+        "_nanoseconds": 832000000
+      }
     },
     {
       "id": "3416beab-c784-81a5-92dc-dc81864e05f6",
@@ -3031,18 +3097,12 @@
     {
       "id": "3416beab-c784-81d0-b92d-f9904e5e7f18",
       "nome": "Digimon",
-      "quemAssistiu": [
-        "Fernando",
-        "Rafael",
-        "Dudu"
-      ],
       "nota": "8.25",
       "generos": [
         "Ação ⚔️",
         "Shounen 💥",
         "Fantasia 🧙"
       ],
-      "comentarios": "",
       "files": [],
       "notaRafael": null,
       "notaFernando": 8.5,
@@ -3056,7 +3116,22 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 552
+      "malId": 552,
+      "quemAssistiu": [
+        "Fernando",
+        "Dudu"
+      ],
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Muito bom, algumas vezes cheguei a preferir ele a pokémon, mas hoje percebo que todos tem lugar no meu coração."
+        }
+      ],
+      "comentarios": "Dudu: Muito bom, algumas vezes cheguei a preferir ele a pokémon, mas hoje percebo que todos tem lugar no meu coração.",
+      "updatedAt": {
+        "_seconds": 1777400438,
+        "_nanoseconds": 246000000
+      }
     },
     {
       "id": "3416beab-c784-8154-90d6-caf3cc915e6e",
@@ -3148,19 +3223,12 @@
     {
       "id": "3416beab-c784-8176-b098-c22bbc815cf5",
       "nome": "Nanatsu no Taizai",
-      "quemAssistiu": [
-        "Fernando",
-        "Rafael",
-        "Dudu",
-        "Hacksuya"
-      ],
       "nota": "8.20",
       "generos": [
         "Ação ⚔️",
         "Shounen 💥",
         "Fantasia 🧙"
       ],
-      "comentarios": "",
       "files": [],
       "notaRafael": null,
       "notaFernando": 8.4,
@@ -3174,7 +3242,22 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 23755
+      "malId": 23755,
+      "quemAssistiu": [
+        "Fernando",
+        "Dudu"
+      ],
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Primeira temporada muito boa, a segunda ainda mantém um nível bom, mas o que o estúdio de animação fez a partir da terceira temporada é sacanagem, intankavel a merda que ficou."
+        }
+      ],
+      "comentarios": "Dudu: Primeira temporada muito boa, a segunda ainda mantém um nível bom, mas o que o estúdio de animação fez a partir da terceira temporada é sacanagem, intankavel a merda que ficou.",
+      "updatedAt": {
+        "_seconds": 1777400488,
+        "_nanoseconds": 253000000
+      }
     },
     {
       "id": "3416beab-c784-81bc-b0f9-cc47770b94f2",
@@ -3183,7 +3266,6 @@
         "Dudu"
       ],
       "nota": "8.20",
-      "comentarios": "",
       "files": [
         {
           "name": "Opening 1",
@@ -3207,7 +3289,18 @@
         "Ação ⚔️",
         "Ecchi 🔥",
         "Fantasia 🧙"
-      ]
+      ],
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Esse aqui fez eu acertar uma questão na escola de um trabalho de química, nunca vou esquecer, GOAT."
+        }
+      ],
+      "comentarios": "Dudu: Esse aqui fez eu acertar uma questão na escola de um trabalho de química, nunca vou esquecer, GOAT.",
+      "updatedAt": {
+        "_seconds": 1777400521,
+        "_nanoseconds": 17000000
+      }
     },
     {
       "id": "f6e6beab-c784-83c0-b7a0-817ac90bf966",
@@ -3422,18 +3515,12 @@
     {
       "id": "3416beab-c784-8138-998b-ed30db2a3712",
       "nome": "The Rising of the Shield Hero",
-      "quemAssistiu": [
-        "Fernando",
-        "Rafael",
-        "Dudu"
-      ],
       "nota": "8.00",
       "generos": [
         "Ação ⚔️",
         "Isekai 🌍✨",
         "Fantasia 🧙"
       ],
-      "comentarios": "",
       "files": [],
       "notaRafael": null,
       "notaFernando": 7.8,
@@ -3447,7 +3534,22 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 35790
+      "malId": 35790,
+      "quemAssistiu": [
+        "Fernando",
+        "Dudu"
+      ],
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Isekai legal, mas tem seus defeitos. Queria ver meu mano Naofumi no arco vilão matando geral."
+        }
+      ],
+      "comentarios": "Dudu: Isekai legal, mas tem seus defeitos. Queria ver meu mano Naofumi no arco vilão matando geral.",
+      "updatedAt": {
+        "_seconds": 1777400557,
+        "_nanoseconds": 518000000
+      }
     },
     {
       "id": "3416beab-c784-813f-9351-ce4dd75574f5",
@@ -3461,7 +3563,6 @@
         "Shounen 💥",
         "Fantasia 🧙"
       ],
-      "comentarios": "",
       "files": [],
       "notaRafael": null,
       "notaFernando": null,
@@ -3475,7 +3576,18 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 7334
+      "malId": 7334,
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Achava o anime razoável, mas os brinquedos que vinham nos salgadinhos e os jogos de PS2 eram outro nível."
+        }
+      ],
+      "comentarios": "Dudu: Achava o anime razoável, mas os brinquedos que vinham nos salgadinhos e os jogos de PS2 eram outro nível.",
+      "updatedAt": {
+        "_seconds": 1777400617,
+        "_nanoseconds": 567000000
+      }
     },
     {
       "id": "3416beab-c784-814b-96cd-fb07d0e1f3e1",
@@ -3520,7 +3632,6 @@
         "Terror 👻",
         "Fantasia 🧙"
       ],
-      "comentarios": "",
       "files": [
         {
           "name": "Opening 1",
@@ -3539,7 +3650,18 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 270
+      "malId": 270,
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Alucard apelaaaaaaum."
+        }
+      ],
+      "comentarios": "Dudu: Alucard apelaaaaaaum.",
+      "updatedAt": {
+        "_seconds": 1777400629,
+        "_nanoseconds": 806000000
+      }
     },
     {
       "id": "3416beab-c784-814e-890f-dd51cc22f5e5",
@@ -3578,7 +3700,6 @@
         "Dudu"
       ],
       "nota": "8.00",
-      "comentarios": "",
       "files": [],
       "notaRafael": null,
       "notaFernando": null,
@@ -3596,7 +3717,18 @@
       "generos": [
         "Ecchi 🔥",
         "Hentai 💦"
-      ]
+      ],
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Cara, esse aqui é sinistro. Não recomendaria ninguém assistir essa poha, o autor é perturbado da cabeça certezaaa."
+        }
+      ],
+      "comentarios": "Dudu: Cara, esse aqui é sinistro. Não recomendaria ninguém assistir essa poha, o autor é perturbado da cabeça certezaaa.",
+      "updatedAt": {
+        "_seconds": 1777400659,
+        "_nanoseconds": 567000000
+      }
     },
     {
       "id": "3416beab-c784-8165-9831-f61921ae15bd",
@@ -3605,7 +3737,6 @@
         "Dudu"
       ],
       "nota": "8.00",
-      "comentarios": "",
       "files": [],
       "notaRafael": null,
       "notaFernando": null,
@@ -3624,7 +3755,18 @@
         "Ação ⚔️",
         "Ecchi 🔥",
         "Comédia 😂"
-      ]
+      ],
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Ecchizão das antigas, meninas samurais gostosas, bom dmais."
+        }
+      ],
+      "comentarios": "Dudu: Ecchizão das antigas, meninas samurais gostosas, bom dmais.",
+      "updatedAt": {
+        "_seconds": 1777400672,
+        "_nanoseconds": 954000000
+      }
     },
     {
       "id": "3416beab-c784-819c-967b-fa1600659d2e",
@@ -3717,17 +3859,11 @@
     {
       "id": "3416beab-c784-81cb-b099-f6d6b28d8a92",
       "nome": "Yu-Gi-Oh!",
-      "quemAssistiu": [
-        "Fernando",
-        "Rafael",
-        "Dudu"
-      ],
       "nota": "8.00",
       "generos": [
         "Ação ⚔️",
         "Shounen 💥"
       ],
-      "comentarios": "",
       "files": [],
       "notaRafael": null,
       "notaFernando": 8,
@@ -3741,7 +3877,22 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 550
+      "malId": 550,
+      "quemAssistiu": [
+        "Fernando",
+        "Dudu"
+      ],
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Exodia sola."
+        }
+      ],
+      "comentarios": "Dudu: Exodia sola.",
+      "updatedAt": {
+        "_seconds": 1777400686,
+        "_nanoseconds": 567000000
+      }
     },
     {
       "id": "3416beab-c784-81de-9a1d-d8f6bb66c87d",
@@ -3803,17 +3954,12 @@
     {
       "id": "3416beab-c784-81fe-86e9-e0b2c235a5cb",
       "nome": "Dungeon Meshi",
-      "quemAssistiu": [
-        "Rafael",
-        "Dudu"
-      ],
       "nota": "8.00",
       "generos": [
         "Ação ⚔️",
         "Fantasia 🧙",
         "Comédia 😂"
       ],
-      "comentarios": "",
       "files": [],
       "notaRafael": null,
       "notaFernando": null,
@@ -3827,7 +3973,21 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 52701
+      "malId": 52701,
+      "quemAssistiu": [
+        "Dudu"
+      ],
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Assisti com a minha ex isso aqui, bad vibes."
+        }
+      ],
+      "comentarios": "Dudu: Assisti com a minha ex isso aqui, bad vibes.",
+      "updatedAt": {
+        "_seconds": 1777400700,
+        "_nanoseconds": 53000000
+      }
     },
     {
       "id": "3416beab-c784-8141-b8e5-f0f438425328",
@@ -3898,7 +4058,6 @@
         "Shounen 💥",
         "Fantasia 🧙"
       ],
-      "comentarios": "",
       "files": [],
       "notaRafael": null,
       "notaFernando": 7.7,
@@ -3912,7 +4071,18 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 40221
+      "malId": 40221,
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Achei legal a primeira temporada, mas a segunda tava tão ruim que dei uma dropada, confesso."
+        }
+      ],
+      "comentarios": "Dudu: Achei legal a primeira temporada, mas a segunda tava tão ruim que dei uma dropada, confesso.",
+      "updatedAt": {
+        "_seconds": 1777400721,
+        "_nanoseconds": 420000000
+      }
     },
     {
       "id": "3416beab-c784-8103-95d0-c60c68dc4940",
@@ -4003,17 +4173,12 @@
     {
       "id": "3416beab-c784-8191-b9bf-ed0c66062a9f",
       "nome": "Mahouka Koukou no Rettousei",
-      "quemAssistiu": [
-        "Dudu",
-        "Hacksuya"
-      ],
       "nota": "7.80",
       "generos": [
         "Ação ⚔️",
         "Fantasia 🧙",
         "Romance 💖"
       ],
-      "comentarios": "",
       "files": [
         {
           "name": "Opening 1",
@@ -4032,7 +4197,21 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 20785
+      "malId": 20785,
+      "quemAssistiu": [
+        "Dudu"
+      ],
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Anime da lenda, meu mano Hacksuya. (Infelizmente só ele salva essa bomba de anime)."
+        }
+      ],
+      "comentarios": "Dudu: Anime da lenda, meu mano Hacksuya. (Infelizmente só ele salva essa bomba de anime).",
+      "updatedAt": {
+        "_seconds": 1777400740,
+        "_nanoseconds": 411000000
+      }
     },
     {
       "id": "3416beab-c784-81a2-ba4d-c9ad78664da8",
@@ -4094,11 +4273,6 @@
     {
       "id": "3416beab-c784-8153-80ff-caf68947a1a3",
       "nome": "Mirai Nikki",
-      "quemAssistiu": [
-        "Fernando",
-        "Dudu",
-        "Hacksuya"
-      ],
       "nota": "7.75",
       "generos": [
         "Ação ⚔️",
@@ -4106,7 +4280,6 @@
         "Drama 😢",
         "Romance 💖"
       ],
-      "comentarios": "",
       "files": [],
       "notaRafael": null,
       "notaFernando": 8.5,
@@ -4120,22 +4293,31 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 8460
+      "malId": 8460,
+      "quemAssistiu": [
+        "Fernando",
+        "Dudu"
+      ],
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Lembro de ter bugado na época que assisti, não achei la aquelas coisas mas até que é legalzinho."
+        }
+      ],
+      "comentarios": "Dudu: Lembro de ter bugado na época que assisti, não achei la aquelas coisas mas até que é legalzinho.",
+      "updatedAt": {
+        "_seconds": 1777400764,
+        "_nanoseconds": 93000000
+      }
     },
     {
       "id": "3416beab-c784-81e8-b1f5-f54239f2c547",
       "nome": "Beyblade",
-      "quemAssistiu": [
-        "Fernando",
-        "Rafael",
-        "Dudu"
-      ],
       "nota": "7.75",
       "generos": [
         "Ação ⚔️",
         "Shounen 💥"
       ],
-      "comentarios": "",
       "files": [],
       "notaRafael": null,
       "notaFernando": 7.5,
@@ -4149,7 +4331,22 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 288
+      "malId": 288,
+      "quemAssistiu": [
+        "Fernando",
+        "Dudu"
+      ],
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "LET IT RIP!!."
+        }
+      ],
+      "comentarios": "Dudu: LET IT RIP!!.",
+      "updatedAt": {
+        "_seconds": 1777400776,
+        "_nanoseconds": 544000000
+      }
     },
     {
       "id": "3416beab-c784-817c-b960-dfa7b6a6c252",
@@ -4163,7 +4360,6 @@
         "Ação ⚔️",
         "Fantasia 🧙"
       ],
-      "comentarios": "",
       "files": [
         {
           "name": "Opening 1 (Original)",
@@ -4186,7 +4382,18 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 417
+      "malId": 417,
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Pra quem era fã do jogo Ragnarok, achar esse anime aqui foi tipo achar uma hidden gem."
+        }
+      ],
+      "comentarios": "Dudu: Pra quem era fã do jogo Ragnarok, achar esse anime aqui foi tipo achar uma hidden gem.",
+      "updatedAt": {
+        "_seconds": 1777400797,
+        "_nanoseconds": 387000000
+      }
     },
     {
       "id": "3416beab-c784-8131-b5e6-fd2f9eb9d1f4",
@@ -4444,11 +4651,6 @@
     {
       "id": "3416beab-c784-8126-bb1e-f91b9c04618b",
       "nome": "Zero no Tsukaima",
-      "quemAssistiu": [
-        "Rafael",
-        "Dudu",
-        "Hacksuya"
-      ],
       "nota": "7.50",
       "generos": [
         "Ação ⚔️",
@@ -4456,7 +4658,6 @@
         "Romance 💖",
         "Comédia 😂"
       ],
-      "comentarios": "",
       "files": [],
       "notaRafael": null,
       "notaFernando": null,
@@ -4470,22 +4671,31 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 1195
+      "malId": 1195,
+      "quemAssistiu": [
+        "Dudu"
+      ],
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Isekai mediano, não achei tão bom assim, tem melhores."
+        }
+      ],
+      "comentarios": "Dudu: Isekai mediano, não achei tão bom assim, tem melhores.",
+      "updatedAt": {
+        "_seconds": 1777400837,
+        "_nanoseconds": 376000000
+      }
     },
     {
       "id": "3416beab-c784-8136-af16-d8fce0e46233",
       "nome": "Baka to Test to ShōkanJū",
-      "quemAssistiu": [
-        "Dudu",
-        "Hacksuya"
-      ],
       "nota": "7.50",
       "generos": [
         "Comédia 😂",
         "Shounen 💥",
         "Fantasia 🧙"
       ],
-      "comentarios": "",
       "files": [
         {
           "name": "Opening 1",
@@ -4504,15 +4714,25 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 6347
+      "malId": 6347,
+      "quemAssistiu": [
+        "Dudu"
+      ],
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Segue a mesma linha do Zero no Tsukaima, não me pegou muito."
+        }
+      ],
+      "comentarios": "Dudu: Segue a mesma linha do Zero no Tsukaima, não me pegou muito.",
+      "updatedAt": {
+        "_seconds": 1777400851,
+        "_nanoseconds": 417000000
+      }
     },
     {
       "id": "3416beab-c784-8183-b6af-c4d30465d477",
       "nome": "Mondaiji-tachi ga Isekai kara Kuru Sou Desu yo",
-      "quemAssistiu": [
-        "Dudu",
-        "Hacksuya"
-      ],
       "nota": "7.50",
       "generos": [
         "Ação ⚔️",
@@ -4520,7 +4740,6 @@
         "Fantasia 🧙",
         "Comédia 😂"
       ],
-      "comentarios": "",
       "files": [
         {
           "name": "Opening 1",
@@ -4539,7 +4758,21 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 15315
+      "malId": 15315,
+      "quemAssistiu": [
+        "Dudu"
+      ],
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Isekai underground que eu achei aleatoriamente em 2013, uma pena ter tido só uma temporada, mas até que foi legal."
+        }
+      ],
+      "comentarios": "Dudu: Isekai underground que eu achei aleatoriamente em 2013, uma pena ter tido só uma temporada, mas até que foi legal.",
+      "updatedAt": {
+        "_seconds": 1777400875,
+        "_nanoseconds": 597000000
+      }
     },
     {
       "id": "3416beab-c784-81c1-add7-e533ad0bc187",
@@ -4582,7 +4815,6 @@
         "Fantasia 🧙",
         "Drama 😢"
       ],
-      "comentarios": "",
       "files": [],
       "notaRafael": null,
       "notaFernando": 7.4,
@@ -4596,7 +4828,18 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 26243
+      "malId": 26243,
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "O inicio parece promissor, mas sinto que o autor se perdeu um pouco na plot e no final, ficou meio bunda."
+        }
+      ],
+      "comentarios": "Dudu: O inicio parece promissor, mas sinto que o autor se perdeu um pouco na plot e no final, ficou meio bunda.",
+      "updatedAt": {
+        "_seconds": 1777400901,
+        "_nanoseconds": 898000000
+      }
     },
     {
       "id": "3416beab-c784-810b-8274-dd6b902c6d8d",
@@ -4920,17 +5163,21 @@
         "Fernando",
         "Dudu"
       ],
+      "notaSort": 7.17,
       "comments": [
         {
           "person": "Rafael",
           "text": "O anime em si é bom, porém os efeitos 3d e a fragilidade do protagonista irritam um pouco, anime mediano."
+        },
+        {
+          "person": "Dudu",
+          "text": "Achei o anime ok, não é um Jujutsu Kaisen da vida, mas até que foi legalzinho."
         }
       ],
-      "notaSort": 7.17,
-      "comentarios": "Rafael: O anime em si é bom, porém os efeitos 3d e a fragilidade do protagonista irritam um pouco, anime mediano.",
+      "comentarios": "Rafael: O anime em si é bom, porém os efeitos 3d e a fragilidade do protagonista irritam um pouco, anime mediano.\nDudu: Achei o anime ok, não é um Jujutsu Kaisen da vida, mas até que foi legalzinho.",
       "updatedAt": {
-        "_seconds": 1777355074,
-        "_nanoseconds": 790000000
+        "_seconds": 1777400932,
+        "_nanoseconds": 983000000
       }
     },
     {
@@ -4983,13 +5230,7 @@
     {
       "id": "3416beab-c784-8115-87a5-cbbc833efa18",
       "nome": "Captain Tsubasa",
-      "quemAssistiu": [
-        "Fernando",
-        "Rafael",
-        "Dudu"
-      ],
       "nota": "7.05",
-      "comentarios": "",
       "files": [],
       "notaRafael": null,
       "notaFernando": 7.1,
@@ -5008,7 +5249,22 @@
         "Shounen 💥",
         "Esportes ⚽",
         "Drama 😢"
-      ]
+      ],
+      "quemAssistiu": [
+        "Fernando",
+        "Dudu"
+      ],
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Esse aqui não chega aos pés de Inazuma Eleven, falo mesmo."
+        }
+      ],
+      "comentarios": "Dudu: Esse aqui não chega aos pés de Inazuma Eleven, falo mesmo.",
+      "updatedAt": {
+        "_seconds": 1777400958,
+        "_nanoseconds": 831000000
+      }
     },
     {
       "id": "3416beab-c784-80ac-b85d-edbb259d8ad7",
