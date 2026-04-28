@@ -1724,6 +1724,11 @@ tbody tr:hover {
   box-shadow: 10px 10px 0 rgba(31,41,51,0.12);
 }
 
+.post-featured {
+  overflow: hidden;
+  position: relative;
+}
+
 .blog-hero-card {
   background: #ffc857;
   min-height: 470px;
@@ -1742,7 +1747,7 @@ tbody tr:hover {
     var(--hero-anime-bg);
   background-position: center;
   background-size: cover;
-  border-color: rgba(251,191,36,0.55);
+  border-color: rgba(187,247,208,0.46);
 }
 
 .blog-hero-card.has-bg::before {
@@ -1752,6 +1757,21 @@ tbody tr:hover {
   pointer-events: none;
   position: absolute;
   z-index: 0;
+}
+
+.blog-hero-card.has-bg::after,
+.post-featured::after {
+  background: linear-gradient(135deg, rgba(220,252,231,0.78), rgba(134,239,172,0.44), rgba(187,247,208,0.7));
+  border-radius: inherit;
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 2;
+  padding: 1px;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
 }
 
 .blog-hero-card.has-bg h2,
@@ -2398,9 +2418,9 @@ body.dark-theme .blog-categories a:nth-child(5),
 body.dark-theme .post-featured,
 body.dark-theme .blog-hero-card:not(.has-bg) {
   background:
-    linear-gradient(145deg, rgba(251,191,36,0.22), rgba(24,23,29,0.96) 66%),
+    linear-gradient(145deg, rgba(187,247,208,0.16), rgba(24,23,29,0.96) 66%),
     var(--card);
-  border-color: rgba(251,191,36,0.38);
+  border-color: rgba(187,247,208,0.34);
 }
 
 body.dark-theme .blog-hero-card.has-bg {
@@ -2410,7 +2430,7 @@ body.dark-theme .blog-hero-card.has-bg {
     var(--hero-anime-bg);
   background-position: center;
   background-size: cover;
-  border-color: rgba(251,191,36,0.55);
+  border-color: rgba(187,247,208,0.46);
 }
 
 body.dark-theme .blog-hero-card.has-bg h2,
