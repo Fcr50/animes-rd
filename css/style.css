@@ -3029,12 +3029,12 @@ body.suggest-page.dark-theme::before {
   border-radius: 32px;
   box-shadow: 0 26px 70px rgba(0,0,0,0.3), 0 0 34px rgba(126,34,206,0.18);
   height: min(68vh, 660px);
-  left: calc((100vw - 1180px) / 4 - clamp(130px, 9.5vw, 180px) + 54px);
+  left: calc((100vw - 1180px) / 4 - clamp(130px, 9.5vw, 180px) + 28px);
   max-height: 660px;
   min-height: 500px;
   overflow: hidden;
   position: fixed;
-  top: 152px;
+  top: 172px;
   width: clamp(260px, 19vw, 360px);
   z-index: 1;
 }
