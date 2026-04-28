@@ -949,6 +949,57 @@ tbody td { padding: 12px 14px; vertical-align: middle; }
 .comment-empty { color: var(--faint); font-size: 12px; }
 .modal-comments { margin-top: 18px; }
 
+.modal-links {
+  background:
+    linear-gradient(135deg, rgba(216,180,254,0.12), rgba(187,247,208,0.07), rgba(186,230,253,0.08)),
+    rgba(12,12,17,0.58);
+  border: 1px solid rgba(221,214,254,0.18);
+  border-radius: 18px;
+  margin-top: 18px;
+  padding: 14px;
+}
+
+.modal-links h3 {
+  color: #f5d0fe;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.13em;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.modal-link-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.modal-link-chip {
+  background:
+    linear-gradient(135deg, rgba(216,180,254,0.18), rgba(186,230,253,0.1)),
+    rgba(16,16,20,0.7);
+  border: 1px solid rgba(216,180,254,0.28);
+  border-radius: 999px;
+  color: var(--paper);
+  font-size: 12px;
+  font-weight: 900;
+  padding: 8px 11px;
+  transition: border-color 0.18s ease, transform 0.18s ease;
+}
+
+.modal-link-chip:hover {
+  border-color: rgba(187,247,208,0.55);
+  transform: translateY(-1px);
+}
+
+.modal-link-opening {
+  border-color: rgba(187,247,208,0.28);
+}
+
+.modal-link-mal {
+  border-color: rgba(186,230,253,0.34);
+}
+
 .modal-comments h3 {
   color: var(--faint);
   font-size: 11px;
@@ -1000,6 +1051,49 @@ tbody td { padding: 12px 14px; vertical-align: middle; }
   letter-spacing: -0.02em;
   line-height: 1;
   margin: 0;
+}
+
+.anime-edit-collapsible {
+  display: block;
+}
+
+.anime-edit-summary {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  list-style: none;
+}
+
+.anime-edit-summary::-webkit-details-marker {
+  display: none;
+}
+
+.anime-edit-body {
+  display: grid;
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.edit-expand-button {
+  background: linear-gradient(90deg, #c4b5fd, #bae6fd);
+  border-radius: 999px;
+  color: #14101a;
+  flex: 0 0 auto;
+  font-size: 12px;
+  font-weight: 900;
+  padding: 9px 13px;
+}
+
+.anime-edit-collapsible[open] .edit-expand-button {
+  background: rgba(243,239,230,0.08);
+  border: 1px solid rgba(243,239,230,0.18);
+  color: var(--paper);
+}
+
+.anime-edit-collapsible[open] .edit-expand-button::before {
+  content: "Fechar ";
 }
 
 .anime-edit-panel p {

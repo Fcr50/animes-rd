@@ -376,6 +376,7 @@ function renderModal() {
       <div id="modal-genres" class="modal-genres"></div>
       <div class="notes-grid" id="modal-notes"></div>
       <div id="modal-meta" class="modal-meta"></div>
+      <div id="modal-links"></div>
       <div id="modal-comment"></div>
       <div id="modal-edit"></div>
     </div>
@@ -421,6 +422,8 @@ window.openModal = function(idx) {
   document.getElementById("modal-meta").innerHTML =
     metaItems.map((m) => `<span class="meta-item">${m}</span>`).join("");
 
+  document.getElementById("modal-links").innerHTML = renderAnimeLinks(a);
+
   const commentEl = document.getElementById("modal-comment");
   commentEl.innerHTML = renderComments(a);
 
@@ -429,6 +432,51 @@ window.openModal = function(idx) {
   document.getElementById("modal-overlay").classList.add("open");
   document.body.style.overflow = "hidden";
 };
+
+function renderAnimeLinks(anime) {
+  const links = [];
+  if (anime.malId) {
+    links.push({
+      label: "MyAnimeList",
+      href: `https://myanimelist.net/anime/${encodeURIComponent(anime.malId)}`,
+      kind: "mal",
+    });
+  }
+
+  const openingLinks = Array.isArray(anime.files)
+    ? anime.files
+        .filter((file) => file?.url && /opening|op\b/i.test(file.name || ""))
+        .slice(0, 3)
+        .map((file, index) => ({
+          label: file.name || `Opening ${index + 1}`,
+          href: file.url,
+          kind: "opening",
+        }))
+    : [];
+
+  if (openingLinks.length) {
+    links.push(...openingLinks);
+  } else {
+    links.push({
+      label: "Buscar openings",
+      href: `https://www.youtube.com/results?search_query=${encodeURIComponent(`${anime.nome} anime opening`)}`,
+      kind: "opening",
+    });
+  }
+
+  return `
+    <section class="modal-links">
+      <h3>Links úteis</h3>
+      <div class="modal-link-list">
+        ${links.map((link) => `
+          <a class="modal-link-chip modal-link-${link.kind}" href="${escapeHTML(link.href)}" target="_blank" rel="noopener noreferrer">
+            ${escapeHTML(link.label)}
+          </a>
+        `).join("")}
+      </div>
+    </section>
+  `;
+}
 
 function renderComments(anime) {
   const comments = commentsForAnime(anime);
@@ -496,27 +544,33 @@ function renderEditForm(anime) {
   const color = PERSON_LIGHTS[person] || "var(--accent)";
 
   return `
-    <section class="anime-edit-panel">
-      <div class="anime-edit-head">
+    <details class="anime-edit-panel anime-edit-collapsible">
+      <summary class="anime-edit-summary">
         <div>
           <h3>Seu registro</h3>
           <p>Editando como <strong style="color:${color}">${escapeHTML(person)}</strong></p>
         </div>
-        <button class="edit-link-button" type="button" data-logout-action>Sair</button>
-      </div>
-      <label class="edit-field">
+        <span class="edit-expand-button">Editar</span>
+      </summary>
+      <div class="anime-edit-body">
+        <div class="anime-edit-head">
+          <span></span>
+          <button class="edit-link-button" type="button" data-logout-action>Sair</button>
+        </div>
+        <label class="edit-field">
         <span>Nota</span>
         <input id="anime-edit-score" type="number" min="0" max="10" step="0.1" value="${score}" />
-      </label>
-      <label class="edit-field">
+        </label>
+        <label class="edit-field">
         <span>Comentário</span>
         <textarea id="anime-edit-comment" maxlength="600" placeholder="Escreva seu comentário...">${escapeHTML(comment)}</textarea>
-      </label>
-      <div class="anime-edit-actions">
+        </label>
+        <div class="anime-edit-actions">
         <button class="edit-button" type="button" data-save-anime-edit>${hasScore || comment ? "Salvar alterações" : "Enviar nota"}</button>
         <span id="anime-edit-status" class="edit-status"></span>
+        </div>
       </div>
-    </section>
+    </details>
   `;
 }
 
