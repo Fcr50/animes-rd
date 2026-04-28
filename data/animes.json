@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-28T18:10:55.042Z",
+  "updatedAt": "2026-04-28T18:14:38.740Z",
   "total": 180,
   "animes": [
     {
@@ -2006,17 +2006,11 @@
     {
       "id": "3416beab-c784-8134-9547-eae7f36f4184",
       "nome": "Naruto Clássico",
-      "quemAssistiu": [
-        "Fernando",
-        "Rafael",
-        "Dudu"
-      ],
       "nota": "8.73",
       "generos": [
         "Ação ⚔️",
         "Shounen 💥"
       ],
-      "comentarios": "",
       "files": [],
       "notaRafael": 8.9,
       "notaFernando": 8.8,
@@ -2024,13 +2018,29 @@
       "notaHacksuya": null,
       "maisDeUmVoto": "sim",
       "qtdVotos": 3,
-      "notaSort": 8.733333333333,
       "controversia": 0.4,
       "migratedAt": {
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 20
+      "malId": 20,
+      "quemAssistiu": [
+        "Rafael",
+        "Fernando",
+        "Dudu"
+      ],
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Narutinho pai, esse aqui é bom dmais."
+        }
+      ],
+      "notaSort": 8.73,
+      "comentarios": "Dudu: Narutinho pai, esse aqui é bom dmais.",
+      "updatedAt": {
+        "_seconds": 1777399901,
+        "_nanoseconds": 218000000
+      }
     },
     {
       "id": "3416beab-c784-812b-a609-f299b17ffa62",
@@ -2080,17 +2090,12 @@
     {
       "id": "3416beab-c784-81b6-830d-dbf66b57ab4e",
       "nome": "Charlotte",
-      "quemAssistiu": [
-        "Dudu",
-        "Hacksuya"
-      ],
       "nota": "8.70",
       "generos": [
         "Ação ⚔️",
         "Drama 😢",
         "Fantasia 🧙"
       ],
-      "comentarios": "",
       "files": [
         {
           "name": "Opening 1",
@@ -2109,7 +2114,21 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 28999
+      "malId": 28999,
+      "quemAssistiu": [
+        "Dudu"
+      ],
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Esse aqui é triste em, assista e prepare-se para as altas emoções."
+        }
+      ],
+      "comentarios": "Dudu: Esse aqui é triste em, assista e prepare-se para as altas emoções.",
+      "updatedAt": {
+        "_seconds": 1777399927,
+        "_nanoseconds": 635000000
+      }
     },
     {
       "id": "3416beab-c784-81c7-9aa1-ffd118720402",
@@ -2188,19 +2207,12 @@
     {
       "id": "3416beab-c784-8147-add1-c91abe0de226",
       "nome": "My Hero Academia",
-      "quemAssistiu": [
-        "Fernando",
-        "Rafael",
-        "Dudu",
-        "Hacksuya"
-      ],
       "nota": "8.65",
       "generos": [
         "Ação ⚔️",
         "Shounen 💥",
         "Fantasia 🧙"
       ],
-      "comentarios": "",
       "files": [],
       "notaRafael": null,
       "notaFernando": 8.5,
@@ -2214,23 +2226,32 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 31964
+      "malId": 31964,
+      "quemAssistiu": [
+        "Fernando",
+        "Dudu"
+      ],
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Muito bom, animação daora, prota meio chorão mas da pra relevar, essa parte da personalidade dele até tem um apelo legal na minha opinião."
+        }
+      ],
+      "comentarios": "Dudu: Muito bom, animação daora, prota meio chorão mas da pra relevar, essa parte da personalidade dele até tem um apelo legal na minha opinião.",
+      "updatedAt": {
+        "_seconds": 1777399956,
+        "_nanoseconds": 281000000
+      }
     },
     {
       "id": "3416beab-c784-818a-a4f2-e7f9deb135e3",
       "nome": "Cavaleiros do Zodíaco",
-      "quemAssistiu": [
-        "Fernando",
-        "Rafael",
-        "Dudu"
-      ],
       "nota": "8.65",
       "generos": [
         "Ação ⚔️",
         "Shounen 💥",
         "Fantasia 🧙"
       ],
-      "comentarios": "",
       "files": [],
       "notaRafael": null,
       "notaFernando": 8.8,
@@ -2244,7 +2265,22 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 1254
+      "malId": 1254,
+      "quemAssistiu": [
+        "Fernando",
+        "Dudu"
+      ],
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "PEGASUUUUUU."
+        }
+      ],
+      "comentarios": "Dudu: PEGASUUUUUU.",
+      "updatedAt": {
+        "_seconds": 1777399964,
+        "_nanoseconds": 626000000
+      }
     },
     {
       "id": "3416beab-c784-816f-a3c1-ff61deb9d883",
@@ -2423,18 +2459,12 @@
     {
       "id": "3416beab-c784-81db-84a5-f2e70b0214ee",
       "nome": "Bleach",
-      "quemAssistiu": [
-        "Fernando",
-        "Rafael",
-        "Dudu"
-      ],
       "nota": "8.55",
       "generos": [
         "Ação ⚔️",
         "Shounen 💥",
         "Fantasia 🧙"
       ],
-      "comentarios": "",
       "files": [],
       "notaRafael": null,
       "notaFernando": 8.6,
@@ -2448,7 +2478,22 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 269
+      "malId": 269,
+      "quemAssistiu": [
+        "Fernando",
+        "Dudu"
+      ],
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "BAN KAAAAI!"
+        }
+      ],
+      "comentarios": "Dudu: BAN KAAAAI!",
+      "updatedAt": {
+        "_seconds": 1777399983,
+        "_nanoseconds": 161000000
+      }
     },
     {
       "id": "3416beab-c784-812e-87c7-d5af55d67b32",
@@ -2509,12 +2554,7 @@
     {
       "id": "3416beab-c784-816a-ae6b-d81b43c1b74c",
       "nome": "Air Gear",
-      "quemAssistiu": [
-        "Dudu",
-        "Hacksuya"
-      ],
       "nota": "8.50",
-      "comentarios": "",
       "files": [
         {
           "name": "Opening 1",
@@ -2538,7 +2578,21 @@
         "Ação ⚔️",
         "Shounen 💥",
         "Esportes ⚽"
-      ]
+      ],
+      "quemAssistiu": [
+        "Dudu"
+      ],
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Incrivelmente um anime de patins conseguiu acertar e ser bom, uma pena que sofreu do mesmo mal de muitos da época, sem investimento para novas temporadas."
+        }
+      ],
+      "comentarios": "Dudu: Incrivelmente um anime de patins conseguiu acertar e ser bom, uma pena que sofreu do mesmo mal de muitos da época, sem investimento para novas temporadas.",
+      "updatedAt": {
+        "_seconds": 1777400018,
+        "_nanoseconds": 221000000
+      }
     },
     {
       "id": "3416beab-c784-81c0-8e45-ee0f7fbc9302",
