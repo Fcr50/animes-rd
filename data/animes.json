@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-28T04:53:28.011Z",
+  "updatedAt": "2026-04-28T04:57:03.027Z",
   "total": 176,
   "animes": [
     {
@@ -1931,19 +1931,23 @@
         "Fernando",
         "Dudu"
       ],
+      "notaSort": 8.63,
+      "notaRafael": 8.5,
+      "nota": "8.63",
       "comments": [
         {
           "person": "Rafael",
           "text": "Bomba."
+        },
+        {
+          "person": "Dudu",
+          "text": "Melhor prota dos animes, não perdoa uma"
         }
       ],
-      "notaSort": 8.63,
-      "notaRafael": 8.5,
-      "comentarios": "Rafael: Bomba.",
-      "nota": "8.63",
+      "comentarios": "Rafael: Bomba.\nDudu: Melhor prota dos animes, não perdoa uma",
       "updatedAt": {
-        "_seconds": 1777337570,
-        "_nanoseconds": 345000000
+        "_seconds": 1777352012,
+        "_nanoseconds": 565000000
       }
     },
     {
@@ -4692,18 +4696,18 @@
         "Dudu"
       ],
       "nota": "6.90",
+      "malId": 16524,
       "comments": [
         {
-          "text": "Não lembro de muita coisa da época que assisti ele, ja faz bastante tempo, mas foi bem meh e o anime se eu não me engano só tem 1 temporada com 12 episódios, uma tentativa que não foi pra frente aparentemente",
-          "person": "Dudu"
+          "person": "Dudu",
+          "text": "Não lembro de muita coisa da época que assisti ele, ja faz bastante tempo, mas foi bem meh e o anime se eu não me engano só tem 1 temporada com 12 episódios, uma tentativa que não foi pra frente aparentemente. Mas os mechas no anime são legais"
         }
       ],
-      "comentarios": "Dudu: Não lembro de muita coisa da época que assisti ele, ja faz bastante tempo, mas foi bem meh e o anime se eu não me engano só tem 1 temporada com 12 episódios, uma tentativa que não foi pra frente aparentemente",
+      "comentarios": "Dudu: Não lembro de muita coisa da época que assisti ele, ja faz bastante tempo, mas foi bem meh e o anime se eu não me engano só tem 1 temporada com 12 episódios, uma tentativa que não foi pra frente aparentemente. Mas os mechas no anime são legais",
       "updatedAt": {
-        "_seconds": 1777337548,
-        "_nanoseconds": 809000000
-      },
-      "malId": 16524
+        "_seconds": 1777352147,
+        "_nanoseconds": 501000000
+      }
     },
     {
       "id": "3416beab-c784-81f8-a819-e31a618f2b8e",
