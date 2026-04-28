@@ -257,7 +257,6 @@ function renderMemberPosts(animes) {
 
     return `
       <article class="post-card" style="--member-color:${color}">
-        <span class="post-kicker">${person}</span>
         <h3><span>Top 3</span>${person}</h3>
         <p>${watched.length} animes vistos, média ${avg ? avg.toFixed(2) : "--"} e gênero mais recorrente: ${favoriteGenre(animes, person)}.</p>
         <ol>
