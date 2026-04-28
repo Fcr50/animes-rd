@@ -3021,18 +3021,11 @@ body.suggest-page.dark-theme::before {
 }
 
 .nyx-left-art {
-  background:
-    radial-gradient(circle at 50% 12%, rgba(216,180,254,0.28), transparent 42%),
-    linear-gradient(160deg, rgba(31,20,48,0.78), rgba(10,15,23,0.88)) padding-box,
-    linear-gradient(145deg, rgba(216,180,254,0.62), rgba(167,139,250,0.38), rgba(186,230,253,0.26)) border-box;
-  border: 1px solid transparent;
-  border-radius: 32px;
-  box-shadow: 0 26px 70px rgba(0,0,0,0.3), 0 0 34px rgba(126,34,206,0.18);
   height: min(68vh, 660px);
   left: calc((100vw - 1180px) / 4 - clamp(130px, 9.5vw, 180px) + 28px);
   max-height: 660px;
   min-height: 500px;
-  overflow: hidden;
+  pointer-events: none;
   position: fixed;
   top: 172px;
   width: clamp(260px, 19vw, 360px);
@@ -3041,9 +3034,10 @@ body.suggest-page.dark-theme::before {
 
 .nyx-left-art img {
   display: block;
+  filter: drop-shadow(0 24px 42px rgba(0,0,0,0.34)) drop-shadow(0 0 24px rgba(168,85,247,0.2));
   height: 100%;
-  object-fit: cover;
-  object-position: center top;
+  object-fit: contain;
+  object-position: center bottom;
   width: 100%;
 }
 
