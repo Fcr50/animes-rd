@@ -583,23 +583,23 @@ button, input, select { font: inherit; }
 
 body.suggest-page,
 body.suggest-page.dark-theme {
-  --suggest-mint: #bbf7d0;
-  --suggest-sky: #bae6fd;
-  --suggest-pink: #ffd6e8;
-  --suggest-lilac: #ddd6fe;
+  --suggest-mint: #8fd9ad;
+  --suggest-sky: #86c7dc;
+  --suggest-pink: #d9a6bf;
+  --suggest-lilac: #b9a7df;
   background:
-    radial-gradient(circle at 18% 16%, rgba(221,214,254,0.32), transparent 360px),
-    radial-gradient(circle at 78% 8%, rgba(186,230,253,0.28), transparent 390px),
-    radial-gradient(circle at 50% 72%, rgba(255,214,232,0.16), transparent 440px),
-    linear-gradient(135deg, rgba(187,247,208,0.1), rgba(139,92,246,0.08) 45%, rgba(6,182,212,0.1)),
+    radial-gradient(circle at 18% 16%, rgba(185,167,223,0.22), transparent 340px),
+    radial-gradient(circle at 78% 8%, rgba(134,199,220,0.18), transparent 380px),
+    radial-gradient(circle at 50% 72%, rgba(217,166,191,0.1), transparent 420px),
+    linear-gradient(135deg, rgba(143,217,173,0.055), rgba(139,92,246,0.045) 45%, rgba(6,182,212,0.055)),
     var(--bg);
 }
 
 body.suggest-page::before {
-  opacity: 0.16;
+  opacity: 0.1;
   background-image:
-    linear-gradient(rgba(187,247,208,0.1) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(186,230,253,0.1) 1px, transparent 1px);
+    linear-gradient(rgba(143,217,173,0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(134,199,220,0.08) 1px, transparent 1px);
 }
 
 body.suggest-page .page {
@@ -610,22 +610,25 @@ body.suggest-page .page-header,
 body.suggest-page.dark-theme .page-header {
   border-bottom-color: rgba(186,230,253,0.22);
   margin-bottom: 30px;
+  padding-top: 10px;
 }
 
 body.suggest-page .page-header h1,
 body.suggest-page.dark-theme .page-header h1 {
-  background: linear-gradient(90deg, #fff7ed 0%, var(--suggest-pink) 32%, var(--suggest-mint) 68%, var(--suggest-sky) 100%);
+  background: linear-gradient(90deg, #f6eadb 0%, var(--suggest-pink) 32%, var(--suggest-mint) 68%, var(--suggest-sky) 100%);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
+  line-height: 1.12;
+  padding-top: 8px;
   -webkit-text-fill-color: transparent;
 }
 
 body.suggest-page .card.suggest-form-card {
   background:
-    linear-gradient(145deg, rgba(255,214,232,0.13), rgba(187,247,208,0.08) 44%, rgba(186,230,253,0.13)),
-    rgba(24,23,29,0.88);
-  border: 1px solid rgba(221,214,254,0.34);
+    linear-gradient(145deg, rgba(217,166,191,0.09), rgba(143,217,173,0.055) 44%, rgba(134,199,220,0.085)),
+    rgba(24,23,29,0.92);
+  border: 1px solid rgba(185,167,223,0.24);
   border-radius: 28px;
   box-shadow: 0 26px 80px rgba(0,0,0,0.34), 0 0 0 1px rgba(255,255,255,0.035) inset;
   margin: 0 auto;
