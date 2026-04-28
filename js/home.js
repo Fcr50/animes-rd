@@ -44,8 +44,12 @@ const HERO_IMAGE_FALLBACKS = {
 
 const FEATURED_ROTATION_HOURS = 5;
 const FEATURED_ROTATION_SALT = "test-swap-1";
+const YOUTUBE_PLAYLIST_URL = "https://youtube.com/playlist?list=PLjNlQ2vXx1xbt30X8TcUfNzw_akVISXEu&si=sjrgOdNP3MwdhC6D";
+const SPOTIFY_PLAYLIST_URL = "https://open.spotify.com/playlist/2Uz95kBY93CizCzICWnx3d?si=ae6d73f6c6934528";
+const MAL_NEWS_URL = "https://myanimelist.net/news";
 
 let featuredCommentTimer = null;
+let heroInfoTimer = null;
 
 function topAnimesByPerson(animes, person) {
   return animesOf(animes, person)
@@ -230,10 +234,88 @@ async function getAnimeHeroImage(anime) {
   return imageUrl;
 }
 
+function renderHeroInfoRotator(data, date, featuredAnime) {
+  const rotator = document.getElementById("blog-hero-rotator");
+  if (!rotator) return;
+
+  if (heroInfoTimer) {
+    clearInterval(heroInfoTimer);
+    heroInfoTimer = null;
+  }
+
+  const subtitle = `${data.total} animes catalogados, atualizado em ${date.toLocaleDateString("pt-BR")}. Um blog para transformar nota, treta e recomendacao em leitura.`;
+  const featuredTitle = featuredAnime?.nome || "o proximo anime";
+  const featuredHref = featuredAnime?.id ? `acervo.html?anime=${encodeURIComponent(featuredAnime.id)}` : "acervo.html";
+
+  const slides = [
+    {
+      eyebrow: `Blog <span class="brand-gradient">Animes RD</span>`,
+      title: "Criticas, rankings e guias para decidir o proximo anime.",
+      text: subtitle,
+      links: [{ label: "Abrir acervo", href: "acervo.html" }],
+    },
+    {
+      eyebrow: "Playlists do grupo",
+      title: "Openings para deixar tocando enquanto escolhe.",
+      text: "Duas playlists pra entrar no clima: YouTube e Spotify, com a vibe do Animes RD.",
+      links: [
+        { label: "YouTube", href: YOUTUBE_PLAYLIST_URL },
+        { label: "Spotify", href: SPOTIFY_PLAYLIST_URL },
+      ],
+    },
+    {
+      eyebrow: "Noticias",
+      title: "Radar MyAnimeList para novidades da temporada.",
+      text: "Um atalho para acompanhar anuncios, trailers, estreias e movimentacoes do mundo dos animes.",
+      links: [{ label: "Ver noticias MAL", href: MAL_NEWS_URL }],
+    },
+    {
+      eyebrow: "Dica em destaque",
+      title: `Hoje o acervo esta puxando: ${featuredTitle}.`,
+      text: featuredAnime
+        ? `Nota geral ${formatNota(featuredAnime.nota)} com ${featuredAnime.qtdVotos} votos no grupo.`
+        : "Assim que houver dados, a recomendacao aparece por aqui.",
+      links: [{ label: "Ler no acervo", href: featuredHref }],
+    },
+  ];
+
+  rotator.innerHTML = `
+    ${slides.map((slide, index) => `
+      <section class="blog-hero-slide ${index === 0 ? "active" : ""}" data-hero-slide="${index}">
+        <span class="eyebrow">${slide.eyebrow}</span>
+        <h1>${escapeHTML(slide.title)}</h1>
+        <p ${index === 0 ? 'id="home-subtitle"' : ""}>${escapeHTML(slide.text)}</p>
+        <div class="blog-hero-slide-links">
+          ${slide.links.map((link) => `
+            <a href="${escapeHTML(link.href)}" ${link.href.startsWith("http") ? 'target="_blank" rel="noopener noreferrer"' : ""}>${escapeHTML(link.label)}</a>
+          `).join("")}
+        </div>
+      </section>
+    `).join("")}
+    <div class="blog-hero-dots" aria-hidden="true">
+      ${slides.map((_, index) => `<span class="${index === 0 ? "active" : ""}" data-hero-dot="${index}"></span>`).join("")}
+    </div>
+  `;
+
+  let active = 0;
+  const showSlide = (next) => {
+    const slideEls = rotator.querySelectorAll("[data-hero-slide]");
+    const dots = rotator.querySelectorAll("[data-hero-dot]");
+    slideEls[active]?.classList.remove("active");
+    dots[active]?.classList.remove("active");
+    active = next % slideEls.length;
+    slideEls[active]?.classList.add("active");
+    dots[active]?.classList.add("active");
+  };
+
+  heroInfoTimer = setInterval(() => showSlide(active + 1), 3000);
+}
+
 async function renderHero(data) {
   const date = new Date(data.updatedAt);
   const top = featuredAnimeForNow(data.animes);
   const heroImage = await getAnimeHeroImage(top);
+  renderHeroInfoRotator(data, date, top);
   document.getElementById("home-subtitle").textContent =
     `${data.total} animes catalogados, atualizado em ${date.toLocaleDateString("pt-BR")}. Um blog para transformar nota, treta e recomendação em leitura.`;
 
