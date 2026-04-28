@@ -8,7 +8,6 @@ if (currentPage !== "nyx.html") {
   link.title = "Blog da Nyx";
   link.innerHTML = `
     <img src="assets/nyx-icon.png" alt="" />
-    <span>Nyx</span>
   `;
   document.body.appendChild(link);
 }
