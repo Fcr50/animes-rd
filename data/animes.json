@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-28T04:49:41.266Z",
+  "updatedAt": "2026-04-28T04:53:28.011Z",
   "total": 176,
   "animes": [
     {
@@ -1704,12 +1704,6 @@
     {
       "id": "3416beab-c784-812b-a609-f299b17ffa62",
       "nome": "Highschool DxD",
-      "quemAssistiu": [
-        "Fernando",
-        "Rafael",
-        "Dudu",
-        "Hacksuya"
-      ],
       "nota": "8.70",
       "generos": [
         "Fantasia 🧙",
@@ -1717,7 +1711,6 @@
         "Comédia 😂",
         "Romance 💖"
       ],
-      "comentarios": "",
       "files": [],
       "notaRafael": 9.8,
       "notaFernando": 7.3,
@@ -1731,7 +1724,23 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 11617
+      "malId": 11617,
+      "quemAssistiu": [
+        "Rafael",
+        "Fernando",
+        "Dudu"
+      ],
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Só as tetas da Rias Gremory ja valem um 10, mas coloquei um 9 pra não aloprar"
+        }
+      ],
+      "comentarios": "Dudu: Só as tetas da Rias Gremory ja valem um 10, mas coloquei um 9 pra não aloprar",
+      "updatedAt": {
+        "_seconds": 1777351963,
+        "_nanoseconds": 87000000
+      }
     },
     {
       "id": "3416beab-c784-81b6-830d-dbf66b57ab4e",
@@ -3892,7 +3901,6 @@
         "Drama 😢",
         "Fantasia 🧙"
       ],
-      "comentarios": "",
       "files": [
         {
           "name": "Opening 1",
@@ -3911,7 +3919,18 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 37520
+      "malId": 37520,
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Muito bom até a metade, mas após isso ficou muito rushado e perdeu a qualidade"
+        }
+      ],
+      "comentarios": "Dudu: Muito bom até a metade, mas após isso ficou muito rushado e perdeu a qualidade",
+      "updatedAt": {
+        "_seconds": 1777351901,
+        "_nanoseconds": 111000000
+      }
     },
     {
       "id": "3416beab-c784-8118-b902-d41371cc8d8d",
@@ -4453,10 +4472,6 @@
     {
       "id": "3416beab-c784-8174-824c-e8f423e68f17",
       "nome": "Fairy Tail",
-      "quemAssistiu": [
-        "Dudu",
-        "Hacksuya"
-      ],
       "nota": "7.00",
       "generos": [
         "Ação ⚔️",
@@ -4464,7 +4479,6 @@
         "Fantasia 🧙",
         "Comédia 😂"
       ],
-      "comentarios": "",
       "files": [
         {
           "name": "All Openings",
@@ -4483,7 +4497,21 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 6702
+      "malId": 6702,
+      "quemAssistiu": [
+        "Dudu"
+      ],
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Meu eu adolescente achava Fairy Tail um 10, mas hoje em dia percebo que é o famoso clichêzão de poder da amizade e prota sempre vence, hoje em dia recomendaria apenas assistir as melhores lutas."
+        }
+      ],
+      "comentarios": "Dudu: Meu eu adolescente achava Fairy Tail um 10, mas hoje em dia percebo que é o famoso clichêzão de poder da amizade e prota sempre vence, hoje em dia recomendaria apenas assistir as melhores lutas.",
+      "updatedAt": {
+        "_seconds": 1777351801,
+        "_nanoseconds": 691000000
+      }
     },
     {
       "id": "3416beab-c784-81d1-abec-fa1b709d5ce0",
