@@ -186,15 +186,40 @@ async function renderSubmissionForm() {
   animeNameInput?.addEventListener("input", () => {
     clearTimeout(searchDebounce);
     const name = animeNameInput.value.trim();
-    if (name.length < 3) return;
+    const statusEl = document.getElementById("genres-status");
+    const officialEl = document.getElementById("official-title");
+    const submitBtn = document.getElementById("submit-anime-button");
+
+    if (name.length < 3) {
+        if(statusEl) statusEl.textContent = "";
+        if(officialEl) officialEl.textContent = "";
+        return;
+    }
+    
+    if(statusEl) statusEl.textContent = "buscando...";
+    if(submitBtn) submitBtn.disabled = true;
+
     searchDebounce = setTimeout(async () => {
-      const animeData = await fetchAnimeData(name);
-      currentAnimeData = animeData;
-      if (animeData) {
-        document.getElementById("anime-genres").value = animeData.genres.join(", ");
-        document.getElementById("official-title").textContent = `Encontrado: ${animeData.officialTitle}`;
-        const duplicates = await checkDuplicates(animeData.malId, name);
-        document.getElementById("duplicate-warning").textContent = duplicates.length ? `🚫 "${duplicates[0]}" já existe` : "";
+      try {
+          const animeData = await fetchAnimeData(name);
+          currentAnimeData = animeData;
+          if (animeData) {
+            document.getElementById("anime-genres").value = animeData.genres.join(", ");
+            if(statusEl) {
+                statusEl.textContent = "✓ preenchido";
+                statusEl.style.color = "#34d399";
+            }
+            if(officialEl) officialEl.textContent = `Encontrado: ${animeData.officialTitle}`;
+            const duplicates = await checkDuplicates(animeData.malId, name);
+            document.getElementById("duplicate-warning").textContent = duplicates.length ? `🚫 "${duplicates[0]}" já existe` : "";
+            if(submitBtn) submitBtn.disabled = duplicates.length > 0;
+          } else {
+            if(statusEl) statusEl.textContent = "não encontrado";
+            if(submitBtn) submitBtn.disabled = false;
+          }
+      } catch (e) {
+          if(statusEl) statusEl.textContent = "erro na busca";
+          if(submitBtn) submitBtn.disabled = false;
       }
     }, 700);
   });
@@ -211,12 +236,10 @@ function renderPendingAnimes(animes) {
     const isVoted = anime.votedUserIds?.includes(currentUser?.uid);
     const userVote = currentUser?.personName ? anime.votes?.[currentUser.personName] : null;
     
-    // Substituindo bolinhas por iniciais coloridas
     let dots = PEOPLE.map(p => {
         const hasVoted = anime.votes && anime.votes[p];
         const color = PERSON_COLORS[p] || '#ccc';
         const lightColor = PERSON_LIGHTS[p] || 'rgba(255,255,255,0.1)';
-        
         return `
           <span title="${p}: ${hasVoted ? 'Já votou' : 'Pendente'}" 
                 style="display:inline-flex; width:22px; height:22px; border-radius:50%; 
@@ -291,7 +314,6 @@ window.handleEditVote = (animeId) => {
 };
 
 window.showUserSelectionModal = showUserSelectionModal;
-
 async function handleLogin() { await signInWithPopup(auth, new GoogleAuthProvider()); }
 async function handleLogout() { await signOut(auth); }
 
@@ -324,6 +346,7 @@ async function handleSubmitAnime() {
     alert("Anime sugerido!");
     document.getElementById("anime-name").value = "";
     document.getElementById("anime-genres").value = "";
+    document.getElementById("official-title").textContent = "";
     currentAnimeData = null;
   } catch (e) { alert("Erro ao sugerir."); } finally { submitBtn.disabled = false; }
 }
