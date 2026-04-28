@@ -3028,14 +3028,15 @@ body.suggest-page.dark-theme::before {
   border: 1px solid transparent;
   border-radius: 32px;
   box-shadow: 0 26px 70px rgba(0,0,0,0.3), 0 0 34px rgba(126,34,206,0.18);
-  height: min(70vh, 680px);
-  left: calc((100vw - 1180px) / -2 + 22px);
-  max-height: 680px;
-  min-height: 520px;
+  height: min(68vh, 660px);
+  left: calc((100vw - 1180px) / 4 - clamp(130px, 9vw, 180px));
+  max-height: 660px;
+  min-height: 500px;
   overflow: hidden;
-  position: absolute;
-  top: 64px;
+  position: fixed;
+  top: 112px;
   width: clamp(260px, 19vw, 360px);
+  z-index: 1;
 }
 
 .nyx-left-art img {
