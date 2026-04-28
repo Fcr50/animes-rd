@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-28T16:54:53.258Z",
+  "updatedAt": "2026-04-28T16:57:57.301Z",
   "total": 180,
   "animes": [
     {
@@ -4963,12 +4963,6 @@
     {
       "id": "hJxxL5kkUMT3R4eYZuPJ",
       "nome": "Suisei no Gargantia",
-      "generos": [
-        "Ficção científica social",
-        "Aventura",
-        "Mecha",
-        "Romance"
-      ],
       "files": [],
       "maisDeUmVoto": "nao",
       "qtdVotos": 1,
@@ -4993,7 +4987,13 @@
       "updatedAt": {
         "_seconds": 1777352412,
         "_nanoseconds": 572000000
-      }
+      },
+      "generos": [
+        "Ficção Científica 🚀",
+        "Aventura",
+        "Mecha",
+        "Romance"
+      ]
     },
     {
       "id": "8mOpl1lrAUMDw4eVRryb",
