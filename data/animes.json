@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-04-28T13:07:19.913Z",
-  "total": 176,
+  "updatedAt": "2026-04-28T16:41:40.165Z",
+  "total": 180,
   "animes": [
     {
       "id": "3416beab-c784-813f-bff6-df2369802356",
@@ -25,20 +25,24 @@
         "Rafael",
         "Fernando"
       ],
-      "comments": [
-        {
-          "person": "Rafael",
-          "text": "Um bom anime"
-        }
-      ],
-      "comentarios": "Rafael: Um bom anime",
       "controversia": 0.1,
       "notaSort": 9.95,
       "notaRafael": 9.9,
       "nota": "9.95",
+      "comments": [
+        {
+          "person": "Rafael",
+          "text": "Um bom anime"
+        },
+        {
+          "person": "Fernando",
+          "text": "Não desista depois de 3 eps, o ritmo é lento mesmo no inicio mas a história é PIKA"
+        }
+      ],
+      "comentarios": "Rafael: Um bom anime\nFernando: Não desista depois de 3 eps, o ritmo é lento mesmo no inicio mas a história é PIKA",
       "updatedAt": {
-        "_seconds": 1777328219,
-        "_nanoseconds": 894000000
+        "_seconds": 1777387432,
+        "_nanoseconds": 359000000
       }
     },
     {
@@ -112,19 +116,12 @@
     {
       "id": "3416beab-c784-8112-b256-c046f02ed035",
       "nome": "Attack on Titan",
-      "quemAssistiu": [
-        "Fernando",
-        "Rafael",
-        "Dudu",
-        "Hacksuya"
-      ],
       "nota": "9.55",
       "generos": [
         "Ação ⚔️",
         "Drama 😢",
         "Fantasia 🧙"
       ],
-      "comentarios": "",
       "files": [],
       "notaRafael": null,
       "notaFernando": 9.3,
@@ -138,7 +135,22 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 16498
+      "malId": 16498,
+      "quemAssistiu": [
+        "Fernando",
+        "Dudu"
+      ],
+      "comments": [
+        {
+          "person": "Fernando",
+          "text": "se é plottwist q tu gosta, veja isso, historia pensada completamente desde o primeiro ep 👀"
+        }
+      ],
+      "comentarios": "Fernando: se é plottwist q tu gosta, veja isso, historia pensada completamente desde o primeiro ep 👀",
+      "updatedAt": {
+        "_seconds": 1777387647,
+        "_nanoseconds": 162000000
+      }
     },
     {
       "id": "3416beab-c784-8141-878f-edc65a311ea1",
@@ -184,12 +196,16 @@
         {
           "person": "Rafael",
           "text": "O anime é excepcional no que se propõe, minha comédia favorita e um dos meus animes favoritos."
+        },
+        {
+          "person": "Fernando",
+          "text": "Exploooosion"
         }
       ],
-      "comentarios": "Rafael: O anime é excepcional no que se propõe, minha comédia favorita e um dos meus animes favoritos.",
+      "comentarios": "Rafael: O anime é excepcional no que se propõe, minha comédia favorita e um dos meus animes favoritos.\nFernando: Exploooosion",
       "updatedAt": {
-        "_seconds": 1777355302,
-        "_nanoseconds": 258000000
+        "_seconds": 1777387932,
+        "_nanoseconds": 804000000
       }
     },
     {
@@ -282,19 +298,23 @@
         "Dudu"
       ],
       "qtdVotos": 3,
+      "notaSort": 9.47,
+      "notaRafael": 9.2,
+      "nota": "9.47",
       "comments": [
         {
           "person": "Rafael",
           "text": "Melhor anime de esportes!"
+        },
+        {
+          "person": "Fernando",
+          "text": "Se você não gosta de anime de esportes é poruqe você nunca viu esse, pqp, perfeito"
         }
       ],
-      "notaSort": 9.47,
-      "notaRafael": 9.2,
-      "comentarios": "Rafael: Melhor anime de esportes!",
-      "nota": "9.47",
+      "comentarios": "Rafael: Melhor anime de esportes!\nFernando: Se você não gosta de anime de esportes é poruqe você nunca viu esse, pqp, perfeito",
       "updatedAt": {
-        "_seconds": 1777340182,
-        "_nanoseconds": 297000000
+        "_seconds": 1777387985,
+        "_nanoseconds": 587000000
       }
     },
     {
@@ -332,18 +352,12 @@
     {
       "id": "3416beab-c784-8154-b481-e7ce9de61af7",
       "nome": "Shigatsu wa Kimi no Uso",
-      "quemAssistiu": [
-        "Fernando",
-        "Dudu",
-        "Hacksuya"
-      ],
       "nota": "9.45",
       "generos": [
         "Drama 😢",
         "Romance 💖",
         "Slice of Life 🍃"
       ],
-      "comentarios": "",
       "files": [],
       "notaRafael": null,
       "notaFernando": 9.4,
@@ -357,7 +371,22 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 23273
+      "malId": 23273,
+      "quemAssistiu": [
+        "Fernando",
+        "Dudu"
+      ],
+      "comments": [
+        {
+          "person": "Fernando",
+          "text": "Aquela maldita mentira, se tem pensamentos suicidas não veja esse anime, 10/10, animação desnecessáriamente boa"
+        }
+      ],
+      "comentarios": "Fernando: Aquela maldita mentira, se tem pensamentos suicidas não veja esse anime, 10/10, animação desnecessáriamente boa",
+      "updatedAt": {
+        "_seconds": 1777387814,
+        "_nanoseconds": 20000000
+      }
     },
     {
       "id": "3416beab-c784-815a-b830-c61e927ffd26",
@@ -773,12 +802,16 @@
         {
           "person": "Rafael",
           "text": "Bom anime"
+        },
+        {
+          "person": "Fernando",
+          "text": "Melhor anime já feito, vários animes se inspiraram nele, Naruto, Jujutsu Kaisen, Shaman King, Solo Leveling entre outros"
         }
       ],
-      "comentarios": "Rafael: Bom anime",
+      "comentarios": "Rafael: Bom anime\nFernando: Melhor anime já feito, vários animes se inspiraram nele, Naruto, Jujutsu Kaisen, Shaman King, Solo Leveling entre outros",
       "updatedAt": {
-        "_seconds": 1777334154,
-        "_nanoseconds": 467000000
+        "_seconds": 1777387917,
+        "_nanoseconds": 57000000
       }
     },
     {
@@ -1171,6 +1204,36 @@
         "_nanoseconds": 493000000
       },
       "malId": 40748
+    },
+    {
+      "id": "UttSCzqfHg43aHHh7FyR",
+      "nome": "The \"Hentai\" Prince and the Stony Cat",
+      "generos": [
+        "Comédia",
+        "Romance",
+        "Sobrenatural"
+      ],
+      "malId": 15225,
+      "comentarios": "Dudu: O hentai no nome é bait, o anime tem até que um certo nível de ecchi, mas não é nada exagerado, e o anime acaba sendo até fofinho de certa forma",
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "O hentai no nome é bait, o anime tem até que um certo nível de ecchi, mas não é nada exagerado, e o anime acaba sendo até fofinho de certa forma"
+        }
+      ],
+      "files": [],
+      "maisDeUmVoto": "nao",
+      "qtdVotos": 1,
+      "controversia": 0,
+      "notaSort": 9,
+      "notaRafael": null,
+      "notaFernando": null,
+      "notaDudu": 9,
+      "notaHacksuya": null,
+      "quemAssistiu": [
+        "Dudu"
+      ],
+      "nota": "9.00"
     },
     {
       "id": "3416beab-c784-81b8-b86e-cc9ccb05f870",
@@ -4417,6 +4480,36 @@
       "malId": 13601
     },
     {
+      "id": "zYfLlKnbUcSwodnE5xfR",
+      "nome": "Our Last Crusade or the Rise of a New World",
+      "generos": [
+        "Ação",
+        "Fantasia",
+        "Romance"
+      ],
+      "malId": 40595,
+      "comentarios": "Rafael: O lado do romance é bem trabalhado e legal, mas a história deixa um pouco a desejar assim como a animação, o prota é legalzinho.",
+      "comments": [
+        {
+          "person": "Rafael",
+          "text": "O lado do romance é bem trabalhado e legal, mas a história deixa um pouco a desejar assim como a animação, o prota é legalzinho."
+        }
+      ],
+      "files": [],
+      "maisDeUmVoto": "nao",
+      "qtdVotos": 1,
+      "controversia": 0,
+      "notaSort": 7.3,
+      "notaRafael": 7.3,
+      "notaFernando": null,
+      "notaDudu": null,
+      "notaHacksuya": null,
+      "quemAssistiu": [
+        "Rafael"
+      ],
+      "nota": "7.30"
+    },
+    {
       "id": "3416beab-c784-8180-9109-f0cc75d9ab85",
       "nome": "Sailor Moon",
       "quemAssistiu": [
@@ -4901,6 +4994,69 @@
         "_seconds": 1777352412,
         "_nanoseconds": 572000000
       }
+    },
+    {
+      "id": "8mOpl1lrAUMDw4eVRryb",
+      "nome": "Death March to the Parallel World Rhapsody",
+      "generos": [
+        "Aventura",
+        "Fantasia",
+        "Bomba"
+      ],
+      "malId": 34497,
+      "comentarios": "Rafael: Anime bem ruim, muito mal animado, mas serve para passar o tempo, existe algumas interações estranhas entre o prota e suas escravas, mas, nunca passado ponto.",
+      "comments": [
+        {
+          "person": "Rafael",
+          "text": "Anime bem ruim, muito mal animado, mas serve para passar o tempo, existe algumas interações estranhas entre o prota e suas escravas, mas, nunca passado ponto."
+        }
+      ],
+      "files": [],
+      "maisDeUmVoto": "nao",
+      "qtdVotos": 1,
+      "controversia": 0,
+      "notaSort": 6,
+      "notaRafael": 6,
+      "notaFernando": null,
+      "notaDudu": null,
+      "notaHacksuya": null,
+      "quemAssistiu": [
+        "Rafael"
+      ],
+      "nota": "6.00"
+    },
+    {
+      "id": "yoQUG9RnfyqfSuvWPSLj",
+      "nome": "In Another World With My Smartphone",
+      "generos": [
+        "Aventura",
+        "Comédia",
+        "Fantasia",
+        "Romance",
+        "Bomba"
+      ],
+      "malId": 35203,
+      "comentarios": "Rafael: Anime Bomba, muito errado em vários sentidos. Assista por sua conta e risco.",
+      "comments": [
+        {
+          "person": "Rafael",
+          "text": "Anime Bomba, muito errado em vários sentidos. Assista por sua conta e risco."
+        }
+      ],
+      "files": [],
+      "maisDeUmVoto": "nao",
+      "qtdVotos": 2,
+      "controversia": 0,
+      "notaSort": 5.25,
+      "notaRafael": 5.5,
+      "notaFernando": null,
+      "notaDudu": null,
+      "notaHacksuya": 5,
+      "quemAssistiu": [
+        "Rafael",
+        "Hacksuya"
+      ],
+      "nota": "5.25"
     },
     {
       "id": "3416beab-c784-81f8-a819-e31a618f2b8e",
