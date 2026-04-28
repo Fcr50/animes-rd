@@ -1887,12 +1887,6 @@ tbody tr:hover {
   z-index: 1;
 }
 
-.featured-post-content {
-  margin-top: auto;
-  position: relative;
-  z-index: 1;
-}
-
 .comment-balloon {
   --balloon-drift: 8px;
   --balloon-tilt: -1.5deg;

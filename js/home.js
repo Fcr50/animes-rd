@@ -224,12 +224,6 @@ function renderFeaturedPost(animes) {
   document.getElementById("featured-post").innerHTML = `
     <h2 class="featured-comment-title">Comentários</h2>
     <div class="featured-comment-wall" id="featured-comments" aria-live="polite"></div>
-    <div class="featured-post-content">
-      <p>
-        A nota coletiva ajuda a separar hype de favorito real. Este destaque usa apenas animes
-        com mais de um voto para valorizar consenso, discordância e gosto compartilhado.
-      </p>
-    </div>
   `;
 
   startFeaturedCommentRotation(comments);
