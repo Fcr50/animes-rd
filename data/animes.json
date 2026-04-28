@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-04-28T00:15:24.641Z",
-  "total": 175,
+  "updatedAt": "2026-04-28T00:41:11.117Z",
+  "total": 176,
   "animes": [
     {
       "id": "3416beab-c784-813f-bff6-df2369802356",
@@ -4543,6 +4543,30 @@
         "_nanoseconds": 493000000
       },
       "malId": 41025
+    },
+    {
+      "id": "hJxxL5kkUMT3R4eYZuPJ",
+      "nome": "Suisei no Gargantia",
+      "generos": [
+        "Ficção científica social",
+        "Aventura",
+        "Mecha",
+        "Romance"
+      ],
+      "comentarios": "Não lembro de muita coisa da época que assisti ele, ja faz bastante tempo, mas foi bem meh e o anime se eu não me engano só tem 1 temporada com 12 episódios, uma tentativa que não foi pra frente aparentemente",
+      "files": [],
+      "maisDeUmVoto": "nao",
+      "qtdVotos": 1,
+      "controversia": 0,
+      "notaSort": 6.9,
+      "notaRafael": null,
+      "notaFernando": null,
+      "notaDudu": 6.9,
+      "notaHacksuya": null,
+      "quemAssistiu": [
+        "Dudu"
+      ],
+      "nota": "6.90"
     },
     {
       "id": "3416beab-c784-81f8-a819-e31a618f2b8e",
