@@ -42,6 +42,9 @@ const HERO_IMAGE_FALLBACKS = {
   52991: "https://cdn.myanimelist.net/images/anime/1015/138006l.jpg",
 };
 
+const FEATURED_ROTATION_HOURS = 5;
+const FEATURED_ROTATION_SALT = "test-swap-1";
+
 let featuredCommentTimer = null;
 
 function topAnimesByPerson(animes, person) {
@@ -56,6 +59,25 @@ function sharedTop(animes) {
     .filter((anime) => anime.nota !== null && anime.qtdVotos > 1)
     .sort((a, b) => Number(b.nota) - Number(a.nota))
     .slice(0, 6);
+}
+
+function hashText(value) {
+  return String(value).split("").reduce((hash, char) => {
+    return ((hash << 5) - hash + char.charCodeAt(0)) | 0;
+  }, 0);
+}
+
+function featuredAnimeForNow(animes) {
+  const candidates = [...animes]
+    .filter((anime) => Number(anime.nota) > 9)
+    .sort((a, b) => String(a.id || a.nome).localeCompare(String(b.id || b.nome)));
+
+  if (!candidates.length) return sharedTop(animes)[0];
+
+  const rotationMs = FEATURED_ROTATION_HOURS * 60 * 60 * 1000;
+  const rotationBlock = Math.floor(Date.now() / rotationMs);
+  const seed = Math.abs(hashText(`animes-rd-featured-${FEATURED_ROTATION_SALT}-${rotationBlock}`));
+  return candidates[seed % candidates.length];
 }
 
 function shortName(name, size = 44) {
@@ -210,7 +232,7 @@ async function getAnimeHeroImage(anime) {
 
 async function renderHero(data) {
   const date = new Date(data.updatedAt);
-  const top = sharedTop(data.animes)[0];
+  const top = featuredAnimeForNow(data.animes);
   const heroImage = await getAnimeHeroImage(top);
   document.getElementById("home-subtitle").textContent =
     `${data.total} animes catalogados, atualizado em ${date.toLocaleDateString("pt-BR")}. Um blog para transformar nota, treta e recomendação em leitura.`;
@@ -218,8 +240,8 @@ async function renderHero(data) {
   const heroPanel = document.getElementById("hero-panel");
   if (heroImage) {
     heroPanel.style.background = `
-      linear-gradient(180deg, rgba(16,16,20,0.5), rgba(16,16,20,0.8)),
-      linear-gradient(90deg, rgba(16,16,20,0.76), rgba(16,16,20,0.3)),
+      linear-gradient(180deg, rgba(16,16,20,0.34), rgba(16,16,20,0.66)),
+      linear-gradient(90deg, rgba(16,16,20,0.58), rgba(16,16,20,0.16)),
       url("${heroImage}")
     `;
     heroPanel.style.backgroundPosition = "center";
@@ -231,7 +253,7 @@ async function renderHero(data) {
     <span class="post-kicker">Destaque do acervo</span>
     <h2>${top ? top.nome : "Base carregada"}</h2>
     <p>${top ? `Nota geral ${formatNota(top.nota)} com ${top.qtdVotos} votos no grupo.` : "Assim que houver dados, o destaque aparece aqui."}</p>
-    <a href="acervo.html">Ler no acervo</a>
+    <a href="${top?.id ? `acervo.html?anime=${encodeURIComponent(top.id)}` : "acervo.html"}">Ler no acervo</a>
   `;
 }
 

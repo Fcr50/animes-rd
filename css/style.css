@@ -1884,7 +1884,7 @@ body.blog-page::before {
 }
 
 .blog-hero-card.has-bg::before {
-  background: rgba(16,16,20,0.28);
+  background: rgba(16,16,20,0.12);
   content: "";
   inset: 0;
   pointer-events: none;
