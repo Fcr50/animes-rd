@@ -8,15 +8,16 @@ import { firebaseConfig } from "./firebase-config.js";
 import { PEOPLE, PERSON_COLORS, PERSON_LIGHTS, personKey, getPersonNota, formatNota, notaColor } from "./data.js?v=dudu-yellow-1";
 
 const GENRE_TRANSLATION = {
-  "Action": "Ação", "Adventure": "Aventura", "Comedy": "Comédia", "Drama": "Drama",
-  "Fantasy": "Fantasia", "Horror": "Terror", "Mystery": "Mistério", "Romance": "Romance",
-  "Sci-Fi": "Ficção Científica", "Slice of Life": "Slice of Life", "Sports": "Esportes",
-  "Supernatural": "Sobrenatural", "Psychological": "Psicológico", "Ecchi": "Ecchi",
-  "Mecha": "Mecha", "Music": "Música", "Historical": "Histórico", "Military": "Militar",
-  "Magic": "Magia", "Martial Arts": "Artes Marciais", "Vampire": "Vampiro",
-  "Demons": "Demônios", "School": "Escola", "Space": "Espaço", "Samurai": "Samurai",
-  "Police": "Policial", "Harem": "Harém", "Game": "Jogo", "Parody": "Paródia",
-  "Isekai": "Isekai", "Thriller": "Suspense",
+  "Action": "Ação ⚔️", "Adventure": "Aventura 🎒", "Comedy": "Comédia 🤣", "Drama": "Drama 🎭",
+  "Fantasy": "Fantasia 🧙", "Horror": "Terror 👻", "Mystery": "Mistério 🔍", "Romance": "Romance 💖",
+  "Sci-Fi": "Ficção Científica 🚀", "Slice of Life": "Slice of Life 🍃", "Sports": "Esportes ⚽",
+  "Supernatural": "Sobrenatural 👻", "Psychological": "Psicológico 🧠", "Ecchi": "Ecchi 🔞",
+  "Mecha": "Mecha 🤖", "Music": "Música 🎵", "Historical": "Histórico 📜", "Military": "Militar 🎖️",
+  "Magic": "Magia 🪄", "Martial Arts": "Artes Marciais 🥋", "Vampire": "Vampiro 🧛",
+  "Demons": "Demônios 😈", "School": "Escola 🏫", "Space": "Espaço 👨‍🚀", "Samurai": "Samurai ⚔️",
+  "Police": "Policial 👮", "Harem": "Harém 👫", "Game": "Jogo 🎮", "Parody": "Paródia 🤡",
+  "Isekai": "Isekai 🌀", "Thriller": "Suspense 😱", "Gourmet": "Culinária 🍳", "Avant Garde": "Experimental 🧪",
+  "Suspense": "Suspense 😱", "Award Winning": "Premiado 🏆", "Boys Love": "BL 👬", "Girls Love": "GL 👭"
 };
 
 async function fetchAnimeData(name) {

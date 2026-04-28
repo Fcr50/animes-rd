@@ -195,8 +195,29 @@ async function runImageQueue() {
 }
 
 export function initTable(animes) {
-  allAnimes = animes;
-  filtered = [...animes];
+  // 1. Cria um mapa mestre de Gênero Limpo -> Gênero com Emoji
+  const prettyMap = new Map();
+  const cleanStr = (s) => s.replace(/[\u{1F300}-\u{1FAFF}]|[\u{2600}-\u{27BF}]|[\u{2702}-\u{27B0}]/gu, "").trim();
+
+  animes.forEach(a => {
+    (a.generos || []).forEach(g => {
+      const cleaned = cleanStr(g);
+      // Se a versão atual tem emoji (é maior que a versão limpa), guarda no mapa
+      if (g.length > cleaned.length) {
+        if (!prettyMap.has(cleaned) || g.length > prettyMap.get(cleaned).length) {
+          prettyMap.set(cleaned, g);
+        }
+      }
+    });
+  });
+
+  // 2. Padroniza todos os animes na memória para usar a versão com emoji
+  allAnimes = animes.map(a => ({
+    ...a,
+    generos: (a.generos || []).map(g => prettyMap.get(cleanStr(g)) || g)
+  }));
+
+  filtered = [...allAnimes];
   renderFilters();
   renderTable();
   renderModal();
@@ -214,10 +235,19 @@ function renderFilters() {
   const wrap = document.getElementById("filters");
   if (!wrap) return;
 
-  // Coleta gêneros únicos
-  const genreSet = new Set();
-  allAnimes.forEach((a) => a.generos.forEach((g) => genreSet.add(g)));
-  const genres = [...genreSet].sort();
+  // Coleta gêneros únicos e resolve duplicatas (com/sem emoji)
+  const genreMap = new Map(); // limpo -> original (preferencialmente com emoji)
+  
+  allAnimes.forEach((a) => {
+    (a.generos || []).forEach((g) => {
+      const clean = g.replace(/[\u{1F300}-\u{1FAFF}]|[\u{2600}-\u{27BF}]|[\u{2702}-\u{27B0}]/gu, "").trim();
+      if (!genreMap.has(clean) || g.length > genreMap.get(clean).length) {
+        genreMap.set(clean, g);
+      }
+    });
+  });
+
+  const genres = [...genreMap.values()].sort((a, b) => a.localeCompare(b));
 
   wrap.innerHTML = `
     <input type="text" id="search" placeholder="🔍  Buscar anime..." />
@@ -245,13 +275,22 @@ function renderFilters() {
 
 function applyFilters() {
   const search = document.getElementById("search")?.value.toLowerCase() || "";
-  const genre = document.getElementById("filter-genre")?.value || "";
+  const genreSelected = document.getElementById("filter-genre")?.value || "";
   const person = document.getElementById("filter-person")?.value || "";
   const votes = document.getElementById("filter-votes")?.value || "";
 
+  // Função auxiliar para limpar emoji para comparação
+  const cleanStr = (s) => s.replace(/[\u{1F300}-\u{1FAFF}]|[\u{2600}-\u{27BF}]|[\u{2702}-\u{27B0}]/gu, "").trim();
+  const cleanedSelectedGenre = genreSelected ? cleanStr(genreSelected) : "";
+
   filtered = allAnimes.filter((a) => {
     if (search && !a.nome.toLowerCase().includes(search)) return false;
-    if (genre && !a.generos.includes(genre)) return false;
+    
+    if (cleanedSelectedGenre) {
+        const hasGenre = (a.generos || []).some(g => cleanStr(g) === cleanedSelectedGenre);
+        if (!hasGenre) return false;
+    }
+
     if (person && !a.quemAssistiu.includes(person)) return false;
     if (votes && String(a.qtdVotos) !== votes) return false;
     return true;
