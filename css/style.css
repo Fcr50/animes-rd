@@ -110,7 +110,7 @@ button, input, select { font: inherit; }
 .nav-person {
   display: flex;
   gap: 4px;
-  margin-left: auto;
+  margin-left: 0;
 }
 
 .nav-person a {
@@ -2184,6 +2184,7 @@ tbody tr:hover {
   font-weight: 900;
   height: 36px;
   justify-content: center;
+  margin-left: auto;
   margin-right: 8px;
   transition: all 0.18s ease;
   width: 36px;
