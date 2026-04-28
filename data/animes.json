@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-28T00:41:11.117Z",
+  "updatedAt": "2026-04-28T00:53:21.052Z",
   "total": 176,
   "animes": [
     {
@@ -727,42 +727,6 @@
         "_seconds": 1777334154,
         "_nanoseconds": 467000000
       }
-    },
-    {
-      "id": "3416beab-c784-816f-a3c1-ff61deb9d883",
-      "nome": "Yosuga no Sora",
-      "quemAssistiu": [
-        "Fernando",
-        "Rafael",
-        "Dudu",
-        "Hacksuya"
-      ],
-      "nota": "9.13",
-      "generos": [
-        "Romance 💖",
-        "Drama 😢",
-        "Ecchi🔥"
-      ],
-      "comentarios": "",
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/watch?v=wnSZbt5Cl5U"
-        }
-      ],
-      "notaRafael": 10,
-      "notaFernando": 7.4,
-      "notaDudu": 10,
-      "notaHacksuya": null,
-      "maisDeUmVoto": "sim",
-      "qtdVotos": 3,
-      "notaSort": 9.133333333333,
-      "controversia": 2.6,
-      "migratedAt": {
-        "_seconds": 1777314441,
-        "_nanoseconds": 493000000
-      },
-      "malId": 8861
     },
     {
       "id": "3416beab-c784-8162-8533-f1789d92b00f",
@@ -1838,6 +1802,51 @@
         "_nanoseconds": 493000000
       },
       "malId": 1254
+    },
+    {
+      "id": "3416beab-c784-816f-a3c1-ff61deb9d883",
+      "nome": "Yosuga no Sora",
+      "generos": [
+        "Romance 💖",
+        "Drama 😢",
+        "Ecchi🔥"
+      ],
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=wnSZbt5Cl5U"
+        }
+      ],
+      "notaFernando": 7.4,
+      "notaDudu": 10,
+      "notaHacksuya": null,
+      "maisDeUmVoto": "sim",
+      "qtdVotos": 3,
+      "controversia": 2.6,
+      "migratedAt": {
+        "_seconds": 1777314441,
+        "_nanoseconds": 493000000
+      },
+      "malId": 8861,
+      "quemAssistiu": [
+        "Rafael",
+        "Fernando",
+        "Dudu"
+      ],
+      "comments": [
+        {
+          "person": "Rafael",
+          "text": "Bomba."
+        }
+      ],
+      "notaSort": 8.63,
+      "notaRafael": 8.5,
+      "comentarios": "Rafael: Bomba.",
+      "nota": "8.63",
+      "updatedAt": {
+        "_seconds": 1777337570,
+        "_nanoseconds": 345000000
+      }
     },
     {
       "id": "3416beab-c784-815d-9a24-fd431d3a85e5",
@@ -4553,7 +4562,6 @@
         "Mecha",
         "Romance"
       ],
-      "comentarios": "Não lembro de muita coisa da época que assisti ele, ja faz bastante tempo, mas foi bem meh e o anime se eu não me engano só tem 1 temporada com 12 episódios, uma tentativa que não foi pra frente aparentemente",
       "files": [],
       "maisDeUmVoto": "nao",
       "qtdVotos": 1,
@@ -4566,7 +4574,18 @@
       "quemAssistiu": [
         "Dudu"
       ],
-      "nota": "6.90"
+      "nota": "6.90",
+      "comments": [
+        {
+          "text": "Não lembro de muita coisa da época que assisti ele, ja faz bastante tempo, mas foi bem meh e o anime se eu não me engano só tem 1 temporada com 12 episódios, uma tentativa que não foi pra frente aparentemente",
+          "person": "Dudu"
+        }
+      ],
+      "comentarios": "Dudu: Não lembro de muita coisa da época que assisti ele, ja faz bastante tempo, mas foi bem meh e o anime se eu não me engano só tem 1 temporada com 12 episódios, uma tentativa que não foi pra frente aparentemente",
+      "updatedAt": {
+        "_seconds": 1777337548,
+        "_nanoseconds": 809000000
+      }
     },
     {
       "id": "3416beab-c784-81f8-a819-e31a618f2b8e",
