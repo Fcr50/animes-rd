@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-28T01:29:17.127Z",
+  "updatedAt": "2026-04-28T03:58:33.773Z",
   "total": 176,
   "animes": [
     {
@@ -108,36 +108,6 @@
         "_nanoseconds": 493000000
       },
       "malId": 59845
-    },
-    {
-      "id": "3416beab-c784-81ed-8d10-fb70710e1958",
-      "nome": "Haikyu!!",
-      "quemAssistiu": [
-        "Fernando",
-        "Rafael",
-        "Dudu"
-      ],
-      "nota": "9.60",
-      "generos": [
-        "Shounen 💥",
-        "Esportes⚽",
-        "Drama 😢"
-      ],
-      "comentarios": "",
-      "files": [],
-      "notaRafael": null,
-      "notaFernando": 9.5,
-      "notaDudu": 9.7,
-      "notaHacksuya": null,
-      "maisDeUmVoto": "sim",
-      "qtdVotos": 2,
-      "notaSort": 9.6,
-      "controversia": 0.2,
-      "migratedAt": {
-        "_seconds": 1777314441,
-        "_nanoseconds": 493000000
-      },
-      "malId": 20583
     },
     {
       "id": "3416beab-c784-8112-b256-c046f02ed035",
@@ -277,6 +247,46 @@
         "_nanoseconds": 493000000
       },
       "malId": 47159
+    },
+    {
+      "id": "3416beab-c784-81ed-8d10-fb70710e1958",
+      "nome": "Haikyu!!",
+      "generos": [
+        "Shounen 💥",
+        "Esportes⚽",
+        "Drama 😢"
+      ],
+      "files": [],
+      "notaFernando": 9.5,
+      "notaDudu": 9.7,
+      "notaHacksuya": null,
+      "maisDeUmVoto": "sim",
+      "migratedAt": {
+        "_seconds": 1777314441,
+        "_nanoseconds": 493000000
+      },
+      "malId": 20583,
+      "controversia": 0.5,
+      "quemAssistiu": [
+        "Rafael",
+        "Fernando",
+        "Dudu"
+      ],
+      "qtdVotos": 3,
+      "comments": [
+        {
+          "person": "Rafael",
+          "text": "Melhor anime de esportes!"
+        }
+      ],
+      "notaSort": 9.47,
+      "notaRafael": 9.2,
+      "comentarios": "Rafael: Melhor anime de esportes!",
+      "nota": "9.47",
+      "updatedAt": {
+        "_seconds": 1777340182,
+        "_nanoseconds": 297000000
+      }
     },
     {
       "id": "3416beab-c784-8143-967e-f25e0ec01a07",
@@ -528,40 +538,6 @@
         "_nanoseconds": 493000000
       },
       "malId": 8074
-    },
-    {
-      "id": "3416beab-c784-819f-903d-faecd7d135e9",
-      "nome": "Domestic Girlfriend",
-      "quemAssistiu": [
-        "Dudu",
-        "Hacksuya"
-      ],
-      "nota": "9.30",
-      "generos": [
-        "Romance 💖",
-        "Drama 😢",
-        "Ecchi🔥"
-      ],
-      "comentarios": "",
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/watch?v=SaKdpMnwZf0"
-        }
-      ],
-      "notaRafael": null,
-      "notaFernando": null,
-      "notaDudu": 9.3,
-      "notaHacksuya": null,
-      "maisDeUmVoto": "nao",
-      "qtdVotos": 1,
-      "notaSort": 9.3,
-      "controversia": 0,
-      "migratedAt": {
-        "_seconds": 1777314441,
-        "_nanoseconds": 493000000
-      },
-      "malId": 37982
     },
     {
       "id": "3416beab-c784-81d7-8d27-d3d5f074c8ad",
@@ -1298,6 +1274,50 @@
         "_nanoseconds": 493000000
       },
       "malId": 24405
+    },
+    {
+      "id": "3416beab-c784-819f-903d-faecd7d135e9",
+      "nome": "Domestic Girlfriend",
+      "generos": [
+        "Romance 💖",
+        "Drama 😢",
+        "Ecchi🔥"
+      ],
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=SaKdpMnwZf0"
+        }
+      ],
+      "notaFernando": null,
+      "notaDudu": 9.3,
+      "notaHacksuya": null,
+      "migratedAt": {
+        "_seconds": 1777314441,
+        "_nanoseconds": 493000000
+      },
+      "malId": 37982,
+      "controversia": 0.8,
+      "quemAssistiu": [
+        "Rafael",
+        "Dudu"
+      ],
+      "qtdVotos": 2,
+      "comments": [
+        {
+          "person": "Rafael",
+          "text": "Bom."
+        }
+      ],
+      "maisDeUmVoto": "sim",
+      "notaSort": 8.9,
+      "notaRafael": 8.5,
+      "comentarios": "Rafael: Bom.",
+      "nota": "8.90",
+      "updatedAt": {
+        "_seconds": 1777340058,
+        "_nanoseconds": 735000000
+      }
     },
     {
       "id": "3416beab-c784-81b7-8cfa-eede4cae2ec4",
