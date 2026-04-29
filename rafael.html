@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rafael — Animes RD</title>
-    <link rel="stylesheet" href="css/style.css?v=cleanup-1" />
-    <script type="module" src="./js/theme.js?v=cleanup-1"></script>
+    <link rel="stylesheet" href="css/style.css?v=perf-1" />
+    <script type="module" src="./js/theme.js?v=perf-1"></script>
   </head>
   <body class="person-profile-page rafael-page">
     <nav class="nav">
@@ -55,7 +55,15 @@
           <h1 style="color: #a78bfa">Rafael</h1>
           <p id="person-subtitle">Carregando...</p>
         </div>
-        <img class="rafael-hero-mascot" src="assets/rafael-pikachu.png" alt="" aria-hidden="true" />
+        <img
+          class="rafael-hero-mascot"
+          src="assets/rafael-pikachu.webp"
+          alt=""
+          width="180"
+          height="180"
+          decoding="async"
+          aria-hidden="true"
+        />
       </div>
 
       <div class="stats-grid" id="person-stats"></div>
@@ -108,7 +116,7 @@
         topGenres,
         cleanGenreLabel,
         PERSON_COLORS,
-      } from "./js/data.js?v=cleanup-1";
+      } from "./js/data.js?v=perf-1";
 
       const PERSON = "Rafael";
       const COLOR = "#7c3aed";
@@ -291,6 +299,6 @@
             .join("")
         : `<li style="color:var(--faint)">Assistiu tudo!</li>`;
     </script>
-    <script type="module" src="js/nyx-widget.js?v=cleanup-1"></script>
+    <script type="module" src="js/nyx-widget.js?v=perf-1"></script>
   </body>
 </html>

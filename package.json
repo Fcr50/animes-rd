@@ -6,9 +6,11 @@
   "scripts": {
     "format": "prettier --write \"*.html\" \"css/*.css\" \"js/*.js\" \"README.md\"",
     "format:check": "prettier --check \"*.html\" \"css/*.css\" \"js/*.js\" \"README.md\"",
-    "check:js": "node --check js/charts.js && node --check js/compare.js && node --check js/data.js && node --check js/home.js && node --check js/nyx-widget.js && node --check js/nyx.js && node --check js/suggest.js && node --check js/table.js && node --check js/theme.js && node --check js/utils.js"
+    "check:js": "node --check js/charts.js && node --check js/compare.js && node --check js/data.js && node --check js/home.js && node --check js/nyx-widget.js && node --check js/nyx.js && node --check js/suggest.js && node --check js/table.js && node --check js/theme.js && node --check js/utils.js && node --check scripts/optimize-assets.cjs",
+    "assets:optimize": "node scripts/optimize-assets.cjs"
   },
   "devDependencies": {
-    "prettier": "^3.3.3"
+    "prettier": "^3.3.3",
+    "sharp": "^0.34.5"
   }
 }

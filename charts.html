@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gráficos — Animes RD</title>
-    <link rel="stylesheet" href="css/style.css?v=cleanup-1" />
-    <script type="module" src="./js/theme.js?v=cleanup-1"></script>
+    <link rel="stylesheet" href="css/style.css?v=perf-1" />
+    <script type="module" src="./js/theme.js?v=perf-1"></script>
   </head>
   <body>
     <nav class="nav">
@@ -94,12 +94,12 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
     <script type="module">
-      import { loadData } from "./js/data.js?v=cleanup-1";
-      import { renderAllCharts } from "./js/charts.js?v=cleanup-1";
+      import { loadData } from "./js/data.js?v=perf-1";
+      import { renderAllCharts } from "./js/charts.js?v=perf-1";
 
       const { animes } = await loadData();
       renderAllCharts(animes);
     </script>
-    <script type="module" src="js/nyx-widget.js?v=cleanup-1"></script>
+    <script type="module" src="js/nyx-widget.js?v=perf-1"></script>
   </body>
 </html>
