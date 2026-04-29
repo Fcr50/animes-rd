@@ -2360,6 +2360,7 @@ body.blog-page::before {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+  justify-content: center;
   margin: 0 0 34px;
 }
 
@@ -2377,6 +2378,10 @@ body.blog-page::before {
 .blog-categories a:nth-child(1) { background: #fffaf0; }
 .blog-categories a:nth-child(2) { background: #f8a6c8; }
 .blog-categories a:nth-child(3) { background: #7bd6c5; }
+
+.blog-categories a:nth-child(1) { border-color: #f97316; }
+.blog-categories a:nth-child(2) { border-color: #ef4444; }
+.blog-categories a:nth-child(3) { border-color: #38bdf8; }
 
 .blog-layout {
   display: grid;
