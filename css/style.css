@@ -2280,7 +2280,7 @@ body.blog-page::before {
     var(--hero-anime-bg);
   background-position: center;
   background-size: cover;
-  border-color: rgba(187,247,208,0.46);
+  border-color: transparent;
 }
 
 .blog-hero-card.has-bg::before {
@@ -2294,7 +2294,7 @@ body.blog-page::before {
 
 .blog-hero-card.has-bg::after,
 .post-featured::after {
-  background: linear-gradient(135deg, rgba(220,252,231,0.78), rgba(134,239,172,0.44), rgba(187,247,208,0.7));
+  background: linear-gradient(135deg, rgba(220,252,231,0.92), rgba(187,247,208,0.72), rgba(186,230,253,0.9));
   border-radius: inherit;
   content: "";
   inset: 0;
@@ -3316,7 +3316,7 @@ body.dark-theme .blog-hero-card.has-bg {
     var(--hero-anime-bg);
   background-position: center;
   background-size: cover;
-  border-color: rgba(187,247,208,0.46);
+  border-color: transparent;
 }
 
 body.dark-theme .blog-hero-card.has-bg h2,
