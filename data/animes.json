@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-29T03:03:33.839Z",
+  "updatedAt": "2026-04-29T04:43:34.724Z",
   "total": 180,
   "animes": [
     {
@@ -10,7 +10,6 @@
         "Drama 😢",
         "Slice of Life 🍃"
       ],
-      "files": [],
       "notaFernando": 10,
       "notaDudu": null,
       "notaHacksuya": null,
@@ -43,7 +42,13 @@
       "updatedAt": {
         "_seconds": 1777387432,
         "_nanoseconds": 359000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Yuusha%20(%E5%8B%87%E8%80%85)%20by%20YOASOBI%20(eps%201-16)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8176-87fa-ce517e302b03",
@@ -54,7 +59,6 @@
         "Ação ⚔️",
         "Fantasia 🧙"
       ],
-      "files": [],
       "notaFernando": 9.4,
       "notaDudu": null,
       "notaHacksuya": null,
@@ -83,7 +87,13 @@
       "updatedAt": {
         "_seconds": 1777414228,
         "_nanoseconds": 677000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Nameless%20story%20by%20Takuma%20Terashima%20(eps%201-14)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81d8-839d-c91b7dcf107a",
@@ -98,7 +108,6 @@
         "Slice of Life 🍃"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 9.6,
       "notaDudu": null,
@@ -111,7 +120,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 59845
+      "malId": 59845,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Manazashi%20wa%20Hikari%20(%E3%81%BE%E3%81%AA%E3%81%96%E3%81%97%E3%81%AF%E5%85%89)%20by%20Tatsuya%20Kitani%20(%E3%82%AD%E3%82%BF%E3%83%8B%E3%82%BF%E3%83%84%E3%83%A4)%20(eps%201-12)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8112-b256-c046f02ed035",
@@ -122,7 +137,6 @@
         "Drama 😢",
         "Fantasia 🧙"
       ],
-      "files": [],
       "notaRafael": null,
       "notaFernando": 9.3,
       "notaDudu": 9.8,
@@ -154,7 +168,13 @@
       "updatedAt": {
         "_seconds": 1777398921,
         "_nanoseconds": 771000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Guren%20no%20Yumiya%20(%E7%B4%85%E8%93%AE%E3%81%AE%E5%BC%93%E7%9F%A2)%20by%20Linked%20Horizon%20(eps%201-13)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8141-878f-edc65a311ea1",
@@ -218,7 +238,6 @@
       "quemAssistiu": [
         "Rafael"
       ],
-      "files": [],
       "notaFernando": null,
       "notaDudu": null,
       "notaHacksuya": null,
@@ -249,6 +268,12 @@
         "Comédia 😂",
         "Slice of Life 🍃",
         "Ecchi 🔥"
+      ],
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=San%20San%20Days%20(%E7%87%A6%E3%80%85%E3%83%87%E3%82%A4%E3%82%BA)%20by%20Spira%20Spica%20anime%20opening"
+        }
       ]
     },
     {
@@ -261,7 +286,6 @@
       "generos": [
         "Estratégia ♟️"
       ],
-      "files": [],
       "notaRafael": 9.5,
       "notaFernando": null,
       "notaDudu": null,
@@ -285,12 +309,17 @@
       "updatedAt": {
         "_seconds": 1777418290,
         "_nanoseconds": 773000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=LEVEL%20by%20Nagi%20Yanagi%20and%20THE%20SIXTH%20LIE%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81ed-8d10-fb70710e1958",
       "nome": "Haikyu!!",
-      "files": [],
       "notaFernando": 9.5,
       "notaDudu": 9.7,
       "notaHacksuya": null,
@@ -333,7 +362,13 @@
       "updatedAt": {
         "_seconds": 1777398994,
         "_nanoseconds": 518000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Imagination%20(%E3%82%A4%E3%83%9E%E3%82%B8%E3%83%8D%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3)%20by%20SPYAIR%20(eps%201-13)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8143-967e-f25e0ec01a07",
@@ -345,7 +380,6 @@
         "Fantasia 🧙",
         "Drama 😢"
       ],
-      "files": [],
       "notaRafael": null,
       "notaFernando": 9.7,
       "notaDudu": 9.2,
@@ -373,7 +407,13 @@
       "updatedAt": {
         "_seconds": 1777398988,
         "_nanoseconds": 35000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Gurenge%20(%E7%B4%85%E8%93%AE%E8%8F%AF)%20by%20LiSA%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8154-b481-e7ce9de61af7",
@@ -384,7 +424,6 @@
         "Romance 💖",
         "Slice of Life 🍃"
       ],
-      "files": [],
       "notaRafael": null,
       "notaFernando": 9.4,
       "notaDudu": 9.5,
@@ -416,7 +455,13 @@
       "updatedAt": {
         "_seconds": 1777398444,
         "_nanoseconds": 330000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Hikaru%20nara%20(%E5%85%89%E3%82%8B%E3%81%AA%E3%82%89)%20by%20Goose%20house%20(eps%201-11)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81b7-8881-fc73defe7249",
@@ -432,7 +477,6 @@
         "Drama 😢"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 9.4,
       "notaDudu": null,
@@ -445,7 +489,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 10087
+      "malId": 10087,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=oath%20sign%20by%20LiSA%20%20(eps%202-10%2C%2012-13)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81e6-a402-d03f1e1b1aba",
@@ -455,7 +505,6 @@
         "Shounen 💥",
         "Fantasia 🧙"
       ],
-      "files": [],
       "notaFernando": 9.8,
       "notaDudu": null,
       "notaHacksuya": null,
@@ -488,7 +537,13 @@
       "updatedAt": {
         "_seconds": 1777418544,
         "_nanoseconds": 628000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Ohayou%20(%E3%81%8A%E3%81%AF%E3%82%88%E3%81%86)%20by%20Keno%20(eps%201-48)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81fb-8be1-ebdbccb1bc62",
@@ -501,7 +556,6 @@
         "Comédia 😂",
         "Slice of Life 🍃"
       ],
-      "files": [],
       "notaFernando": null,
       "notaDudu": null,
       "notaHacksuya": null,
@@ -526,7 +580,13 @@
       "updatedAt": {
         "_seconds": 1777354681,
         "_nanoseconds": 861000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Koi%20no%20Uta%20(feat.%20Tsukasa%20Yuzaki)%20(%E6%81%8B%E3%81%AE%E3%81%86%E3%81%9F%20(feat.%20%E7%94%B1%E5%B4%8E%E5%8F%B8))%20by%20Yunomi%20feat.%20Tsukasa%20Yuzaki%20(CV%3A%20Akari%20Kitou)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8191-9b94-c56419f16a29",
@@ -538,7 +598,6 @@
         "Fantasia 🧙",
         "Drama 😢"
       ],
-      "files": [],
       "notaRafael": 9.8,
       "notaFernando": 8.5,
       "notaDudu": 9.8,
@@ -571,7 +630,13 @@
       "updatedAt": {
         "_seconds": 1777418416,
         "_nanoseconds": 789000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=again%20by%20YUI%20(eps%201-14)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8142-8f36-fe93636e2c44",
@@ -582,7 +647,6 @@
         "Shounen 💥",
         "Fantasia 🧙"
       ],
-      "files": [],
       "notaRafael": 9.5,
       "notaFernando": 9.5,
       "notaDudu": 9,
@@ -615,7 +679,13 @@
       "updatedAt": {
         "_seconds": 1777399075,
         "_nanoseconds": 132000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=LEveL%20by%20SawanoHiroyuki%5BnZk%5D%3ATOMORROW%20X%20TOGETHER%20(eps%202-12)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8193-8d95-ec2007cb4e4c",
@@ -625,7 +695,6 @@
         "Ação ⚔️",
         "Shounen 💥"
       ],
-      "files": [],
       "notaRafael": 10,
       "notaFernando": 9,
       "notaDudu": 9,
@@ -658,13 +727,18 @@
       "updatedAt": {
         "_seconds": 1777399120,
         "_nanoseconds": 659000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Pok%C3%A9mon%20opening%201"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-818f-899f-ce1f25e88a7e",
       "nome": "Highschool of the Dead",
       "nota": "9.30",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 9.4,
       "notaDudu": 9.2,
@@ -697,13 +771,18 @@
       "updatedAt": {
         "_seconds": 1777399199,
         "_nanoseconds": 429000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=HIGHSCHOOL%20OF%20THE%20DEAD%20by%20Kishida%20Kyoudan%20%26%20The%20Akeboshi%20Rockets%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81d7-8d27-d3d5f074c8ad",
       "nome": "Inazuma Eleven",
       "nota": "9.30",
-      "files": [],
       "notaRafael": null,
       "notaFernando": null,
       "notaDudu": 9.3,
@@ -734,7 +813,13 @@
       "updatedAt": {
         "_seconds": 1777399231,
         "_nanoseconds": 867000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Tachiagariyo%20by%20T-Pistonz%20(eps%201-26)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-815a-b830-c61e927ffd26",
@@ -744,7 +829,6 @@
         "Drama 😢",
         "Slice of Life 🍃"
       ],
-      "files": [],
       "notaFernando": 9.4,
       "notaDudu": null,
       "notaHacksuya": null,
@@ -773,7 +857,13 @@
       "updatedAt": {
         "_seconds": 1777418383,
         "_nanoseconds": 687000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Hana%20ni%20Natte%20(%E8%8A%B1%E3%81%AB%E3%81%AA%E3%81%A3%E3%81%A6)%20by%20Ryokuoushoku%20Shakai%20(%E7%B7%91%E9%BB%84%E8%89%B2%E7%A4%BE%E4%BC%9A)%20(eps%201-12)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81db-914a-fecee9612fd4",
@@ -785,7 +875,6 @@
         "Fantasia 🧙",
         "Comédia 😂"
       ],
-      "files": [],
       "notaRafael": null,
       "notaFernando": 9,
       "notaDudu": 9.5,
@@ -813,7 +902,13 @@
       "updatedAt": {
         "_seconds": 1777399288,
         "_nanoseconds": 401000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=We%20Are!%20by%20Hiroshi%20Kitadani%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8115-ad27-f0c2b85b2b54",
@@ -829,7 +924,6 @@
         "Romance 💖"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 9.2,
       "notaDudu": null,
@@ -842,7 +936,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 13659
+      "malId": 13659,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=reunion%20by%20ClariS%20(eps%202-8%2C%2011-13)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8160-b271-d32e9a8b2e12",
@@ -856,7 +956,6 @@
         "Ação ⚔️",
         "Drama 😢"
       ],
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8.8,
       "notaDudu": 9.6,
@@ -880,7 +979,13 @@
       "updatedAt": {
         "_seconds": 1777399328,
         "_nanoseconds": 312000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=MUKANJYO%20by%20Survive%20Said%20The%20Prophet%20(eps%201-12)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81d3-a126-ed92ef2eedc6",
@@ -889,7 +994,6 @@
         "Drama 😢",
         "Slice of Life 🍃"
       ],
-      "files": [],
       "notaFernando": 9,
       "notaDudu": null,
       "notaHacksuya": null,
@@ -918,7 +1022,13 @@
       "updatedAt": {
         "_seconds": 1777418707,
         "_nanoseconds": 988000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Caste%20Room%20(%E3%82%AB%E3%83%BC%E3%82%B9%E3%83%88%E3%83%AB%E3%83%BC%E3%83%A0)%20by%20ZAQ%20(eps%202-8%2C%2010-11)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8162-8533-f1789d92b00f",
@@ -929,7 +1039,6 @@
         "Shounen 💥",
         "Romance 💖"
       ],
-      "files": [],
       "notaFernando": 9.1,
       "notaDudu": null,
       "notaHacksuya": null,
@@ -958,7 +1067,13 @@
       "updatedAt": {
         "_seconds": 1777418620,
         "_nanoseconds": 864000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Mixed%20Nuts%20(%E3%83%9F%E3%83%83%E3%82%AF%E3%82%B9%E3%83%8A%E3%83%83%E3%83%84)%20by%20Official%20HIGE%20DANdism%20(Official%E9%AB%AD%E7%94%B7dism)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3dc6beab-c784-82df-be47-01cf93907b4f",
@@ -968,7 +1083,6 @@
         "Terror 👻",
         "Shounen 💥"
       ],
-      "files": [],
       "notaFernando": 9.2,
       "notaDudu": 9,
       "notaHacksuya": null,
@@ -1002,12 +1116,17 @@
       "updatedAt": {
         "_seconds": 1777418663,
         "_nanoseconds": 304000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=What's%20up%2C%20people%3F!%20by%20Maximum%20the%20Hormone%20(eps%2020-37)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8180-946e-eab169d95644",
       "nome": "Overflow",
-      "files": [],
       "notaFernando": 9,
       "notaDudu": null,
       "notaHacksuya": null,
@@ -1040,6 +1159,12 @@
       "generos": [
         "Ecchi 🔥",
         "Hentai 💦"
+      ],
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Overflow%20opening%201"
+        }
       ]
     },
     {
@@ -1051,7 +1176,6 @@
         "Fantasia 🧙",
         "Romance 💖"
       ],
-      "files": [],
       "notaRafael": null,
       "notaFernando": 9.2,
       "notaDudu": 9,
@@ -1079,7 +1203,13 @@
       "updatedAt": {
         "_seconds": 1777399351,
         "_nanoseconds": 883000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Hey%20World%20by%20Yuka%20Iguchi%20(eps%202-13)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81c6-a4ec-ec066b9464f0",
@@ -1090,7 +1220,6 @@
         "Fantasia 🧙",
         "Comédia 😂"
       ],
-      "files": [],
       "notaRafael": null,
       "notaFernando": 9.2,
       "notaDudu": 9,
@@ -1118,7 +1247,13 @@
       "updatedAt": {
         "_seconds": 1777399376,
         "_nanoseconds": 147000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=This%20game%20by%20Konomi%20Suzuki%20(eps%202-8%2C%2010)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81d2-8228-dd19f2a20da9",
@@ -1128,7 +1263,6 @@
         "Isekai 🌍✨",
         "Romance 💖"
       ],
-      "files": [],
       "notaFernando": 9,
       "notaDudu": 8.7,
       "notaHacksuya": null,
@@ -1162,7 +1296,13 @@
       "updatedAt": {
         "_seconds": 1777400487,
         "_nanoseconds": 352000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=crossing%20field%20by%20LiSA%20(eps%202-14)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8118-8c7c-ddfce1e7c19e",
@@ -1172,7 +1312,6 @@
       ],
       "nota": "9.00",
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 9,
       "notaDudu": null,
@@ -1189,6 +1328,12 @@
       "generos": [
         "Esportes ⚽",
         "Drama 😢"
+      ],
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Tada%20Hitori%20(%E5%94%AF%E4%B8%80%E4%BA%BA)%20by%20Bakudan%20Johnny%20(%E7%88%86%E5%BC%BE%E3%82%B8%E3%83%A7%E3%83%8B%E3%83%BC)%20anime%20opening"
+        }
       ]
     },
     {
@@ -1200,7 +1345,6 @@
         "Shounen 💥",
         "Comédia 😂"
       ],
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8.9,
       "notaDudu": 9.1,
@@ -1228,7 +1372,13 @@
       "updatedAt": {
         "_seconds": 1777399439,
         "_nanoseconds": 430000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=THE%20HERO%20!!%20~Okoreru%20Kobushi%20ni%20Hi%20wo%20Tsukero~%20(THE%20HERO%20!!%20%EF%BD%9E%E6%80%92%E3%82%8C%E3%82%8B%E6%8B%B3%E3%81%AB%E7%81%AB%E3%82%92%E3%81%A4%E3%81%91%E3%82%8D%EF%BD%9E)%20by%20JAM%20Project%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8159-8c4a-f549a518fa71",
@@ -1237,7 +1387,6 @@
         "Dudu"
       ],
       "nota": "9.00",
-      "files": [],
       "notaRafael": null,
       "notaFernando": null,
       "notaDudu": 9,
@@ -1265,7 +1414,13 @@
       "updatedAt": {
         "_seconds": 1777399459,
         "_nanoseconds": 45000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Aki%20Sora%20opening%201"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8183-ac74-f6b222d9fc09",
@@ -1275,7 +1430,6 @@
       ],
       "nota": "9.00",
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 9,
       "notaDudu": null,
@@ -1293,6 +1447,12 @@
         "Shounen 💥",
         "Esportes ⚽",
         "Drama 😢"
+      ],
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Reclimb%20(%E3%83%AA%E3%82%AF%E3%83%A9%E3%82%A4%E3%83%A0)%20by%20ROOKiEZ%20is%20PUNK'D%20(eps%201-12)%20anime%20opening"
+        }
       ]
     },
     {
@@ -1305,7 +1465,6 @@
         "Romance 💖",
         "Fantasia 🧙"
       ],
-      "files": [],
       "notaRafael": null,
       "notaFernando": null,
       "notaDudu": 9,
@@ -1332,7 +1491,13 @@
       "updatedAt": {
         "_seconds": 1777399482,
         "_nanoseconds": 241000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Otonoke%20(%E3%82%AA%E3%83%88%E3%83%8E%E3%82%B1)%20by%20Creepy%20Nuts%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81f8-a37f-f5737daee6a0",
@@ -1347,7 +1512,6 @@
         "Slice of Life 🍃"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 9,
       "notaDudu": null,
@@ -1360,7 +1524,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 18195
+      "malId": 18195,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Boys%20be%20Smile%20by%20Suzuyu%20(%E9%88%B4%E6%B9%AF)%20(eps%201-9%2C%2011-13)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81fa-beb2-dbfa9238bf98",
@@ -1371,7 +1541,6 @@
         "Shounen 💥",
         "Fantasia 🧙"
       ],
-      "files": [],
       "notaRafael": null,
       "notaFernando": 9,
       "notaDudu": 9,
@@ -1399,7 +1568,13 @@
       "updatedAt": {
         "_seconds": 1777399508,
         "_nanoseconds": 904000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=KAIKAIKITAN%20(%E5%BB%BB%E5%BB%BB%E5%A5%87%E8%AD%9A)%20by%20Eve%20%20(eps%201-13)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "UttSCzqfHg43aHHh7FyR",
@@ -1412,7 +1587,6 @@
           "text": "O hentai no nome é bait, o anime tem até que um certo nível de ecchi, mas não é nada exagerado, e o anime acaba sendo até fofinho de certa forma"
         }
       ],
-      "files": [],
       "maisDeUmVoto": "nao",
       "qtdVotos": 1,
       "controversia": 0,
@@ -1429,6 +1603,12 @@
         "Comédia 😂",
         "Romance 💖",
         "Sobrenatural 👻"
+      ],
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Fantastic%20future%20by%20Yukari%20Tamura%20anime%20opening"
+        }
       ]
     },
     {
@@ -1439,7 +1619,6 @@
         "Isekai 🌍✨",
         "Fantasia 🧙"
       ],
-      "files": [],
       "notaFernando": 8.8,
       "notaDudu": 8.5,
       "notaHacksuya": null,
@@ -1469,13 +1648,18 @@
       "updatedAt": {
         "_seconds": 1777418796,
         "_nanoseconds": 108000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Clattanoia%20by%20O%C3%97T%20(Masayoshi%20Oishi%20%C3%97%20Tom-H%40ck)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8127-b096-e5bb98fd2bac",
       "nome": "Shokugeki no Soma",
       "nota": "8.95",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 9,
       "notaDudu": 8.9,
@@ -1508,7 +1692,13 @@
       "updatedAt": {
         "_seconds": 1777399552,
         "_nanoseconds": 751000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Kibou%20no%20Uta%20(%E5%B8%8C%E6%9C%9B%E3%81%AE%E5%94%84)%20by%20ULTRA%20TOWER%20(eps%201-14)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81d6-8d5d-c361251e6d01",
@@ -1518,7 +1708,6 @@
         "Slice of Life 🍃",
         "Comédia 😂"
       ],
-      "files": [],
       "notaFernando": 8.7,
       "notaDudu": null,
       "notaHacksuya": null,
@@ -1547,7 +1736,13 @@
       "updatedAt": {
         "_seconds": 1777337620,
         "_nanoseconds": 79000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Iro%20Kousui%20(%E8%89%B2%E9%A6%99%E6%B0%B4)%20by%20You%20Kamiyama%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-819c-834b-e881284b0bc9",
@@ -1562,7 +1757,6 @@
         "Fantasia 🧙"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8.9,
       "notaDudu": null,
@@ -1575,7 +1769,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 24405
+      "malId": 24405,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=GIRIGIRI%20by%20Sonar%20Pocket%20(eps%201-23)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-819f-903d-faecd7d135e9",
@@ -1638,7 +1838,6 @@
         "Comédia 😂"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8.9,
       "notaDudu": null,
@@ -1651,7 +1850,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 32182
+      "malId": 32182,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=99%20by%20MOB%20CHOIR%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81d0-8002-f71a26c4c7fd",
@@ -1662,7 +1867,6 @@
         "Drama 😢",
         "Slice of Life 🍃"
       ],
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8.5,
       "notaDudu": 9.3,
@@ -1690,7 +1894,13 @@
       "updatedAt": {
         "_seconds": 1777399652,
         "_nanoseconds": 720000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Kimi%20no%20Sei%20(%E5%90%9B%E3%81%AE%E3%81%9B%E3%81%84)%20by%20the%20peggies%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8108-b22d-d13ab1ba55a2",
@@ -1700,7 +1910,6 @@
         "Fantasia 🧙",
         "Drama 😢"
       ],
-      "files": [],
       "notaFernando": 8.8,
       "notaDudu": 8.9,
       "notaHacksuya": null,
@@ -1734,7 +1943,13 @@
       "updatedAt": {
         "_seconds": 1777418179,
         "_nanoseconds": 984000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Tabibito%20no%20Uta%20(%E6%97%85%E4%BA%BA%E3%81%AE%E5%94%84)%20by%20Yuiko%20Oohara%20(eps%203-4%2C%206-8)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81d1-b107-fe097e4d72fa",
@@ -1744,7 +1959,6 @@
         "Ação ⚔️",
         "Drama 😢"
       ],
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8.7,
       "notaDudu": 9,
@@ -1772,7 +1986,13 @@
       "updatedAt": {
         "_seconds": 1777399711,
         "_nanoseconds": 688000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=No%20pain%2C%20No%20game%20by%20Nano%20(eps%201-11)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8118-b6d2-c8061a6b3be0",
@@ -1787,7 +2007,6 @@
         "Shounen 💥"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8.8,
       "notaDudu": null,
@@ -1800,7 +2019,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 33255
+      "malId": 33255,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Seishun%20wa%20Zankoku%20ja%20nai%20(%E9%9D%92%E6%98%A5%E3%81%AF%E6%AE%8B%E9%85%B7%E3%81%98%E3%82%83%E3%81%AA%E3%81%84)%20by%20Natsuki%20Hanae%20(eps%201-60)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-812e-b2df-cdd727475b13",
@@ -1816,7 +2041,6 @@
         "Romance 💖"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8.8,
       "notaDudu": null,
@@ -1829,13 +2053,18 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 249
+      "malId": 249,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Change%20the%20World%20by%20V6%20(eps%2001-34)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8183-a6e8-e927326befcc",
       "nome": "Rent-a-Girlfriend",
       "nota": "8.80",
-      "files": [],
       "notaRafael": null,
       "notaFernando": null,
       "notaDudu": 8.8,
@@ -1867,7 +2096,13 @@
       "updatedAt": {
         "_seconds": 1777399760,
         "_nanoseconds": 738000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Centimeter%20(%E3%82%BB%E3%83%B3%E3%83%81%E3%83%A1%E3%83%BC%E3%83%88%E3%83%AB)%20by%20the%20peggies%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81ba-9f5f-f0422d934210",
@@ -1883,7 +2118,6 @@
         "Shounen 💥"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8.8,
       "notaDudu": null,
@@ -1896,7 +2130,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 38101
+      "malId": 38101,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Gotoubun%20no%20Kimochi%20(%E4%BA%94%E7%AD%89%E5%88%86%E3%81%AE%E6%B0%97%E6%8C%81%E3%81%A1)%20by%20Nakanoke%20no%20Itsuzugo%20(%E4%B8%AD%E9%87%8E%E5%AE%B6%E3%81%AE%E4%BA%94%E3%81%A4%E5%AD%90)%20(Kana%20Hanazawa%2C%20Ayana%20Taketatsu%2C%20Miku%20Itou%2C%20Ayane%20Sakura%2C%20Inori%20Minase)%20(eps%201-11)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-814d-bf73-d714b38ad61f",
@@ -1906,7 +2146,6 @@
         "Drama 😢",
         "Terror 👻"
       ],
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8.7,
       "notaDudu": 8.8,
@@ -1934,13 +2173,18 @@
       "updatedAt": {
         "_seconds": 1777399783,
         "_nanoseconds": 24000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Touch%20Off%20by%20UVERworld%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-816f-be45-cd8df5bc682d",
       "nome": "Kuroko no Basket",
       "nota": "8.75",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 9,
       "notaDudu": 8.5,
@@ -1972,7 +2216,13 @@
       "updatedAt": {
         "_seconds": 1777399806,
         "_nanoseconds": 873000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Can%20Do%20by%20GRANRODEO%20%20(eps%201-13)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8178-953e-de48e739f209",
@@ -1982,7 +2232,6 @@
         "Shounen 💥",
         "Fantasia 🧙"
       ],
-      "files": [],
       "notaFernando": 9.2,
       "notaDudu": null,
       "notaHacksuya": null,
@@ -2011,7 +2260,13 @@
       "updatedAt": {
         "_seconds": 1777418481,
         "_nanoseconds": 374000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=%EF%BC%B7%E2%97%8F%EF%BC%B2%EF%BC%AB%20by%20millennium%20parade%20and%20Sheena%20Ringo%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8134-9547-eae7f36f4184",
@@ -2021,7 +2276,6 @@
         "Ação ⚔️",
         "Shounen 💥"
       ],
-      "files": [],
       "notaRafael": 8.9,
       "notaFernando": 8.8,
       "notaDudu": 8.5,
@@ -2050,13 +2304,18 @@
       "updatedAt": {
         "_seconds": 1777399901,
         "_nanoseconds": 218000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=R%E2%98%85O%E2%98%85C%E2%98%85K%E2%98%85S%20by%20Hound%20Dog%20(eps%201-25)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-812b-a609-f299b17ffa62",
       "nome": "Highschool DxD",
       "nota": "8.70",
-      "files": [],
       "notaRafael": 9.8,
       "notaFernando": 7.3,
       "notaDudu": 9,
@@ -2095,6 +2354,12 @@
         "Ecchi 🔥",
         "Comédia 😂",
         "Romance 💖"
+      ],
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Trip%20-innocent%20of%20D-%20by%20Larval%20Stage%20Planning%20anime%20opening"
+        }
       ]
     },
     {
@@ -2106,7 +2371,6 @@
         "Drama 😢",
         "Fantasia 🧙"
       ],
-      "files": [],
       "notaFernando": 8.9,
       "notaDudu": null,
       "notaHacksuya": null,
@@ -2135,7 +2399,13 @@
       "updatedAt": {
         "_seconds": 1777418979,
         "_nanoseconds": 380000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Recollect%20by%20Konomi%20Suzuki%20(%E9%88%B4%E6%9C%A8%E3%81%93%E3%81%AE%E3%81%BF)%20feat.%20Ashnikko%20(eps%202-)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81b6-830d-dbf66b57ab4e",
@@ -2190,7 +2460,6 @@
       ],
       "nota": "8.70",
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8.7,
       "notaDudu": null,
@@ -2208,6 +2477,12 @@
         "Romance 💖",
         "Ecchi 🔥",
         "Comédia 😂"
+      ],
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Balance%20KISS%20by%20Taketatsu%20Ayana%20%26%20Tatsumi%20Yuiko%20anime%20opening"
+        }
       ]
     },
     {
@@ -2263,7 +2538,6 @@
         "Shounen 💥",
         "Fantasia 🧙"
       ],
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8.5,
       "notaDudu": 8.8,
@@ -2291,7 +2565,13 @@
       "updatedAt": {
         "_seconds": 1777399956,
         "_nanoseconds": 281000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=The%20Day%20by%20Porno%20Graffitti%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-818a-a4f2-e7f9deb135e3",
@@ -2302,7 +2582,6 @@
         "Shounen 💥",
         "Fantasia 🧙"
       ],
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8.8,
       "notaDudu": 8.5,
@@ -2330,7 +2609,13 @@
       "updatedAt": {
         "_seconds": 1777399964,
         "_nanoseconds": 626000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Pegasus%20Fantasy%20by%20MAKE-UP%20(eps%201-73)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-816f-a3c1-ff61deb9d883",
@@ -2395,7 +2680,6 @@
         "Terror 👻"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8.6,
       "notaDudu": null,
@@ -2408,7 +2692,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 31043
+      "malId": 31043,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Re%3ARe%3A%20by%20Asian%20Kung-Fu%20Generation%20(eps%202-12)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8197-be99-dae9d2bddfa9",
@@ -2424,7 +2714,6 @@
         "Shounen 💥"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8.6,
       "notaDudu": null,
@@ -2437,7 +2726,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 18897
+      "malId": 18897,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=CLICK%20by%20ClariS%20(eps%202-14)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81e5-8c9f-d3bdef66458f",
@@ -2453,7 +2748,6 @@
         "Fantasia 🧙"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8.6,
       "notaDudu": null,
@@ -2466,7 +2760,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 50346
+      "malId": 50346,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Daten%20(%E5%A0%95%E5%A4%A9)%20by%20Creepy%20Nuts%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81f1-a3d4-dcc59c9014b1",
@@ -2479,7 +2779,6 @@
         "Slice of Life 🍃",
         "Drama 😢"
       ],
-      "files": [],
       "notaFernando": null,
       "notaDudu": null,
       "notaHacksuya": null,
@@ -2504,7 +2803,13 @@
       "updatedAt": {
         "_seconds": 1777354870,
         "_nanoseconds": 425000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Seishun%20Complex%20(%E9%9D%92%E6%98%A5%E3%82%B3%E3%83%B3%E3%83%97%E3%83%AC%E3%83%83%E3%82%AF%E3%82%B9)%20by%20Kessoku%20Band%20(%E7%B5%90%E6%9D%9F%E3%83%90%E3%83%B3%E3%83%89)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81d8-9d4b-cb871e2fcbf6",
@@ -2515,7 +2820,6 @@
         "Comédia 😂",
         "Drama 😢"
       ],
-      "files": [],
       "notaFernando": 8.8,
       "notaDudu": null,
       "notaHacksuya": null,
@@ -2544,7 +2848,13 @@
       "updatedAt": {
         "_seconds": 1777419101,
         "_nanoseconds": 202000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Seishun%20Satsubatsu-ron%20(%E9%9D%92%E6%98%A5%E3%82%B5%E3%83%84%E3%83%90%E3%83%84%E8%AB%96)%20by%203-nen%20E-gumi%20Utatan%20(3%E5%B9%B4E%E7%B5%84%E3%81%86%E3%81%9F%E6%8B%85)%20%5BMai%20Fuchigami%2C%20Aya%20Suzaki%2C%20Nobuhiko%20Okamoto%2C%20Ryota%20Osaka%2C%20Shintaro%20Asanuma%5D%20(eps%201-6%2C9-11)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81db-84a5-f2e70b0214ee",
@@ -2555,7 +2865,6 @@
         "Shounen 💥",
         "Fantasia 🧙"
       ],
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8.6,
       "notaDudu": 8.5,
@@ -2583,7 +2892,13 @@
       "updatedAt": {
         "_seconds": 1777399983,
         "_nanoseconds": 161000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=*Asterisk%20(*%EF%BD%9E%E3%82%A2%E3%82%B9%E3%82%BF%E3%83%AA%E3%82%B9%E3%82%AF%EF%BD%9E)%20by%20Orange%20Range%20(eps%201-25)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-812e-87c7-d5af55d67b32",
@@ -2598,7 +2913,6 @@
         "Fantasia 🧙"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8.5,
       "notaDudu": null,
@@ -2611,7 +2925,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 14513
+      "malId": 14513,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=V.I.P%20by%20SID%20(eps%201-12)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8149-a43f-e436ee2dbc66",
@@ -2626,7 +2946,6 @@
         "Slice of Life 🍃"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8.5,
       "notaDudu": null,
@@ -2639,7 +2958,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 2167
+      "malId": 2167,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Megumeru%20~cuckool%20mix%202007~%20(%E3%83%A1%E3%82%B0%E3%83%A1%E3%83%AB%EF%BD%9Ecuckool%20mix%202007%EF%BD%9E)%20by%20eufonius%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-816a-ae6b-d81b43c1b74c",
@@ -2735,7 +3060,6 @@
         "Dudu"
       ],
       "nota": "8.50",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8,
       "notaDudu": 9,
@@ -2764,7 +3088,13 @@
       "updatedAt": {
         "_seconds": 1777400104,
         "_nanoseconds": 120000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Under%20Star%20by%20Shocking%20Lemons%20(eps%201-25)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81eb-857a-c4280805559d",
@@ -2778,7 +3108,6 @@
         "Drama 😢",
         "Terror 👻"
       ],
-      "files": [],
       "notaRafael": 8.5,
       "notaFernando": null,
       "notaDudu": null,
@@ -2802,7 +3131,13 @@
       "updatedAt": {
         "_seconds": 1777355252,
         "_nanoseconds": 638000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=HON-NO%20by%20EMPiRE%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-814b-96cd-fb07d0e1f3e1",
@@ -2813,7 +3148,6 @@
         "Drama 😢",
         "Romance 💖"
       ],
-      "files": [],
       "notaFernando": 8,
       "notaDudu": null,
       "notaHacksuya": null,
@@ -2842,7 +3176,13 @@
       "updatedAt": {
         "_seconds": 1777420194,
         "_nanoseconds": 150000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=KISS%20OF%20DEATH%20by%20Mika%20Nakashima%20x%20Hyde%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8123-8933-ede5e064437c",
@@ -2859,7 +3199,6 @@
         "Slice of Life 🍃"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8.4,
       "notaDudu": null,
@@ -2872,7 +3211,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 37999
+      "malId": 37999,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Love%20Dramatic%20feat.%20Rikka%20Ihara%20(%E3%83%A9%E3%83%96%E3%83%BB%E3%83%89%E3%83%A9%E3%83%9E%E3%83%86%E3%82%A3%E3%83%83%E3%82%AF%20feat.%E4%BC%8A%E5%8E%9F%E5%85%AD%E8%8A%B1)%20by%20Masayuki%20Suzuki%20(%E9%88%B4%E6%9C%A8%E9%9B%85%E4%B9%8B)%20(eps%201-12)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8134-8bc8-f06b8bd88906",
@@ -2887,7 +3232,6 @@
         "Fantasia 🧙"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8.4,
       "notaDudu": null,
@@ -2900,7 +3244,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 31859
+      "malId": 31859,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Knew%20day%20by%20(K)NoW_NAME%20(eps%201-4%2C%206-11)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81f8-ae28-c0909d14ac34",
@@ -2916,7 +3266,6 @@
         "Drama 😢"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8.4,
       "notaDudu": null,
@@ -2929,7 +3278,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 22535
+      "malId": 22535,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Let%20Me%20Hear%20by%20Fear%2C%20and%20Loathing%20in%20Las%20Vegas%20(eps%201-23)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81a7-aa0f-d3397ba4b544",
@@ -2939,7 +3294,6 @@
         "Ação ⚔️",
         "Shounen 💥"
       ],
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8.7,
       "notaDudu": 8,
@@ -2967,7 +3321,13 @@
       "updatedAt": {
         "_seconds": 1777400138,
         "_nanoseconds": 317000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Cha-La%20Head-Cha-La%20by%20Hironobu%20Kageyama%20(eps%201-199)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81d0-92f1-d43dd89cd635",
@@ -2977,7 +3337,6 @@
         "Terror 👻",
         "Drama 😢"
       ],
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8.2,
       "notaDudu": 8.5,
@@ -3005,12 +3364,17 @@
       "updatedAt": {
         "_seconds": 1777400165,
         "_nanoseconds": 315000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Kyoumu%20Densen%20(%E5%87%B6%E5%A4%A2%E4%BC%9D%E6%9F%93)%20by%20ALI%20PROJECT%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81d4-af65-fbcfea3f7265",
       "nome": "Date a Live",
-      "files": [],
       "notaFernando": null,
       "notaDudu": 8.5,
       "notaHacksuya": null,
@@ -3049,7 +3413,13 @@
       "updatedAt": {
         "_seconds": 1777420424,
         "_nanoseconds": 923000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Date%20A%20Live%20(%E3%83%87%E3%83%BC%E3%83%88%E3%83%BB%E3%82%A2%E3%83%BB%E3%83%A9%E3%82%A4%E3%83%96)%20by%20sweet%20ARMS%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-811a-85e2-c5d4362f8634",
@@ -3060,7 +3430,6 @@
         "Drama 😢",
         "Terror 👻"
       ],
-      "files": [],
       "notaRafael": null,
       "notaFernando": null,
       "notaDudu": 8.3,
@@ -3087,7 +3456,13 @@
       "updatedAt": {
         "_seconds": 1777400204,
         "_nanoseconds": 566000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=unravel%20by%20TK%20from%20Ling%20Tosite%20Sigure%20(eps%202-11)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-813f-9c49-e374655cc241",
@@ -3098,7 +3473,6 @@
         "Shounen 💥",
         "Comédia 😂"
       ],
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8.6,
       "notaDudu": 8,
@@ -3126,7 +3500,13 @@
       "updatedAt": {
         "_seconds": 1777400363,
         "_nanoseconds": 649000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Sirius%20(%E3%82%B7%E3%83%AA%E3%82%A6%E3%82%B9)%20by%20Eir%20Aoi%20(eps%202-14)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8181-9245-f6de5a388320",
@@ -3138,7 +3518,6 @@
         "Fantasia 🧙",
         "Romance 💖"
       ],
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8.1,
       "notaDudu": 8.5,
@@ -3166,7 +3545,13 @@
       "updatedAt": {
         "_seconds": 1777400383,
         "_nanoseconds": 832000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Chase%20the%20world%20by%20May'n%20%20(eps%202-13)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81a5-92dc-dc81864e05f6",
@@ -3181,7 +3566,6 @@
         "Slice of Life 🍃"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8.3,
       "notaDudu": null,
@@ -3194,7 +3578,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 7674
+      "malId": 7674,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Blue%20Bird%20by%20Kobukuro%20(eps%201-24)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81fc-936e-db0fa78ed0d0",
@@ -3204,7 +3594,6 @@
       ],
       "nota": "8.30",
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8.3,
       "notaDudu": null,
@@ -3222,6 +3611,12 @@
         "Esportes ⚽",
         "Drama 😢",
         "Slice of Life 🍃"
+      ],
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Dried%20Up%20Youthful%20Fame%20by%20OLDCODEX%20(eps%201-12)%20anime%20opening"
+        }
       ]
     },
     {
@@ -3233,7 +3628,6 @@
         "Shounen 💥",
         "Fantasia 🧙"
       ],
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8.5,
       "notaDudu": 8,
@@ -3261,7 +3655,13 @@
       "updatedAt": {
         "_seconds": 1777400438,
         "_nanoseconds": 246000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Butter-Fly%20by%20Kouji%20Wada%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8154-90d6-caf3cc915e6e",
@@ -3278,7 +3678,6 @@
         "Drama 😢"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8.2,
       "notaDudu": null,
@@ -3291,7 +3690,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 17895
+      "malId": 17895,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Golden%20Time%20by%20Yui%20Horie%20(eps%201-12)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8155-a0de-e7fa178cdddd",
@@ -3307,7 +3712,6 @@
         "Fantasia 🧙"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8.2,
       "notaDudu": null,
@@ -3320,7 +3724,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 33506
+      "malId": 33506,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Itteki%20no%20Eikyou%20(%E4%B8%80%E6%BB%B4%E3%81%AE%E5%BD%B1%E9%9F%BF)%20by%20UVERworld%20(eps%202-12)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8172-bfe3-df8db45eddd7",
@@ -3335,7 +3745,6 @@
         "Shounen 💥"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8.2,
       "notaDudu": null,
@@ -3348,7 +3757,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 41353
+      "malId": 41353,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Contradiction%20feat.%20Tyler%20Carter%20by%20KSUKE%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8176-b098-c22bbc815cf5",
@@ -3359,7 +3774,6 @@
         "Shounen 💥",
         "Fantasia 🧙"
       ],
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8.4,
       "notaDudu": 8,
@@ -3387,7 +3801,13 @@
       "updatedAt": {
         "_seconds": 1777400488,
         "_nanoseconds": 253000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Netsujou%20no%20Spectrum%20(%E7%86%B1%E6%83%85%E3%81%AE%E3%82%B9%E3%83%9A%E3%82%AF%E3%83%88%E3%83%A9%E3%83%A0)%20by%20Ikimonogakari%20(eps%202-12)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81bc-b0f9-cc47770b94f2",
@@ -3439,7 +3859,6 @@
       "generos": [
         "Isekai 🌍✨"
       ],
-      "files": [],
       "notaRafael": 8.8,
       "notaFernando": 7.5,
       "notaDudu": null,
@@ -3467,7 +3886,13 @@
       "updatedAt": {
         "_seconds": 1777355040,
         "_nanoseconds": 435000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Gamble%20(%E3%82%AE%E3%83%A3%E3%83%B3%E3%83%96%E3%83%AB)%20by%20syudou%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8102-bef7-fef94a13b099",
@@ -3483,7 +3908,6 @@
         "Fantasia 🧙"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8,
       "notaDudu": null,
@@ -3496,7 +3920,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 392
+      "malId": 392,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Hohoemi%20no%20Bakudan%20by%20Matsuko%20Mawatari%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8103-8781-f28646f78be6",
@@ -3513,7 +3943,6 @@
         "Slice of Life 🍃"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8,
       "notaDudu": null,
@@ -3526,7 +3955,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 4224
+      "malId": 4224,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Pre-Parade%20(%E3%83%97%E3%83%AC%E3%83%91%E3%83%AC%E3%83%BC%E3%83%89)%20by%20Rie%20Kugimiya%2C%20Yui%20Horie%2C%20and%20Eri%20Kitamura%20(eps%201-16)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8106-9a83-d449cafe0c2f",
@@ -3537,7 +3972,6 @@
       ],
       "nota": "8.00",
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8,
       "notaDudu": null,
@@ -3556,6 +3990,12 @@
         "Isekai 🌍✨",
         "Fantasia 🧙",
         "Ecchi 🔥"
+      ],
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Zankoku%20na%20Yume%20to%20Nemure%20(%E6%AE%8B%E9%85%B7%E3%81%AA%E5%A4%A2%E3%81%A8%E7%9C%A0%E3%82%8C)%20by%20Minami%20Kuribayashi%20anime%20opening"
+        }
       ]
     },
     {
@@ -3570,7 +4010,6 @@
         "Fantasia 🧙"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8,
       "notaDudu": null,
@@ -3583,7 +4022,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 28223
+      "malId": 28223,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Flyers%20by%20BRADIO%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-811e-b9da-e1fceba1efd9",
@@ -3597,7 +4042,6 @@
         "Terror 👻"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8,
       "notaDudu": null,
@@ -3610,7 +4054,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 16592
+      "malId": 16592,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=DANGANRONPA%20by%20Masafumi%20Takada%20(eps%201)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8128-a339-fee0570283d1",
@@ -3627,7 +4077,6 @@
         "Romance 💖"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8,
       "notaDudu": null,
@@ -3640,7 +4089,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 45
+      "malId": 45,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Sobakasu%20(%E3%81%9D%E3%81%B0%E3%81%8B%E3%81%99)%20by%20JUDY%20AND%20MARY%20(eps%201-38)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8138-998b-ed30db2a3712",
@@ -3651,7 +4106,6 @@
         "Isekai 🌍✨",
         "Fantasia 🧙"
       ],
-      "files": [],
       "notaRafael": null,
       "notaFernando": 7.8,
       "notaDudu": 8.2,
@@ -3679,7 +4133,13 @@
       "updatedAt": {
         "_seconds": 1777400557,
         "_nanoseconds": 518000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=RISE%20by%20MADKID%20(eps%202-12)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-813f-9351-ce4dd75574f5",
@@ -3693,7 +4153,6 @@
         "Shounen 💥",
         "Fantasia 🧙"
       ],
-      "files": [],
       "notaRafael": null,
       "notaFernando": null,
       "notaDudu": 8,
@@ -3717,7 +4176,13 @@
       "updatedAt": {
         "_seconds": 1777400617,
         "_nanoseconds": 567000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Ready%20GO!%20by%20Sissy%20(eps%201-13)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-814c-a2d2-f9d1c51ad0e1",
@@ -3777,7 +4242,6 @@
         "Comédia 😂"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8,
       "notaDudu": null,
@@ -3790,7 +4254,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 37984
+      "malId": 37984,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Keep%20weaving%20your%20spider%20way%20by%20Riko%20Azuna%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-815d-916f-e40ebc379451",
@@ -3799,7 +4269,6 @@
         "Dudu"
       ],
       "nota": "8.00",
-      "files": [],
       "notaRafael": null,
       "notaFernando": null,
       "notaDudu": 8,
@@ -3827,7 +4296,13 @@
       "updatedAt": {
         "_seconds": 1777400659,
         "_nanoseconds": 567000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Bibel%20Black%20opening%201"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8165-9831-f61921ae15bd",
@@ -3836,7 +4311,6 @@
         "Dudu"
       ],
       "nota": "8.00",
-      "files": [],
       "notaRafael": null,
       "notaFernando": null,
       "notaDudu": 8,
@@ -3865,7 +4339,13 @@
       "updatedAt": {
         "_seconds": 1777400672,
         "_nanoseconds": 954000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Break%20your%20world%20by%20Sayaka%20Sasaki%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-819c-967b-fa1600659d2e",
@@ -3876,7 +4356,6 @@
       ],
       "nota": "8.00",
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8,
       "notaDudu": null,
@@ -3895,6 +4374,12 @@
         "Shounen 💥",
         "Esportes ⚽",
         "Comédia 😂"
+      ],
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Go%20to%20the%20top%20by%20Kumi%20Kouda%20(eps%202-19)%20anime%20opening"
+        }
       ]
     },
     {
@@ -3905,7 +4390,6 @@
       ],
       "nota": "8.00",
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8,
       "notaDudu": null,
@@ -3923,6 +4407,12 @@
         "Shounen 💥",
         "Esportes ⚽",
         "Drama 😢"
+      ],
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Go%20EXCEED!!%20by%20Tom-H%40ck%20featuring%20Masayoshi%20Oishi%20(eps%201-25)%20anime%20opening"
+        }
       ]
     },
     {
@@ -3934,7 +4424,6 @@
       ],
       "nota": "8.00",
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8,
       "notaDudu": null,
@@ -3953,6 +4442,12 @@
         "Fantasia 🧙",
         "Drama 😢",
         "Ecchi 🔥"
+      ],
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Rightfully%20by%20Mili%20(eps%202-12)%20anime%20opening"
+        }
       ]
     },
     {
@@ -3963,7 +4458,6 @@
         "Ação ⚔️",
         "Shounen 💥"
       ],
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8,
       "notaDudu": 8,
@@ -3991,7 +4485,13 @@
       "updatedAt": {
         "_seconds": 1777400686,
         "_nanoseconds": 567000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Kawaita%20Sakebi%20by%20Field%20of%20View%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81de-9a1d-d8f6bb66c87d",
@@ -4007,7 +4507,6 @@
         "Fantasia 🧙"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8,
       "notaDudu": null,
@@ -4020,7 +4519,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 38671
+      "malId": 38671,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Inferno%20(%E3%82%A4%E3%83%B3%E3%83%95%E3%82%A7%E3%83%AB%E3%83%8E)%20by%20Mrs.GREEN%20APPLE%20(eps%201-14)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81fd-bd2e-e7977d3c04f9",
@@ -4035,7 +4540,6 @@
         "Shounen 💥"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8,
       "notaDudu": null,
@@ -4048,7 +4552,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 1469
+      "malId": 1469,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Kaze%20ga%20Soyogu%20Basho%20by%20Miho%20Komatsu%20(eps%201-28)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81fe-86e9-e0b2c235a5cb",
@@ -4059,7 +4569,6 @@
         "Fantasia 🧙",
         "Comédia 😂"
       ],
-      "files": [],
       "notaRafael": null,
       "notaFernando": null,
       "notaDudu": 8,
@@ -4086,7 +4595,13 @@
       "updatedAt": {
         "_seconds": 1777400700,
         "_nanoseconds": 53000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Sleep%20Walking%20Orchestra%20by%20BUMP%20OF%20CHICKEN%20(eps%202-13)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8141-b8e5-f0f438425328",
@@ -4100,7 +4615,6 @@
         "Fantasia 🧙"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 7.9,
       "notaDudu": null,
@@ -4113,7 +4627,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 1137
+      "malId": 1137,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Power%20Play%20by%20Ayumi%20Miyazaki%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8184-8c12-f22e8cf0653a",
@@ -4129,7 +4649,6 @@
         "Drama 😢"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 7.9,
       "notaDudu": null,
@@ -4142,7 +4661,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 14813
+      "malId": 14813,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Yukitoki%20(%E3%83%A6%E3%82%AD%E3%83%88%E3%82%AD)%20by%20Nagi%20Yanagi%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8146-9c44-d25915a03b74",
@@ -4157,7 +4682,6 @@
         "Shounen 💥",
         "Fantasia 🧙"
       ],
-      "files": [],
       "notaRafael": null,
       "notaFernando": 7.7,
       "notaDudu": 8,
@@ -4181,7 +4705,13 @@
       "updatedAt": {
         "_seconds": 1777400721,
         "_nanoseconds": 420000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=TOP%20by%20Stray%20Kids%20(eps%201-12)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8103-95d0-c60c68dc4940",
@@ -4196,7 +4726,6 @@
         "Comédia 😂"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 7.8,
       "notaDudu": null,
@@ -4209,7 +4738,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 50739
+      "malId": 50739,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Gift%20(%E3%82%AE%E3%83%95%E3%83%88)%20by%20Masayoshi%20Ooishi%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-811a-9b7a-e4351e8c2a75",
@@ -4225,7 +4760,6 @@
         "Slice of Life 🍃"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 7.8,
       "notaDudu": null,
@@ -4238,7 +4772,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 232
+      "malId": 232,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Catch%20You%20Catch%20Me%20by%20Gumi%20(eps%201-35)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8153-a414-f8f001e703c7",
@@ -4254,7 +4794,6 @@
         "Drama 😢"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 7.8,
       "notaDudu": null,
@@ -4267,7 +4806,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 54112
+      "malId": 54112,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Song%20of%20the%20Dead%20(%E3%82%BD%E3%83%B3%E3%82%B0%E3%82%AA%E3%83%96%E3%82%B6%E3%83%87%E3%83%83%E3%83%89)%20by%20KANA-BOON%20(eps%202-11)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8191-b9bf-ed0c66062a9f",
@@ -4324,7 +4869,6 @@
         "Drama 😢"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 7.8,
       "notaDudu": null,
@@ -4337,7 +4881,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 38656
+      "malId": 38656,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=CHAIN%20by%20ASCA%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81c5-8041-ce7237b923e3",
@@ -4354,7 +4904,6 @@
         "Shounen 💥"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 7.8,
       "notaDudu": null,
@@ -4367,7 +4916,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 20507
+      "malId": 20507,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Goya%20no%20Machiawase%20(%E5%8D%88%E5%A4%9C%E3%81%AE%E5%BE%85%E3%81%A1%E5%90%88%E3%82%8F%E3%81%9B)%20by%20Hello%20Sleepwalkers%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8153-80ff-caf68947a1a3",
@@ -4379,7 +4934,6 @@
         "Drama 😢",
         "Romance 💖"
       ],
-      "files": [],
       "notaRafael": null,
       "notaFernando": 8.5,
       "notaDudu": 7,
@@ -4407,7 +4961,13 @@
       "updatedAt": {
         "_seconds": 1777400764,
         "_nanoseconds": 93000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Kuusou%20Mesorogiwi%20by%20Yousei%20Teikoku%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81e8-b1f5-f54239f2c547",
@@ -4417,7 +4977,6 @@
         "Ação ⚔️",
         "Shounen 💥"
       ],
-      "files": [],
       "notaRafael": null,
       "notaFernando": 7.5,
       "notaDudu": 8,
@@ -4445,7 +5004,13 @@
       "updatedAt": {
         "_seconds": 1777400776,
         "_nanoseconds": 544000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Fighting%20Spirits-SONG%20FOR%20BEYBLADE-%20by%20system-B%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-817c-b960-dfa7b6a6c252",
@@ -4502,7 +5067,6 @@
       ],
       "nota": "7.60",
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 7.6,
       "notaDudu": null,
@@ -4521,6 +5085,12 @@
         "Esportes ⚽",
         "Ecchi 🔥",
         "Comédia 😂"
+      ],
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=DREAM%C3%97SCRAMBLE!%20by%20AiRI%20anime%20opening"
+        }
       ]
     },
     {
@@ -4531,7 +5101,6 @@
       ],
       "nota": "7.60",
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 7.6,
       "notaDudu": null,
@@ -4549,6 +5118,12 @@
         "Comédia 😂",
         "Ecchi 🔥",
         "Slice of Life 🍃"
+      ],
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Hitorigoto%20(%E3%83%92%E3%83%88%E3%83%AA%E3%82%B4%E3%83%88)%20by%20ClariS%20anime%20opening"
+        }
       ]
     },
     {
@@ -4565,7 +5140,6 @@
         "Fantasia 🧙"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 7.6,
       "notaDudu": null,
@@ -4578,7 +5152,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 48316
+      "malId": 48316,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=HIGHEST%20by%20OxT%20(eps%202-19)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81bb-95b8-dd7ccf4d232c",
@@ -4591,7 +5171,6 @@
         "Drama 😢"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 7.6,
       "notaDudu": null,
@@ -4604,7 +5183,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 23283
+      "malId": 23283,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Trigger%20by%20Yuuki%20Ozaki%20(from%20Galileo%20Galilei)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81fb-ba61-c8bf996267d6",
@@ -4614,7 +5199,6 @@
       ],
       "nota": "7.60",
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 7.6,
       "notaDudu": null,
@@ -4631,6 +5215,12 @@
       "generos": [
         "Esportes ⚽",
         "Shounen 💥"
+      ],
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Track%20City%20opening%201"
+        }
       ]
     },
     {
@@ -4732,7 +5322,6 @@
         "Fantasia 🧙"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 7.5,
       "notaDudu": null,
@@ -4745,7 +5334,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 28623
+      "malId": 28623,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=KABANERI%20OF%20THE%20IRON%20FORTRESS%20by%20EGOIST%20(eps%202-12)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8126-bb1e-f91b9c04618b",
@@ -4757,7 +5352,6 @@
         "Romance 💖",
         "Comédia 😂"
       ],
-      "files": [],
       "notaRafael": null,
       "notaFernando": null,
       "notaDudu": 7.5,
@@ -4784,7 +5378,13 @@
       "updatedAt": {
         "_seconds": 1777400837,
         "_nanoseconds": 376000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=First%20kiss%20by%20ICHIKO%20(eps%20)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8136-af16-d8fce0e46233",
@@ -4885,7 +5485,6 @@
         "Shounen 💥"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 7.5,
       "notaDudu": null,
@@ -4898,7 +5497,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 1138
+      "malId": 1138,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Chie%20to%20Yuuki%20da!%20Medarotto%20(Wisdom%20and%20Courage!%20Medarot)%20by%20Takeuchi%20Junko%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8142-b850-fa46a40f2477",
@@ -4914,7 +5519,6 @@
         "Fantasia 🧙",
         "Drama 😢"
       ],
-      "files": [],
       "notaRafael": null,
       "notaFernando": 7.4,
       "notaDudu": 7.5,
@@ -4938,7 +5542,13 @@
       "updatedAt": {
         "_seconds": 1777400901,
         "_nanoseconds": 898000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=X.U.%20by%20SawanoHiroyuki%5BnZk%5D%3AGemie%20(eps%202-12)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-810b-8274-dd6b902c6d8d",
@@ -4954,7 +5564,6 @@
         "Fantasia 🧙"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 7.4,
       "notaDudu": null,
@@ -4967,7 +5576,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 16049
+      "malId": 16049,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=sister's%20noise%20by%20fripSide%20(eps%202-16)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81c1-83e0-d655e3e8674d",
@@ -4982,7 +5597,6 @@
         "Comédia 😂"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 7.4,
       "notaDudu": null,
@@ -4995,7 +5609,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 5680
+      "malId": 5680,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Cagayake!%20GIRLS%20by%20Sakurakou%20Keion-bu%20(Aki%20Toyosaki%2C%20Yoko%20Hisaka%2C%20Satomi%20Satou%2C%20Minako%20Kotobuki)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8107-86ec-f0408c0b21f7",
@@ -5011,7 +5631,6 @@
         "Fantasia 🧙"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 7.3,
       "notaDudu": null,
@@ -5024,7 +5643,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 3588
+      "malId": 3588,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Counter%20Identity%20by%20UNISON%20SQUARE%20GARDEN%20(eps%201-13)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8143-86b8-efe4927f4244",
@@ -5040,7 +5665,6 @@
         "Fantasia 🧙"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 7.3,
       "notaDudu": null,
@@ -5053,7 +5677,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 17265
+      "malId": 17265,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=database%20feat.%20TAKUMA%20(10%20Feet)%20by%20MAN%20WITH%20A%20MISSION%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-815c-a32f-d0dbb6f02e6c",
@@ -5067,7 +5697,6 @@
         "Drama 😢"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 7.3,
       "notaDudu": null,
@@ -5080,7 +5709,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 13601
+      "malId": 13601,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=abnormalize%20by%20Ling%20Tosite%20Sigure%20(%E5%87%9B%E3%81%A8%E3%81%97%E3%81%A6%E6%99%82%E9%9B%A8)%20(eps%201-11)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "zYfLlKnbUcSwodnE5xfR",
@@ -5093,7 +5728,6 @@
           "text": "O lado do romance é bem trabalhado e legal, mas a história deixa um pouco a desejar assim como a animação, o prota é legalzinho."
         }
       ],
-      "files": [],
       "maisDeUmVoto": "nao",
       "qtdVotos": 1,
       "controversia": 0,
@@ -5110,6 +5744,12 @@
         "Ação ⚔️",
         "Fantasia 🧙",
         "Romance 💖"
+      ],
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Against.%20by%20Kaori%20Ishihara%20anime%20opening"
+        }
       ]
     },
     {
@@ -5126,7 +5766,6 @@
         "Fantasia 🧙"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 7.2,
       "notaDudu": null,
@@ -5139,7 +5778,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 530
+      "malId": 530,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Moonlight%20Densetsu%20by%20DALI%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81be-a04b-eef81601455d",
@@ -5153,7 +5798,6 @@
         "Shounen 💥",
         "Comédia 😂"
       ],
-      "files": [],
       "notaRafael": 7.2,
       "notaFernando": null,
       "notaDudu": null,
@@ -5177,7 +5821,13 @@
       "updatedAt": {
         "_seconds": 1777355228,
         "_nanoseconds": 238000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Hashire%20SAKAMOTO%20(%E8%B5%B0%E3%82%8CSAKAMOTO)%20by%20Vaundy%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81e0-bb29-db75c75e13a5",
@@ -5192,7 +5842,6 @@
         "Fantasia 🧙"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 7.2,
       "notaDudu": null,
@@ -5205,7 +5854,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 15809
+      "malId": 15809,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=ZERO!!%20by%20Minami%20Kuribayashi%20%20(eps%203-13)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81f2-a40e-f6353355d1ef",
@@ -5220,7 +5875,6 @@
         "Shounen 💥"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 7.2,
       "notaDudu": null,
@@ -5233,7 +5887,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 28297
+      "malId": 28297,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Miraikei%20Answer%20(%E6%9C%AA%E6%9D%A5%E5%BD%A2Answer)%20by%20TRUSTRICK%20(eps%201-23)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8101-a93d-e960a59dda20",
@@ -5244,7 +5904,6 @@
         "Shounen 💥",
         "Fantasia 🧙"
       ],
-      "files": [],
       "notaRafael": 6.5,
       "notaFernando": 7,
       "notaDudu": 8,
@@ -5277,7 +5936,13 @@
       "updatedAt": {
         "_seconds": 1777400932,
         "_nanoseconds": 983000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Abyss%20by%20YUNGBLUD%20(eps%202-12)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8078-8a11-d87361de7a17",
@@ -5330,7 +5995,6 @@
       "id": "3416beab-c784-8115-87a5-cbbc833efa18",
       "nome": "Captain Tsubasa",
       "nota": "7.05",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 7.1,
       "notaDudu": 7,
@@ -5363,7 +6027,13 @@
       "updatedAt": {
         "_seconds": 1777400958,
         "_nanoseconds": 831000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Moete%20Hero%20(%E7%87%83%E3%81%88%E3%81%A6%E3%83%92%E3%83%BC%E3%83%AD%E3%83%BC)%20by%20Hiroyuki%20Okita%20(eps%201-87)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-80ac-b85d-edbb259d8ad7",
@@ -5465,7 +6135,6 @@
         "Slice of Life 🍃"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": 7,
       "notaFernando": null,
       "notaDudu": null,
@@ -5478,7 +6147,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 53421
+      "malId": 53421,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Namara%20Menkoi%20Gal%20(%E3%81%AA%E3%81%BE%E3%82%89%E3%82%81%E3%82%93%E3%81%93%E3%81%84%E3%82%AE%E3%83%A3%E3%83%AB)%20by%20Masayoshi%20Ooishi%20(%E3%82%AA%E3%83%BC%E3%82%A4%E3%82%B7%E3%83%9E%E3%82%B5%E3%83%A8%E3%82%B7)%20(eps%202-10%2C12)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81fe-8f3a-daf13be4a073",
@@ -5495,7 +6170,6 @@
         "Drama 😢"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 7,
       "notaDudu": null,
@@ -5508,7 +6182,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 1575
+      "malId": 1575,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=COLORS%20by%20FLOW%20(eps%201-12)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8109-92f9-daaa7507f7f7",
@@ -5519,7 +6199,6 @@
         "Shounen 💥",
         "Drama 😢"
       ],
-      "files": [],
       "notaRafael": 5.2,
       "notaFernando": 8.7,
       "notaDudu": null,
@@ -5547,7 +6226,13 @@
       "updatedAt": {
         "_seconds": 1777333863,
         "_nanoseconds": 899000000
-      }
+      },
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Skyreach%20by%20Sora%20Amamiya%20(eps%201-14)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81bf-a035-fc37b5b078c2",
@@ -5561,7 +6246,6 @@
         "Fantasia 🧙"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": 6.9,
       "notaDudu": null,
@@ -5574,12 +6258,17 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 41025
+      "malId": 41025,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=PINK%20BLOOD%20by%20Hikaru%20Utada%20(%E5%AE%87%E5%A4%9A%E7%94%B0%E3%83%92%E3%82%AB%E3%83%AB)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "hJxxL5kkUMT3R4eYZuPJ",
       "nome": "Suisei no Gargantia",
-      "files": [],
       "maisDeUmVoto": "nao",
       "qtdVotos": 1,
       "controversia": 0,
@@ -5609,6 +6298,12 @@
         "Aventura 🎒",
         "Mecha 🤖",
         "Romance 💖"
+      ],
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Kono%20Sekai%20wa%20Bokura%20wo%20Matteita%20(%E3%81%93%E3%81%AE%E4%B8%96%E7%95%8C%E3%81%AF%E5%83%95%E3%82%89%E3%82%92%E5%BE%85%E3%81%A3%E3%81%A6%E3%81%84%E3%81%9F)%20by%20Minori%20Chihara%20anime%20opening"
+        }
       ]
     },
     {
@@ -5622,7 +6317,6 @@
           "text": "Anime bem ruim, muito mal animado, mas serve para passar o tempo, existe algumas interações estranhas entre o prota e suas escravas, mas, nunca passado ponto."
         }
       ],
-      "files": [],
       "maisDeUmVoto": "nao",
       "qtdVotos": 1,
       "controversia": 0,
@@ -5639,6 +6333,12 @@
         "Aventura 🎒",
         "Fantasia 🧙",
         "Bomba 💣"
+      ],
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Slide%20Ride%20(%E3%82%B9%E3%83%A9%E3%82%A4%E3%83%89%E3%83%A9%E3%82%A4%E3%83%89)%20by%20Run%20Girls%2C%20Run!%20anime%20opening"
+        }
       ]
     },
     {
@@ -5652,7 +6352,6 @@
           "text": "Anime Bomba, muito errado em vários sentidos. Assista por sua conta e risco."
         }
       ],
-      "files": [],
       "maisDeUmVoto": "nao",
       "qtdVotos": 2,
       "controversia": 0,
@@ -5672,6 +6371,12 @@
         "Fantasia 🧙",
         "Romance 💖",
         "Bomba 💣"
+      ],
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Another%20World%20by%20AOP%20anime%20opening"
+        }
       ]
     },
     {
@@ -5687,7 +6392,6 @@
         "Romance 💖"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": 4,
       "notaFernando": null,
       "notaDudu": null,
@@ -5700,7 +6404,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 39195
+      "malId": 39195,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Wild%20Side%20by%20ALI%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-813c-8582-e3b257fccd84",
@@ -5709,7 +6419,6 @@
         "Rafael"
       ],
       "nota": "1.00",
-      "files": [],
       "notaRafael": 1,
       "notaFernando": null,
       "notaDudu": null,
@@ -5738,6 +6447,12 @@
         "Shounen 💥",
         "Esportes ⚽",
         "Drama 😢"
+      ],
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Chaos%20ga%20Kiwamaru%20(%E3%82%AB%E3%82%AA%E3%82%B9%E3%81%8C%E6%A5%B5%E3%81%BE%E3%82%8B)%20by%20UNISON%20SQUARE%20GARDEN%20(eps%202-13)%20anime%20opening"
+        }
       ]
     },
     {
@@ -5754,7 +6469,6 @@
         "Drama 😢"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": null,
       "notaDudu": null,
@@ -5767,7 +6481,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 44511
+      "malId": 44511,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=KICK%20BACK%20by%20Kenshi%20Yonezu%20(%E7%B1%B3%E6%B4%A5%E7%8E%84%E5%B8%AB)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-810e-8637-dea33e73650e",
@@ -5781,7 +6501,6 @@
         "Drama 😢"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": null,
       "notaDudu": null,
@@ -5794,7 +6513,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 36649
+      "malId": 36649,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=found%20%26%20lost%20by%20Survive%20Said%20The%20Prophet%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-810f-8a4c-f0f76f131b58",
@@ -5804,7 +6529,6 @@
       ],
       "nota": "0.00",
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": null,
       "notaDudu": null,
@@ -5822,6 +6546,12 @@
         "Romance 💖",
         "Comédia 😂",
         "Ecchi 🔥"
+      ],
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=100%20Namoradas%20Que%20Te%20Amam%20Muuuuuito%20opening%201"
+        }
       ]
     },
     {
@@ -5835,7 +6565,6 @@
         "Drama 😢"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": null,
       "notaDudu": null,
@@ -5848,7 +6577,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 9253
+      "malId": 9253,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Hacking%20to%20the%20Gate%20by%20Kanako%20Itou%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8143-a730-e19c67251ab4",
@@ -5856,7 +6591,6 @@
       "quemAssistiu": [],
       "nota": "0.00",
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": null,
       "notaDudu": null,
@@ -5874,6 +6608,12 @@
         "Romance 💖",
         "Comédia 😂",
         "Ecchi 🔥"
+      ],
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Dekoboko%20(%E5%87%B8%E5%87%B9)%20by%20Kiyoe%20Yoshioka%20anime%20opening"
+        }
       ]
     },
     {
@@ -5889,7 +6629,6 @@
         "Shounen 💥"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": null,
       "notaDudu": null,
@@ -5902,7 +6641,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 38691
+      "malId": 38691,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Good%20Morning%20World!%20by%20BURNOUT%20SYNDROMES%20(eps%201-13)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8168-93db-d01a5f474dea",
@@ -5915,7 +6660,6 @@
         "Terror 👻"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": null,
       "notaDudu": null,
@@ -5928,7 +6672,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 226
+      "malId": 226,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=LILIUM%20by%20Kumiko%20Noma%20(%E9%87%8E%E9%96%93%E4%B9%85%E7%BE%8E%E5%AD%90)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8169-b24a-c5b9f29bc3c6",
@@ -5941,7 +6691,6 @@
         "Fantasia 🧙"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": null,
       "notaDudu": null,
@@ -5954,7 +6703,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 14719
+      "malId": 14719,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=JoJo%20~Sono%20Chi%20no%20Sadame~%20(%E3%82%B8%E3%83%A7%E3%82%B8%E3%83%A7%EF%BD%9E%E3%81%9D%E3%81%AE%E8%A1%80%E3%81%AE%E9%81%8B%E5%91%BD%EF%BD%9E)%20by%20Hiroaki%20TOMMY%20Tominaga%20(eps%202-9)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8175-ac90-e179c400e71c",
@@ -5967,7 +6722,6 @@
         "Fantasia 🧙"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": null,
       "notaDudu": null,
@@ -5980,7 +6734,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 32379
+      "malId": 32379,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Inferno%20by%209mm%20Parabellum%20Bullet%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-817b-b394-c5faeb5d1c11",
@@ -5995,7 +6755,6 @@
         "Drama 😢"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": null,
       "notaDudu": null,
@@ -6008,7 +6767,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 63018
+      "malId": 63018,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Evangelion%20opening%201"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-8187-b7f7-e7653c1a9d21",
@@ -6022,7 +6787,6 @@
         "Drama 😢"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": null,
       "notaDudu": null,
@@ -6035,7 +6799,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 21855
+      "malId": 21855,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Hana%20Ato%3A%20Shirushi%20(%E8%8A%B1%E7%97%95%20-shirushi-)%20by%20Marina%20Kawano%20(TV%20broadcast%3B%20ending%20theme%20in%20BD%2FDVD%20version)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-819b-832c-cd13d2da7c08",
@@ -6045,7 +6815,6 @@
       ],
       "nota": "0.00",
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": null,
       "notaDudu": null,
@@ -6064,6 +6833,12 @@
         "Ecchi 🔥",
         "Comédia 😂",
         "Fantasia 🧙"
+      ],
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=forever%20we%20can%20make%20it!%20by%20THYME%20anime%20opening"
+        }
       ]
     },
     {
@@ -6076,7 +6851,6 @@
         "Drama 😢"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": null,
       "notaDudu": null,
@@ -6089,7 +6863,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 1
+      "malId": 1,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Tank!%20by%20The%20Seatbelts%20(eps%201-25)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81bf-8b91-e267ee325cf7",
@@ -6103,7 +6883,6 @@
         "Slice of Life 🍃"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": null,
       "notaDudu": null,
@@ -6116,7 +6895,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 52034
+      "malId": 52034,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=%E3%82%A2%E3%82%A4%E3%83%89%E3%83%AB%20by%20YOASOBI%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81c3-a27c-eec9c71e51f9",
@@ -6132,7 +6917,6 @@
         "Shounen 💥"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": 0,
       "notaFernando": null,
       "notaDudu": null,
@@ -6145,7 +6929,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 42249
+      "malId": 42249,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Cry%20Baby%20by%20Official%20HiGE%20DANdism%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81d2-9a80-e24ff8a67f1c",
@@ -6158,7 +6948,6 @@
         "Slice of Life 🍃"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": null,
       "notaDudu": null,
@@ -6171,7 +6960,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 33352
+      "malId": 33352,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Sincerely%20by%20TRUE%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81d7-8d54-d180fb3688b9",
@@ -6186,7 +6981,6 @@
         "Fantasia 🧙"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": null,
       "notaDudu": null,
@@ -6199,7 +6993,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 2924
+      "malId": 2924,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=euphoric%20field%20by%20Tenmon%20feat.%20ELISA%20(eps%20TV%3A%20eps%203-9%2C%2011%3B%20BD%2FDVD%3A%20eps%201-11)%20anime%20opening"
+        }
+      ]
     },
     {
       "id": "3416beab-c784-81e9-9875-e7eb473079b7",
@@ -6209,7 +7009,6 @@
       ],
       "nota": "0.00",
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": null,
       "notaDudu": null,
@@ -6228,6 +7027,12 @@
         "Ecchi 🔥",
         "Comédia 😂",
         "Fantasia 🧙"
+      ],
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Momoiro%20Typhoon%20(%E6%A1%83%E8%89%B2%E3%82%BF%E3%82%A4%E3%83%95%E3%83%BC%E3%83%B3)%20by%20Luna%20Haruna%20(eps%201-11)%20anime%20opening"
+        }
       ]
     },
     {
@@ -6243,7 +7048,6 @@
         "Drama 😢"
       ],
       "comentarios": "",
-      "files": [],
       "notaRafael": null,
       "notaFernando": null,
       "notaDudu": null,
@@ -6256,7 +7060,13 @@
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 5081
+      "malId": 5081,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=staple%20stable%20by%20Chiwa%20Saito%20(eps%20TV%20Broadcast%3A%202%2C%206-7%2C%2011-12%2C%20BD%2FDVD%3A%201-2%2C%2012)%20anime%20opening"
+        }
+      ]
     }
   ]
 }
