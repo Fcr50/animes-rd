@@ -2294,7 +2294,7 @@ body.blog-page::before {
 
 .blog-hero-card.has-bg::after,
 .post-featured::after {
-  background: linear-gradient(135deg, rgba(220,252,231,0.96) 0%, rgba(186,230,253,0.94) 54%, rgba(125,211,252,0.88) 100%);
+  background: linear-gradient(135deg, rgba(240,253,244,0.98) 0%, rgba(220,252,231,0.92) 42%, rgba(224,242,254,0.94) 100%);
   border-radius: inherit;
   content: "";
   inset: 0;
