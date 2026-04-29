@@ -1372,6 +1372,91 @@ tbody td { padding: 12px 14px; vertical-align: middle; }
 .anime-list .score { color: var(--success); font-size: 12px; font-weight: 900; }
 .anime-list .empty-score { color: var(--faint); font-size: 12px; }
 
+body.rafael-page .grid-2 {
+  gap: 18px;
+}
+
+body.rafael-page .grid-2 > .card {
+  background:
+    radial-gradient(circle at 18% 12%, rgba(167,139,250,0.16), transparent 34%),
+    linear-gradient(145deg, rgba(124,58,237,0.18), rgba(24,23,29,0.94) 58%, rgba(6,182,212,0.055)),
+    rgba(18,17,24,0.96);
+  border: 1px solid rgba(196,181,253,0.28);
+  border-radius: 18px;
+  box-shadow: 0 20px 54px rgba(0,0,0,0.24), 0 0 0 1px rgba(255,255,255,0.025) inset;
+  overflow: hidden;
+  padding: 24px;
+}
+
+body.rafael-page .grid-2 > .card:nth-child(2),
+body.rafael-page .grid-2 + .grid-2 > .card:nth-child(2) {
+  background:
+    radial-gradient(circle at 18% 12%, rgba(249,168,212,0.14), transparent 34%),
+    linear-gradient(145deg, rgba(236,72,153,0.16), rgba(24,23,29,0.94) 58%, rgba(251,113,133,0.06)),
+    rgba(18,17,24,0.96);
+  border-color: rgba(249,168,212,0.26);
+}
+
+body.rafael-page .card-title {
+  color: #d8b4fe;
+  letter-spacing: 0.16em;
+}
+
+body.rafael-page .grid-2 > .card:nth-child(2) .card-title,
+body.rafael-page .grid-2 + .grid-2 > .card:nth-child(2) .card-title {
+  color: #f9a8d4;
+}
+
+body.rafael-page .chart-container {
+  filter: drop-shadow(0 18px 24px rgba(0,0,0,0.18));
+}
+
+body.rafael-page .anime-list {
+  display: grid;
+  gap: 8px;
+}
+
+body.rafael-page .anime-list li {
+  background:
+    linear-gradient(90deg, rgba(167,139,250,0.11), rgba(255,255,255,0.018)),
+    rgba(255,255,255,0.022);
+  border: 1px solid rgba(196,181,253,0.09);
+  border-radius: 14px;
+  padding: 12px 14px;
+}
+
+body.rafael-page .grid-2 + .grid-2 > .card:nth-child(2) .anime-list li {
+  background:
+    linear-gradient(90deg, rgba(249,168,212,0.1), rgba(255,255,255,0.018)),
+    rgba(255,255,255,0.022);
+  border-color: rgba(249,168,212,0.09);
+}
+
+body.rafael-page .anime-list .name {
+  color: var(--paper);
+  font-weight: 900;
+  line-height: 1.25;
+}
+
+body.rafael-page .anime-list .score {
+  background: rgba(52,211,153,0.12);
+  border: 1px solid rgba(52,211,153,0.2);
+  border-radius: 999px;
+  color: #86efac;
+  padding: 3px 8px;
+}
+
+body.rafael-page .anime-list .empty-score {
+  color: #f9a8d4;
+  font-weight: 800;
+  text-align: right;
+}
+
+body.rafael-page .grid-2 .card > p {
+  color: #ded7c8 !important;
+  font-weight: 800;
+}
+
 .compare-selectors {
   align-items: center;
   display: flex;
