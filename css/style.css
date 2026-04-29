@@ -1933,10 +1933,9 @@ body::before {
 .quick-links a:nth-child(2),
 .quick-links a:nth-child(3),
 .quick-links a:nth-child(4),
+.blog-categories a:nth-child(1),
 .blog-categories a:nth-child(2),
 .blog-categories a:nth-child(3),
-.blog-categories a:nth-child(4),
-.blog-categories a:nth-child(5),
 .member-card:nth-child(1),
 .member-card:nth-child(2),
 .member-card:nth-child(3),
@@ -2375,10 +2374,9 @@ body.blog-page::before {
   box-shadow: 4px 4px 0 rgba(31,41,51,0.12);
 }
 
-.blog-categories a:nth-child(2) { background: #ffcf56; }
+.blog-categories a:nth-child(1) { background: #fffaf0; }
+.blog-categories a:nth-child(2) { background: #f8a6c8; }
 .blog-categories a:nth-child(3) { background: #7bd6c5; }
-.blog-categories a:nth-child(4) { background: #f8a6c8; }
-.blog-categories a:nth-child(5) { background: #f68f45; }
 
 .blog-layout {
   display: grid;
@@ -3273,7 +3271,7 @@ body.dark-theme .post-card:nth-child(4) {
 
 body.dark-theme .grid-2 > .card:nth-child(1),
 body.dark-theme .grid-3 > .card:nth-child(1),
-body.dark-theme .blog-categories a:nth-child(2) {
+body.dark-theme .blog-categories a:nth-child(1) {
   background:
     linear-gradient(145deg, rgba(124,58,237,0.22), rgba(24,23,29,0.96) 64%),
     var(--card);
@@ -3282,7 +3280,7 @@ body.dark-theme .blog-categories a:nth-child(2) {
 
 body.dark-theme .grid-2 > .card:nth-child(2),
 body.dark-theme .grid-3 > .card:nth-child(2),
-body.dark-theme .blog-categories a:nth-child(3) {
+body.dark-theme .blog-categories a:nth-child(2) {
   background:
     linear-gradient(145deg, rgba(236,72,153,0.2), rgba(24,23,29,0.96) 64%),
     var(--card);
@@ -3290,7 +3288,7 @@ body.dark-theme .blog-categories a:nth-child(3) {
 }
 
 body.dark-theme .grid-3 > .card:nth-child(3),
-body.dark-theme .blog-categories a:nth-child(4) {
+body.dark-theme .blog-categories a:nth-child(3) {
   background:
     linear-gradient(145deg, rgba(52,211,153,0.18), rgba(24,23,29,0.96) 64%),
     var(--card);
@@ -3302,7 +3300,6 @@ body.dark-theme .news-card {
   border-color: rgba(243,239,230,0.16);
 }
 
-body.dark-theme .blog-categories a:nth-child(5),
 body.dark-theme .post-featured,
 body.dark-theme .blog-hero-card:not(.has-bg) {
   background:
