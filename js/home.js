@@ -307,8 +307,6 @@ function renderHeroInfoRotator(data, date, featuredAnime) {
     <div class="blog-hero-dots">
       ${slides.map((_, index) => `<button class="${index === 0 ? "active" : ""}" type="button" data-hero-dot="${index}" aria-label="Abrir aba ${index + 1}"></button>`).join("")}
     </div>
-    <button class="blog-hero-arrow blog-hero-arrow-prev" type="button" data-hero-prev aria-label="Voltar informação">‹</button>
-    <button class="blog-hero-arrow blog-hero-arrow-next" type="button" data-hero-next aria-label="Próxima informação">›</button>
   `;
 
   let active = 0;
@@ -329,16 +327,6 @@ function renderHeroInfoRotator(data, date, featuredAnime) {
     if (heroInfoTimer) clearInterval(heroInfoTimer);
     heroInfoTimer = setInterval(() => showSlide(active + 1), 3000);
   };
-
-  rotator.querySelector("[data-hero-prev]")?.addEventListener("click", () => {
-    showSlide(active - 1);
-    restartTimer();
-  });
-
-  rotator.querySelector("[data-hero-next]")?.addEventListener("click", () => {
-    showSlide(active + 1);
-    restartTimer();
-  });
 
   rotator.querySelectorAll("[data-hero-dot]").forEach((dot) => {
     dot.addEventListener("click", () => {

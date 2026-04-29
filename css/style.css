@@ -2083,45 +2083,6 @@ body.blog-page::before {
   width: 36px;
 }
 
-.blog-hero-arrow {
-  align-items: center;
-  align-self: center;
-  background:
-    linear-gradient(135deg, rgba(187,247,208,0.16), rgba(186,230,253,0.1)),
-    rgba(16,16,20,0.5);
-  border: 1px solid rgba(243,239,230,0.18);
-  border-radius: 50%;
-  color: var(--paper);
-  cursor: pointer;
-  display: flex;
-  font-size: 30px;
-  font-weight: 900;
-  grid-area: 1 / 1;
-  height: 40px;
-  justify-content: center;
-  line-height: 1;
-  position: relative;
-  transition: border-color 0.18s ease, transform 0.18s ease, background 0.18s ease;
-  width: 40px;
-  z-index: 3;
-}
-
-.blog-hero-arrow:hover {
-  background: rgba(243,239,230,0.12);
-  border-color: rgba(187,247,208,0.52);
-  transform: translateY(-1px);
-}
-
-.blog-hero-arrow-prev {
-  justify-self: start;
-  margin-left: -10px;
-}
-
-.blog-hero-arrow-next {
-  justify-self: end;
-  margin-right: -10px;
-}
-
 .blog-hero-card,
 .post-featured,
 .sidebar-box,
