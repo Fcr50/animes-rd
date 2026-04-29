@@ -253,6 +253,7 @@ function renderHeroInfoRotator(data, date, featuredAnime) {
       eyebrow: `Blog <span class="brand-gradient">Animes RD</span>`,
       title: "Criticas, rankings e guias para decidir o proximo anime.",
       text: subtitle,
+      visuals: [{ label: "Animes RD", src: "assets/nyx-icon.png" }],
       links: [{ label: "Abrir acervo", href: "acervo.html" }],
     },
     {
@@ -260,6 +261,10 @@ function renderHeroInfoRotator(data, date, featuredAnime) {
       eyebrow: "Playlists do grupo",
       title: "Openings para deixar tocando enquanto escolhe.",
       text: "Duas playlists pra entrar no clima: YouTube e Spotify, com a vibe do Animes RD.",
+      visuals: [
+        { label: "YouTube", src: "https://cdn.simpleicons.org/youtube/FF0033" },
+        { label: "Spotify", src: "https://cdn.simpleicons.org/spotify/1ED760" },
+      ],
       links: [
         { label: "YouTube", href: YOUTUBE_PLAYLIST_URL },
         { label: "Spotify", href: SPOTIFY_PLAYLIST_URL },
@@ -270,6 +275,7 @@ function renderHeroInfoRotator(data, date, featuredAnime) {
       eyebrow: "Noticias",
       title: "Radar MyAnimeList para novidades da temporada.",
       text: "Um atalho para acompanhar anuncios, trailers, estreias e movimentacoes do mundo dos animes.",
+      visuals: [{ label: "MyAnimeList", src: "https://cdn.simpleicons.org/myanimelist/2E51A2" }],
       links: [{ label: "Ver noticias MAL", href: MAL_NEWS_URL }],
     },
     {
@@ -279,6 +285,7 @@ function renderHeroInfoRotator(data, date, featuredAnime) {
       text: featuredAnime
         ? `Nota geral ${formatNota(featuredAnime.nota)} com ${featuredAnime.qtdVotos} votos no grupo.`
         : "Assim que houver dados, a recomendacao aparece por aqui.",
+      visuals: [{ label: "Acervo", src: "assets/nyx-profile.png" }],
       links: [{ label: "Ler no acervo", href: featuredHref }],
     },
   ];
@@ -286,6 +293,11 @@ function renderHeroInfoRotator(data, date, featuredAnime) {
   rotator.innerHTML = `
     ${slides.map((slide, index) => `
       <section class="blog-hero-slide ${index === 0 ? "active" : ""}" data-hero-slide="${index}" data-hero-tone="${slide.tone}">
+        <div class="blog-hero-visual" aria-hidden="true">
+          ${slide.visuals.map((visual) => `
+            <img src="${escapeHTML(visual.src)}" alt="" title="${escapeHTML(visual.label)}" />
+          `).join("")}
+        </div>
         <span class="eyebrow">${slide.eyebrow}</span>
         <h1>${escapeHTML(slide.title)}</h1>
         <p ${index === 0 ? 'id="home-subtitle"' : ""}>${escapeHTML(slide.text)}</p>
@@ -296,9 +308,11 @@ function renderHeroInfoRotator(data, date, featuredAnime) {
         </div>
       </section>
     `).join("")}
-    <div class="blog-hero-dots" aria-hidden="true">
-      ${slides.map((_, index) => `<span class="${index === 0 ? "active" : ""}" data-hero-dot="${index}"></span>`).join("")}
+    <div class="blog-hero-dots">
+      ${slides.map((_, index) => `<button class="${index === 0 ? "active" : ""}" type="button" data-hero-dot="${index}" aria-label="Abrir aba ${index + 1}"></button>`).join("")}
     </div>
+    <button class="blog-hero-arrow blog-hero-arrow-prev" type="button" data-hero-prev aria-label="Voltar informação">‹</button>
+    <button class="blog-hero-arrow blog-hero-arrow-next" type="button" data-hero-next aria-label="Próxima informação">›</button>
   `;
 
   let active = 0;
@@ -309,13 +323,35 @@ function renderHeroInfoRotator(data, date, featuredAnime) {
     const dots = rotator.querySelectorAll("[data-hero-dot]");
     slideEls[active]?.classList.remove("active");
     dots[active]?.classList.remove("active");
-    active = next % slideEls.length;
+    active = (next + slideEls.length) % slideEls.length;
     slideEls[active]?.classList.add("active");
     dots[active]?.classList.add("active");
     host?.setAttribute("data-hero-tone", slides[active].tone);
   };
 
-  heroInfoTimer = setInterval(() => showSlide(active + 1), 3000);
+  const restartTimer = () => {
+    if (heroInfoTimer) clearInterval(heroInfoTimer);
+    heroInfoTimer = setInterval(() => showSlide(active + 1), 3000);
+  };
+
+  rotator.querySelector("[data-hero-prev]")?.addEventListener("click", () => {
+    showSlide(active - 1);
+    restartTimer();
+  });
+
+  rotator.querySelector("[data-hero-next]")?.addEventListener("click", () => {
+    showSlide(active + 1);
+    restartTimer();
+  });
+
+  rotator.querySelectorAll("[data-hero-dot]").forEach((dot) => {
+    dot.addEventListener("click", () => {
+      showSlide(Number(dot.dataset.heroDot || 0));
+      restartTimer();
+    });
+  });
+
+  restartTimer();
 }
 
 async function renderHero(data) {
