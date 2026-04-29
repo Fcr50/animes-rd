@@ -3990,17 +3990,17 @@ body:has(#venn4-container) .page-header h1 {
 
 .blog-categories a:nth-child(1),
 body.dark-theme .blog-categories a:nth-child(1) {
-  border-color: #f97316;
+  border-color: rgba(249,115,22,0.46);
 }
 
 .blog-categories a:nth-child(2),
 body.dark-theme .blog-categories a:nth-child(2) {
-  border-color: #ef4444;
+  border-color: rgba(239,68,68,0.46);
 }
 
 .blog-categories a:nth-child(3),
 body.dark-theme .blog-categories a:nth-child(3) {
-  border-color: #38bdf8;
+  border-color: rgba(56,189,248,0.46);
 }
 
 .archive-title-gradient {
