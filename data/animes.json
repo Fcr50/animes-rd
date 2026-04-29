@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-29T06:57:20.138Z",
+  "updatedAt": "2026-04-29T07:08:20.355Z",
   "total": 180,
   "animes": [
     {
@@ -1068,6 +1068,55 @@
       ]
     },
     {
+      "id": "3416beab-c784-81b0-aa04-edb1635d2ab1",
+      "nome": "DanMachi",
+      "generos": [
+        "Ação ⚔️",
+        "Fantasia 🧙",
+        "Romance 💖"
+      ],
+      "notaFernando": 9.2,
+      "notaDudu": 9,
+      "notaHacksuya": null,
+      "maisDeUmVoto": "sim",
+      "controversia": 0.2,
+      "migratedAt": {
+        "_seconds": 1777314441,
+        "_nanoseconds": 493000000
+      },
+      "malId": 28121,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=DanMachi%20opening%201"
+        }
+      ],
+      "quemAssistiu": [
+        "Rafael",
+        "Fernando",
+        "Dudu"
+      ],
+      "qtdVotos": 3,
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Bem gostosinho, tem um Q de ecchi na dose certa."
+        },
+        {
+          "person": "Rafael",
+          "text": "Ai ai Hestia..."
+        }
+      ],
+      "notaSort": 9.13,
+      "notaRafael": 9.2,
+      "comentarios": "Dudu: Bem gostosinho, tem um Q de ecchi na dose certa.\nRafael: Ai ai Hestia...",
+      "nota": "9.13",
+      "updatedAt": {
+        "_seconds": 1777446349,
+        "_nanoseconds": 508000000
+      }
+    },
+    {
       "id": "3dc6beab-c784-82df-be47-01cf93907b4f",
       "nome": "Death Note",
       "generos": [
@@ -1156,50 +1205,6 @@
         {
           "name": "Opening 1",
           "url": "https://www.youtube.com/results?search_query=Overflow%20opening%201"
-        }
-      ]
-    },
-    {
-      "id": "3416beab-c784-81b0-aa04-edb1635d2ab1",
-      "nome": "DanMachi",
-      "nota": "9.10",
-      "generos": [
-        "Ação ⚔️",
-        "Fantasia 🧙",
-        "Romance 💖"
-      ],
-      "notaRafael": null,
-      "notaFernando": 9.2,
-      "notaDudu": 9,
-      "notaHacksuya": null,
-      "maisDeUmVoto": "sim",
-      "qtdVotos": 2,
-      "notaSort": 9.1,
-      "controversia": 0.2,
-      "migratedAt": {
-        "_seconds": 1777314441,
-        "_nanoseconds": 493000000
-      },
-      "malId": 28121,
-      "quemAssistiu": [
-        "Fernando",
-        "Dudu"
-      ],
-      "comments": [
-        {
-          "person": "Dudu",
-          "text": "Bem gostosinho, tem um Q de ecchi na dose certa."
-        }
-      ],
-      "comentarios": "Dudu: Bem gostosinho, tem um Q de ecchi na dose certa.",
-      "updatedAt": {
-        "_seconds": 1777399351,
-        "_nanoseconds": 883000000
-      },
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=DanMachi%20opening%201"
         }
       ]
     },
