@@ -499,23 +499,29 @@ function startPendingAnimesListener() {
 
 async function init() {
   if (!isFirebaseConfigured) return;
-  onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      await processUser(user);
-      renderUIForUser(currentUser);
-      startPendingAnimesListener();
-    } else {
-      currentUser = null;
-      if (unsubscribePendingListener) {
-        unsubscribePendingListener();
-        unsubscribePendingListener = null;
+
+  // Espera a navbar estar no DOM antes de prosseguir
+  const start = async () => {
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        await processUser(user);
+        renderUIForUser(currentUser);
+        startPendingAnimesListener();
+      } else {
+        currentUser = null;
+        if (unsubscribePendingListener) { unsubscribePendingListener(); unsubscribePendingListener = null; }
+        renderUIForUser(null);
+        if (pendingAnimesContainer) pendingAnimesContainer.innerHTML = "<p style='color:var(--faint); text-align:center; padding:40px'>Faça login para ver a fila.</p>";
       }
-      renderUIForUser(null);
-      if (pendingAnimesContainer)
-        pendingAnimesContainer.innerHTML =
-          "<p style='color:var(--faint); text-align:center; padding:40px'>Faça login para ver a fila.</p>";
-    }
-  });
+    });
+  };
+
+  // Se a navbar já carregou, inicia. Se não, espera o evento.
+  if (document.getElementById("user-nav")) {
+      start();
+  } else {
+      document.addEventListener("navbar-loaded", start);
+  }
 }
 
 init();
