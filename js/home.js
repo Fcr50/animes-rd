@@ -506,7 +506,7 @@ async function renderCalendar() {
   const dayEn = SCHEDULE_DAYS_EN[dayIndex];
   const dayPt = SCHEDULE_DAYS_PT[dayIndex];
   const dateStr = today.toLocaleDateString("pt-BR", { day: "numeric", month: "short" });
-  const cacheKey = `jikan-schedule-brt-${dayEn}-${today.toISOString().slice(0, 10)}`;
+  const cacheKey = `jikan-schedule-brt7-${dayEn}-${today.toISOString().slice(0, 10)}`;
 
   function jstToBrt(timeStr) {
     if (!timeStr) return "";
