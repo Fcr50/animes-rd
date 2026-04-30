@@ -1,4 +1,4 @@
-// js/table.js?v=comments-fill-1 — tabela com filtros, ordenação e modal
+// js/table.js?v=calendar-border-1 — tabela com filtros, ordenação e modal
 
 import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
 import {
@@ -22,7 +22,7 @@ import {
   PEOPLE,
   PERSON_COLORS,
   PERSON_LIGHTS,
-} from "./data.js?v=comments-fill-1";
+} from "./data.js?v=calendar-border-1";
 import { escapeHTML, normalizeText, stripEmoji } from "./utils.js";
 
 let allAnimes = [];

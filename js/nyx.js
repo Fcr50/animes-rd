@@ -5,7 +5,7 @@ import {
   formatNota,
   loadData,
   missedAnimes,
-} from "./data.js?v=comments-fill-1";
+} from "./data.js?v=calendar-border-1";
 import { escapeHTML, stripEmoji } from "./utils.js";
 
 function scoreAnime(anime, favorite) {
@@ -101,7 +101,7 @@ function pushChatMessage(text) {
 
   const avatar = document.createElement("img");
   avatar.className = "nyx-chat-avatar";
-  avatar.src = "assets/nyx-hero.webp?v=comments-fill-1";
+  avatar.src = "assets/nyx-hero.webp?v=calendar-border-1";
   avatar.alt = "Nyx";
   avatar.width = 38;
   avatar.height = 38;

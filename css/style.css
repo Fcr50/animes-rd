@@ -3033,7 +3033,16 @@ body.blog-page::before {
   background: #daf5eb;
 }
 .sidebar-box:nth-child(2) {
-  background: #ffe0ef;
+  background:
+    linear-gradient(#ffe0ef, #ffe0ef) padding-box,
+    linear-gradient(
+        135deg,
+        rgba(187, 247, 208, 0.8),
+        rgba(186, 230, 253, 0.82),
+        rgba(249, 168, 212, 0.78)
+      )
+      border-box;
+  border: 2px solid transparent;
 }
 
 .sidebar-box h2 {
@@ -3649,6 +3658,19 @@ body.dark-theme .member-card:nth-child(3),
 body.dark-theme .member-card:nth-child(4) {
   background:
     linear-gradient(180deg, rgba(243, 239, 230, 0.08), rgba(243, 239, 230, 0.025)), var(--card);
+}
+
+body.dark-theme .sidebar-box:nth-child(2) {
+  background:
+    linear-gradient(145deg, rgba(24, 23, 29, 0.96), rgba(24, 23, 29, 0.9)) padding-box,
+    linear-gradient(
+        135deg,
+        rgba(187, 247, 208, 0.84),
+        rgba(186, 230, 253, 0.84),
+        rgba(249, 168, 212, 0.78)
+      )
+      border-box;
+  border-color: transparent;
 }
 
 body.dark-theme .hero-copy p,

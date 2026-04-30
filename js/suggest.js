@@ -1,4 +1,4 @@
-// js/suggest.js?v=comments-fill-1
+// js/suggest.js?v=calendar-border-1
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
 import {
@@ -34,7 +34,7 @@ import {
   getPersonNota,
   formatNota,
   notaColor,
-} from "./data.js?v=comments-fill-1";
+} from "./data.js?v=calendar-border-1";
 import { normalizeText } from "./utils.js";
 
 const GENRE_TRANSLATION = {
