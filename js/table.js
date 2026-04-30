@@ -67,7 +67,7 @@ function commentsForAnime(anime) {
   const peoplePattern = PEOPLE.join("|");
   const linePattern = new RegExp(`^\s*(${peoplePattern})\s*[:\-–—]\s*(.+)$`, "i");
   return String(anime.comentarios)
-    .split(/?/)
+    .split(/\r?\n/)
     .map((line) => line.trim())
     .filter(Boolean)
     .map((line) => {
