@@ -1,4 +1,4 @@
-// js/suggest.js?v=calendar-seven-1
+// js/suggest.js
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
 import {
@@ -80,23 +80,58 @@ const GENRE_TRANSLATION = {
 };
 
 async function fetchAnimeData(name) {
-  const res = await fetch(`https://api.jikan.moe/v4/anime?q=${encodeURIComponent(name)}&limit=1`);
+  const res = await fetch(
+    `https://api.jikan.moe/v4/anime?q=${encodeURIComponent(name)}&limit=5`,
+  );
   if (!res.ok) throw new Error("Jikan API error");
   const data = await res.json();
-  const anime = data.data?.[0];
-  if (!anime) return null;
-  return {
+  const animes = data.data || [];
+  return animes.map((anime) => ({
     genres: anime.genres.map((g) => GENRE_TRANSLATION[g.name] || g.name),
     malId: anime.mal_id,
     officialTitle: anime.title_english || anime.title,
+    displayTitle: anime.title,
     allTitles: [
       anime.title,
       anime.title_english,
       anime.title_japanese,
       ...(anime.titles?.map((t) => t.title) || []),
     ].filter(Boolean),
-  };
+  }));
 }
+
+// Estilos para o dropdown de busca
+const dropdownStyles = `
+  .search-results-dropdown {
+    position: absolute;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    width: 100%;
+    max-height: 250px;
+    overflow-y: auto;
+    z-index: 100;
+    margin-top: 5px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  }
+  .search-result-item {
+    padding: 10px 15px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .search-result-item:last-child { border-bottom: none; }
+  .search-result-item:hover { background: rgba(255,255,255,0.05); }
+  .search-result-info { display: flex; flex-direction: column; }
+  .search-result-title { font-size: 14px; font-weight: bold; color: white; }
+  .search-result-meta { font-size: 11px; color: var(--faint); }
+`;
+const styleSheet = document.createElement("style");
+styleSheet.innerText = dropdownStyles;
+document.head.appendChild(styleSheet);
 
 function normalizeName(str) {
   return normalizeText(str)
@@ -112,7 +147,9 @@ async function checkDuplicates(malId, inputName) {
     if (malId) {
       const [animesSnap, pendingSnap] = await Promise.all([
         getDocs(query(collection(db, "animes"), where("malId", "==", malId))),
-        getDocs(query(collection(db, "pending_animes"), where("malId", "==", malId))),
+        getDocs(
+          query(collection(db, "pending_animes"), where("malId", "==", malId)),
+        ),
       ]);
       animesSnap.forEach((d) => found.push(d.data().nome));
       pendingSnap.forEach((d) => found.push(d.data().nome));
@@ -121,14 +158,16 @@ async function checkDuplicates(malId, inputName) {
     if (found.length === 0) {
       const pendingAll = await getDocs(collection(db, "pending_animes"));
       pendingAll.forEach((d) => {
-        if (normalizeName(d.data().nome) === normInput) found.push(d.data().nome);
+        if (normalizeName(d.data().nome) === normInput)
+          found.push(d.data().nome);
       });
     }
 
     if (found.length === 0) {
       const animesAll = await getDocs(collection(db, "animes"));
       animesAll.forEach((d) => {
-        if (normalizeName(d.data().nome) === normInput) found.push(d.data().nome);
+        if (normalizeName(d.data().nome) === normInput)
+          found.push(d.data().nome);
       });
     }
   }
@@ -157,9 +196,15 @@ if (isFirebaseConfigured) {
   db = getFirestore(app);
 }
 
-const pendingAnimesRef = isFirebaseConfigured ? collection(db, "pending_animes") : null;
-const submissionFormContainer = document.getElementById("submission-form-container");
-const pendingAnimesContainer = document.getElementById("pending-animes-container");
+const pendingAnimesRef = isFirebaseConfigured
+  ? collection(db, "pending_animes")
+  : null;
+const submissionFormContainer = document.getElementById(
+  "submission-form-container",
+);
+const pendingAnimesContainer = document.getElementById(
+  "pending-animes-container",
+);
 const userNavContainer = document.getElementById("user-nav");
 
 function renderLoginLogoutButton() {
@@ -177,12 +222,16 @@ function renderLoginLogoutButton() {
         <button id="logout-button" style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); color: #ef4444; cursor: pointer; padding: 4px 8px; border-radius: 4px; font-size: 12px;">Sair</button>
       </div>
     `;
-    document.getElementById("logout-button")?.addEventListener("click", handleLogout);
+    document
+      .getElementById("logout-button")
+      ?.addEventListener("click", handleLogout);
     if (!currentUser.personName) {
-      document.getElementById("user-profile-link")?.addEventListener("click", (e) => {
-        e.preventDefault();
-        showUserSelectionModal();
-      });
+      document
+        .getElementById("user-profile-link")
+        ?.addEventListener("click", (e) => {
+          e.preventDefault();
+          showUserSelectionModal();
+        });
     } else {
       document
         .getElementById("user-profile-link")
@@ -191,7 +240,9 @@ function renderLoginLogoutButton() {
   } else {
     userNavContainer.innerHTML =
       "<button id='login-button' style='padding: 6px 12px; background: var(--accent); color: white; border: none; border-radius: 4px; cursor: pointer;'>Login com Google</button>";
-    document.getElementById("login-button")?.addEventListener("click", handleLogin);
+    document
+      .getElementById("login-button")
+      ?.addEventListener("click", handleLogin);
   }
 }
 
@@ -235,7 +286,9 @@ async function renderSubmissionForm() {
   if (!submissionFormContainer) return;
   if (!currentUser) {
     submissionFormContainer.innerHTML = `<div style="text-align:center; padding:20px; border:1px dashed var(--border); border-radius:8px"><p style="color:var(--faint)">Faça login para sugerir novos animes.</p><button id="login-prompt-btn" style="margin-top:10px; padding:8px 16px; background:var(--accent); color:white; border:none; border-radius:4px; cursor:pointer">Fazer Login</button></div>`;
-    document.getElementById("login-prompt-btn")?.addEventListener("click", handleLogin);
+    document
+      .getElementById("login-prompt-btn")
+      ?.addEventListener("click", handleLogin);
     return;
   }
   if (!currentUser.personName) {
@@ -247,25 +300,67 @@ async function renderSubmissionForm() {
   }
 
   submissionFormContainer.innerHTML = `
-    <div class="form-group"><label>Nome do Anime</label><input type="text" id="anime-name" placeholder="Ex: Death Note" required /><div id="official-title" style="font-size:12px; color:#34d399; margin-top:4px; min-height:16px"></div><div id="duplicate-warning" style="font-size:12px; color:#f59e0b; margin-top:4px; min-height:16px"></div></div>
-    <div class="form-group"><label>Gêneros <span id="genres-status" style="font-size:12px; font-weight:normal; color:var(--faint)"></span></label><input type="text" id="anime-genres" placeholder="Ação, Drama..." /></div>
-    <div class="form-group"><label>Submetido por</label><input type="text" value="${currentUser.personName}" readonly disabled style="background:rgba(255,255,255,0.05); color:var(--faint)" /></div>
+    <div class="form-group" style="position: relative;">
+      <label>Nome do Anime</label>
+      <input type="text" id="anime-name" placeholder="Ex: Full Metal" autocomplete="off" required />
+      <div id="search-results-list" class="search-results-dropdown" style="display: none;"></div>
+      <div id="official-title" style="font-size:12px; color:#34d399; margin-top:4px; min-height:16px"></div>
+      <div id="duplicate-warning" style="font-size:12px; color:#f59e0b; margin-top:4px; min-height:16px"></div>
+    </div>
+    <div class="form-group">
+      <label>Gêneros <span id="genres-status" style="font-size:12px; font-weight:normal; color:var(--faint)"></span></label>
+      <input type="text" id="anime-genres" placeholder="Selecione um anime acima para preencher" />
+    </div>
+    <div class="form-group">
+      <label>Submetido por</label>
+      <input type="text" value="${currentUser.personName}" readonly disabled style="background:rgba(255,255,255,0.05); color:var(--faint)" />
+    </div>
     <button id="submit-anime-button" class="suggest-submit">Submeter Anime</button>
   `;
 
-  document.getElementById("submit-anime-button")?.addEventListener("click", handleSubmitAnime);
+  const submitBtn = document.getElementById("submit-anime-button");
   const animeNameInput = document.getElementById("anime-name");
+  const resultsDropdown = document.getElementById("search-results-list");
+  const statusEl = document.getElementById("genres-status");
+  const officialEl = document.getElementById("official-title");
+  const duplicateEl = document.getElementById("duplicate-warning");
+
+  submitBtn?.addEventListener("click", handleSubmitAnime);
+
   let searchDebounce;
+
+  const selectAnime = async (animeData) => {
+    currentAnimeData = animeData;
+    animeNameInput.value = animeData.displayTitle;
+    document.getElementById("anime-genres").value = animeData.genres.join(", ");
+    officialEl.textContent = `✓ Selecionado: ${animeData.officialTitle}`;
+    if (statusEl) {
+      statusEl.textContent = "✓ dados carregados";
+      statusEl.style.color = "#34d399";
+    }
+    resultsDropdown.style.display = "none";
+
+    const duplicates = await checkDuplicates(
+      animeData.malId,
+      animeData.displayTitle,
+    );
+    if (duplicates.length > 0) {
+      duplicateEl.textContent = `🚫 "${duplicates[0]}" já existe`;
+      submitBtn.disabled = true;
+    } else {
+      duplicateEl.textContent = "";
+      submitBtn.disabled = false;
+    }
+  };
+
   animeNameInput?.addEventListener("input", () => {
     clearTimeout(searchDebounce);
     const name = animeNameInput.value.trim();
-    const statusEl = document.getElementById("genres-status");
-    const officialEl = document.getElementById("official-title");
-    const submitBtn = document.getElementById("submit-anime-button");
 
     if (name.length < 3) {
-      if (statusEl) statusEl.textContent = "";
+      resultsDropdown.style.display = "none";
       if (officialEl) officialEl.textContent = "";
+      if (duplicateEl) duplicateEl.textContent = "";
       return;
     }
 
@@ -274,21 +369,32 @@ async function renderSubmissionForm() {
 
     searchDebounce = setTimeout(async () => {
       try {
-        const animeData = await fetchAnimeData(name);
-        currentAnimeData = animeData;
-        if (animeData) {
-          document.getElementById("anime-genres").value = animeData.genres.join(", ");
-          if (statusEl) {
-            statusEl.textContent = "✓ preenchido";
-            statusEl.style.color = "#34d399";
-          }
-          if (officialEl) officialEl.textContent = `Encontrado: ${animeData.officialTitle}`;
-          const duplicates = await checkDuplicates(animeData.malId, name);
-          document.getElementById("duplicate-warning").textContent = duplicates.length
-            ? `🚫 "${duplicates[0]}" já existe`
-            : "";
-          if (submitBtn) submitBtn.disabled = duplicates.length > 0;
+        const results = await fetchAnimeData(name);
+
+        if (results.length > 0) {
+          resultsDropdown.innerHTML = results
+            .map(
+              (anime, index) => `
+            <div class="search-result-item" data-index="${index}">
+              <div class="search-result-info">
+                <span class="search-result-title">${anime.displayTitle}</span>
+                <span class="search-result-meta">${anime.officialTitle !== anime.displayTitle ? anime.officialTitle : ""}</span>
+              </div>
+            </div>
+          `,
+            )
+            .join("");
+
+          resultsDropdown.style.display = "block";
+
+          resultsDropdown.querySelectorAll(".search-result-item").forEach((item) => {
+            item.addEventListener("click", () => {
+              const index = item.getAttribute("data-index");
+              selectAnime(results[index]);
+            });
+          });
         } else {
+          resultsDropdown.style.display = "none";
           if (statusEl) statusEl.textContent = "não encontrado";
           if (submitBtn) submitBtn.disabled = false;
         }
@@ -296,7 +402,17 @@ async function renderSubmissionForm() {
         if (statusEl) statusEl.textContent = "erro na busca";
         if (submitBtn) submitBtn.disabled = false;
       }
-    }, 700);
+    }, 500);
+  });
+
+  // Fecha o dropdown ao clicar fora
+  document.addEventListener("click", (e) => {
+    if (
+      !animeNameInput.contains(e.target) &&
+      !resultsDropdown.contains(e.target)
+    ) {
+      resultsDropdown.style.display = "none";
+    }
   });
 }
 
@@ -311,18 +427,20 @@ function renderPendingAnimes(animes) {
   pendingAnimesContainer.innerHTML = animes
     .map((anime) => {
       const isVoted = anime.votedUserIds?.includes(currentUser?.uid);
-      const userVote = currentUser?.personName ? anime.votes?.[currentUser.personName] : null;
+      const userVote = currentUser?.personName
+        ? anime.votes?.[currentUser.personName]
+        : null;
 
       let dots = PEOPLE.map((p) => {
         const hasVoted = anime.votes && anime.votes[p];
         const color = PERSON_COLORS[p] || "#ccc";
         const lightColor = PERSON_LIGHTS[p] || "rgba(255,255,255,0.1)";
         return `
-          <span title="${p}: ${hasVoted ? "Já votou" : "Pendente"}"
-                style="display:inline-flex; width:22px; height:22px; border-radius:50%;
+          <span title="${p}: ${hasVoted ? "Já votou" : "Pendente"}" 
+                style="display:inline-flex; width:22px; height:22px; border-radius:50%; 
                        align-items:center; justify-content:center; font-size:11px; font-weight:bold;
                        margin-right:4px; border: 1px solid ${hasVoted ? color : "rgba(255,255,255,0.1)"};
-                       background: ${hasVoted ? lightColor : "transparent"};
+                       background: ${hasVoted ? lightColor : "transparent"}; 
                        color: ${hasVoted ? color : "rgba(255,255,255,0.2)"};
                        opacity: ${hasVoted ? "1" : "0.5"}">
             ${p[0]}
@@ -373,13 +491,17 @@ function renderPendingAnimes(animes) {
 
 window.handleCastVote = async (animeId) => {
   if (!currentUser?.personName) return;
-  const watchStatus = document.querySelector(`input[name="watch-status-${animeId}"]:checked`).value;
+  const watchStatus = document.querySelector(
+    `input[name="watch-status-${animeId}"]:checked`,
+  ).value;
   const score =
     watchStatus === "watched"
       ? parseFloat(document.getElementById(`score-${animeId}`).value)
       : null;
   const comment =
-    watchStatus === "watched" ? document.getElementById(`comment-${animeId}`).value : "";
+    watchStatus === "watched"
+      ? document.getElementById(`comment-${animeId}`).value
+      : "";
   try {
     const docRef = doc(db, "pending_animes", animeId);
     await runTransaction(db, async (t) => {
@@ -388,7 +510,8 @@ window.handleCastVote = async (animeId) => {
       const votes = data.votes || {};
       const votedUserIds = data.votedUserIds || [];
       votes[currentUser.personName] = { score, comment, votedAt: new Date() };
-      if (!votedUserIds.includes(currentUser.uid)) votedUserIds.push(currentUser.uid);
+      if (!votedUserIds.includes(currentUser.uid))
+        votedUserIds.push(currentUser.uid);
       t.update(docRef, { votes, votedUserIds });
     });
     alert("Voto registrado!");
@@ -402,7 +525,9 @@ window.handleEditVote = (animeId) => {
   if (animeIdx === -1) return;
   const updatedAnime = {
     ...lastAnimesData[animeIdx],
-    votedUserIds: lastAnimesData[animeIdx].votedUserIds.filter((id) => id !== currentUser.uid),
+    votedUserIds: lastAnimesData[animeIdx].votedUserIds.filter(
+      (id) => id !== currentUser.uid,
+    ),
   };
   const newAnimes = [...lastAnimesData];
   newAnimes[animeIdx] = updatedAnime;
