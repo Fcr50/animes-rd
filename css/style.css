@@ -2213,6 +2213,7 @@ tbody tr:hover {
   --fernando-light: #a84671;
   --dudu-light: #a16207;
   --hacksuya-light: #3d7185;
+  --zana-light: #b84d08;
   --shadow: 0 18px 45px rgba(39, 31, 22, 0.08);
 }
 
@@ -2327,7 +2328,8 @@ body::before {
 .post-card:nth-child(1),
 .post-card:nth-child(2),
 .post-card:nth-child(3),
-.post-card:nth-child(4) {
+.post-card:nth-child(4),
+.post-card:nth-child(5) {
   background: #fffdf7;
 }
 
@@ -3252,6 +3254,9 @@ body.blog-page::before {
 .post-card:nth-child(4) {
   background: #dff5ff;
 }
+.post-card:nth-child(5) {
+  background: #fff3e8;
+}
 
 .post-card h3 {
   color: #1f2933;
@@ -3730,6 +3735,7 @@ body.dark-theme .post-card:nth-child(1),
 body.dark-theme .post-card:nth-child(2),
 body.dark-theme .post-card:nth-child(3),
 body.dark-theme .post-card:nth-child(4),
+body.dark-theme .post-card:nth-child(5),
 body.dark-theme .member-card:nth-child(1),
 body.dark-theme .member-card:nth-child(2),
 body.dark-theme .member-card:nth-child(3),
@@ -3927,6 +3933,13 @@ body.dark-theme .post-card:nth-child(4) {
   background:
     linear-gradient(160deg, rgba(6, 182, 212, 0.3), rgba(24, 23, 29, 0.96) 58%), var(--card);
   border-color: rgba(103, 232, 249, 0.48);
+}
+
+body.dark-theme .post-card:nth-child(5) {
+  --member-color: var(--zana-light);
+  background:
+    linear-gradient(160deg, rgba(249, 115, 22, 0.3), rgba(24, 23, 29, 0.96) 58%), var(--card);
+  border-color: rgba(253, 186, 116, 0.5);
 }
 
 body.dark-theme .grid-2 > .card:nth-child(1),
