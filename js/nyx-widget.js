@@ -7,7 +7,7 @@ if (currentPage !== "nyx.html") {
   link.setAttribute("aria-label", "Abrir Blog da Nyx");
   link.title = "Blog da Nyx";
   link.innerHTML = `
-    <img src="assets/nyx-icon.png" alt="" />
+    <img src="assets/nyx-icon.webp" alt="" width="64" height="64" decoding="async" />
   `;
   document.body.appendChild(link);
 }

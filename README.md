@@ -94,6 +94,7 @@ npm install
 npm run format
 npm run format:check
 npm run check:js
+npm run assets:optimize
 ```
 
 Use `format` antes de subir alterações grandes. O `check:js` valida a sintaxe dos módulos principais sem precisar abrir o navegador.

@@ -1,4 +1,4 @@
-// js/data.js?v=cleanup-1 — carrega e processa animes.json
+// js/data.js?v=modal-modal-perf-1 — carrega e processa animes.json
 
 import { normalizeText, stripEmoji } from "./utils.js";
 
