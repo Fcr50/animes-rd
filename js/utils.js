@@ -17,8 +17,8 @@ export async function loadNavbar() {
     // Marca o link ativo com base na URL atual
     const currentPath = window.location.pathname.split("/").pop() || "index.html";
     const links = nav.querySelectorAll("a");
-    
-    links.forEach(link => {
+
+    links.forEach((link) => {
       const href = link.getAttribute("href");
       if (href === currentPath) {
         link.classList.add("active");
@@ -30,7 +30,6 @@ export async function loadNavbar() {
     // Dispara um evento customizado para avisar que a navbar carregou
     // (Útil para o suggest.js que precisa do #user-nav)
     document.dispatchEvent(new CustomEvent("navbar-loaded"));
-
   } catch (error) {
     console.error("Erro ao carregar a navbar:", error);
   }

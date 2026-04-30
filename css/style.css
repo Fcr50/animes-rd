@@ -3017,8 +3017,9 @@ body.blog-page::before {
 }
 
 .post-card li strong {
-  color: #1f2933;
+  color: color-mix(in srgb, var(--member-color) 82%, #ffffff);
   font-weight: 900;
+  text-shadow: 0 0 10px color-mix(in srgb, var(--member-color) 24%, transparent);
 }
 
 .post-card a {

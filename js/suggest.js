@@ -1,4 +1,4 @@
-// js/suggest.js?v=modal-modal-perf-1
+// js/suggest.js?v=member-score-1
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
 import {
@@ -34,7 +34,7 @@ import {
   getPersonNota,
   formatNota,
   notaColor,
-} from "./data.js?v=modal-modal-perf-1";
+} from "./data.js?v=member-score-1";
 import { normalizeText } from "./utils.js";
 
 const GENRE_TRANSLATION = {
@@ -509,18 +509,23 @@ async function init() {
         startPendingAnimesListener();
       } else {
         currentUser = null;
-        if (unsubscribePendingListener) { unsubscribePendingListener(); unsubscribePendingListener = null; }
+        if (unsubscribePendingListener) {
+          unsubscribePendingListener();
+          unsubscribePendingListener = null;
+        }
         renderUIForUser(null);
-        if (pendingAnimesContainer) pendingAnimesContainer.innerHTML = "<p style='color:var(--faint); text-align:center; padding:40px'>Faça login para ver a fila.</p>";
+        if (pendingAnimesContainer)
+          pendingAnimesContainer.innerHTML =
+            "<p style='color:var(--faint); text-align:center; padding:40px'>Faça login para ver a fila.</p>";
       }
     });
   };
 
   // Se a navbar já carregou, inicia. Se não, espera o evento.
   if (document.getElementById("user-nav")) {
-      start();
+    start();
   } else {
-      document.addEventListener("navbar-loaded", start);
+    document.addEventListener("navbar-loaded", start);
   }
 }
 
