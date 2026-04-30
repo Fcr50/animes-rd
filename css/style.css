@@ -3181,7 +3181,6 @@ body.blog-page::before {
 
 /* Member cards scroll */
 .member-scroll-wrap {
-  padding: 0 54px;
   position: relative;
 }
 
@@ -3230,11 +3229,11 @@ body.blog-page::before {
 }
 
 .member-scroll-left {
-  left: 0;
+  left: -54px;
 }
 
 .member-scroll-right {
-  right: 0;
+  right: -54px;
 }
 
 .post-card {
