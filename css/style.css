@@ -1221,6 +1221,10 @@ tbody td {
   border-color: rgba(186, 230, 253, 0.34);
 }
 
+.modal-link-custom {
+  border-color: rgba(249, 168, 212, 0.34);
+}
+
 .modal-link-add-btn {
   align-items: center;
   background:

@@ -467,19 +467,14 @@ function renderAnimeLinks(anime) {
     });
   }
 
-  const openingLinks = Array.isArray(anime.files)
-    ? anime.files
-        .filter((file) => file?.url && /opening|op\b/i.test(file.name || ""))
-        .slice(0, 3)
-        .map((file, index) => ({
-          label: file.name || `Opening ${index + 1}`,
-          href: file.url,
-          kind: "opening",
-        }))
-    : [];
+  const allFiles = Array.isArray(anime.files) ? anime.files.filter((f) => f?.url) : [];
+  const openingFiles = allFiles.filter((f) => /opening|op\b/i.test(f.name || ""));
+  const customFiles = allFiles.filter((f) => !/opening|op\b/i.test(f.name || ""));
 
-  if (openingLinks.length) {
-    links.push(...openingLinks);
+  if (openingFiles.length) {
+    openingFiles.forEach((file, index) => {
+      links.push({ label: file.name || `Opening ${index + 1}`, href: file.url, kind: "opening" });
+    });
   } else {
     links.push({
       label: "Buscar openings",
@@ -487,6 +482,10 @@ function renderAnimeLinks(anime) {
       kind: "opening",
     });
   }
+
+  customFiles.forEach((file) => {
+    links.push({ label: file.name, href: file.url, kind: "custom" });
+  });
 
   const canEdit = !!currentUser?.personName;
   const id = escapeHTML(anime.id);
