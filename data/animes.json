@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-30T16:31:58.607Z",
+  "updatedAt": "2026-04-30T18:17:07.339Z",
   "total": 180,
   "animes": [
     {
@@ -181,16 +181,16 @@
         }
       ],
       "comentarios": "Fernando: se é plottwist q tu gosta, veja isso, historia pensada completamente desde o primeiro ep 👀\nDudu: AOT eleva a régua do que é considerado anime bom, assista sabendo que dificilmente você encontrara algo que vc achara tão bom quanto.",
-      "updatedAt": {
-        "_seconds": 1777398921,
-        "_nanoseconds": 771000000
-      },
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Attack%20on%20Titan%20opening%201"
+          "url": "https://www.youtube.com/watch?v=8OkpRK2_gVs"
         }
-      ]
+      ],
+      "updatedAt": {
+        "_seconds": 1777570004,
+        "_nanoseconds": 916000000
+      }
     },
     {
       "id": "3416beab-c784-8141-878f-edc65a311ea1",
@@ -3228,9 +3228,17 @@
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Kaguya-Sama%3A%20Love%20is%20War%20opening%201"
+          "url": "https://www.youtube.com/watch?v=WZof19wk4Ec&list=RDWZof19wk4Ec&start_radio=1"
+        },
+        {
+          "name": "Opening 2",
+          "url": "https://www.youtube.com/watch?v=lTlzDfhPtFA&list=RDlTlzDfhPtFA&start_radio=1"
         }
-      ]
+      ],
+      "updatedAt": {
+        "_seconds": 1777570363,
+        "_nanoseconds": 501000000
+      }
     },
     {
       "id": "3416beab-c784-8134-8bc8-f06b8bd88906",
