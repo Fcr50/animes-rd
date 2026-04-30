@@ -61,13 +61,13 @@ export async function loadNavbar() {
   if (!nav) return;
 
   try {
-    const response = await fetch("navbar.html");
+    const response = await fetch("navbar.html?v=nav-fix-1");
     if (!response.ok) throw new Error("Falha ao carregar navbar.html");
 
     nav.innerHTML = await response.text();
 
     const currentPath = window.location.pathname.split("/").pop() || "index.html";
-    nav.querySelectorAll("a").forEach((link) => {
+    nav.querySelectorAll("a.nav-link, .nav-person a").forEach((link) => {
       link.classList.toggle("active", link.getAttribute("href") === currentPath);
     });
 

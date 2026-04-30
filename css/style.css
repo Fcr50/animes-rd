@@ -3319,6 +3319,21 @@ body:not(.dark-theme) .nav > a.active {
   color: #10211d;
 }
 
+.nav > a.nav-logo,
+.nav > a.nav-logo.active,
+body.dark-theme .nav > a.nav-logo,
+body.dark-theme .nav > a.nav-logo.active,
+body:not(.dark-theme) .nav > a.nav-logo,
+body:not(.dark-theme) .nav > a.nav-logo.active {
+  background: linear-gradient(90deg, #bbf7d0 0%, #a7f3d0 42%, #bae6fd 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  border-color: transparent;
+  box-shadow: none;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
 body.dark-theme .page-header,
 body.dark-theme .section-head,
 body.dark-theme .person-hero,

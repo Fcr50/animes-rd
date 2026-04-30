@@ -1,4 +1,4 @@
-// js/compare.js?v=fix-gemini-1 — lógica de comparação, Venn e radar
+// js/compare.js?v=nav-fix-1 — lógica de comparação, Venn e radar
 
 import {
   PEOPLE,
@@ -11,7 +11,7 @@ import {
   cleanGenreLabel,
   formatNota,
   notaColor,
-} from "./data.js?v=fix-gemini-1";
+} from "./data.js?v=nav-fix-1";
 
 Chart.defaults.color = "#94a3b8";
 Chart.defaults.font.family = "'Poppins', sans-serif";

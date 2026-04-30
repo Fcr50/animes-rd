@@ -1,4 +1,4 @@
-// js/charts.js?v=fix-gemini-1 — gráficos gerais (charts.html)
+// js/charts.js?v=nav-fix-1 — gráficos gerais (charts.html)
 
 import {
   PEOPLE,
@@ -7,7 +7,7 @@ import {
   topGenres,
   countGenres,
   animesOf,
-} from "./data.js?v=fix-gemini-1";
+} from "./data.js?v=nav-fix-1";
 import { hexToRgba, shortText } from "./utils.js";
 
 Chart.defaults.color = "#94a3b8";

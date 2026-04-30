@@ -8,7 +8,7 @@ import {
   getPersonNota,
   loadData,
   mostControversial,
-} from "./data.js?v=fix-gemini-1";
+} from "./data.js?v=nav-fix-1";
 import { escapeHTML, shortText, shuffleItems } from "./utils.js";
 
 const OPENINGS = {
