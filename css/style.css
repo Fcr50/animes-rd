@@ -1221,6 +1221,68 @@ tbody td {
   border-color: rgba(186, 230, 253, 0.34);
 }
 
+.modal-link-add-btn {
+  align-items: center;
+  background:
+    linear-gradient(135deg, rgba(216, 180, 254, 0.18), rgba(186, 230, 253, 0.1)),
+    rgba(16, 16, 20, 0.7);
+  border: 1px solid rgba(216, 180, 254, 0.28);
+  border-radius: 999px;
+  color: var(--paper);
+  cursor: pointer;
+  display: inline-flex;
+  flex-shrink: 0;
+  font-size: 20px;
+  font-weight: 300;
+  height: 32px;
+  justify-content: center;
+  line-height: 1;
+  transition:
+    border-color 0.18s ease,
+    transform 0.18s ease;
+  width: 32px;
+}
+
+.modal-link-add-btn:hover {
+  border-color: rgba(187, 247, 208, 0.55);
+  transform: translateY(-1px);
+}
+
+.add-link-form {
+  border-top: 1px solid rgba(221, 214, 254, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 12px;
+}
+
+.add-link-input {
+  background: rgba(16, 16, 20, 0.7);
+  border: 1px solid rgba(216, 180, 254, 0.28);
+  border-radius: 10px;
+  box-sizing: border-box;
+  color: var(--paper);
+  font-size: 13px;
+  padding: 8px 12px;
+  width: 100%;
+}
+
+.add-link-input:focus {
+  border-color: rgba(216, 180, 254, 0.6);
+  outline: none;
+}
+
+.add-link-input::placeholder {
+  color: var(--muted);
+}
+
+.add-link-actions {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+}
+
 .modal-comments h3 {
   color: var(--faint);
   font-size: 11px;

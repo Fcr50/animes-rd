@@ -488,6 +488,9 @@ function renderAnimeLinks(anime) {
     });
   }
 
+  const canEdit = !!currentUser?.personName;
+  const id = escapeHTML(anime.id);
+
   return `
     <section class="modal-links">
       <h3>Links úteis</h3>
@@ -501,10 +504,82 @@ function renderAnimeLinks(anime) {
         `,
           )
           .join("")}
+        ${canEdit ? `<button class="modal-link-add-btn" onclick="toggleAddLinkForm('${id}')" title="Adicionar link">+</button>` : ""}
       </div>
+      ${canEdit ? `
+      <div id="add-link-form-${id}" class="add-link-form" hidden>
+        <input id="add-link-name-${id}" class="add-link-input" type="text" placeholder="Nome do link" maxlength="60" />
+        <input id="add-link-url-${id}" class="add-link-input" type="url" placeholder="https://..." maxlength="500" />
+        <div class="add-link-actions">
+          <button class="edit-button" id="add-link-save-${id}" onclick="saveCustomLink('${id}')">Salvar</button>
+          <button class="edit-link-button" type="button" onclick="toggleAddLinkForm('${id}')">Cancelar</button>
+          <span id="add-link-status-${id}" class="edit-status"></span>
+        </div>
+      </div>` : ""}
     </section>
   `;
 }
+
+window.toggleAddLinkForm = function (animeId) {
+  const form = document.getElementById(`add-link-form-${animeId}`);
+  if (!form) return;
+  form.hidden = !form.hidden;
+  if (!form.hidden) {
+    document.getElementById(`add-link-name-${animeId}`)?.focus();
+    document.getElementById(`add-link-status-${animeId}`).textContent = "";
+  }
+};
+
+window.saveCustomLink = async function (animeId) {
+  if (!db || !currentUser?.personName) return;
+
+  const anime = allAnimes.find((a) => a.id === animeId);
+  if (!anime) return;
+
+  const nameInput = document.getElementById(`add-link-name-${animeId}`);
+  const urlInput = document.getElementById(`add-link-url-${animeId}`);
+  const statusEl = document.getElementById(`add-link-status-${animeId}`);
+  const saveBtn = document.getElementById(`add-link-save-${animeId}`);
+
+  const name = nameInput.value.trim();
+  const url = urlInput.value.trim();
+
+  if (!name || !url) {
+    statusEl.textContent = "Preencha nome e URL.";
+    return;
+  }
+  try {
+    new URL(url);
+  } catch {
+    statusEl.textContent = "URL inválida.";
+    return;
+  }
+
+  saveBtn.disabled = true;
+  statusEl.textContent = "Salvando...";
+
+  try {
+    const docRef = doc(db, "animes", animeId);
+    let updatedAnime = null;
+
+    await runTransaction(db, async (transaction) => {
+      const snap = await transaction.get(docRef);
+      if (!snap.exists()) throw new Error("Anime não encontrado.");
+
+      const current = { ...anime, ...snap.data(), id: anime.id };
+      const newFiles = [...(Array.isArray(current.files) ? current.files : []), { name, url }];
+      updatedAnime = { ...current, files: newFiles };
+
+      transaction.update(docRef, { files: newFiles, updatedAt: serverTimestamp() });
+    });
+
+    updateAnimeLocally(animeId, updatedAnime);
+  } catch (error) {
+    console.error(error);
+    statusEl.textContent = `Erro: ${error.message || error}`;
+    saveBtn.disabled = false;
+  }
+};
 
 function renderComments(anime) {
   const comments = commentsForAnime(anime);
