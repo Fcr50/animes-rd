@@ -30,6 +30,7 @@ let filtered = [];
 let sortCol = "notaSort";
 let sortDir = -1;
 let currentModalIndex = null;
+let editingLinkIdx = null;
 let currentUser = null;
 let imageQueueRunning = false;
 
@@ -458,51 +459,49 @@ window.openModal = function (idx) {
 };
 
 function renderAnimeLinks(anime) {
-  const links = [];
-  if (anime.malId) {
-    links.push({
-      label: "MyAnimeList",
-      href: `https://myanimelist.net/anime/${encodeURIComponent(anime.malId)}`,
-      kind: "mal",
-    });
-  }
-
-  const allFiles = Array.isArray(anime.files) ? anime.files.filter((f) => f?.url) : [];
-  const openingFiles = allFiles.filter((f) => /opening|op\b/i.test(f.name || ""));
-  const customFiles = allFiles.filter((f) => !/opening|op\b/i.test(f.name || ""));
-
-  if (openingFiles.length) {
-    openingFiles.forEach((file, index) => {
-      links.push({ label: file.name || `Opening ${index + 1}`, href: file.url, kind: "opening" });
-    });
-  } else {
-    links.push({
-      label: "Buscar openings",
-      href: `https://www.youtube.com/results?search_query=${encodeURIComponent(`${anime.nome} anime opening`)}`,
-      kind: "opening",
-    });
-  }
-
-  customFiles.forEach((file) => {
-    links.push({ label: file.name, href: file.url, kind: "custom" });
-  });
-
   const canEdit = !!currentUser?.personName;
   const id = escapeHTML(anime.id);
+
+  const malChip = anime.malId
+    ? `<a class="modal-link-chip modal-link-mal" href="https://myanimelist.net/anime/${encodeURIComponent(anime.malId)}" target="_blank" rel="noopener noreferrer">MyAnimeList</a>`
+    : "";
+
+  const filesWithIdx = Array.isArray(anime.files)
+    ? anime.files.map((f, i) => ({ ...f, _idx: i })).filter((f) => f?.url)
+    : [];
+  const openingFiles = filesWithIdx.filter((f) => /opening|op\b/i.test(f.name || ""));
+  const customFiles = filesWithIdx.filter((f) => !/opening|op\b/i.test(f.name || ""));
+
+  const fileChip = (file, kind) => {
+    const label = escapeHTML(file.name || "");
+    const href = escapeHTML(file.url);
+    const idx = file._idx;
+    if (canEdit) {
+      return `
+        <div class="modal-link-chip-wrap">
+          <a class="modal-link-chip modal-link-${kind}" href="${href}" target="_blank" rel="noopener noreferrer">${label}</a>
+          <div class="modal-link-chip-actions">
+            <button class="modal-link-chip-action-btn" onclick="startEditLink('${id}',${idx})" title="Editar">✎</button>
+            <button class="modal-link-chip-action-btn modal-link-delete-btn" onclick="deleteAnimeLink('${id}',${idx})" title="Excluir">×</button>
+          </div>
+        </div>`;
+    }
+    return `<a class="modal-link-chip modal-link-${kind}" href="${href}" target="_blank" rel="noopener noreferrer">${label}</a>`;
+  };
+
+  const openingChips = openingFiles.length
+    ? openingFiles.map((f) => fileChip(f, "opening")).join("")
+    : `<a class="modal-link-chip modal-link-opening" href="https://www.youtube.com/results?search_query=${encodeURIComponent(`${anime.nome} anime opening`)}" target="_blank" rel="noopener noreferrer">Buscar openings</a>`;
+
+  const customChips = customFiles.map((f) => fileChip(f, "custom")).join("");
 
   return `
     <section class="modal-links">
       <h3>Links úteis</h3>
       <div class="modal-link-list">
-        ${links
-          .map(
-            (link) => `
-          <a class="modal-link-chip modal-link-${link.kind}" href="${escapeHTML(link.href)}" target="_blank" rel="noopener noreferrer">
-            ${escapeHTML(link.label)}
-          </a>
-        `,
-          )
-          .join("")}
+        ${malChip}
+        ${openingChips}
+        ${customChips}
         ${canEdit ? `<button class="modal-link-add-btn" onclick="toggleAddLinkForm('${id}')" title="Adicionar link">+</button>` : ""}
       </div>
       ${canEdit ? `
@@ -513,6 +512,15 @@ function renderAnimeLinks(anime) {
           <button class="edit-button" id="add-link-save-${id}" onclick="saveCustomLink('${id}')">Salvar</button>
           <button class="edit-link-button" type="button" onclick="toggleAddLinkForm('${id}')">Cancelar</button>
           <span id="add-link-status-${id}" class="edit-status"></span>
+        </div>
+      </div>
+      <div id="edit-link-form-${id}" class="add-link-form" hidden>
+        <input id="edit-link-name-${id}" class="add-link-input" type="text" placeholder="Nome do link" maxlength="60" />
+        <input id="edit-link-url-${id}" class="add-link-input" type="url" placeholder="https://..." maxlength="500" />
+        <div class="add-link-actions">
+          <button class="edit-button" id="edit-link-save-${id}" onclick="saveEditLink('${id}')">Salvar</button>
+          <button class="edit-link-button" type="button" onclick="cancelEditLink('${id}')">Cancelar</button>
+          <span id="edit-link-status-${id}" class="edit-status"></span>
         </div>
       </div>` : ""}
     </section>
@@ -577,6 +585,99 @@ window.saveCustomLink = async function (animeId) {
     console.error(error);
     statusEl.textContent = `Erro: ${error.message || error}`;
     saveBtn.disabled = false;
+  }
+};
+
+window.startEditLink = function (animeId, fileIdx) {
+  editingLinkIdx = fileIdx;
+  const anime = allAnimes.find((a) => a.id === animeId);
+  if (!anime) return;
+  const file = anime.files?.[fileIdx];
+  if (!file) return;
+
+  document.getElementById(`add-link-form-${animeId}`).hidden = true;
+
+  const form = document.getElementById(`edit-link-form-${animeId}`);
+  const nameInput = document.getElementById(`edit-link-name-${animeId}`);
+  const urlInput = document.getElementById(`edit-link-url-${animeId}`);
+  document.getElementById(`edit-link-status-${animeId}`).textContent = "";
+  nameInput.value = file.name || "";
+  urlInput.value = file.url || "";
+  form.hidden = false;
+  nameInput.focus();
+};
+
+window.cancelEditLink = function (animeId) {
+  editingLinkIdx = null;
+  document.getElementById(`edit-link-form-${animeId}`).hidden = true;
+};
+
+window.saveEditLink = async function (animeId) {
+  if (!db || !currentUser?.personName || editingLinkIdx === null) return;
+
+  const anime = allAnimes.find((a) => a.id === animeId);
+  if (!anime) return;
+
+  const nameInput = document.getElementById(`edit-link-name-${animeId}`);
+  const urlInput = document.getElementById(`edit-link-url-${animeId}`);
+  const statusEl = document.getElementById(`edit-link-status-${animeId}`);
+  const saveBtn = document.getElementById(`edit-link-save-${animeId}`);
+
+  const name = nameInput.value.trim();
+  const url = urlInput.value.trim();
+
+  if (!name || !url) { statusEl.textContent = "Preencha nome e URL."; return; }
+  try { new URL(url); } catch { statusEl.textContent = "URL inválida."; return; }
+
+  saveBtn.disabled = true;
+  statusEl.textContent = "Salvando...";
+
+  const idx = editingLinkIdx;
+  try {
+    const docRef = doc(db, "animes", animeId);
+    let updatedAnime = null;
+
+    await runTransaction(db, async (transaction) => {
+      const snap = await transaction.get(docRef);
+      if (!snap.exists()) throw new Error("Anime não encontrado.");
+      const current = { ...anime, ...snap.data(), id: anime.id };
+      const newFiles = [...(Array.isArray(current.files) ? current.files : [])];
+      newFiles[idx] = { name, url };
+      updatedAnime = { ...current, files: newFiles };
+      transaction.update(docRef, { files: newFiles, updatedAt: serverTimestamp() });
+    });
+
+    editingLinkIdx = null;
+    updateAnimeLocally(animeId, updatedAnime);
+  } catch (error) {
+    console.error(error);
+    statusEl.textContent = `Erro: ${error.message || error}`;
+    saveBtn.disabled = false;
+  }
+};
+
+window.deleteAnimeLink = async function (animeId, fileIdx) {
+  if (!db || !currentUser?.personName) return;
+
+  const anime = allAnimes.find((a) => a.id === animeId);
+  if (!anime) return;
+
+  try {
+    const docRef = doc(db, "animes", animeId);
+    let updatedAnime = null;
+
+    await runTransaction(db, async (transaction) => {
+      const snap = await transaction.get(docRef);
+      if (!snap.exists()) throw new Error("Anime não encontrado.");
+      const current = { ...anime, ...snap.data(), id: anime.id };
+      const newFiles = (Array.isArray(current.files) ? current.files : []).filter((_, i) => i !== fileIdx);
+      updatedAnime = { ...current, files: newFiles };
+      transaction.update(docRef, { files: newFiles, updatedAt: serverTimestamp() });
+    });
+
+    updateAnimeLocally(animeId, updatedAnime);
+  } catch (error) {
+    console.error(error);
   }
 };
 
