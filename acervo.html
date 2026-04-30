@@ -4,11 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Acervo — Animes RD</title>
-    <link rel="stylesheet" href="css/style.css?v=cleanup-1" />
-    <script type="module" src="./js/theme.js?v=cleanup-1"></script>
-    <script type="module" src="./js/utils.js?v=cleanup-1"></script>
-    </head>
-    <body>
+    <link rel="stylesheet" href="css/style.css?v=member-score-1" />
+    <script type="module" src="./js/theme.js?v=member-score-1"></script>
+    <script type="module" src="./js/utils.js?v=member-score-1"></script>
+  </head>
+  <body>
     <nav class="nav"></nav>
 
     <main class="page">
@@ -63,8 +63,8 @@
     </main>
 
     <script type="module">
-      import { loadData, formatNota } from "./js/data.js?v=modal-modal-perf-1";
-      import { initTable } from "./js/table.js?v=modal-modal-perf-1";
+      import { loadData, formatNota } from "./js/data.js?v=modal-member-score-1";
+      import { initTable } from "./js/table.js?v=modal-member-score-1";
 
       async function init() {
         const { animes, updatedAt, total } = await loadData();
@@ -115,6 +115,6 @@
 
       init().catch(console.error);
     </script>
-    <script type="module" src="js/nyx-widget.js?v=modal-modal-perf-1"></script>
+    <script type="module" src="js/nyx-widget.js?v=modal-member-score-1"></script>
   </body>
 </html>
