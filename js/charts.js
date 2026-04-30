@@ -1,4 +1,4 @@
-// js/charts.js?v=calendar-link-1 — gráficos gerais (charts.html)
+// js/charts.js?v=calendar-seven-1 — gráficos gerais (charts.html)
 
 import {
   PEOPLE,
@@ -7,7 +7,7 @@ import {
   topGenres,
   countGenres,
   animesOf,
-} from "./data.js?v=calendar-link-1";
+} from "./data.js?v=calendar-seven-1";
 import { hexToRgba, shortText } from "./utils.js";
 
 Chart.defaults.color = "#94a3b8";

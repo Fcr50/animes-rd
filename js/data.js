@@ -1,4 +1,4 @@
-// js/data.js?v=calendar-link-1 — carrega e processa animes.json
+// js/data.js?v=calendar-seven-1 — carrega e processa animes.json
 
 import { normalizeText, stripEmoji } from "./utils.js";
 

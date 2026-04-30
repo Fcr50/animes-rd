@@ -8,7 +8,7 @@ import {
   getPersonNota,
   loadData,
   mostControversial,
-} from "./data.js?v=calendar-link-1";
+} from "./data.js?v=calendar-seven-1";
 import { escapeHTML, shortText, shuffleItems } from "./utils.js";
 
 const OPENINGS = {
@@ -505,7 +505,7 @@ async function renderCalendar() {
   const dayEn = SCHEDULE_DAYS_EN[dayIndex];
   const dayPt = SCHEDULE_DAYS_PT[dayIndex];
   const dateStr = today.toLocaleDateString("pt-BR", { day: "numeric", month: "short" });
-  const cacheKey = `jikan-schedule-${dayEn}-${today.toISOString().slice(0, 10)}`;
+  const cacheKey = `jikan-schedule-7-${dayEn}-${today.toISOString().slice(0, 10)}`;
 
   let items = null;
   try {
@@ -514,11 +514,11 @@ async function renderCalendar() {
       items = JSON.parse(cached);
     } else {
       const res = await fetch(
-        `https://api.jikan.moe/v4/schedules?filter=${dayEn}&limit=10&sfw=true`,
+        `https://api.jikan.moe/v4/schedules?filter=${dayEn}&limit=7&sfw=true`,
       );
       if (res.ok) {
         const payload = await res.json();
-        items = (payload.data || []).slice(0, 10);
+        items = (payload.data || []).slice(0, 7);
         try {
           localStorage.setItem(cacheKey, JSON.stringify(items));
         } catch {}

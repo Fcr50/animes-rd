@@ -1,4 +1,4 @@
-// js/table.js?v=calendar-link-1 — tabela com filtros, ordenação e modal
+// js/table.js?v=calendar-seven-1 — tabela com filtros, ordenação e modal
 
 import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
 import {
@@ -22,7 +22,7 @@ import {
   PEOPLE,
   PERSON_COLORS,
   PERSON_LIGHTS,
-} from "./data.js?v=calendar-link-1";
+} from "./data.js?v=calendar-seven-1";
 import { escapeHTML, normalizeText, stripEmoji } from "./utils.js";
 
 let allAnimes = [];
