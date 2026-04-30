@@ -92,7 +92,7 @@ function parseIntent(text, person) {
 // ── Ciel responses ───────────────────────────────────────────────────────────
 
 const GREETINGS = [
-  "Análise de saudação concluída. Sou Ciel — forma evoluída da Grande Sábia de Rimuru. Posso recomendar animes do acervo, gerar estatísticas ou ranquear títulos. Como posso auxiliar?",
+  "Análise de saudação concluída. Sou Ciel. Posso recomendar animes do acervo, gerar estatísticas ou ranquear títulos. Como posso auxiliar?",
   "Sistema online. Detecto uma saudação. Estou pronta para processar suas consultas sobre o acervo do grupo.",
   "Inicialização completa. Memória do acervo carregada. O que deseja analisar?",
 ];
@@ -269,7 +269,7 @@ async function init() {
   typing?.remove();
   addMessage(
     "ciel",
-    "Inicialização concluída. Sou <strong>Ciel</strong> — forma evoluída da Grande Sábia de Rimuru. Tenho acesso ao acervo completo do grupo e posso recomendar animes, exibir rankings e analisar perfis. Como posso auxiliar?",
+    "Inicialização concluída. Sou <strong>Ciel</strong>. Tenho acesso ao acervo completo do grupo e posso recomendar animes, exibir rankings e analisar perfis. Como posso auxiliar?",
   );
 
   // Quick action buttons
