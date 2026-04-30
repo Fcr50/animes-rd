@@ -4,9 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Acervo — Animes RD</title>
-    <link rel="stylesheet" href="css/style.css?v=pending-title-1" />
-    <script type="module" src="./js/theme.js?v=pending-title-1"></script>
-    <script type="module" src="./js/utils.js?v=pending-title-1"></script>
+    <link rel="stylesheet" href="css/style.css?v=featured-30min-1" />
+    <script type="module" src="./js/theme.js?v=featured-30min-1"></script>
+    <script type="module" src="./js/utils.js?v=featured-30min-1"></script>
   </head>
   <body>
     <nav class="nav"></nav>
@@ -63,8 +63,8 @@
     </main>
 
     <script type="module">
-      import { loadData, formatNota } from "./js/data.js?v=pending-title-1";
-      import { initTable } from "./js/table.js?v=pending-title-1";
+      import { loadData, formatNota } from "./js/data.js?v=featured-30min-1";
+      import { initTable } from "./js/table.js?v=featured-30min-1";
 
       async function init() {
         const { animes, updatedAt, total } = await loadData();
@@ -115,6 +115,6 @@
 
       init().catch(console.error);
     </script>
-    <script type="module" src="js/nyx-widget.js?v=pending-title-1"></script>
+    <script type="module" src="js/nyx-widget.js?v=featured-30min-1"></script>
   </body>
 </html>

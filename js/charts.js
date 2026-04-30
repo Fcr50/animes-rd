@@ -1,4 +1,4 @@
-// js/charts.js?v=pending-title-1 — gráficos gerais (charts.html)
+// js/charts.js?v=featured-30min-1 — gráficos gerais (charts.html)
 
 import {
   PEOPLE,
@@ -7,7 +7,7 @@ import {
   topGenres,
   countGenres,
   animesOf,
-} from "./data.js?v=pending-title-1";
+} from "./data.js?v=featured-30min-1";
 import { hexToRgba, shortText } from "./utils.js";
 
 Chart.defaults.color = "#94a3b8";

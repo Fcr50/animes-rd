@@ -8,7 +8,7 @@ import {
   getPersonNota,
   loadData,
   mostControversial,
-} from "./data.js?v=pending-title-1";
+} from "./data.js?v=featured-30min-1";
 import { escapeHTML, shortText, shuffleItems } from "./utils.js";
 
 const OPENINGS = {
@@ -43,8 +43,8 @@ const HERO_IMAGE_FALLBACKS = {
   52991: "https://cdn.myanimelist.net/images/anime/1015/138006l.jpg",
 };
 
-const FEATURED_ROTATION_HOURS = 5;
-const FEATURED_ROTATION_SALT = "test-swap-1";
+const FEATURED_ROTATION_MINUTES = 30;
+const FEATURED_ROTATION_SALT = "thirty-minute-rotation-1";
 const YOUTUBE_PLAYLIST_URL =
   "https://youtube.com/playlist?list=PLjNlQ2vXx1xbt30X8TcUfNzw_akVISXEu&si=sjrgOdNP3MwdhC6D";
 const SPOTIFY_PLAYLIST_URL =
@@ -83,7 +83,7 @@ function featuredAnimeForNow(animes) {
 
   if (!candidates.length) return sharedTop(animes)[0];
 
-  const rotationMs = FEATURED_ROTATION_HOURS * 60 * 60 * 1000;
+  const rotationMs = FEATURED_ROTATION_MINUTES * 60 * 1000;
   const rotationBlock = Math.floor(Date.now() / rotationMs);
   const seed = Math.abs(hashText(`animes-rd-featured-${FEATURED_ROTATION_SALT}-${rotationBlock}`));
   return candidates[seed % candidates.length];
