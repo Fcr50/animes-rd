@@ -4140,6 +4140,483 @@ body.suggest-page.dark-theme::before {
     0 0 26px rgba(216, 180, 254, 0.28);
 }
 
+/* ── Ciel page ─────────────────────────────────────────────────────────────── */
+
+body.ciel-page {
+  background:
+    radial-gradient(circle at 18% 12%, rgba(96, 165, 250, 0.12), transparent 36%),
+    radial-gradient(circle at 82% 80%, rgba(129, 140, 248, 0.1), transparent 34%),
+    linear-gradient(180deg, rgba(243,239,230,0.03), transparent 280px), var(--bg);
+}
+
+.ciel-shell {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: 280px 1fr;
+  margin: 0 auto;
+  max-width: 1180px;
+  min-height: calc(100vh - 130px);
+  padding: 40px 22px 80px;
+}
+
+/* Sidebar */
+.ciel-sidebar {
+  background:
+    linear-gradient(160deg, rgba(96,165,250,0.08), rgba(129,140,248,0.06)) padding-box,
+    linear-gradient(135deg, rgba(96,165,250,0.35), rgba(129,140,248,0.28), rgba(34,211,238,0.22)) border-box;
+  border: 1px solid transparent;
+  border-radius: 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: 28px 22px;
+  position: sticky;
+  top: 100px;
+  align-self: start;
+  height: fit-content;
+}
+
+.ciel-avatar-wrap {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.ciel-avatar-ring {
+  align-items: center;
+  background: linear-gradient(135deg, rgba(96,165,250,0.18), rgba(34,211,238,0.12));
+  border: 2px solid rgba(96,165,250,0.5);
+  border-radius: 50%;
+  box-shadow:
+    0 0 28px rgba(96,165,250,0.25),
+    0 0 56px rgba(96,165,250,0.1);
+  display: flex;
+  height: 80px;
+  justify-content: center;
+  width: 80px;
+  animation: cielPulse 3s ease-in-out infinite;
+}
+
+.ciel-avatar-glyph {
+  background: linear-gradient(135deg, #60a5fa, #22d3ee, #818cf8);
+  background-clip: text;
+  -webkit-background-clip: text;
+  font-size: 32px;
+  -webkit-text-fill-color: transparent;
+}
+
+@keyframes cielPulse {
+  0%, 100% { box-shadow: 0 0 28px rgba(96,165,250,0.25), 0 0 56px rgba(96,165,250,0.08); }
+  50%       { box-shadow: 0 0 38px rgba(96,165,250,0.45), 0 0 72px rgba(96,165,250,0.2); }
+}
+
+.ciel-id-block {
+  text-align: center;
+}
+
+.ciel-id-block h2 {
+  background: linear-gradient(135deg, #60a5fa, #22d3ee);
+  background-clip: text;
+  -webkit-background-clip: text;
+  font-family: "Newsreader", serif;
+  font-size: 30px;
+  font-weight: 750;
+  letter-spacing: -0.02em;
+  margin-bottom: 2px;
+  -webkit-text-fill-color: transparent;
+}
+
+.ciel-id-block p {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.ciel-online-badge {
+  align-items: center;
+  display: inline-flex;
+  font-size: 11px;
+  font-weight: 800;
+  gap: 5px;
+  color: #4ade80;
+  letter-spacing: 0.06em;
+  margin-top: 6px;
+  text-transform: uppercase;
+}
+
+.ciel-dot {
+  animation: cielDotBlink 1.8s ease-in-out infinite;
+  background: #4ade80;
+  border-radius: 50%;
+  display: inline-block;
+  height: 7px;
+  width: 7px;
+}
+
+@keyframes cielDotBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
+}
+
+.ciel-info-list {
+  border-top: 1px solid rgba(96,165,250,0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 16px;
+}
+
+.ciel-info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ciel-info-item small {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.ciel-info-item span {
+  color: var(--paper);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.ciel-profile-section {
+  border-top: 1px solid rgba(96,165,250,0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 16px;
+}
+
+.ciel-profile-label {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.ciel-people {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ciel-people button {
+  background: rgba(96,165,250,0.06);
+  border: 1px solid rgba(96,165,250,0.2);
+  border-radius: 10px;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 800;
+  padding: 9px 14px;
+  text-align: left;
+  transition: all 0.15s ease;
+}
+
+.ciel-people button:hover {
+  background: rgba(96,165,250,0.12);
+  border-color: rgba(96,165,250,0.45);
+  color: var(--paper);
+}
+
+.ciel-people button.active {
+  background: linear-gradient(135deg, rgba(96,165,250,0.22), rgba(34,211,238,0.14));
+  border-color: rgba(96,165,250,0.55);
+  color: #bfdbfe;
+}
+
+/* Chat area */
+.ciel-chat-wrap {
+  background:
+    linear-gradient(160deg, rgba(15,18,28,0.9), rgba(10,20,30,0.85)) padding-box,
+    linear-gradient(135deg, rgba(96,165,250,0.28), rgba(34,211,238,0.18), rgba(129,140,248,0.22)) border-box;
+  border: 1px solid transparent;
+  border-radius: 26px;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 160px);
+  max-height: 820px;
+  min-height: 500px;
+  overflow: hidden;
+}
+
+.ciel-chat-topbar {
+  align-items: center;
+  border-bottom: 1px solid rgba(96,165,250,0.15);
+  display: flex;
+  font-size: 13px;
+  font-weight: 800;
+  justify-content: space-between;
+  color: #bfdbfe;
+  padding: 16px 22px;
+  letter-spacing: 0.04em;
+}
+
+.ciel-topbar-status {
+  align-items: center;
+  color: #4ade80;
+  display: flex;
+  font-size: 11px;
+  gap: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.ciel-messages {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 14px;
+  overflow-y: auto;
+  padding: 20px;
+  scrollbar-color: rgba(96,165,250,0.35) transparent;
+  scrollbar-width: thin;
+}
+
+.ciel-messages::-webkit-scrollbar { width: 6px; }
+.ciel-messages::-webkit-scrollbar-thumb {
+  background: rgba(96,165,250,0.4);
+  border-radius: 999px;
+}
+
+.ciel-msg {
+  align-items: flex-start;
+  display: flex;
+  gap: 10px;
+  max-width: 85%;
+}
+
+.ciel-msg-ciel { align-self: flex-start; }
+.ciel-msg-user { align-self: flex-end; flex-direction: row-reverse; }
+
+.ciel-msg-avatar {
+  align-items: center;
+  background: linear-gradient(135deg, rgba(96,165,250,0.18), rgba(34,211,238,0.12));
+  border: 1px solid rgba(96,165,250,0.42);
+  border-radius: 50%;
+  color: #60a5fa;
+  display: flex;
+  flex-shrink: 0;
+  font-size: 16px;
+  height: 34px;
+  justify-content: center;
+  width: 34px;
+}
+
+.ciel-msg-bubble {
+  background:
+    linear-gradient(135deg, rgba(96,165,250,0.14), rgba(34,211,238,0.07)),
+    rgba(12,16,24,0.8);
+  border: 1px solid rgba(96,165,250,0.26);
+  border-radius: 18px 18px 18px 6px;
+  color: #e0f2fe;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.55;
+  padding: 12px 16px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.ciel-msg-user .ciel-msg-bubble {
+  background: rgba(30,32,46,0.7);
+  border: 1px solid rgba(129,140,248,0.28);
+  border-radius: 18px 18px 6px 18px;
+  color: var(--paper);
+}
+
+.ciel-typing {
+  align-items: center;
+  display: flex;
+  gap: 4px;
+  height: 16px;
+  padding: 0 2px;
+}
+
+.ciel-typing span {
+  animation: cielTypeDot 1.2s ease-in-out infinite;
+  background: #60a5fa;
+  border-radius: 50%;
+  display: block;
+  height: 7px;
+  width: 7px;
+}
+
+.ciel-typing span:nth-child(2) { animation-delay: 0.2s; }
+.ciel-typing span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes cielTypeDot {
+  0%, 80%, 100% { opacity: 0.25; transform: scale(0.8); }
+  40%           { opacity: 1;    transform: scale(1.1); }
+}
+
+/* Recommendation cards in chat */
+.ciel-msg-cards {
+  max-width: 100%;
+}
+
+.ciel-rec-list {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.ciel-rec-card {
+  align-items: flex-start;
+  background: rgba(12,18,28,0.72);
+  border: 1px solid rgba(96,165,250,0.22);
+  border-radius: 16px;
+  color: var(--paper);
+  display: grid;
+  gap: 10px;
+  grid-template-columns: auto 1fr;
+  padding: 14px;
+  text-decoration: none;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.ciel-rec-card:hover {
+  border-color: rgba(96,165,250,0.55);
+  transform: translateY(-2px);
+}
+
+.ciel-rec-rank {
+  align-items: center;
+  background: rgba(96,165,250,0.12);
+  border: 1px solid rgba(96,165,250,0.3);
+  border-radius: 50%;
+  color: #60a5fa;
+  display: inline-flex;
+  font-size: 11px;
+  font-weight: 900;
+  height: 30px;
+  justify-content: center;
+  width: 30px;
+}
+
+.ciel-rec-body strong {
+  color: var(--paper);
+  display: block;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.ciel-rec-body p {
+  color: var(--muted);
+  font-size: 12px;
+  margin: 0 0 4px;
+}
+
+.ciel-rec-body small {
+  color: rgba(96,165,250,0.8);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* Quick actions */
+.ciel-quick-actions {
+  border-top: 1px solid rgba(96,165,250,0.12);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 20px;
+}
+
+.ciel-quick-btn {
+  background: rgba(96,165,250,0.08);
+  border: 1px solid rgba(96,165,250,0.25);
+  border-radius: 999px;
+  color: #93c5fd;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 7px 14px;
+  transition: all 0.15s ease;
+}
+
+.ciel-quick-btn:hover {
+  background: rgba(96,165,250,0.18);
+  border-color: rgba(96,165,250,0.55);
+  color: #bfdbfe;
+}
+
+/* Input bar */
+.ciel-input-bar {
+  border-top: 1px solid rgba(96,165,250,0.15);
+  display: flex;
+  gap: 10px;
+  padding: 14px 20px;
+}
+
+#ciel-input {
+  background: rgba(12,16,24,0.7);
+  border: 1px solid rgba(96,165,250,0.25);
+  border-radius: 14px;
+  color: var(--paper);
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  outline: none;
+  padding: 12px 16px;
+  transition: border-color 0.15s ease;
+}
+
+#ciel-input:focus {
+  border-color: rgba(96,165,250,0.6);
+}
+
+#ciel-input::placeholder {
+  color: var(--muted);
+}
+
+#ciel-send {
+  align-items: center;
+  background: linear-gradient(135deg, #3b82f6, #06b6d4);
+  border: 0;
+  border-radius: 14px;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  font-size: 20px;
+  height: 46px;
+  justify-content: center;
+  transition: opacity 0.15s ease;
+  width: 46px;
+}
+
+#ciel-send:hover { opacity: 0.85; }
+
+@media (max-width: 900px) {
+  .ciel-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .ciel-sidebar {
+    flex-direction: row;
+    flex-wrap: wrap;
+    position: static;
+  }
+
+  .ciel-rec-list {
+    grid-template-columns: 1fr;
+  }
+
+  .ciel-chat-wrap {
+    height: 70vh;
+  }
+}
+
+/* ── Nyx shell (legacy kept for backward compat) ───────────────────────────── */
 .nyx-shell {
   margin: 0 auto;
   max-width: 1180px;

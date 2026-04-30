@@ -3,11 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Blog da Nyx | Animes RD</title>
-    <link rel="stylesheet" href="css/style.css?v=calendar-seven-1" />
-    <script type="module" src="./js/theme.js?v=calendar-seven-1"></script>
+    <title>Ciel · Grande Sábia | Animes RD</title>
+    <link rel="stylesheet" href="css/style.css?v=ciel-1" />
+    <script type="module" src="./js/theme.js?v=ciel-1"></script>
   </head>
-  <body class="nyx-page">
+  <body class="ciel-page">
     <nav class="nav">
       <a class="nav-logo" href="index.html">Animes RD</a>
       <a href="index.html">Blog</a>
@@ -16,94 +16,86 @@
       <a href="compare.html">Comparar</a>
       <a href="suggest.html">Sugerir Anime</a>
       <a href="pending.html">Fila de Aprovação</a>
-      <a href="blog-da-nyx.html" class="active">Nyx</a>
-      <button
-        class="theme-toggle"
-        type="button"
-        data-theme-toggle
-        aria-label="Ativar modo noturno"
-        title="Modo noturno"
-      >
-        ☾
-      </button>
+      <a href="nyx.html" class="active">Ciel</a>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Ativar modo noturno" title="Modo noturno">☾</button>
       <div class="nav-person">
-        <a href="rafael.html"
-          ><span class="nav-avatar" style="background: rgba(124, 58, 237, 0.18); color: #6f45d8"
-            >R</span
-          >Rafael</a
-        >
-        <a href="fernando.html"
-          ><span class="nav-avatar" style="background: rgba(236, 72, 153, 0.18); color: #d83182"
-            >F</span
-          >Fernando</a
-        >
-        <a href="dudu.html"
-          ><span class="nav-avatar" style="background: rgba(234, 179, 8, 0.18); color: #b7791f"
-            >D</span
-          >Dudu</a
-        >
-        <a href="hacksuya.html"
-          ><span class="nav-avatar" style="background: rgba(6, 182, 212, 0.18); color: #0588a6"
-            >H</span
-          >Hacksuya</a
-        >
+        <a href="rafael.html"><span class="nav-avatar" style="background:rgba(124,58,237,0.18);color:#6f45d8">R</span>Rafael</a>
+        <a href="fernando.html"><span class="nav-avatar" style="background:rgba(236,72,153,0.18);color:#d83182">F</span>Fernando</a>
+        <a href="dudu.html"><span class="nav-avatar" style="background:rgba(234,179,8,0.18);color:#b7791f">D</span>Dudu</a>
+        <a href="hacksuya.html"><span class="nav-avatar" style="background:rgba(6,182,212,0.18);color:#0588a6">H</span>Hacksuya</a>
       </div>
     </nav>
 
-    <main class="nyx-shell">
-      <aside class="nyx-left-art" aria-label="Nyx">
-        <img src="assets/nyx-full.webp" alt="Nyx" width="620" height="930" decoding="async" />
-      </aside>
+    <main class="ciel-shell">
 
-      <aside class="nyx-chat-panel" aria-label="Chat da Nyx">
-        <h3>Chat da Nyx</h3>
-        <div class="nyx-chat-log" id="nyx-chat-log">
-          <div class="nyx-chat-row">
-            <img
-              class="nyx-chat-avatar"
-              src="assets/nyx-hero.webp?v=calendar-seven-1"
-              alt="Nyx"
-              width="38"
-              height="38"
-              decoding="async"
-            />
-            <div class="nyx-chat-bubble">Clica no botão que eu te recomendo um anime.</div>
+      <aside class="ciel-sidebar">
+        <div class="ciel-avatar-wrap">
+          <div class="ciel-avatar-ring">
+            <span class="ciel-avatar-glyph">◈</span>
           </div>
         </div>
-        <button class="nyx-chat-btn" type="button" id="nyx-recommend-btn">
-          Me recomende um anime
-        </button>
+
+        <div class="ciel-id-block">
+          <h2>Ciel</h2>
+          <p>Grande Sábia</p>
+          <span class="ciel-online-badge"><span class="ciel-dot"></span>Online</span>
+        </div>
+
+        <div class="ciel-info-list">
+          <div class="ciel-info-item">
+            <small>Evolução</small>
+            <span>Grande Sábia → Raphael → Ciel</span>
+          </div>
+          <div class="ciel-info-item">
+            <small>Habilidade</small>
+            <span>Análise · Síntese · Evolução</span>
+          </div>
+          <div class="ciel-info-item">
+            <small>Animes no acervo</small>
+            <span id="ciel-count">—</span>
+          </div>
+          <div class="ciel-info-item">
+            <small>Assistidos por</small>
+            <span id="ciel-person-count">—</span>
+          </div>
+        </div>
+
+        <div class="ciel-profile-section">
+          <small class="ciel-profile-label">Analisando perfil</small>
+          <div class="ciel-people" id="ciel-people"></div>
+        </div>
       </aside>
 
-      <section class="nyx-hero">
-        <img
-          class="nyx-hero-image"
-          src="assets/nyx-hero.webp?v=calendar-seven-1"
-          alt="Nyx"
-          width="420"
-          height="449"
-          decoding="async"
-        />
-        <div>
-          <span class="eyebrow">Blog da Nyx</span>
-          <h1>Nyx recomenda seu próximo anime.</h1>
-          <p id="nyx-summary">Carregando dicas do acervo...</p>
+      <section class="ciel-chat-wrap">
+        <div class="ciel-chat-topbar">
+          <span>◈ Ciel — Grande Sábia de Rimuru</span>
+          <span class="ciel-topbar-status"><span class="ciel-dot"></span>ativo</span>
+        </div>
+
+        <div class="ciel-messages" id="ciel-messages"></div>
+
+        <div class="ciel-quick-actions">
+          <button class="ciel-quick-btn" data-quick="recommend">Recomendar anime</button>
+          <button class="ciel-quick-btn" data-quick="top">Top do acervo</button>
+          <button class="ciel-quick-btn" data-quick="genre">Por gênero favorito</button>
+          <button class="ciel-quick-btn" data-quick="stats">Estatísticas</button>
+        </div>
+
+        <div class="ciel-input-bar">
+          <input
+            type="text"
+            id="ciel-input"
+            placeholder="Pergunte algo para Ciel..."
+            autocomplete="off"
+            maxlength="200"
+          />
+          <button id="ciel-send" type="button" aria-label="Enviar">→</button>
         </div>
       </section>
 
-      <section class="nyx-panel">
-        <div class="nyx-panel-head">
-          <span class="eyebrow">IA da Nyx</span>
-          <h2>Dicas para quem ainda não assistiu</h2>
-        </div>
-        <div class="nyx-person-tabs" id="nyx-people" aria-label="Escolher membro"></div>
-        <div class="nyx-results" id="nyx-results">
-          <div class="skeleton" style="height: 260px"></div>
-        </div>
-      </section>
     </main>
 
-    <script type="module" src="js/nyx.js?v=calendar-seven-1"></script>
-    <script type="module" src="js/nyx-widget.js?v=calendar-seven-1"></script>
+    <script type="module" src="js/nyx.js?v=ciel-1"></script>
+    <script type="module" src="js/nyx-widget.js?v=ciel-1"></script>
   </body>
 </html>
