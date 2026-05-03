@@ -1,10 +1,10 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dudu — Animes RD</title>
-    <link rel="stylesheet" href="css/style.css?v=desafios-soft-1" />
+    <title>Dudu â€” Animes RD</title>
+    <link rel="stylesheet" href="css/style.css?v=light-fix-1" />
     <script type="module" src="./js/theme.js?v=desafios-soft-1"></script>
     <script type="module" src="./js/utils.js?v=desafios-soft-1"></script>
   </head>
@@ -23,7 +23,7 @@
 
       <div class="grid-2" style="margin-bottom: 28px">
         <div class="card">
-          <div class="card-title">Distribuição de gêneros</div>
+          <div class="card-title">DistribuiÃ§Ã£o de gÃªneros</div>
           <div class="chart-container" style="height: 260px">
             <canvas id="chartPie"></canvas>
           </div>
@@ -39,13 +39,13 @@
       <div class="grid-2">
         <div class="card">
           <div class="card-title">Animes exclusivos</div>
-          <p style="font-size: 12px; color: var(--faint); margin-bottom: 12px">Só Dudu assistiu</p>
+          <p style="font-size: 12px; color: var(--faint); margin-bottom: 12px">SÃ³ Dudu assistiu</p>
           <ul class="anime-list" id="list-exclusive"></ul>
         </div>
         <div class="card">
-          <div class="card-title">Ainda não assistiu</div>
+          <div class="card-title">Ainda nÃ£o assistiu</div>
           <p style="font-size: 12px; color: var(--faint); margin-bottom: 12px">
-            Os outros já viram
+            Os outros jÃ¡ viram
           </p>
           <ul class="anime-list" id="list-missed"></ul>
         </div>
@@ -113,23 +113,23 @@
       <div class="stat-sub" aria-hidden="true">&nbsp;</div>
     </div>
     <div class="stat-card">
-      <div class="stat-label">Gênero favorito</div>
+      <div class="stat-label">GÃªnero favorito</div>
       <div class="stat-value stat-value-text">${genre}</div>
       <div class="stat-sub" aria-hidden="true">&nbsp;</div>
     </div>
     <div class="stat-card">
-      <div class="stat-label">Média de notas</div>
-      <div class="stat-value stat-value-number">${avg ? avg.toFixed(2) : "—"}</div>
+      <div class="stat-label">MÃ©dia de notas</div>
+      <div class="stat-value stat-value-number">${avg ? avg.toFixed(2) : "â€”"}</div>
       <div class="stat-sub" aria-hidden="true">&nbsp;</div>
     </div>
     <div class="stat-card">
       <div class="stat-label">Anime favorito</div>
-      <div class="stat-value stat-value-text" title="${fav?.nome}">${fav ? fav.nome : "—"}</div>
+      <div class="stat-value stat-value-text" title="${fav?.nome}">${fav ? fav.nome : "â€”"}</div>
       <div class="stat-sub">${fav ? pNota(fav)?.toFixed(1) : ""}</div>
     </div>
     <div class="stat-card">
       <div class="stat-label">Mais controverso</div>
-      <div class="stat-value stat-value-text" title="${contr?.nome}">${contr ? contr.nome : "—"}</div>
+      <div class="stat-value stat-value-text" title="${contr?.nome}">${contr ? contr.nome : "â€”"}</div>
       <div class="stat-sub">${contr ? "diff " + contr.controversia.toFixed(1) : ""}</div>
     </div>
   `;
@@ -191,7 +191,7 @@
         type: "bar",
         data: {
           labels: top10.length
-            ? top10.map((a) => (a.nome.length > 20 ? a.nome.slice(0, 18) + "—" : a.nome))
+            ? top10.map((a) => (a.nome.length > 20 ? a.nome.slice(0, 18) + "â€”" : a.nome))
             : ["Nenhum dado"],
           datasets: [
             {
@@ -253,3 +253,4 @@
     <script type="module" src="js/nyx-widget.js?v=desafios-soft-1"></script>
   </body>
 </html>
+

@@ -1,10 +1,10 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Acervo — Animes RD</title>
-    <link rel="stylesheet" href="css/style.css?v=desafios-soft-1" />
+    <title>Acervo â€” Animes RD</title>
+    <link rel="stylesheet" href="css/style.css?v=light-fix-1" />
     <script type="module" src="./js/theme.js?v=desafios-soft-1"></script>
     <script type="module" src="./js/utils.js?v=desafios-soft-1"></script>
     <style>
@@ -14,7 +14,7 @@
           font-size: 28px;
         }
 
-        /* Tabela → grade de cards 2 colunas */
+        /* Tabela â†’ grade de cards 2 colunas */
         .acervo-main-card .table-wrap {
           border: none;
           border-radius: 0;
@@ -46,7 +46,7 @@
           transition: background 0.15s ease, border-color 0.15s ease;
         }
 
-        /* Override: último tr não perde a borda inferior */
+        /* Override: Ãºltimo tr nÃ£o perde a borda inferior */
         .acervo-main-card tbody tr:last-child {
           border-bottom: 1px solid rgba(243, 239, 230, 0.1);
         }
@@ -63,14 +63,14 @@
           grid-column: 1 / -1;
         }
 
-        /* Ocultar gêneros, votos e controvérsia */
+        /* Ocultar gÃªneros, votos e controvÃ©rsia */
         .acervo-main-card tbody td:nth-child(2),
         .acervo-main-card tbody td:nth-child(5),
         .acervo-main-card tbody td:nth-child(6) {
           display: none;
         }
 
-        /* Célula do anime: imagem cover + nome */
+        /* CÃ©lula do anime: imagem cover + nome */
         .acervo-main-card tbody td:nth-child(1) {
           padding: 0;
         }
@@ -120,7 +120,7 @@
           padding: 2px 5px;
         }
 
-        /* Nota: empurrada para o rodapé do card */
+        /* Nota: empurrada para o rodapÃ© do card */
         .acervo-main-card tbody td:nth-child(4) {
           border-top: 1px solid rgba(243, 239, 230, 0.08);
           margin-top: auto;
@@ -175,11 +175,11 @@
             <thead>
               <tr>
                 <th data-col="nome">Anime</th>
-                <th data-col="generos">Gêneros</th>
+                <th data-col="generos">GÃªneros</th>
                 <th data-col="quemAssistiu">Quem assistiu</th>
                 <th data-col="nota" style="text-align: center">Nota</th>
                 <th data-col="qtdVotos" style="text-align: center">Votos</th>
-                <th data-col="controversia" style="text-align: center">Controvérsia</th>
+                <th data-col="controversia" style="text-align: center">ControvÃ©rsia</th>
               </tr>
             </thead>
             <tbody id="anime-tbody">
@@ -204,7 +204,7 @@
         // Updated at
         const d = new Date(updatedAt);
         document.getElementById("updated-at").textContent =
-          `${total} animes — atualizado em ${d.toLocaleDateString("pt-BR")} às ${d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}`;
+          `${total} animes â€” atualizado em ${d.toLocaleDateString("pt-BR")} Ã s ${d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}`;
 
         // Stats
         const withNota = animes.filter((a) => a.nota !== null);
@@ -226,19 +226,19 @@
         <div class="stat-sub">na base de dados</div>
       </div>
       <div class="stat-card">
-        <div class="stat-label">Média geral</div>
-        <div class="stat-value" style="color:#ff9dcc">${avgAll ? avgAll.toFixed(2) : "—"}</div>
+        <div class="stat-label">MÃ©dia geral</div>
+        <div class="stat-value" style="color:#ff9dcc">${avgAll ? avgAll.toFixed(2) : "â€”"}</div>
         <div class="stat-sub">de 10</div>
       </div>
       <div class="stat-card">
         <div class="stat-label">Mais controverso</div>
-        <div class="stat-value" style="color:#86efac">${mostContr ? mostContr.controversia.toFixed(1) : "—"}</div>
-        <div class="stat-sub" title="${mostContr?.nome}">${mostContr?.nome?.slice(0, 22) || "—"}</div>
+        <div class="stat-value" style="color:#86efac">${mostContr ? mostContr.controversia.toFixed(1) : "â€”"}</div>
+        <div class="stat-sub" title="${mostContr?.nome}">${mostContr?.nome?.slice(0, 22) || "â€”"}</div>
       </div>
       <div class="stat-card">
         <div class="stat-label">Melhor nota</div>
-        <div class="stat-value" style="color:#67e8f9">${topRated ? Number(topRated.nota).toFixed(2) : "—"}</div>
-        <div class="stat-sub" title="${topRated?.nome}">${topRated?.nome?.slice(0, 22) || "—"}</div>
+        <div class="stat-value" style="color:#67e8f9">${topRated ? Number(topRated.nota).toFixed(2) : "â€”"}</div>
+        <div class="stat-sub" title="${topRated?.nome}">${topRated?.nome?.slice(0, 22) || "â€”"}</div>
       </div>
     `;
 
@@ -250,3 +250,4 @@
     <script type="module" src="js/nyx-widget.js?v=desafios-soft-1"></script>
   </body>
 </html>
+
