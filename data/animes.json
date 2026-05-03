@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-05-03T08:53:11.388Z",
-  "total": 180,
+  "updatedAt": "2026-05-03T21:22:12.076Z",
+  "total": 185,
   "animes": [
     {
       "id": "3416beab-c784-813f-bff6-df2369802356",
@@ -61,6 +61,60 @@
       }
     },
     {
+      "id": "3416beab-c784-8112-b256-c046f02ed035",
+      "nome": "Attack on Titan",
+      "generos": [
+        "Ação ⚔️",
+        "Drama 😢",
+        "Fantasia 🧙"
+      ],
+      "notaFernando": 9.3,
+      "notaDudu": 9.8,
+      "notaHacksuya": null,
+      "maisDeUmVoto": "sim",
+      "controversia": 0.5,
+      "migratedAt": {
+        "_seconds": 1777314441,
+        "_nanoseconds": 493000000
+      },
+      "malId": 16498,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=8OkpRK2_gVs"
+        }
+      ],
+      "notaZana": null,
+      "quemAssistiu": [
+        "Rafael",
+        "Fernando",
+        "Dudu"
+      ],
+      "qtdVotos": 3,
+      "comments": [
+        {
+          "person": "Fernando",
+          "text": "se é plottwist q tu gosta, veja isso, historia pensada completamente desde o primeiro ep 👀"
+        },
+        {
+          "person": "Dudu",
+          "text": "AOT eleva a régua do que é considerado anime bom, assista sabendo que dificilmente você encontrara algo que vc achara tão bom quanto."
+        },
+        {
+          "person": "Rafael",
+          "text": "Obrigatório."
+        }
+      ],
+      "notaSort": 9.6,
+      "notaRafael": 9.7,
+      "comentarios": "Fernando: se é plottwist q tu gosta, veja isso, historia pensada completamente desde o primeiro ep 👀Dudu: AOT eleva a régua do que é considerado anime bom, assista sabendo que dificilmente você encontrara algo que vc achara tão bom quanto.Rafael: Obrigatório.",
+      "nota": "9.60",
+      "updatedAt": {
+        "_seconds": 1777828709,
+        "_nanoseconds": 295000000
+      }
+    },
+    {
       "id": "3416beab-c784-8176-87fa-ce517e302b03",
       "nome": "That Time I Got Reincarnated as a Slime",
       "generos": [
@@ -115,55 +169,6 @@
       "updatedAt": {
         "_seconds": 1777540732,
         "_nanoseconds": 267000000
-      },
-      "notaZana": null
-    },
-    {
-      "id": "3416beab-c784-8112-b256-c046f02ed035",
-      "nome": "Attack on Titan",
-      "nota": "9.55",
-      "generos": [
-        "Ação ⚔️",
-        "Drama 😢",
-        "Fantasia 🧙"
-      ],
-      "notaRafael": null,
-      "notaFernando": 9.3,
-      "notaDudu": 9.8,
-      "notaHacksuya": null,
-      "maisDeUmVoto": "sim",
-      "qtdVotos": 2,
-      "notaSort": 9.55,
-      "controversia": 0.5,
-      "migratedAt": {
-        "_seconds": 1777314441,
-        "_nanoseconds": 493000000
-      },
-      "malId": 16498,
-      "quemAssistiu": [
-        "Fernando",
-        "Dudu"
-      ],
-      "comments": [
-        {
-          "person": "Fernando",
-          "text": "se é plottwist q tu gosta, veja isso, historia pensada completamente desde o primeiro ep 👀"
-        },
-        {
-          "person": "Dudu",
-          "text": "AOT eleva a régua do que é considerado anime bom, assista sabendo que dificilmente você encontrara algo que vc achara tão bom quanto."
-        }
-      ],
-      "comentarios": "Fernando: se é plottwist q tu gosta, veja isso, historia pensada completamente desde o primeiro ep 👀\nDudu: AOT eleva a régua do que é considerado anime bom, assista sabendo que dificilmente você encontrara algo que vc achara tão bom quanto.",
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/watch?v=8OkpRK2_gVs"
-        }
-      ],
-      "updatedAt": {
-        "_seconds": 1777570004,
-        "_nanoseconds": 916000000
       },
       "notaZana": null
     },
@@ -706,51 +711,6 @@
       "notaZana": null
     },
     {
-      "id": "3416beab-c784-818f-899f-ce1f25e88a7e",
-      "nome": "Highschool of the Dead",
-      "nota": "9.30",
-      "notaRafael": null,
-      "notaFernando": 9.4,
-      "notaDudu": 9.2,
-      "notaHacksuya": null,
-      "maisDeUmVoto": "sim",
-      "qtdVotos": 2,
-      "notaSort": 9.3,
-      "controversia": 0.2,
-      "migratedAt": {
-        "_seconds": 1777314441,
-        "_nanoseconds": 493000000
-      },
-      "malId": 8074,
-      "generos": [
-        "Ação ⚔️",
-        "Terror 👻",
-        "Ecchi 🔥"
-      ],
-      "quemAssistiu": [
-        "Fernando",
-        "Dudu"
-      ],
-      "comments": [
-        {
-          "person": "Dudu",
-          "text": "Anime muito bom, a história se passa em um apocalipse zumbi, e o ecchi presente no anime está na dose certa."
-        }
-      ],
-      "comentarios": "Dudu: Anime muito bom, a história se passa em um apocalipse zumbi, e o ecchi presente no anime está na dose certa.",
-      "updatedAt": {
-        "_seconds": 1777399199,
-        "_nanoseconds": 429000000
-      },
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Highschool%20of%20the%20Dead%20opening%201"
-        }
-      ],
-      "notaZana": null
-    },
-    {
       "id": "3416beab-c784-81b7-8881-fc73defe7249",
       "nome": "Fate/Zero",
       "generos": [
@@ -789,49 +749,6 @@
         "_seconds": 1777793059,
         "_nanoseconds": 912000000
       }
-    },
-    {
-      "id": "3416beab-c784-81d7-8d27-d3d5f074c8ad",
-      "nome": "Inazuma Eleven",
-      "nota": "9.30",
-      "notaRafael": null,
-      "notaFernando": null,
-      "notaDudu": 9.3,
-      "notaHacksuya": null,
-      "maisDeUmVoto": "nao",
-      "qtdVotos": 1,
-      "notaSort": 9.3,
-      "controversia": 0,
-      "migratedAt": {
-        "_seconds": 1777314441,
-        "_nanoseconds": 493000000
-      },
-      "malId": 5231,
-      "generos": [
-        "Shounen 💥",
-        "Esportes ⚽"
-      ],
-      "quemAssistiu": [
-        "Dudu"
-      ],
-      "comments": [
-        {
-          "person": "Dudu",
-          "text": "Esse aqui é um clássico, se você não assistiu na época que passava na REDETV não teve infância."
-        }
-      ],
-      "comentarios": "Dudu: Esse aqui é um clássico, se você não assistiu na época que passava na REDETV não teve infância.",
-      "updatedAt": {
-        "_seconds": 1777399231,
-        "_nanoseconds": 867000000
-      },
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Inazuma%20Eleven%20opening%201"
-        }
-      ],
-      "notaZana": null
     },
     {
       "id": "3416beab-c784-815a-b830-c61e927ffd26",
@@ -923,6 +840,52 @@
         }
       ],
       "notaZana": null
+    },
+    {
+      "id": "3416beab-c784-818f-899f-ce1f25e88a7e",
+      "nome": "Highschool of the Dead",
+      "notaFernando": 9.4,
+      "notaDudu": 9.2,
+      "notaHacksuya": null,
+      "maisDeUmVoto": "sim",
+      "migratedAt": {
+        "_seconds": 1777314441,
+        "_nanoseconds": 493000000
+      },
+      "malId": 8074,
+      "generos": [
+        "Ação ⚔️",
+        "Terror 👻",
+        "Ecchi 🔥"
+      ],
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Anime muito bom, a história se passa em um apocalipse zumbi, e o ecchi presente no anime está na dose certa."
+        }
+      ],
+      "comentarios": "Dudu: Anime muito bom, a história se passa em um apocalipse zumbi, e o ecchi presente no anime está na dose certa.",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Highschool%20of%20the%20Dead%20opening%201"
+        }
+      ],
+      "notaZana": null,
+      "controversia": 0.3,
+      "quemAssistiu": [
+        "Rafael",
+        "Fernando",
+        "Dudu"
+      ],
+      "qtdVotos": 3,
+      "notaSort": 9.23,
+      "notaRafael": 9.1,
+      "nota": "9.23",
+      "updatedAt": {
+        "_seconds": 1777828453,
+        "_nanoseconds": 820000000
+      }
     },
     {
       "id": "3416beab-c784-8115-ad27-f0c2b85b2b54",
@@ -1241,6 +1204,56 @@
       "notaZana": null
     },
     {
+      "id": "3416beab-c784-81fa-beb2-dbfa9238bf98",
+      "nome": "Jujutsu Kaisen",
+      "generos": [
+        "Ação ⚔️",
+        "Shounen 💥",
+        "Fantasia 🧙"
+      ],
+      "notaFernando": 9,
+      "notaDudu": 9,
+      "notaHacksuya": null,
+      "maisDeUmVoto": "sim",
+      "migratedAt": {
+        "_seconds": 1777314441,
+        "_nanoseconds": 493000000
+      },
+      "malId": 40748,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Jujutsu%20Kaisen%20opening%201"
+        }
+      ],
+      "notaZana": null,
+      "controversia": 0.4,
+      "quemAssistiu": [
+        "Rafael",
+        "Fernando",
+        "Dudu"
+      ],
+      "qtdVotos": 3,
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "NAH, I'D WIN."
+        },
+        {
+          "person": "Rafael",
+          "text": "Ryōiki Tenkai!!!!"
+        }
+      ],
+      "notaSort": 9.13,
+      "notaRafael": 9.4,
+      "comentarios": "Dudu: NAH, I'D WIN.Rafael: Ryōiki Tenkai!!!!",
+      "nota": "9.13",
+      "updatedAt": {
+        "_seconds": 1777829060,
+        "_nanoseconds": 673000000
+      }
+    },
+    {
       "id": "3dc6beab-c784-82df-be47-01cf93907b4f",
       "nome": "Death Note",
       "generos": [
@@ -1337,47 +1350,52 @@
     {
       "id": "3416beab-c784-81c6-a4ec-ec066b9464f0",
       "nome": "No Game, No Life",
-      "nota": "9.10",
       "generos": [
         "Isekai 🌍✨",
         "Fantasia 🧙",
         "Comédia 😂"
       ],
-      "notaRafael": null,
       "notaFernando": 9.2,
       "notaDudu": 9,
       "notaHacksuya": null,
       "maisDeUmVoto": "sim",
-      "qtdVotos": 2,
-      "notaSort": 9.1,
       "controversia": 0.2,
       "migratedAt": {
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
       "malId": 19815,
-      "quemAssistiu": [
-        "Fernando",
-        "Dudu"
-      ],
-      "comments": [
-        {
-          "person": "Dudu",
-          "text": "Uma pena não terem continuado, muito bom. Fun fact: o autor é brasileiro."
-        }
-      ],
-      "comentarios": "Dudu: Uma pena não terem continuado, muito bom. Fun fact: o autor é brasileiro.",
-      "updatedAt": {
-        "_seconds": 1777399376,
-        "_nanoseconds": 147000000
-      },
       "files": [
         {
           "name": "Opening 1",
           "url": "https://www.youtube.com/results?search_query=No%20Game%2C%20No%20Life%20opening%201"
         }
       ],
-      "notaZana": null
+      "notaZana": null,
+      "quemAssistiu": [
+        "Rafael",
+        "Fernando",
+        "Dudu"
+      ],
+      "qtdVotos": 3,
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Uma pena não terem continuado, muito bom. Fun fact: o autor é brasileiro."
+        },
+        {
+          "person": "Rafael",
+          "text": "Brasil sil sil."
+        }
+      ],
+      "notaSort": 9.07,
+      "notaRafael": 9,
+      "comentarios": "Dudu: Uma pena não terem continuado, muito bom. Fun fact: o autor é brasileiro.Rafael: Brasil sil sil.",
+      "nota": "9.07",
+      "updatedAt": {
+        "_seconds": 1777828874,
+        "_nanoseconds": 473000000
+      }
     },
     {
       "id": "3416beab-c784-81d2-8228-dd19f2a20da9",
@@ -1458,51 +1476,6 @@
         {
           "name": "Opening 1",
           "url": "https://www.youtube.com/results?search_query=Ping%20Pong%20the%20Animation%20opening%201"
-        }
-      ],
-      "notaZana": null
-    },
-    {
-      "id": "3416beab-c784-8123-b4c2-cfe4c4c0c9a2",
-      "nome": "One Punch Man",
-      "nota": "9.00",
-      "generos": [
-        "Ação ⚔️",
-        "Shounen 💥",
-        "Comédia 😂"
-      ],
-      "notaRafael": null,
-      "notaFernando": 8.9,
-      "notaDudu": 9.1,
-      "notaHacksuya": null,
-      "maisDeUmVoto": "sim",
-      "qtdVotos": 2,
-      "notaSort": 9,
-      "controversia": 0.2,
-      "migratedAt": {
-        "_seconds": 1777314441,
-        "_nanoseconds": 493000000
-      },
-      "malId": 30276,
-      "quemAssistiu": [
-        "Fernando",
-        "Dudu"
-      ],
-      "comments": [
-        {
-          "person": "Dudu",
-          "text": "Primeira temporada fenomenal, mas acho que esse sofre do mesmo problema do Solo Leveling, só que no gênero de comédia. Acaba ficando mais do mesmo em certo ponto."
-        }
-      ],
-      "comentarios": "Dudu: Primeira temporada fenomenal, mas acho que esse sofre do mesmo problema do Solo Leveling, só que no gênero de comédia. Acaba ficando mais do mesmo em certo ponto.",
-      "updatedAt": {
-        "_seconds": 1777399439,
-        "_nanoseconds": 430000000
-      },
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=One%20Punch%20Man%20opening%201"
         }
       ],
       "notaZana": null
@@ -1619,51 +1592,6 @@
       "notaZana": null
     },
     {
-      "id": "3416beab-c784-81fa-beb2-dbfa9238bf98",
-      "nome": "Jujutsu Kaisen",
-      "nota": "9.00",
-      "generos": [
-        "Ação ⚔️",
-        "Shounen 💥",
-        "Fantasia 🧙"
-      ],
-      "notaRafael": null,
-      "notaFernando": 9,
-      "notaDudu": 9,
-      "notaHacksuya": null,
-      "maisDeUmVoto": "sim",
-      "qtdVotos": 2,
-      "notaSort": 9,
-      "controversia": 0,
-      "migratedAt": {
-        "_seconds": 1777314441,
-        "_nanoseconds": 493000000
-      },
-      "malId": 40748,
-      "quemAssistiu": [
-        "Fernando",
-        "Dudu"
-      ],
-      "comments": [
-        {
-          "person": "Dudu",
-          "text": "NAH, I'D WIN."
-        }
-      ],
-      "comentarios": "Dudu: NAH, I'D WIN.",
-      "updatedAt": {
-        "_seconds": 1777399508,
-        "_nanoseconds": 904000000
-      },
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Jujutsu%20Kaisen%20opening%201"
-        }
-      ],
-      "notaZana": null
-    },
-    {
       "id": "UttSCzqfHg43aHHh7FyR",
       "nome": "The \"Hentai\" Prince and the Stony Cat",
       "malId": 15225,
@@ -1698,6 +1626,87 @@
         }
       ],
       "notaZana": null
+    },
+    {
+      "id": "t9RZyXLHK4HJ1yUJpOqn",
+      "nome": "KONOSUBA -An Explosion on This Wonderful World!",
+      "generos": [
+        "Comédia 😂",
+        "Fantasia 🧙"
+      ],
+      "malId": 51958,
+      "comentarios": "Rafael: É Konosuba, não tem erro. Mesma fórmula do anime principal, vale a pena. ASSISTA!!!",
+      "comments": [
+        {
+          "person": "Rafael",
+          "text": "É Konosuba, não tem erro. Mesma fórmula do anime principal, vale a pena. ASSISTA!!!"
+        }
+      ],
+      "files": [],
+      "maisDeUmVoto": "nao",
+      "qtdVotos": 2,
+      "controversia": 0,
+      "notaSort": 9,
+      "notaRafael": 9.4,
+      "notaFernando": 8.6,
+      "notaDudu": null,
+      "notaHacksuya": null,
+      "notaZana": null,
+      "quemAssistiu": [
+        "Rafael",
+        "Fernando"
+      ],
+      "nota": "9.00"
+    },
+    {
+      "id": "3416beab-c784-8127-b096-e5bb98fd2bac",
+      "nome": "Shokugeki no Soma",
+      "notaFernando": 9,
+      "notaDudu": 8.9,
+      "notaHacksuya": null,
+      "maisDeUmVoto": "sim",
+      "controversia": 0.1,
+      "migratedAt": {
+        "_seconds": 1777314441,
+        "_nanoseconds": 493000000
+      },
+      "malId": 28171,
+      "generos": [
+        "Shounen 💥",
+        "Comédia 😂",
+        "Ecchi 🔥"
+      ],
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Shokugeki%20no%20Soma%20opening%201"
+        }
+      ],
+      "notaZana": null,
+      "quemAssistiu": [
+        "Rafael",
+        "Fernando",
+        "Dudu"
+      ],
+      "qtdVotos": 3,
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Um anime que me fez gostar de culinária, mas não vou mentir, o que mais me atraiu foi o ecchi que misturaram no anime, ficou muito bom."
+        },
+        {
+          "person": "Rafael",
+          "text": "Mais emoção que pesadelo na cozinha kkkk"
+        }
+      ],
+      "notaSort": 8.97,
+      "notaRafael": 9,
+      "comentarios": "Dudu: Um anime que me fez gostar de culinária, mas não vou mentir, o que mais me atraiu foi o ecchi que misturaram no anime, ficou muito bom.Rafael: Mais emoção que pesadelo na cozinha kkkk",
+      "nota": "8.97",
+      "updatedAt": {
+        "_seconds": 1777828797,
+        "_nanoseconds": 804000000
+      }
     },
     {
       "id": "3416beab-c784-81b8-b86e-cc9ccb05f870",
@@ -1746,49 +1755,58 @@
       "notaZana": null
     },
     {
-      "id": "3416beab-c784-8127-b096-e5bb98fd2bac",
-      "nome": "Shokugeki no Soma",
-      "nota": "8.95",
-      "notaRafael": null,
-      "notaFernando": 9,
-      "notaDudu": 8.9,
+      "id": "3416beab-c784-81a7-aa0f-d3397ba4b544",
+      "nome": "Dragon Ball Z",
+      "generos": [
+        "Ação ⚔️",
+        "Shounen 💥"
+      ],
+      "notaFernando": 8.7,
+      "notaDudu": 8,
       "notaHacksuya": null,
       "maisDeUmVoto": "sim",
-      "qtdVotos": 2,
-      "notaSort": 8.95,
-      "controversia": 0.1,
       "migratedAt": {
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 28171,
-      "generos": [
-        "Shounen 💥",
-        "Comédia 😂",
-        "Ecchi 🔥"
-      ],
-      "quemAssistiu": [
-        "Fernando",
-        "Dudu"
-      ],
-      "comments": [
-        {
-          "person": "Dudu",
-          "text": "Um anime que me fez gostar de culinária, mas não vou mentir, o que mais me atraiu foi o ecchi que misturaram no anime, ficou muito bom."
-        }
-      ],
-      "comentarios": "Dudu: Um anime que me fez gostar de culinária, mas não vou mentir, o que mais me atraiu foi o ecchi que misturaram no anime, ficou muito bom.",
-      "updatedAt": {
-        "_seconds": 1777399552,
-        "_nanoseconds": 751000000
-      },
+      "malId": 813,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Shokugeki%20no%20Soma%20opening%201"
+          "url": "https://www.youtube.com/results?search_query=Dragon%20Ball%20Z%20opening%201"
         }
       ],
-      "notaZana": null
+      "notaZana": 9.5,
+      "quemAssistiu": [
+        "Rafael",
+        "Fernando",
+        "Dudu",
+        "Zana"
+      ],
+      "qtdVotos": 4,
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Um clássico, mas confesso que nunca fui muito fã."
+        },
+        {
+          "person": "Zana",
+          "text": "Plot básico, mas muitos momentos únicos e emocionantes. Ta maluco, SSJ1 contra o frieza, Trunks picotando o mecha freeza, Gohan SSJ2 contra o Cell.."
+        },
+        {
+          "person": "Rafael",
+          "text": "Um clássico que inspirou muitos dos nossos animes favoritos. Impossível dar menos de 9. A importância que Dragon Ball tem para os animes é impossível de medir."
+        }
+      ],
+      "comentarios": "Dudu: Um clássico, mas confesso que nunca fui muito fã.Zana: Plot básico, mas muitos momentos únicos e emocionantes. Ta maluco, SSJ1 contra o frieza, Trunks picotando o mecha freeza, Gohan SSJ2 contra o Cell..Rafael: Um clássico que inspirou muitos dos nossos animes favoritos. Impossível dar menos de 9. A importância que Dragon Ball tem para os animes é impossível de medir.",
+      "controversia": 1.6,
+      "notaSort": 8.95,
+      "notaRafael": 9.6,
+      "nota": "8.95",
+      "updatedAt": {
+        "_seconds": 1777828290,
+        "_nanoseconds": 275000000
+      }
     },
     {
       "id": "3416beab-c784-81d6-8d5d-c361251e6d01",
@@ -2179,6 +2197,39 @@
       "notaZana": null
     },
     {
+      "id": "tAhmDqQndEsX4sHXPE2w",
+      "nome": "The World's Finest Assassin Gets Reincarnated in Another World as an Aristocrat",
+      "generos": [
+        "Ação ⚔️",
+        "Drama 😢",
+        "Fantasia 🧙",
+        "Romance 💖"
+      ],
+      "malId": 47790,
+      "comentarios": "Rafael: Um dos meus isekais favoritos, não tem erro.",
+      "comments": [
+        {
+          "person": "Rafael",
+          "text": "Um dos meus isekais favoritos, não tem erro."
+        }
+      ],
+      "files": [],
+      "maisDeUmVoto": "nao",
+      "qtdVotos": 2,
+      "controversia": 0,
+      "notaSort": 8.85,
+      "notaRafael": 9.5,
+      "notaFernando": 8.2,
+      "notaDudu": null,
+      "notaHacksuya": null,
+      "notaZana": null,
+      "quemAssistiu": [
+        "Rafael",
+        "Fernando"
+      ],
+      "nota": "8.85"
+    },
+    {
       "id": "3416beab-c784-8118-b6d2-c8061a6b3be0",
       "nome": "Saiki Kusuo no Ψ-nan",
       "quemAssistiu": [
@@ -2298,50 +2349,6 @@
       }
     },
     {
-      "id": "3416beab-c784-8183-a6e8-e927326befcc",
-      "nome": "Rent-a-Girlfriend",
-      "nota": "8.80",
-      "notaRafael": null,
-      "notaFernando": null,
-      "notaDudu": 8.8,
-      "notaHacksuya": null,
-      "maisDeUmVoto": "nao",
-      "qtdVotos": 1,
-      "notaSort": 8.8,
-      "controversia": 0,
-      "migratedAt": {
-        "_seconds": 1777314441,
-        "_nanoseconds": 493000000
-      },
-      "malId": 40839,
-      "generos": [
-        "Romance 💖",
-        "Comédia 😂",
-        "Ecchi 🔥"
-      ],
-      "quemAssistiu": [
-        "Dudu"
-      ],
-      "comments": [
-        {
-          "person": "Dudu",
-          "text": "Muito bom."
-        }
-      ],
-      "comentarios": "Dudu: Muito bom.",
-      "updatedAt": {
-        "_seconds": 1777399760,
-        "_nanoseconds": 738000000
-      },
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Rent-a-Girlfriend%20opening%201"
-        }
-      ],
-      "notaZana": null
-    },
-    {
       "id": "3416beab-c784-81e8-9767-f30d1f1d5f7f",
       "nome": "Dan Da Dan",
       "generos": [
@@ -2390,50 +2397,6 @@
         "_seconds": 1777600136,
         "_nanoseconds": 965000000
       }
-    },
-    {
-      "id": "3416beab-c784-814d-bf73-d714b38ad61f",
-      "nome": "The Promised Neverland",
-      "nota": "8.75",
-      "generos": [
-        "Drama 😢",
-        "Terror 👻"
-      ],
-      "notaRafael": null,
-      "notaFernando": 8.7,
-      "notaDudu": 8.8,
-      "notaHacksuya": null,
-      "maisDeUmVoto": "sim",
-      "qtdVotos": 2,
-      "notaSort": 8.75,
-      "controversia": 0.1,
-      "migratedAt": {
-        "_seconds": 1777314441,
-        "_nanoseconds": 493000000
-      },
-      "malId": 37779,
-      "quemAssistiu": [
-        "Fernando",
-        "Dudu"
-      ],
-      "comments": [
-        {
-          "person": "Dudu",
-          "text": "Esse aqui achei a pegada bem legal quando assisti."
-        }
-      ],
-      "comentarios": "Dudu: Esse aqui achei a pegada bem legal quando assisti.",
-      "updatedAt": {
-        "_seconds": 1777399783,
-        "_nanoseconds": 24000000
-      },
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=The%20Promised%20Neverland%20opening%201"
-        }
-      ],
-      "notaZana": null
     },
     {
       "id": "3416beab-c784-816f-be45-cd8df5bc682d",
@@ -2523,55 +2486,6 @@
         }
       ],
       "notaZana": null
-    },
-    {
-      "id": "3416beab-c784-81a7-aa0f-d3397ba4b544",
-      "nome": "Dragon Ball Z",
-      "generos": [
-        "Ação ⚔️",
-        "Shounen 💥"
-      ],
-      "notaRafael": null,
-      "notaFernando": 8.7,
-      "notaDudu": 8,
-      "notaHacksuya": null,
-      "maisDeUmVoto": "sim",
-      "migratedAt": {
-        "_seconds": 1777314441,
-        "_nanoseconds": 493000000
-      },
-      "malId": 813,
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Dragon%20Ball%20Z%20opening%201"
-        }
-      ],
-      "controversia": 1.5,
-      "notaZana": 9.5,
-      "quemAssistiu": [
-        "Fernando",
-        "Dudu",
-        "Zana"
-      ],
-      "qtdVotos": 3,
-      "comments": [
-        {
-          "person": "Dudu",
-          "text": "Um clássico, mas confesso que nunca fui muito fã."
-        },
-        {
-          "person": "Zana",
-          "text": "Plot básico, mas muitos momentos únicos e emocionantes. Ta maluco, SSJ1 contra o frieza, Trunks picotando o mecha freeza, Gohan SSJ2 contra o Cell.."
-        }
-      ],
-      "notaSort": 8.73,
-      "comentarios": "Dudu: Um clássico, mas confesso que nunca fui muito fã.Zana: Plot básico, mas muitos momentos únicos e emocionantes. Ta maluco, SSJ1 contra o frieza, Trunks picotando o mecha freeza, Gohan SSJ2 contra o Cell..",
-      "nota": "8.73",
-      "updatedAt": {
-        "_seconds": 1777586016,
-        "_nanoseconds": 589000000
-      }
     },
     {
       "id": "3416beab-c784-8197-b350-c58ecfdc1042",
@@ -2664,6 +2578,56 @@
       "notaZana": null
     },
     {
+      "id": "3416beab-c784-81db-84a5-f2e70b0214ee",
+      "nome": "Bleach",
+      "generos": [
+        "Ação ⚔️",
+        "Shounen 💥",
+        "Fantasia 🧙"
+      ],
+      "notaFernando": 8.6,
+      "notaDudu": 8.5,
+      "notaHacksuya": null,
+      "maisDeUmVoto": "sim",
+      "migratedAt": {
+        "_seconds": 1777314441,
+        "_nanoseconds": 493000000
+      },
+      "malId": 269,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Bleach%20opening%201"
+        }
+      ],
+      "notaZana": null,
+      "controversia": 0.5,
+      "quemAssistiu": [
+        "Rafael",
+        "Fernando",
+        "Dudu"
+      ],
+      "qtdVotos": 3,
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "BAN KAAAAI!"
+        },
+        {
+          "person": "Rafael",
+          "text": "Getsuga tenshooooo!!!"
+        }
+      ],
+      "notaSort": 8.7,
+      "notaRafael": 9,
+      "comentarios": "Dudu: BAN KAAAAI!Rafael: Getsuga tenshooooo!!!",
+      "nota": "8.70",
+      "updatedAt": {
+        "_seconds": 1777829008,
+        "_nanoseconds": 491000000
+      }
+    },
+    {
       "id": "3426beab-c784-8075-9a3a-c1841d6b5335",
       "nome": "Alya Sometimes Hides Her Feelings in Russian",
       "quemAssistiu": [
@@ -2752,6 +2716,51 @@
         }
       ],
       "notaZana": null
+    },
+    {
+      "id": "3416beab-c784-814d-bf73-d714b38ad61f",
+      "nome": "The Promised Neverland",
+      "generos": [
+        "Drama 😢",
+        "Terror 👻"
+      ],
+      "notaFernando": 8.7,
+      "notaDudu": 8.8,
+      "notaHacksuya": null,
+      "maisDeUmVoto": "sim",
+      "migratedAt": {
+        "_seconds": 1777314441,
+        "_nanoseconds": 493000000
+      },
+      "malId": 37779,
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Esse aqui achei a pegada bem legal quando assisti."
+        }
+      ],
+      "comentarios": "Dudu: Esse aqui achei a pegada bem legal quando assisti.",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=The%20Promised%20Neverland%20opening%201"
+        }
+      ],
+      "notaZana": null,
+      "controversia": 0.4,
+      "quemAssistiu": [
+        "Rafael",
+        "Fernando",
+        "Dudu"
+      ],
+      "qtdVotos": 3,
+      "notaSort": 8.63,
+      "notaRafael": 8.4,
+      "nota": "8.63",
+      "updatedAt": {
+        "_seconds": 1777828819,
+        "_nanoseconds": 912000000
+      }
     },
     {
       "id": "3416beab-c784-815d-9a24-fd431d3a85e5",
@@ -2926,6 +2935,51 @@
       }
     },
     {
+      "id": "3416beab-c784-8183-a6e8-e927326befcc",
+      "nome": "Rent-a-Girlfriend",
+      "notaFernando": null,
+      "notaDudu": 8.8,
+      "notaHacksuya": null,
+      "migratedAt": {
+        "_seconds": 1777314441,
+        "_nanoseconds": 493000000
+      },
+      "malId": 40839,
+      "generos": [
+        "Romance 💖",
+        "Comédia 😂",
+        "Ecchi 🔥"
+      ],
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Muito bom."
+        }
+      ],
+      "comentarios": "Dudu: Muito bom.",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Rent-a-Girlfriend%20opening%201"
+        }
+      ],
+      "notaZana": null,
+      "controversia": 0.5,
+      "quemAssistiu": [
+        "Rafael",
+        "Dudu"
+      ],
+      "qtdVotos": 2,
+      "maisDeUmVoto": "sim",
+      "notaSort": 8.55,
+      "notaRafael": 8.3,
+      "nota": "8.55",
+      "updatedAt": {
+        "_seconds": 1777828846,
+        "_nanoseconds": 970000000
+      }
+    },
+    {
       "id": "3416beab-c784-81d8-9d4b-cb871e2fcbf6",
       "nome": "Assassination Classroom",
       "generos": [
@@ -2967,51 +3021,6 @@
         {
           "name": "Opening 1",
           "url": "https://www.youtube.com/results?search_query=Assassination%20Classroom%20opening%201"
-        }
-      ],
-      "notaZana": null
-    },
-    {
-      "id": "3416beab-c784-81db-84a5-f2e70b0214ee",
-      "nome": "Bleach",
-      "nota": "8.55",
-      "generos": [
-        "Ação ⚔️",
-        "Shounen 💥",
-        "Fantasia 🧙"
-      ],
-      "notaRafael": null,
-      "notaFernando": 8.6,
-      "notaDudu": 8.5,
-      "notaHacksuya": null,
-      "maisDeUmVoto": "sim",
-      "qtdVotos": 2,
-      "notaSort": 8.55,
-      "controversia": 0.1,
-      "migratedAt": {
-        "_seconds": 1777314441,
-        "_nanoseconds": 493000000
-      },
-      "malId": 269,
-      "quemAssistiu": [
-        "Fernando",
-        "Dudu"
-      ],
-      "comments": [
-        {
-          "person": "Dudu",
-          "text": "BAN KAAAAI!"
-        }
-      ],
-      "comentarios": "Dudu: BAN KAAAAI!",
-      "updatedAt": {
-        "_seconds": 1777399983,
-        "_nanoseconds": 161000000
-      },
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Bleach%20opening%201"
         }
       ],
       "notaZana": null
@@ -3489,7 +3498,6 @@
         "Shounen 💥",
         "Fantasia 🧙"
       ],
-      "notaRafael": null,
       "notaFernando": 8.8,
       "notaDudu": 8.5,
       "notaHacksuya": null,
@@ -3507,12 +3515,15 @@
       ],
       "controversia": 0.8,
       "notaZana": 8,
+      "notaSort": 8.43,
+      "nota": "8.43",
       "quemAssistiu": [
+        "Rafael",
         "Fernando",
         "Dudu",
         "Zana"
       ],
-      "qtdVotos": 3,
+      "qtdVotos": 4,
       "comments": [
         {
           "person": "Dudu",
@@ -3521,14 +3532,17 @@
         {
           "person": "Zana",
           "text": "Queria dar uma nota maior, é legal a ideias, mas os personagens e até mesmo as lutas deixam muito a desejar. Dito isso, fala de signo e me ajudou a puxar conversa com as mina. Por último: Shaka, o cavaleiro de Virgem <3"
+        },
+        {
+          "person": "Rafael",
+          "text": "Faça elevar."
         }
       ],
-      "notaSort": 8.43,
-      "comentarios": "Dudu: PEGASUUUUUU.Zana: Queria dar uma nota maior, é legal a ideias, mas os personagens e até mesmo as lutas deixam muito a desejar. Dito isso, fala de signo e me ajudou a puxar conversa com as mina. Por último: Shaka, o cavaleiro de Virgem <3",
-      "nota": "8.43",
+      "notaRafael": 8.4,
+      "comentarios": "Dudu: PEGASUUUUUU.Zana: Queria dar uma nota maior, é legal a ideias, mas os personagens e até mesmo as lutas deixam muito a desejar. Dito isso, fala de signo e me ajudou a puxar conversa com as mina. Por último: Shaka, o cavaleiro de Virgem <3Rafael: Faça elevar.",
       "updatedAt": {
-        "_seconds": 1777586090,
-        "_nanoseconds": 891000000
+        "_seconds": 1777828420,
+        "_nanoseconds": 378000000
       }
     },
     {
@@ -3697,52 +3711,52 @@
       }
     },
     {
-      "id": "3416beab-c784-81cb-b099-f6d6b28d8a92",
-      "nome": "Yu-Gi-Oh!",
+      "id": "3416beab-c784-81fe-86e9-e0b2c235a5cb",
+      "nome": "Dungeon Meshi",
       "generos": [
         "Ação ⚔️",
-        "Shounen 💥"
+        "Fantasia 🧙",
+        "Comédia 😂"
       ],
-      "notaRafael": null,
-      "notaFernando": 8,
+      "notaFernando": null,
       "notaDudu": 8,
       "notaHacksuya": null,
-      "maisDeUmVoto": "sim",
       "migratedAt": {
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 550,
+      "malId": 52701,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Yu-Gi-Oh!%20opening%201"
+          "url": "https://www.youtube.com/results?search_query=Dungeon%20Meshi%20opening%201"
         }
       ],
-      "controversia": 1.2,
-      "notaZana": 9.2,
+      "notaZana": null,
+      "controversia": 0.8,
       "quemAssistiu": [
-        "Fernando",
-        "Dudu",
-        "Zana"
+        "Rafael",
+        "Dudu"
       ],
-      "qtdVotos": 3,
+      "qtdVotos": 2,
       "comments": [
         {
           "person": "Dudu",
-          "text": "Exodia sola."
+          "text": "Assisti com a minha ex isso aqui, bad vibes."
         },
         {
-          "person": "Zana",
-          "text": "Esse anime é a definição sobre o poder da amizade, do roteiro protagonista. Yu-Gi-Oh! chega no físico também, olhar pro meu Dragão Branco de Olhos Azuis faz meu dia mais feliz. Dito isso, anime mais infantil. Dito isso, poha, Slyfer vs Obelisco no arco da batalha da cidade PQP"
+          "person": "Rafael",
+          "text": "Gostosinho de asssitir!"
         }
       ],
+      "maisDeUmVoto": "sim",
       "notaSort": 8.4,
-      "comentarios": "Dudu: Exodia sola.Zana: Esse anime é a definição sobre o poder da amizade, do roteiro protagonista. Yu-Gi-Oh! chega no físico também, olhar pro meu Dragão Branco de Olhos Azuis faz meu dia mais feliz. Dito isso, anime mais infantil. Dito isso, poha, Slyfer vs Obelisco no arco da batalha da cidade PQP",
+      "notaRafael": 8.8,
+      "comentarios": "Dudu: Assisti com a minha ex isso aqui, bad vibes.Rafael: Gostosinho de asssitir!",
       "nota": "8.40",
       "updatedAt": {
-        "_seconds": 1777585616,
-        "_nanoseconds": 911000000
+        "_seconds": 1777828678,
+        "_nanoseconds": 177000000
       }
     },
     {
@@ -3790,50 +3804,6 @@
         "_seconds": 1777793916,
         "_nanoseconds": 12000000
       }
-    },
-    {
-      "id": "3416beab-c784-81d0-92f1-d43dd89cd635",
-      "nome": "Another",
-      "nota": "8.35",
-      "generos": [
-        "Terror 👻",
-        "Drama 😢"
-      ],
-      "notaRafael": null,
-      "notaFernando": 8.2,
-      "notaDudu": 8.5,
-      "notaHacksuya": null,
-      "maisDeUmVoto": "sim",
-      "qtdVotos": 2,
-      "notaSort": 8.35,
-      "controversia": 0.3,
-      "migratedAt": {
-        "_seconds": 1777314441,
-        "_nanoseconds": 493000000
-      },
-      "malId": 11111,
-      "quemAssistiu": [
-        "Fernando",
-        "Dudu"
-      ],
-      "comments": [
-        {
-          "person": "Dudu",
-          "text": "Um dos primeiros animes de suspense que eu assisti, tenho trauma de elevador e descer escada com guarda-chuva até hoje."
-        }
-      ],
-      "comentarios": "Dudu: Um dos primeiros animes de suspense que eu assisti, tenho trauma de elevador e descer escada com guarda-chuva até hoje.",
-      "updatedAt": {
-        "_seconds": 1777400165,
-        "_nanoseconds": 315000000
-      },
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Another%20opening%201"
-        }
-      ],
-      "notaZana": null
     },
     {
       "id": "3416beab-c784-81d4-af65-fbcfea3f7265",
@@ -3884,6 +3854,50 @@
         }
       ],
       "notaZana": null
+    },
+    {
+      "id": "3416beab-c784-81d7-8d27-d3d5f074c8ad",
+      "nome": "Inazuma Eleven",
+      "notaFernando": null,
+      "notaDudu": 9.3,
+      "notaHacksuya": null,
+      "migratedAt": {
+        "_seconds": 1777314441,
+        "_nanoseconds": 493000000
+      },
+      "malId": 5231,
+      "generos": [
+        "Shounen 💥",
+        "Esportes ⚽"
+      ],
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Esse aqui é um clássico, se você não assistiu na época que passava na REDETV não teve infância."
+        }
+      ],
+      "comentarios": "Dudu: Esse aqui é um clássico, se você não assistiu na época que passava na REDETV não teve infância.",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Inazuma%20Eleven%20opening%201"
+        }
+      ],
+      "notaZana": null,
+      "controversia": 1.9,
+      "quemAssistiu": [
+        "Rafael",
+        "Dudu"
+      ],
+      "qtdVotos": 2,
+      "maisDeUmVoto": "sim",
+      "notaSort": 8.35,
+      "notaRafael": 7.4,
+      "nota": "8.35",
+      "updatedAt": {
+        "_seconds": 1777828622,
+        "_nanoseconds": 502000000
+      }
     },
     {
       "id": "3416beab-c784-811a-85e2-c5d4362f8634",
@@ -3975,52 +3989,6 @@
       "notaZana": null
     },
     {
-      "id": "3416beab-c784-8181-9245-f6de5a388320",
-      "nome": "Accel World",
-      "nota": "8.30",
-      "generos": [
-        "Ação ⚔️",
-        "Shounen 💥",
-        "Fantasia 🧙",
-        "Romance 💖"
-      ],
-      "notaRafael": null,
-      "notaFernando": 8.1,
-      "notaDudu": 8.5,
-      "notaHacksuya": null,
-      "maisDeUmVoto": "sim",
-      "qtdVotos": 2,
-      "notaSort": 8.3,
-      "controversia": 0.4,
-      "migratedAt": {
-        "_seconds": 1777314441,
-        "_nanoseconds": 493000000
-      },
-      "malId": 11759,
-      "quemAssistiu": [
-        "Fernando",
-        "Dudu"
-      ],
-      "comments": [
-        {
-          "person": "Dudu",
-          "text": "Assisti logo depois de SAO, e me falaram recentemente que ele faz parte do mesmo universo, muito bom."
-        }
-      ],
-      "comentarios": "Dudu: Assisti logo depois de SAO, e me falaram recentemente que ele faz parte do mesmo universo, muito bom.",
-      "updatedAt": {
-        "_seconds": 1777400383,
-        "_nanoseconds": 832000000
-      },
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Accel%20World%20opening%201"
-        }
-      ],
-      "notaZana": null
-    },
-    {
       "id": "3416beab-c784-81a5-92dc-dc81864e05f6",
       "nome": "Bakuman.",
       "quemAssistiu": [
@@ -4055,53 +4023,106 @@
       "notaZana": null
     },
     {
-      "id": "3416beab-c784-81d0-b92d-f9904e5e7f18",
-      "nome": "Digimon",
+      "id": "3416beab-c784-81cb-b099-f6d6b28d8a92",
+      "nome": "Yu-Gi-Oh!",
       "generos": [
         "Ação ⚔️",
-        "Shounen 💥",
-        "Fantasia 🧙"
+        "Shounen 💥"
       ],
-      "notaRafael": null,
-      "notaFernando": 8.5,
+      "notaFernando": 8,
       "notaDudu": 8,
       "notaHacksuya": null,
       "maisDeUmVoto": "sim",
-      "controversia": 0.5,
       "migratedAt": {
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 552,
+      "malId": 550,
+      "controversia": 1.2,
+      "notaZana": 9.2,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Digimon%20opening%201"
+          "url": "https://www.youtube.com/results?search_query=Yu-Gi-Oh!%20opening%201"
+        },
+        {
+          "name": "Yugi  meme",
+          "url": "https://www.youtube.com/shorts/AdKD9pG08A8"
         }
       ],
-      "notaZana": 8.4,
       "quemAssistiu": [
+        "Rafael",
         "Fernando",
         "Dudu",
         "Zana"
       ],
-      "qtdVotos": 3,
+      "qtdVotos": 4,
       "comments": [
         {
           "person": "Dudu",
-          "text": "Muito bom, algumas vezes cheguei a preferir ele a pokémon, mas hoje percebo que todos tem lugar no meu coração."
+          "text": "Exodia sola."
         },
         {
           "person": "Zana",
-          "text": "Era pra ser melhor que Pokémon, mas a arte pouco atrativa para crianças e a insistência em transformar os monstrinhos em eletrodomésticos comprometeu a nota"
+          "text": "Esse anime é a definição sobre o poder da amizade, do roteiro protagonista. Yu-Gi-Oh! chega no físico também, olhar pro meu Dragão Branco de Olhos Azuis faz meu dia mais feliz. Dito isso, anime mais infantil. Dito isso, poha, Slyfer vs Obelisco no arco da batalha da cidade PQP"
+        },
+        {
+          "person": "Rafael",
+          "text": "Yugi faz as regras."
         }
       ],
       "notaSort": 8.3,
-      "comentarios": "Dudu: Muito bom, algumas vezes cheguei a preferir ele a pokémon, mas hoje percebo que todos tem lugar no meu coração.Zana: Era pra ser melhor que Pokémon, mas a arte pouco atrativa para crianças e a insistência em transformar os monstrinhos em eletrodomésticos comprometeu a nota",
+      "notaRafael": 8,
+      "comentarios": "Dudu: Exodia sola.Zana: Esse anime é a definição sobre o poder da amizade, do roteiro protagonista. Yu-Gi-Oh! chega no físico também, olhar pro meu Dragão Branco de Olhos Azuis faz meu dia mais feliz. Dito isso, anime mais infantil. Dito isso, poha, Slyfer vs Obelisco no arco da batalha da cidade PQPRafael: Yugi faz as regras.",
       "nota": "8.30",
       "updatedAt": {
-        "_seconds": 1777587173,
-        "_nanoseconds": 845000000
+        "_seconds": 1777828571,
+        "_nanoseconds": 958000000
+      }
+    },
+    {
+      "id": "3416beab-c784-81d0-92f1-d43dd89cd635",
+      "nome": "Another",
+      "generos": [
+        "Terror 👻",
+        "Drama 😢"
+      ],
+      "notaFernando": 8.2,
+      "notaDudu": 8.5,
+      "notaHacksuya": null,
+      "maisDeUmVoto": "sim",
+      "controversia": 0.3,
+      "migratedAt": {
+        "_seconds": 1777314441,
+        "_nanoseconds": 493000000
+      },
+      "malId": 11111,
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Um dos primeiros animes de suspense que eu assisti, tenho trauma de elevador e descer escada com guarda-chuva até hoje."
+        }
+      ],
+      "comentarios": "Dudu: Um dos primeiros animes de suspense que eu assisti, tenho trauma de elevador e descer escada com guarda-chuva até hoje.",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Another%20opening%201"
+        }
+      ],
+      "notaZana": null,
+      "quemAssistiu": [
+        "Rafael",
+        "Fernando",
+        "Dudu"
+      ],
+      "qtdVotos": 3,
+      "notaSort": 8.3,
+      "notaRafael": 8.2,
+      "nota": "8.30",
+      "updatedAt": {
+        "_seconds": 1777828899,
+        "_nanoseconds": 782000000
       }
     },
     {
@@ -4137,6 +4158,52 @@
         }
       ],
       "notaZana": null
+    },
+    {
+      "id": "3416beab-c784-8176-b098-c22bbc815cf5",
+      "nome": "Nanatsu no Taizai",
+      "generos": [
+        "Ação ⚔️",
+        "Shounen 💥",
+        "Fantasia 🧙"
+      ],
+      "notaFernando": 8.4,
+      "notaDudu": 8,
+      "notaHacksuya": null,
+      "maisDeUmVoto": "sim",
+      "controversia": 0.4,
+      "migratedAt": {
+        "_seconds": 1777314441,
+        "_nanoseconds": 493000000
+      },
+      "malId": 23755,
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Primeira temporada muito boa, a segunda ainda mantém um nível bom, mas o que o estúdio de animação fez a partir da terceira temporada é sacanagem, intankavel a merda que ficou."
+        }
+      ],
+      "comentarios": "Dudu: Primeira temporada muito boa, a segunda ainda mantém um nível bom, mas o que o estúdio de animação fez a partir da terceira temporada é sacanagem, intankavel a merda que ficou.",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Nanatsu%20no%20Taizai%20opening%201"
+        }
+      ],
+      "notaZana": null,
+      "quemAssistiu": [
+        "Rafael",
+        "Fernando",
+        "Dudu"
+      ],
+      "qtdVotos": 3,
+      "notaSort": 8.27,
+      "notaRafael": 8.4,
+      "nota": "8.27",
+      "updatedAt": {
+        "_seconds": 1777828832,
+        "_nanoseconds": 760000000
+      }
     },
     {
       "id": "3416beab-c784-819c-967b-fa1600659d2e",
@@ -4290,49 +4357,51 @@
       "notaZana": null
     },
     {
-      "id": "3416beab-c784-8176-b098-c22bbc815cf5",
-      "nome": "Nanatsu no Taizai",
-      "nota": "8.20",
+      "id": "3416beab-c784-8181-9245-f6de5a388320",
+      "nome": "Accel World",
       "generos": [
         "Ação ⚔️",
         "Shounen 💥",
-        "Fantasia 🧙"
+        "Fantasia 🧙",
+        "Romance 💖"
       ],
-      "notaRafael": null,
-      "notaFernando": 8.4,
-      "notaDudu": 8,
+      "notaFernando": 8.1,
+      "notaDudu": 8.5,
       "notaHacksuya": null,
       "maisDeUmVoto": "sim",
-      "qtdVotos": 2,
-      "notaSort": 8.2,
-      "controversia": 0.4,
       "migratedAt": {
         "_seconds": 1777314441,
         "_nanoseconds": 493000000
       },
-      "malId": 23755,
-      "quemAssistiu": [
-        "Fernando",
-        "Dudu"
-      ],
+      "malId": 11759,
       "comments": [
         {
           "person": "Dudu",
-          "text": "Primeira temporada muito boa, a segunda ainda mantém um nível bom, mas o que o estúdio de animação fez a partir da terceira temporada é sacanagem, intankavel a merda que ficou."
+          "text": "Assisti logo depois de SAO, e me falaram recentemente que ele faz parte do mesmo universo, muito bom."
         }
       ],
-      "comentarios": "Dudu: Primeira temporada muito boa, a segunda ainda mantém um nível bom, mas o que o estúdio de animação fez a partir da terceira temporada é sacanagem, intankavel a merda que ficou.",
-      "updatedAt": {
-        "_seconds": 1777400488,
-        "_nanoseconds": 253000000
-      },
+      "comentarios": "Dudu: Assisti logo depois de SAO, e me falaram recentemente que ele faz parte do mesmo universo, muito bom.",
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Nanatsu%20no%20Taizai%20opening%201"
+          "url": "https://www.youtube.com/results?search_query=Accel%20World%20opening%201"
         }
       ],
-      "notaZana": null
+      "notaZana": null,
+      "controversia": 0.5,
+      "quemAssistiu": [
+        "Rafael",
+        "Fernando",
+        "Dudu"
+      ],
+      "qtdVotos": 3,
+      "notaSort": 8.2,
+      "notaRafael": 8,
+      "nota": "8.20",
+      "updatedAt": {
+        "_seconds": 1777828375,
+        "_nanoseconds": 349000000
+      }
     },
     {
       "id": "3416beab-c784-81bc-b0f9-cc47770b94f2",
@@ -4377,6 +4446,61 @@
         }
       ],
       "notaZana": null
+    },
+    {
+      "id": "3416beab-c784-81d0-b92d-f9904e5e7f18",
+      "nome": "Digimon",
+      "generos": [
+        "Ação ⚔️",
+        "Shounen 💥",
+        "Fantasia 🧙"
+      ],
+      "notaFernando": 8.5,
+      "notaDudu": 8,
+      "notaHacksuya": null,
+      "maisDeUmVoto": "sim",
+      "migratedAt": {
+        "_seconds": 1777314441,
+        "_nanoseconds": 493000000
+      },
+      "malId": 552,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Digimon%20opening%201"
+        }
+      ],
+      "notaZana": 8.4,
+      "controversia": 0.6,
+      "quemAssistiu": [
+        "Rafael",
+        "Fernando",
+        "Dudu",
+        "Zana"
+      ],
+      "qtdVotos": 4,
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Muito bom, algumas vezes cheguei a preferir ele a pokémon, mas hoje percebo que todos tem lugar no meu coração."
+        },
+        {
+          "person": "Zana",
+          "text": "Era pra ser melhor que Pokémon, mas a arte pouco atrativa para crianças e a insistência em transformar os monstrinhos em eletrodomésticos comprometeu a nota"
+        },
+        {
+          "person": "Rafael",
+          "text": "Pokémon é muito melhor."
+        }
+      ],
+      "notaSort": 8.2,
+      "notaRafael": 7.9,
+      "comentarios": "Dudu: Muito bom, algumas vezes cheguei a preferir ele a pokémon, mas hoje percebo que todos tem lugar no meu coração.Zana: Era pra ser melhor que Pokémon, mas a arte pouco atrativa para crianças e a insistência em transformar os monstrinhos em eletrodomésticos comprometeu a notaRafael: Pokémon é muito melhor.",
+      "nota": "8.20",
+      "updatedAt": {
+        "_seconds": 1777828599,
+        "_nanoseconds": 358000000
+      }
     },
     {
       "id": "3416beab-c784-81f8-ae28-c0909d14ac34",
@@ -4690,6 +4814,60 @@
       }
     },
     {
+      "id": "3416beab-c784-81e8-b1f5-f54239f2c547",
+      "nome": "Beyblade",
+      "generos": [
+        "Ação ⚔️",
+        "Shounen 💥"
+      ],
+      "notaFernando": 7.5,
+      "notaDudu": 8,
+      "notaHacksuya": null,
+      "maisDeUmVoto": "sim",
+      "migratedAt": {
+        "_seconds": 1777314441,
+        "_nanoseconds": 493000000
+      },
+      "malId": 288,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Beyblade%20opening%201"
+        }
+      ],
+      "notaZana": 8,
+      "controversia": 1.2,
+      "quemAssistiu": [
+        "Rafael",
+        "Fernando",
+        "Dudu",
+        "Zana"
+      ],
+      "qtdVotos": 4,
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "LET IT RIP!!."
+        },
+        {
+          "person": "Zana",
+          "text": "Dranzer > Drassiel > Tiger > Dragon"
+        },
+        {
+          "person": "Rafael",
+          "text": "O jogo de PS1 era pika!"
+        }
+      ],
+      "notaSort": 8.05,
+      "notaRafael": 8.7,
+      "comentarios": "Dudu: LET IT RIP!!.Zana: Dranzer > Drassiel > Tiger > DragonRafael: O jogo de PS1 era pika!",
+      "nota": "8.05",
+      "updatedAt": {
+        "_seconds": 1777828658,
+        "_nanoseconds": 381000000
+      }
+    },
+    {
       "id": "3416beab-c784-8103-8781-f28646f78be6",
       "nome": "Toradora!",
       "quemAssistiu": [
@@ -4790,6 +4968,60 @@
         }
       ],
       "notaZana": null
+    },
+    {
+      "id": "3416beab-c784-8123-b4c2-cfe4c4c0c9a2",
+      "nome": "One Punch Man",
+      "generos": [
+        "Ação ⚔️",
+        "Shounen 💥",
+        "Comédia 😂"
+      ],
+      "notaFernando": 8.9,
+      "notaDudu": 9.1,
+      "notaHacksuya": null,
+      "maisDeUmVoto": "sim",
+      "migratedAt": {
+        "_seconds": 1777314441,
+        "_nanoseconds": 493000000
+      },
+      "malId": 30276,
+      "notaZana": null,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=One%20Punch%20Man%20opening%201"
+        },
+        {
+          "name": "meme",
+          "url": "https://www.instagram.com/reels/DQCYITJDY4o/"
+        }
+      ],
+      "controversia": 3.1,
+      "quemAssistiu": [
+        "Rafael",
+        "Fernando",
+        "Dudu"
+      ],
+      "qtdVotos": 3,
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Primeira temporada fenomenal, mas acho que esse sofre do mesmo problema do Solo Leveling, só que no gênero de comédia. Acaba ficando mais do mesmo em certo ponto."
+        },
+        {
+          "person": "Rafael",
+          "text": "A obra tinha um grande potencial, mas sofreu do mesmo mal de The Seven Deadly Sins: um desrespeito total, com uma animação parecendo PNGs se mexendo. LIXO. Se for assistir, assista apenas à primeira temporada e leia o resto do material."
+        }
+      ],
+      "notaSort": 8,
+      "notaRafael": 6,
+      "comentarios": "Dudu: Primeira temporada fenomenal, mas acho que esse sofre do mesmo problema do Solo Leveling, só que no gênero de comédia. Acaba ficando mais do mesmo em certo ponto.Rafael: A obra tinha um grande potencial, mas sofreu do mesmo mal de The Seven Deadly Sins: um desrespeito total, com uma animação parecendo PNGs se mexendo. LIXO. Se for assistir, assista apenas à primeira temporada e leia o resto do material.",
+      "nota": "8.00",
+      "updatedAt": {
+        "_seconds": 1777828187,
+        "_nanoseconds": 350000000
+      }
     },
     {
       "id": "3416beab-c784-813f-9351-ce4dd75574f5",
@@ -5078,48 +5310,34 @@
       "notaZana": null
     },
     {
-      "id": "3416beab-c784-81fe-86e9-e0b2c235a5cb",
-      "nome": "Dungeon Meshi",
-      "nota": "8.00",
+      "id": "zn6JJPEwkKT8C7kY7xNx",
+      "nome": "The Greatest Demon Lord Is Reborn as a Typical Nobody",
       "generos": [
         "Ação ⚔️",
-        "Fantasia 🧙",
-        "Comédia 😂"
+        "Fantasia 🧙"
       ],
-      "notaRafael": null,
-      "notaFernando": null,
-      "notaDudu": 8,
-      "notaHacksuya": null,
-      "maisDeUmVoto": "nao",
-      "qtdVotos": 1,
-      "notaSort": 8,
-      "controversia": 0,
-      "migratedAt": {
-        "_seconds": 1777314441,
-        "_nanoseconds": 493000000
-      },
-      "malId": 52701,
-      "quemAssistiu": [
-        "Dudu"
-      ],
+      "malId": 48415,
+      "comentarios": "Rafael: Bem, bemmm genérico, Prota apelão, extremamente forte. vale a pena se não tiver nada para assistir.",
       "comments": [
         {
-          "person": "Dudu",
-          "text": "Assisti com a minha ex isso aqui, bad vibes."
+          "person": "Rafael",
+          "text": "Bem, bemmm genérico, Prota apelão, extremamente forte. vale a pena se não tiver nada para assistir."
         }
       ],
-      "comentarios": "Dudu: Assisti com a minha ex isso aqui, bad vibes.",
-      "updatedAt": {
-        "_seconds": 1777400700,
-        "_nanoseconds": 53000000
-      },
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Dungeon%20Meshi%20opening%201"
-        }
+      "files": [],
+      "maisDeUmVoto": "nao",
+      "qtdVotos": 1,
+      "controversia": 0,
+      "notaSort": 8,
+      "notaRafael": 8,
+      "notaFernando": null,
+      "notaDudu": null,
+      "notaHacksuya": null,
+      "notaZana": null,
+      "quemAssistiu": [
+        "Rafael"
       ],
-      "notaZana": null
+      "nota": "8.00"
     },
     {
       "id": "3416beab-c784-816f-a3c1-ff61deb9d883",
@@ -5383,55 +5601,6 @@
       }
     },
     {
-      "id": "3416beab-c784-81e8-b1f5-f54239f2c547",
-      "nome": "Beyblade",
-      "generos": [
-        "Ação ⚔️",
-        "Shounen 💥"
-      ],
-      "notaRafael": null,
-      "notaFernando": 7.5,
-      "notaDudu": 8,
-      "notaHacksuya": null,
-      "maisDeUmVoto": "sim",
-      "controversia": 0.5,
-      "migratedAt": {
-        "_seconds": 1777314441,
-        "_nanoseconds": 493000000
-      },
-      "malId": 288,
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Beyblade%20opening%201"
-        }
-      ],
-      "notaZana": 8,
-      "quemAssistiu": [
-        "Fernando",
-        "Dudu",
-        "Zana"
-      ],
-      "qtdVotos": 3,
-      "comments": [
-        {
-          "person": "Dudu",
-          "text": "LET IT RIP!!."
-        },
-        {
-          "person": "Zana",
-          "text": "Dranzer > Drassiel > Tiger > Dragon"
-        }
-      ],
-      "notaSort": 7.83,
-      "comentarios": "Dudu: LET IT RIP!!.Zana: Dranzer > Drassiel > Tiger > Dragon",
-      "nota": "7.83",
-      "updatedAt": {
-        "_seconds": 1777585833,
-        "_nanoseconds": 185000000
-      }
-    },
-    {
       "id": "3416beab-c784-8103-95d0-c60c68dc4940",
       "nome": "The Angel Next Door Spoils Me Rotten",
       "quemAssistiu": [
@@ -5586,6 +5755,37 @@
       }
     },
     {
+      "id": "9GsQsnsQqVejL4vNcmm7",
+      "nome": "The Reincarnation Of The Strongest Exorcist In Another World",
+      "generos": [
+        "Ação ⚔️",
+        "Aventura 🎒",
+        "Fantasia 🧙"
+      ],
+      "malId": 50932,
+      "comentarios": "Rafael: Muitooo genérico, mas bem legal.",
+      "comments": [
+        {
+          "person": "Rafael",
+          "text": "Muitooo genérico, mas bem legal."
+        }
+      ],
+      "files": [],
+      "maisDeUmVoto": "nao",
+      "qtdVotos": 1,
+      "controversia": 0,
+      "notaSort": 7.8,
+      "notaRafael": 7.8,
+      "notaFernando": null,
+      "notaDudu": null,
+      "notaHacksuya": null,
+      "notaZana": null,
+      "quemAssistiu": [
+        "Rafael"
+      ],
+      "nota": "7.80"
+    },
+    {
       "id": "3416beab-c784-8153-80ff-caf68947a1a3",
       "nome": "Mirai Nikki",
       "nota": "7.75",
@@ -5674,6 +5874,56 @@
       "updatedAt": {
         "_seconds": 1777794944,
         "_nanoseconds": 482000000
+      }
+    },
+    {
+      "id": "3416beab-c784-8126-bb1e-f91b9c04618b",
+      "nome": "Zero no Tsukaima",
+      "generos": [
+        "Ação ⚔️",
+        "Isekai 🌍✨",
+        "Romance 💖",
+        "Comédia 😂"
+      ],
+      "notaFernando": null,
+      "notaDudu": 7.5,
+      "notaHacksuya": null,
+      "migratedAt": {
+        "_seconds": 1777314441,
+        "_nanoseconds": 493000000
+      },
+      "malId": 1195,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Zero%20no%20Tsukaima%20opening%201"
+        }
+      ],
+      "notaZana": null,
+      "controversia": 0.3,
+      "quemAssistiu": [
+        "Rafael",
+        "Dudu"
+      ],
+      "qtdVotos": 2,
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Isekai mediano, não achei tão bom assim, tem melhores."
+        },
+        {
+          "person": "Rafael",
+          "text": "Isekaizin dahorinha."
+        }
+      ],
+      "maisDeUmVoto": "sim",
+      "notaSort": 7.65,
+      "notaRafael": 7.8,
+      "comentarios": "Dudu: Isekai mediano, não achei tão bom assim, tem melhores.Rafael: Isekaizin dahorinha.",
+      "nota": "7.65",
+      "updatedAt": {
+        "_seconds": 1777828347,
+        "_nanoseconds": 216000000
       }
     },
     {
@@ -6139,51 +6389,6 @@
         {
           "name": "Opening 1",
           "url": "https://www.youtube.com/results?search_query=Kotetsujo%20no%20Kabaneri%20opening%201"
-        }
-      ],
-      "notaZana": null
-    },
-    {
-      "id": "3416beab-c784-8126-bb1e-f91b9c04618b",
-      "nome": "Zero no Tsukaima",
-      "nota": "7.50",
-      "generos": [
-        "Ação ⚔️",
-        "Isekai 🌍✨",
-        "Romance 💖",
-        "Comédia 😂"
-      ],
-      "notaRafael": null,
-      "notaFernando": null,
-      "notaDudu": 7.5,
-      "notaHacksuya": null,
-      "maisDeUmVoto": "nao",
-      "qtdVotos": 1,
-      "notaSort": 7.5,
-      "controversia": 0,
-      "migratedAt": {
-        "_seconds": 1777314441,
-        "_nanoseconds": 493000000
-      },
-      "malId": 1195,
-      "quemAssistiu": [
-        "Dudu"
-      ],
-      "comments": [
-        {
-          "person": "Dudu",
-          "text": "Isekai mediano, não achei tão bom assim, tem melhores."
-        }
-      ],
-      "comentarios": "Dudu: Isekai mediano, não achei tão bom assim, tem melhores.",
-      "updatedAt": {
-        "_seconds": 1777400837,
-        "_nanoseconds": 376000000
-      },
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Zero%20no%20Tsukaima%20opening%201"
         }
       ],
       "notaZana": null
@@ -6823,14 +7028,10 @@
     {
       "id": "3416beab-c784-8115-87a5-cbbc833efa18",
       "nome": "Captain Tsubasa",
-      "nota": "7.05",
-      "notaRafael": null,
       "notaFernando": 7.1,
       "notaDudu": 7,
       "notaHacksuya": null,
       "maisDeUmVoto": "sim",
-      "qtdVotos": 2,
-      "notaSort": 7.05,
       "controversia": 0.1,
       "migratedAt": {
         "_seconds": 1777314441,
@@ -6842,10 +7043,6 @@
         "Esportes ⚽",
         "Drama 😢"
       ],
-      "quemAssistiu": [
-        "Fernando",
-        "Dudu"
-      ],
       "comments": [
         {
           "person": "Dudu",
@@ -6853,17 +7050,26 @@
         }
       ],
       "comentarios": "Dudu: Esse aqui não chega aos pés de Inazuma Eleven, falo mesmo.",
-      "updatedAt": {
-        "_seconds": 1777400958,
-        "_nanoseconds": 831000000
-      },
       "files": [
         {
           "name": "Opening 1",
           "url": "https://www.youtube.com/results?search_query=Captain%20Tsubasa%20opening%201"
         }
       ],
-      "notaZana": null
+      "notaZana": null,
+      "quemAssistiu": [
+        "Rafael",
+        "Fernando",
+        "Dudu"
+      ],
+      "qtdVotos": 3,
+      "notaSort": 7.03,
+      "notaRafael": 7,
+      "nota": "7.03",
+      "updatedAt": {
+        "_seconds": 1777828311,
+        "_nanoseconds": 587000000
+      }
     },
     {
       "id": "3416beab-c784-80ac-b85d-edbb259d8ad7",
@@ -7033,6 +7239,38 @@
         }
       ],
       "notaZana": null
+    },
+    {
+      "id": "tk7b9k46Oggji8B1XsZo",
+      "nome": "Seirei Gensouki: Spirit Chronicles",
+      "generos": [
+        "Ação ⚔️",
+        "Aventura 🎒",
+        "Fantasia 🧙",
+        "Romance 💖"
+      ],
+      "malId": 44203,
+      "comentarios": "Rafael: Isekai genérico, mas gostosinho de assistir, animção ruim.",
+      "comments": [
+        {
+          "person": "Rafael",
+          "text": "Isekai genérico, mas gostosinho de assistir, animção ruim."
+        }
+      ],
+      "files": [],
+      "maisDeUmVoto": "nao",
+      "qtdVotos": 1,
+      "controversia": 0,
+      "notaSort": 7,
+      "notaRafael": 7,
+      "notaFernando": null,
+      "notaDudu": null,
+      "notaHacksuya": null,
+      "notaZana": null,
+      "quemAssistiu": [
+        "Rafael"
+      ],
+      "nota": "7.00"
     },
     {
       "id": "3416beab-c784-8109-92f9-daaa7507f7f7",
