@@ -7,6 +7,71 @@
     <link rel="stylesheet" href="css/style.css?v=desafios-soft-1" />
     <script type="module" src="./js/theme.js?v=desafios-soft-1"></script>
     <script type="module" src="./js/utils.js?v=desafios-soft-1"></script>
+    <style>
+      @media (max-width: 768px) {
+        /* Hero: quebra a altura fixa de 470px */
+        .blog-hero-copy {
+          height: 230px;
+          min-height: 230px;
+          padding: 18px 18px 14px;
+        }
+
+        /* Padding interno do slide cabe na nova altura */
+        .blog-hero-slide {
+          padding: 8px 12px 36px;
+        }
+
+        /* Card do anime destaque: compacto */
+        .blog-hero-card {
+          min-height: auto;
+          padding: 18px 18px 20px;
+        }
+
+        /* Mural de comentários: altura limitada */
+        .post-featured {
+          min-height: auto;
+          padding: 18px 20px;
+        }
+
+        .featured-comment-wall {
+          max-height: 240px;
+          overflow: hidden;
+        }
+
+        /* Sidebar: lado a lado em vez de empilhado */
+        .blog-sidebar {
+          display: grid;
+          gap: 12px;
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .sidebar-box {
+          padding: 16px 14px;
+        }
+
+        .sidebar-box h2 {
+          font-size: 22px;
+          margin-bottom: 10px;
+        }
+
+        /* Notícias: 2 colunas */
+        .news-grid {
+          grid-template-columns: 1fr 1fr !important;
+        }
+
+        .news-card {
+          padding: 12px 14px;
+        }
+
+        /* Trunca descrição para economizar espaço */
+        .news-card p {
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+          display: -webkit-box;
+          overflow: hidden;
+        }
+      }
+    </style>
   </head>
   <body class="blog-page">
     <nav class="nav"></nav>
