@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-03T07:45:01.341Z",
+  "updatedAt": "2026-05-03T08:20:36.424Z",
   "total": 180,
   "animes": [
     {
@@ -1058,6 +1058,49 @@
       }
     },
     {
+      "id": "3416beab-c784-81bf-8b91-e267ee325cf7",
+      "nome": "【OSHI NO KO】",
+      "quemAssistiu": [
+        "Rafael"
+      ],
+      "generos": [
+        "Drama 😢",
+        "Slice of Life 🍃"
+      ],
+      "notaFernando": null,
+      "notaDudu": null,
+      "notaHacksuya": null,
+      "maisDeUmVoto": "nao",
+      "controversia": 0,
+      "migratedAt": {
+        "_seconds": 1777314441,
+        "_nanoseconds": 493000000
+      },
+      "malId": 52034,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=%E3%80%90OSHI%20NO%20KO%E3%80%91%20opening%201"
+        }
+      ],
+      "notaZana": null,
+      "qtdVotos": 1,
+      "comments": [
+        {
+          "person": "Rafael",
+          "text": "Parece leve, mas fica pesado rápido, mistura drama com o mundo dos idols, bom demais."
+        }
+      ],
+      "notaSort": 9.2,
+      "notaRafael": 9.2,
+      "comentarios": "Rafael: Parece leve, mas fica pesado rápido, mistura drama com o mundo dos idols, bom demais.",
+      "nota": "9.20",
+      "updatedAt": {
+        "_seconds": 1777794837,
+        "_nanoseconds": 661000000
+      }
+    },
+    {
       "id": "3416beab-c784-81d3-a126-ed92ef2eedc6",
       "nome": "Classroom of the Elite",
       "generos": [
@@ -1791,6 +1834,93 @@
         }
       ],
       "notaZana": null
+    },
+    {
+      "id": "3416beab-c784-8108-bb1f-e45cbf41bd4e",
+      "nome": "Chainsaw Man",
+      "generos": [
+        "Ação ⚔️",
+        "Shounen 💥",
+        "Drama 😢"
+      ],
+      "notaFernando": null,
+      "notaDudu": null,
+      "notaHacksuya": null,
+      "maisDeUmVoto": "nao",
+      "controversia": 0,
+      "migratedAt": {
+        "_seconds": 1777314441,
+        "_nanoseconds": 493000000
+      },
+      "malId": 44511,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Chainsaw%20Man%20opening%201"
+        }
+      ],
+      "notaZana": null,
+      "quemAssistiu": [
+        "Rafael"
+      ],
+      "qtdVotos": 1,
+      "comments": [
+        {
+          "person": "Rafael",
+          "text": "Muito sangue, ação insana e um protagonista completamente doido. Vale a pena!"
+        }
+      ],
+      "notaSort": 8.9,
+      "notaRafael": 8.9,
+      "comentarios": "Rafael: Muito sangue, ação insana e um protagonista completamente doido. Vale a pena!",
+      "nota": "8.90",
+      "updatedAt": {
+        "_seconds": 1777794531,
+        "_nanoseconds": 283000000
+      }
+    },
+    {
+      "id": "3416beab-c784-814c-8e87-ccecd35fa477",
+      "nome": "Dr. STONE",
+      "generos": [
+        "Ação ⚔️",
+        "Shounen 💥"
+      ],
+      "notaFernando": null,
+      "notaDudu": null,
+      "notaHacksuya": null,
+      "maisDeUmVoto": "nao",
+      "controversia": 0,
+      "migratedAt": {
+        "_seconds": 1777314441,
+        "_nanoseconds": 493000000
+      },
+      "malId": 38691,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Dr.%20STONE%20opening%201"
+        }
+      ],
+      "notaZana": null,
+      "quemAssistiu": [
+        "Rafael"
+      ],
+      "qtdVotos": 1,
+      "comments": [
+        {
+          "person": "Rafael",
+          "text": "Ciência vira arma, protagonista brabo demais na inteligência. Pra quem ama ciência, é um prato cheio."
+        }
+      ],
+      "notaSort": 8.9,
+      "notaRafael": 8.9,
+      "comentarios": "Rafael: Ciência vira arma, protagonista brabo demais na inteligência. Pra quem ama ciência, é um prato cheio.",
+      "nota": "8.90",
+      "updatedAt": {
+        "_seconds": 1777794726,
+        "_nanoseconds": 323000000
+      }
     },
     {
       "id": "3416beab-c784-819c-834b-e881284b0bc9",
@@ -3447,6 +3577,48 @@
       }
     },
     {
+      "id": "3416beab-c784-8128-bb22-cbdf3ad850ae",
+      "nome": "Steins;Gate",
+      "quemAssistiu": [
+        "Rafael"
+      ],
+      "generos": [
+        "Drama 😢"
+      ],
+      "notaFernando": null,
+      "notaDudu": null,
+      "notaHacksuya": null,
+      "maisDeUmVoto": "nao",
+      "controversia": 0,
+      "migratedAt": {
+        "_seconds": 1777314441,
+        "_nanoseconds": 493000000
+      },
+      "malId": 9253,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Steins%3BGate%20opening%201"
+        }
+      ],
+      "notaZana": null,
+      "qtdVotos": 1,
+      "comments": [
+        {
+          "person": "Rafael",
+          "text": "Começa mais lento, mas depois fica absurdo, viagem no tempo muito bem feita."
+        }
+      ],
+      "notaSort": 8.4,
+      "notaRafael": 8.4,
+      "comentarios": "Rafael: Começa mais lento, mas depois fica absurdo, viagem no tempo muito bem feita.",
+      "nota": "8.40",
+      "updatedAt": {
+        "_seconds": 1777794666,
+        "_nanoseconds": 462000000
+      }
+    },
+    {
       "id": "3416beab-c784-8134-8bc8-f06b8bd88906",
       "nome": "Grimgar, Ashes and Illusions",
       "quemAssistiu": [
@@ -3479,6 +3651,50 @@
         }
       ],
       "notaZana": null
+    },
+    {
+      "id": "3416beab-c784-817b-b394-c5faeb5d1c11",
+      "nome": "Evangelion",
+      "quemAssistiu": [
+        "Rafael"
+      ],
+      "generos": [
+        "Ação ⚔️",
+        "Mecha 🤖",
+        "Drama 😢"
+      ],
+      "notaFernando": null,
+      "notaDudu": null,
+      "notaHacksuya": null,
+      "maisDeUmVoto": "nao",
+      "controversia": 0,
+      "migratedAt": {
+        "_seconds": 1777314441,
+        "_nanoseconds": 493000000
+      },
+      "malId": 63018,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Evangelion%20opening%201"
+        }
+      ],
+      "notaZana": null,
+      "qtdVotos": 1,
+      "comments": [
+        {
+          "person": "Rafael",
+          "text": "Clássico, Anime diferente demais. Começa como mecha, mas vira algo bem mais profundo e meio confuso."
+        }
+      ],
+      "notaSort": 8.4,
+      "notaRafael": 8.4,
+      "comentarios": "Rafael: Clássico, Anime diferente demais. Começa como mecha, mas vira algo bem mais profundo e meio confuso.",
+      "nota": "8.40",
+      "updatedAt": {
+        "_seconds": 1777794778,
+        "_nanoseconds": 851000000
+      }
     },
     {
       "id": "3416beab-c784-81cb-b099-f6d6b28d8a92",
@@ -4751,6 +4967,49 @@
       "notaZana": null
     },
     {
+      "id": "3416beab-c784-8187-b7f7-e7653c1a9d21",
+      "nome": "Hanamonogatari",
+      "quemAssistiu": [
+        "Rafael"
+      ],
+      "generos": [
+        "Fantasia 🧙",
+        "Drama 😢"
+      ],
+      "notaFernando": null,
+      "notaDudu": null,
+      "notaHacksuya": null,
+      "maisDeUmVoto": "nao",
+      "controversia": 0,
+      "migratedAt": {
+        "_seconds": 1777314441,
+        "_nanoseconds": 493000000
+      },
+      "malId": 21855,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Hanamonogatari%20opening%201"
+        }
+      ],
+      "notaZana": null,
+      "qtdVotos": 1,
+      "comments": [
+        {
+          "person": "Rafael",
+          "text": "Anime diferente, mais focado em diálogo e reflexão, clima mais parado, mas interessante."
+        }
+      ],
+      "notaSort": 8,
+      "notaRafael": 8,
+      "comentarios": "Rafael: Anime diferente, mais focado em diálogo e reflexão, clima mais parado, mas interessante.",
+      "nota": "8.00",
+      "updatedAt": {
+        "_seconds": 1777794892,
+        "_nanoseconds": 192000000
+      }
+    },
+    {
       "id": "3416beab-c784-81a2-86e7-d73327c757f1",
       "nome": "Ace of the Diamond",
       "quemAssistiu": [
@@ -5284,6 +5543,49 @@
       "notaZana": null
     },
     {
+      "id": "3416beab-c784-81ec-83ad-d1443b42e31d",
+      "nome": "Bakemonogatari",
+      "generos": [
+        "Fantasia 🧙",
+        "Drama 😢"
+      ],
+      "notaFernando": null,
+      "notaDudu": null,
+      "notaHacksuya": null,
+      "maisDeUmVoto": "nao",
+      "controversia": 0,
+      "migratedAt": {
+        "_seconds": 1777314441,
+        "_nanoseconds": 493000000
+      },
+      "malId": 5081,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Bakemonogatari%20opening%201"
+        }
+      ],
+      "notaZana": null,
+      "quemAssistiu": [
+        "Rafael"
+      ],
+      "qtdVotos": 1,
+      "comments": [
+        {
+          "person": "Rafael",
+          "text": "Muito diálogo, personagens estranhos e umas paradas bem viajadas."
+        }
+      ],
+      "notaSort": 7.8,
+      "notaRafael": 7.8,
+      "comentarios": "Rafael: Muito diálogo, personagens estranhos e umas paradas bem viajadas.",
+      "nota": "7.80",
+      "updatedAt": {
+        "_seconds": 1777794977,
+        "_nanoseconds": 568000000
+      }
+    },
+    {
       "id": "3416beab-c784-8153-80ff-caf68947a1a3",
       "nome": "Mirai Nikki",
       "nota": "7.75",
@@ -5328,6 +5630,51 @@
         }
       ],
       "notaZana": null
+    },
+    {
+      "id": "3416beab-c784-81e9-9875-e7eb473079b7",
+      "nome": "Yuragi-Sou no Yuuna-san",
+      "quemAssistiu": [
+        "Rafael"
+      ],
+      "notaFernando": null,
+      "notaDudu": null,
+      "notaHacksuya": null,
+      "maisDeUmVoto": "nao",
+      "controversia": 0,
+      "migratedAt": {
+        "_seconds": 1777314441,
+        "_nanoseconds": 493000000
+      },
+      "malId": 36726,
+      "generos": [
+        "Romance 💖",
+        "Ecchi 🔥",
+        "Comédia 😂",
+        "Fantasia 🧙"
+      ],
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Yuragi-Sou%20no%20Yuuna-san%20opening%201"
+        }
+      ],
+      "notaZana": null,
+      "qtdVotos": 1,
+      "comments": [
+        {
+          "person": "Rafael",
+          "text": "Famoso Anime ecchi kkk. Comédia leve com fantasia e bastante fanservice, mas divertido."
+        }
+      ],
+      "notaSort": 7.7,
+      "notaRafael": 7.7,
+      "comentarios": "Rafael: Famoso Anime ecchi kkk. Comédia leve com fantasia e bastante fanservice, mas divertido.",
+      "nota": "7.70",
+      "updatedAt": {
+        "_seconds": 1777794944,
+        "_nanoseconds": 482000000
+      }
     },
     {
       "id": "3416beab-c784-817c-b960-dfa7b6a6c252",
@@ -5510,50 +5857,6 @@
       "notaZana": null
     },
     {
-      "id": "3416beab-c784-81d1-abec-fa1b709d5ce0",
-      "nome": "Hokkaido Gals Are Super Adorable!",
-      "quemAssistiu": [
-        "Rafael"
-      ],
-      "generos": [
-        "Romance 💖",
-        "Comédia 😂",
-        "Slice of Life 🍃"
-      ],
-      "notaFernando": null,
-      "notaDudu": null,
-      "notaHacksuya": null,
-      "maisDeUmVoto": "nao",
-      "qtdVotos": 1,
-      "controversia": 0,
-      "migratedAt": {
-        "_seconds": 1777314441,
-        "_nanoseconds": 493000000
-      },
-      "malId": 53421,
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Hokkaido%20Gals%20Are%20Super%20Adorable!%20opening%201"
-        }
-      ],
-      "notaZana": null,
-      "comments": [
-        {
-          "person": "Rafael",
-          "text": "Anime de romance genérico, mas gostosinho de assistir."
-        }
-      ],
-      "notaSort": 7.6,
-      "notaRafael": 7.6,
-      "comentarios": "Rafael: Anime de romance genérico, mas gostosinho de assistir.",
-      "nota": "7.60",
-      "updatedAt": {
-        "_seconds": 1777791414,
-        "_nanoseconds": 418000000
-      }
-    },
-    {
       "id": "3416beab-c784-81fb-ba61-c8bf996267d6",
       "nome": "Track City",
       "quemAssistiu": [
@@ -5725,6 +6028,88 @@
       "notaZana": null
     },
     {
+      "id": "3416beab-c784-810e-8637-dea33e73650e",
+      "nome": "Banana Fish",
+      "quemAssistiu": [
+        "Rafael"
+      ],
+      "generos": [
+        "Ação ⚔️",
+        "Drama 😢"
+      ],
+      "comentarios": "",
+      "notaFernando": null,
+      "notaDudu": null,
+      "notaHacksuya": null,
+      "maisDeUmVoto": "nao",
+      "controversia": 0,
+      "migratedAt": {
+        "_seconds": 1777314441,
+        "_nanoseconds": 493000000
+      },
+      "malId": 36649,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Banana%20Fish%20opening%201"
+        }
+      ],
+      "notaZana": null,
+      "qtdVotos": 1,
+      "comments": [],
+      "notaSort": 7.5,
+      "notaRafael": 7.5,
+      "nota": "7.50",
+      "updatedAt": {
+        "_seconds": 1777794565,
+        "_nanoseconds": 770000000
+      }
+    },
+    {
+      "id": "3416beab-c784-810f-8a4c-f0f76f131b58",
+      "nome": "100 Namoradas Que Te Amam Muuuuuito",
+      "quemAssistiu": [
+        "Rafael"
+      ],
+      "notaFernando": null,
+      "notaDudu": null,
+      "notaHacksuya": null,
+      "maisDeUmVoto": "nao",
+      "controversia": 0,
+      "migratedAt": {
+        "_seconds": 1777314441,
+        "_nanoseconds": 493000000
+      },
+      "malId": 7374,
+      "generos": [
+        "Romance 💖",
+        "Comédia 😂",
+        "Ecchi 🔥"
+      ],
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=100%20Namoradas%20Que%20Te%20Amam%20Muuuuuito%20opening%201"
+        }
+      ],
+      "notaZana": null,
+      "qtdVotos": 1,
+      "comments": [
+        {
+          "person": "Rafael",
+          "text": "Romance maluco kkk. Exagerado ao máximo, cheio de personagem doida!"
+        }
+      ],
+      "notaSort": 7.5,
+      "notaRafael": 7.5,
+      "comentarios": "Rafael: Romance maluco kkk. Exagerado ao máximo, cheio de personagem doida!",
+      "nota": "7.50",
+      "updatedAt": {
+        "_seconds": 1777794608,
+        "_nanoseconds": 712000000
+      }
+    },
+    {
       "id": "3416beab-c784-8118-b902-d41371cc8d8d",
       "nome": "Kotetsujo no Kabaneri",
       "quemAssistiu": [
@@ -5846,6 +6231,51 @@
         }
       ],
       "notaZana": null
+    },
+    {
+      "id": "3416beab-c784-8143-86b8-efe4927f4244",
+      "nome": "Log Horizon",
+      "generos": [
+        "Isekai 🌍✨",
+        "Ação ⚔️",
+        "Fantasia 🧙"
+      ],
+      "notaFernando": 7.3,
+      "notaDudu": null,
+      "notaHacksuya": null,
+      "migratedAt": {
+        "_seconds": 1777314441,
+        "_nanoseconds": 493000000
+      },
+      "malId": 17265,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Log%20Horizon%20opening%201"
+        }
+      ],
+      "notaZana": null,
+      "controversia": 0.4,
+      "quemAssistiu": [
+        "Rafael",
+        "Fernando"
+      ],
+      "qtdVotos": 2,
+      "comments": [
+        {
+          "person": "Rafael",
+          "text": "Isekai nerd. Em vez de só lutar, os caras ficam pensando e organizando tudo na maior parte do tempo."
+        }
+      ],
+      "maisDeUmVoto": "sim",
+      "notaSort": 7.5,
+      "notaRafael": 7.7,
+      "comentarios": "Rafael: Isekai nerd. Em vez de só lutar, os caras ficam pensando e organizando tudo na maior parte do tempo.",
+      "nota": "7.50",
+      "updatedAt": {
+        "_seconds": 1777794365,
+        "_nanoseconds": 529000000
+      }
     },
     {
       "id": "3416beab-c784-8183-b6af-c4d30465d477",
@@ -6076,41 +6506,6 @@
       "notaZana": null
     },
     {
-      "id": "3416beab-c784-8143-86b8-efe4927f4244",
-      "nome": "Log Horizon",
-      "quemAssistiu": [
-        "Fernando",
-        "Rafael"
-      ],
-      "nota": "7.30",
-      "generos": [
-        "Isekai 🌍✨",
-        "Ação ⚔️",
-        "Fantasia 🧙"
-      ],
-      "comentarios": "",
-      "notaRafael": null,
-      "notaFernando": 7.3,
-      "notaDudu": null,
-      "notaHacksuya": null,
-      "maisDeUmVoto": "nao",
-      "qtdVotos": 1,
-      "notaSort": 7.3,
-      "controversia": 0,
-      "migratedAt": {
-        "_seconds": 1777314441,
-        "_nanoseconds": 493000000
-      },
-      "malId": 17265,
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Log%20Horizon%20opening%201"
-        }
-      ],
-      "notaZana": null
-    },
-    {
       "id": "3416beab-c784-815c-a32f-d0dbb6f02e6c",
       "nome": "Psycho-Pass",
       "quemAssistiu": [
@@ -6175,41 +6570,6 @@
         {
           "name": "Opening 1",
           "url": "https://www.youtube.com/results?search_query=Our%20Last%20Crusade%20or%20the%20Rise%20of%20a%20New%20World%20opening%201"
-        }
-      ],
-      "notaZana": null
-    },
-    {
-      "id": "3416beab-c784-8180-9109-f0cc75d9ab85",
-      "nome": "Sailor Moon",
-      "quemAssistiu": [
-        "Fernando",
-        "Rafael"
-      ],
-      "nota": "7.20",
-      "generos": [
-        "Ação ⚔️",
-        "Romance 💖",
-        "Fantasia 🧙"
-      ],
-      "comentarios": "",
-      "notaRafael": null,
-      "notaFernando": 7.2,
-      "notaDudu": null,
-      "notaHacksuya": null,
-      "maisDeUmVoto": "nao",
-      "qtdVotos": 1,
-      "notaSort": 7.2,
-      "controversia": 0,
-      "migratedAt": {
-        "_seconds": 1777314441,
-        "_nanoseconds": 493000000
-      },
-      "malId": 530,
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Sailor%20Moon%20opening%201"
         }
       ],
       "notaZana": null
@@ -6421,6 +6781,46 @@
       "notaZana": null
     },
     {
+      "id": "3416beab-c784-8180-9109-f0cc75d9ab85",
+      "nome": "Sailor Moon",
+      "generos": [
+        "Ação ⚔️",
+        "Romance 💖",
+        "Fantasia 🧙"
+      ],
+      "comentarios": "",
+      "notaFernando": 7.2,
+      "notaDudu": null,
+      "notaHacksuya": null,
+      "migratedAt": {
+        "_seconds": 1777314441,
+        "_nanoseconds": 493000000
+      },
+      "malId": 530,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Sailor%20Moon%20opening%201"
+        }
+      ],
+      "notaZana": null,
+      "controversia": 0.2,
+      "quemAssistiu": [
+        "Rafael",
+        "Fernando"
+      ],
+      "qtdVotos": 2,
+      "comments": [],
+      "maisDeUmVoto": "sim",
+      "notaSort": 7.1,
+      "notaRafael": 7,
+      "nota": "7.10",
+      "updatedAt": {
+        "_seconds": 1777794381,
+        "_nanoseconds": 12000000
+      }
+    },
+    {
       "id": "3416beab-c784-8115-87a5-cbbc833efa18",
       "nome": "Captain Tsubasa",
       "nota": "7.05",
@@ -6553,6 +6953,50 @@
         }
       ],
       "notaZana": null
+    },
+    {
+      "id": "3416beab-c784-81d1-abec-fa1b709d5ce0",
+      "nome": "Hokkaido Gals Are Super Adorable!",
+      "quemAssistiu": [
+        "Rafael"
+      ],
+      "generos": [
+        "Romance 💖",
+        "Comédia 😂",
+        "Slice of Life 🍃"
+      ],
+      "notaFernando": null,
+      "notaDudu": null,
+      "notaHacksuya": null,
+      "maisDeUmVoto": "nao",
+      "qtdVotos": 1,
+      "controversia": 0,
+      "migratedAt": {
+        "_seconds": 1777314441,
+        "_nanoseconds": 493000000
+      },
+      "malId": 53421,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/results?search_query=Hokkaido%20Gals%20Are%20Super%20Adorable!%20opening%201"
+        }
+      ],
+      "notaZana": null,
+      "comments": [
+        {
+          "person": "Rafael",
+          "text": "Climinha leve, personagens carismáticas e bem divertido de assistir."
+        }
+      ],
+      "notaSort": 7,
+      "notaRafael": 7,
+      "comentarios": "Rafael: Climinha leve, personagens carismáticas e bem divertido de assistir.",
+      "nota": "7.00",
+      "updatedAt": {
+        "_seconds": 1777794425,
+        "_nanoseconds": 929000000
+      }
     },
     {
       "id": "3416beab-c784-81fe-8f3a-daf13be4a073",
@@ -6713,13 +7157,6 @@
       "id": "8mOpl1lrAUMDw4eVRryb",
       "nome": "Death March to the Parallel World Rhapsody",
       "malId": 34497,
-      "comentarios": "Rafael: Anime bem ruim, muito mal animado, mas serve para passar o tempo, existe algumas interações estranhas entre o prota e suas escravas, mas, nunca passado ponto.",
-      "comments": [
-        {
-          "person": "Rafael",
-          "text": "Anime bem ruim, muito mal animado, mas serve para passar o tempo, existe algumas interações estranhas entre o prota e suas escravas, mas, nunca passado ponto."
-        }
-      ],
       "maisDeUmVoto": "nao",
       "qtdVotos": 1,
       "controversia": 0,
@@ -6743,7 +7180,18 @@
           "url": "https://www.youtube.com/results?search_query=Death%20March%20to%20the%20Parallel%20World%20Rhapsody%20opening%201"
         }
       ],
-      "notaZana": null
+      "notaZana": null,
+      "comments": [
+        {
+          "person": "Rafael",
+          "text": "ANIME BOMBA!!! Anime bem ruim, muito mal animado, mas serve para passar o tempo, existe algumas interações estranhas entre o prota e suas escravas, mas, nunca passado ponto."
+        }
+      ],
+      "comentarios": "Rafael: ANIME BOMBA!!! Anime bem ruim, muito mal animado, mas serve para passar o tempo, existe algumas interações estranhas entre o prota e suas escravas, mas, nunca passado ponto.",
+      "updatedAt": {
+        "_seconds": 1777794445,
+        "_nanoseconds": 450000000
+      }
     },
     {
       "id": "yoQUG9RnfyqfSuvWPSLj",
@@ -6796,7 +7244,6 @@
         "Slice of Life 🍃",
         "Romance 💖"
       ],
-      "comentarios": "",
       "notaRafael": 4,
       "notaFernando": null,
       "notaDudu": null,
@@ -6816,7 +7263,18 @@
           "url": "https://www.youtube.com/results?search_query=Beastars%20opening%201"
         }
       ],
-      "notaZana": null
+      "notaZana": null,
+      "comments": [
+        {
+          "person": "Rafael",
+          "text": "O anime não me pegou, não gostei de nada."
+        }
+      ],
+      "comentarios": "Rafael: O anime não me pegou, não gostei de nada.",
+      "updatedAt": {
+        "_seconds": 1777794472,
+        "_nanoseconds": 38000000
+      }
     },
     {
       "id": "3416beab-c784-813c-8582-e3b257fccd84",
@@ -6863,140 +7321,6 @@
       "notaZana": null
     },
     {
-      "id": "3416beab-c784-8108-bb1f-e45cbf41bd4e",
-      "nome": "Chainsaw Man",
-      "quemAssistiu": [
-        "Rafael",
-        "Hacksuya"
-      ],
-      "nota": "0.00",
-      "generos": [
-        "Ação ⚔️",
-        "Shounen 💥",
-        "Drama 😢"
-      ],
-      "comentarios": "",
-      "notaRafael": null,
-      "notaFernando": null,
-      "notaDudu": null,
-      "notaHacksuya": null,
-      "maisDeUmVoto": "nao",
-      "qtdVotos": 0,
-      "notaSort": 0,
-      "controversia": 0,
-      "migratedAt": {
-        "_seconds": 1777314441,
-        "_nanoseconds": 493000000
-      },
-      "malId": 44511,
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Chainsaw%20Man%20opening%201"
-        }
-      ],
-      "notaZana": null
-    },
-    {
-      "id": "3416beab-c784-810e-8637-dea33e73650e",
-      "nome": "Banana Fish",
-      "quemAssistiu": [
-        "Rafael"
-      ],
-      "nota": "0.00",
-      "generos": [
-        "Ação ⚔️",
-        "Drama 😢"
-      ],
-      "comentarios": "",
-      "notaRafael": null,
-      "notaFernando": null,
-      "notaDudu": null,
-      "notaHacksuya": null,
-      "maisDeUmVoto": "nao",
-      "qtdVotos": 0,
-      "notaSort": 0,
-      "controversia": 0,
-      "migratedAt": {
-        "_seconds": 1777314441,
-        "_nanoseconds": 493000000
-      },
-      "malId": 36649,
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Banana%20Fish%20opening%201"
-        }
-      ],
-      "notaZana": null
-    },
-    {
-      "id": "3416beab-c784-810f-8a4c-f0f76f131b58",
-      "nome": "100 Namoradas Que Te Amam Muuuuuito",
-      "quemAssistiu": [
-        "Rafael"
-      ],
-      "nota": "0.00",
-      "comentarios": "",
-      "notaRafael": null,
-      "notaFernando": null,
-      "notaDudu": null,
-      "notaHacksuya": null,
-      "maisDeUmVoto": "nao",
-      "qtdVotos": 0,
-      "notaSort": 0,
-      "controversia": 0,
-      "migratedAt": {
-        "_seconds": 1777314441,
-        "_nanoseconds": 493000000
-      },
-      "malId": 7374,
-      "generos": [
-        "Romance 💖",
-        "Comédia 😂",
-        "Ecchi 🔥"
-      ],
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=100%20Namoradas%20Que%20Te%20Amam%20Muuuuuito%20opening%201"
-        }
-      ],
-      "notaZana": null
-    },
-    {
-      "id": "3416beab-c784-8128-bb22-cbdf3ad850ae",
-      "nome": "Steins;Gate",
-      "quemAssistiu": [
-        "Rafael"
-      ],
-      "nota": "0.00",
-      "generos": [
-        "Drama 😢"
-      ],
-      "comentarios": "",
-      "notaRafael": null,
-      "notaFernando": null,
-      "notaDudu": null,
-      "notaHacksuya": null,
-      "maisDeUmVoto": "nao",
-      "qtdVotos": 0,
-      "notaSort": 0,
-      "controversia": 0,
-      "migratedAt": {
-        "_seconds": 1777314441,
-        "_nanoseconds": 493000000
-      },
-      "malId": 9253,
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Steins%3BGate%20opening%201"
-        }
-      ],
-      "notaZana": null
-    },
-    {
       "id": "3416beab-c784-8143-a730-e19c67251ab4",
       "nome": "Kakkou no Iinazuke",
       "quemAssistiu": [],
@@ -7024,40 +7348,6 @@
         {
           "name": "Opening 1",
           "url": "https://www.youtube.com/results?search_query=Kakkou%20no%20Iinazuke%20opening%201"
-        }
-      ],
-      "notaZana": null
-    },
-    {
-      "id": "3416beab-c784-814c-8e87-ccecd35fa477",
-      "nome": "Dr. STONE",
-      "quemAssistiu": [
-        "Rafael",
-        "Hacksuya"
-      ],
-      "nota": "0.00",
-      "generos": [
-        "Ação ⚔️",
-        "Shounen 💥"
-      ],
-      "comentarios": "",
-      "notaRafael": null,
-      "notaFernando": null,
-      "notaDudu": null,
-      "notaHacksuya": null,
-      "maisDeUmVoto": "nao",
-      "qtdVotos": 0,
-      "notaSort": 0,
-      "controversia": 0,
-      "migratedAt": {
-        "_seconds": 1777314441,
-        "_nanoseconds": 493000000
-      },
-      "malId": 38691,
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Dr.%20STONE%20opening%201"
         }
       ],
       "notaZana": null
@@ -7159,73 +7449,6 @@
       "notaZana": null
     },
     {
-      "id": "3416beab-c784-817b-b394-c5faeb5d1c11",
-      "nome": "Evangelion",
-      "quemAssistiu": [
-        "Rafael"
-      ],
-      "nota": "0.00",
-      "generos": [
-        "Ação ⚔️",
-        "Mecha 🤖",
-        "Drama 😢"
-      ],
-      "comentarios": "",
-      "notaRafael": null,
-      "notaFernando": null,
-      "notaDudu": null,
-      "notaHacksuya": null,
-      "maisDeUmVoto": "nao",
-      "qtdVotos": 0,
-      "notaSort": 0,
-      "controversia": 0,
-      "migratedAt": {
-        "_seconds": 1777314441,
-        "_nanoseconds": 493000000
-      },
-      "malId": 63018,
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Evangelion%20opening%201"
-        }
-      ],
-      "notaZana": null
-    },
-    {
-      "id": "3416beab-c784-8187-b7f7-e7653c1a9d21",
-      "nome": "Hanamonogatari",
-      "quemAssistiu": [
-        "Rafael"
-      ],
-      "nota": "0.00",
-      "generos": [
-        "Fantasia 🧙",
-        "Drama 😢"
-      ],
-      "comentarios": "",
-      "notaRafael": null,
-      "notaFernando": null,
-      "notaDudu": null,
-      "notaHacksuya": null,
-      "maisDeUmVoto": "nao",
-      "qtdVotos": 0,
-      "notaSort": 0,
-      "controversia": 0,
-      "migratedAt": {
-        "_seconds": 1777314441,
-        "_nanoseconds": 493000000
-      },
-      "malId": 21855,
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Hanamonogatari%20opening%201"
-        }
-      ],
-      "notaZana": null
-    },
-    {
       "id": "3416beab-c784-819b-832c-cd13d2da7c08",
       "nome": "To Love Ru",
       "quemAssistiu": [
@@ -7292,58 +7515,19 @@
       "notaZana": null
     },
     {
-      "id": "3416beab-c784-81bf-8b91-e267ee325cf7",
-      "nome": "【OSHI NO KO】",
-      "quemAssistiu": [
-        "Rafael"
-      ],
-      "nota": "0.00",
-      "generos": [
-        "Drama 😢",
-        "Slice of Life 🍃"
-      ],
-      "comentarios": "",
-      "notaRafael": null,
-      "notaFernando": null,
-      "notaDudu": null,
-      "notaHacksuya": null,
-      "maisDeUmVoto": "nao",
-      "qtdVotos": 0,
-      "notaSort": 0,
-      "controversia": 0,
-      "migratedAt": {
-        "_seconds": 1777314441,
-        "_nanoseconds": 493000000
-      },
-      "malId": 52034,
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=%E3%80%90OSHI%20NO%20KO%E3%80%91%20opening%201"
-        }
-      ],
-      "notaZana": null
-    },
-    {
       "id": "3416beab-c784-81c3-a27c-eec9c71e51f9",
       "nome": "Tokyo Revengers",
-      "quemAssistiu": [
-        "Rafael",
-        "Hacksuya"
-      ],
       "nota": "0.00",
       "generos": [
         "Ação ⚔️",
         "Drama 😢",
         "Shounen 💥"
       ],
-      "comentarios": "",
       "notaRafael": 0,
       "notaFernando": null,
       "notaDudu": null,
       "notaHacksuya": null,
       "maisDeUmVoto": "nao",
-      "qtdVotos": 0,
       "notaSort": 0,
       "controversia": 0,
       "migratedAt": {
@@ -7357,7 +7541,22 @@
           "url": "https://www.youtube.com/results?search_query=Tokyo%20Revengers%20opening%201"
         }
       ],
-      "notaZana": null
+      "notaZana": null,
+      "quemAssistiu": [
+        "Rafael"
+      ],
+      "qtdVotos": 1,
+      "comments": [
+        {
+          "person": "Rafael",
+          "text": "Que prota chorão, pqp esse superou todos."
+        }
+      ],
+      "comentarios": "Rafael: Que prota chorão, pqp esse superou todos.",
+      "updatedAt": {
+        "_seconds": 1777794797,
+        "_nanoseconds": 982000000
+      }
     },
     {
       "id": "3416beab-c784-81d2-9a80-e24ff8a67f1c",
@@ -7421,75 +7620,6 @@
         {
           "name": "Opening 1",
           "url": "https://www.youtube.com/results?search_query=A%20Empregada%20Drag%C3%A3o%20da%20Senhorita%20Kobayashi%20opening%201"
-        }
-      ],
-      "notaZana": null
-    },
-    {
-      "id": "3416beab-c784-81e9-9875-e7eb473079b7",
-      "nome": "Yuragi-Sou no Yuuna-san",
-      "quemAssistiu": [
-        "Rafael"
-      ],
-      "nota": "0.00",
-      "comentarios": "",
-      "notaRafael": null,
-      "notaFernando": null,
-      "notaDudu": null,
-      "notaHacksuya": null,
-      "maisDeUmVoto": "nao",
-      "qtdVotos": 0,
-      "notaSort": 0,
-      "controversia": 0,
-      "migratedAt": {
-        "_seconds": 1777314441,
-        "_nanoseconds": 493000000
-      },
-      "malId": 36726,
-      "generos": [
-        "Romance 💖",
-        "Ecchi 🔥",
-        "Comédia 😂",
-        "Fantasia 🧙"
-      ],
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Yuragi-Sou%20no%20Yuuna-san%20opening%201"
-        }
-      ],
-      "notaZana": null
-    },
-    {
-      "id": "3416beab-c784-81ec-83ad-d1443b42e31d",
-      "nome": "Bakemonogatari",
-      "quemAssistiu": [
-        "Rafael",
-        "Hacksuya"
-      ],
-      "nota": "0.00",
-      "generos": [
-        "Fantasia 🧙",
-        "Drama 😢"
-      ],
-      "comentarios": "",
-      "notaRafael": null,
-      "notaFernando": null,
-      "notaDudu": null,
-      "notaHacksuya": null,
-      "maisDeUmVoto": "nao",
-      "qtdVotos": 0,
-      "notaSort": 0,
-      "controversia": 0,
-      "migratedAt": {
-        "_seconds": 1777314441,
-        "_nanoseconds": 493000000
-      },
-      "malId": 5081,
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Bakemonogatari%20opening%201"
         }
       ],
       "notaZana": null
