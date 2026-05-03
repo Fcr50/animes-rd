@@ -136,6 +136,31 @@
         flex: 1;
         height: 1px;
       }
+
+      @media (max-width: 768px) {
+        .chart-container {
+          height: 260px !important;
+        }
+
+        .charts-stat-pill {
+          font-size: 11px;
+          padding: 5px 11px;
+        }
+
+        .charts-section-divider {
+          margin: 0 0 18px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .chart-container {
+          height: 230px !important;
+        }
+
+        .charts-stats-strip {
+          gap: 6px;
+        }
+      }
     </style>
   </head>
   <body class="charts-page">

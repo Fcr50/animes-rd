@@ -39,3 +39,78 @@
   >
 </div>
 <div class="nav-person" id="user-nav"></div>
+
+<button
+  class="nav-hamburger"
+  type="button"
+  data-nav-toggle
+  aria-label="Abrir menu"
+  aria-expanded="false"
+  aria-controls="mobile-drawer"
+>
+  <span></span>
+  <span></span>
+  <span></span>
+</button>
+
+<div class="mobile-drawer" id="mobile-drawer" aria-hidden="true">
+  <div class="mobile-drawer-backdrop" data-nav-close></div>
+  <div class="mobile-drawer-panel">
+    <div class="mobile-drawer-top">
+      <span class="mobile-drawer-logo">Animes RD</span>
+      <button class="mobile-drawer-close" type="button" data-nav-close aria-label="Fechar menu">
+        &#x2715;
+      </button>
+    </div>
+
+    <div class="mobile-drawer-section">
+      <span class="mobile-drawer-label">Páginas</span>
+      <a class="mobile-drawer-link" href="index.html">Blog</a>
+      <a class="mobile-drawer-link" href="acervo.html">Acervo</a>
+      <a class="mobile-drawer-link" href="charts.html">Gráficos</a>
+      <a class="mobile-drawer-link" href="compare.html">Comparar</a>
+      <a class="mobile-drawer-link" href="suggest.html">Sugerir Anime</a>
+      <a class="mobile-drawer-link" href="pending.html">Fila de Aprovação</a>
+      <a class="mobile-drawer-link" href="desafios.html">Desafios</a>
+      <a class="mobile-drawer-link" href="ciel.html">Ciel</a>
+    </div>
+
+    <div class="mobile-drawer-section">
+      <span class="mobile-drawer-label">Membros</span>
+      <div class="mobile-drawer-members">
+        <a href="rafael.html">
+          <span class="nav-avatar" style="background: rgba(124,58,237,0.18); color:#6f45d8">R</span>
+          Rafael
+        </a>
+        <a href="fernando.html">
+          <span class="nav-avatar" style="background: rgba(236,72,153,0.18); color:#d83182">F</span>
+          Fernando
+        </a>
+        <a href="dudu.html">
+          <span class="nav-avatar" style="background: rgba(234,179,8,0.18); color:#b7791f">D</span>
+          Dudu
+        </a>
+        <a href="hacksuya.html">
+          <span class="nav-avatar" style="background: rgba(6,182,212,0.18); color:#0588a6">H</span>
+          Hacksuya
+        </a>
+        <a href="zana.html">
+          <span class="nav-avatar" style="background: rgba(249,115,22,0.18); color:#c2410c">Z</span>
+          Zana
+        </a>
+      </div>
+    </div>
+
+    <div class="mobile-drawer-footer">
+      <button
+        class="mobile-theme-btn theme-toggle"
+        type="button"
+        data-theme-toggle
+        aria-label="Ativar modo noturno"
+      >
+        <span class="mobile-theme-icon">☾</span>
+        Alternar tema
+      </button>
+    </div>
+  </div>
+</div>

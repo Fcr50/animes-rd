@@ -61,7 +61,7 @@ export async function loadNavbar() {
   if (!nav) return;
 
   try {
-    const response = await fetch("navbar.html?v=desafios-soft-1");
+    const response = await fetch("navbar.html?v=mobile-v1");
     if (!response.ok) throw new Error("Falha ao carregar navbar.html");
 
     nav.innerHTML = await response.text();
@@ -70,6 +70,51 @@ export async function loadNavbar() {
     nav.querySelectorAll("a.nav-link, .nav-person a").forEach((link) => {
       link.classList.toggle("active", link.getAttribute("href") === currentPath);
     });
+
+    // Move mobile drawer out of nav (avoids fixed-inside-backdrop-filter stacking issue)
+    const drawer = nav.querySelector(".mobile-drawer");
+    if (drawer) {
+      document.body.appendChild(drawer);
+
+      // Mark active links inside drawer too
+      drawer.querySelectorAll("a[href]").forEach((link) => {
+        link.classList.toggle("active", link.getAttribute("href") === currentPath);
+      });
+
+      const hamburger = nav.querySelector("[data-nav-toggle]");
+
+      function openDrawer() {
+        drawer.setAttribute("aria-hidden", "false");
+        drawer.classList.add("is-open");
+        hamburger?.setAttribute("aria-expanded", "true");
+        hamburger?.classList.add("is-open");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeDrawer() {
+        drawer.setAttribute("aria-hidden", "true");
+        drawer.classList.remove("is-open");
+        hamburger?.setAttribute("aria-expanded", "false");
+        hamburger?.classList.remove("is-open");
+        document.body.style.overflow = "";
+      }
+
+      hamburger?.addEventListener("click", () => {
+        drawer.classList.contains("is-open") ? closeDrawer() : openDrawer();
+      });
+
+      drawer.querySelectorAll("[data-nav-close]").forEach((el) => {
+        el.addEventListener("click", closeDrawer);
+      });
+
+      drawer.querySelectorAll(".mobile-drawer-link, .mobile-drawer-members a").forEach((link) => {
+        link.addEventListener("click", closeDrawer);
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeDrawer();
+      });
+    }
 
     document.dispatchEvent(new CustomEvent("navbar-loaded"));
   } catch (error) {
