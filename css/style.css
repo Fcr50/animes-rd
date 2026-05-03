@@ -8279,3 +8279,84 @@ body:not(.dark-theme) .opening-chip {
 body:not(.dark-theme) .opening-chip b {
   color: var(--faint);
 }
+
+/* 24 · Blog hero copy — backgrounds de tom escuro sem escopo (bug principal) */
+body:not(.dark-theme) .blog-hero-copy {
+  background:
+    linear-gradient(135deg, rgba(245, 241, 232, 0.95), rgba(235, 228, 212, 0.88)),
+    url("https://images.unsplash.com/photo-1618331833071-ce81bd50d300?auto=format&fit=crop&w=1600&q=80");
+  background-position: center;
+  background-size: cover;
+  border-color: rgba(31, 29, 26, 0.14);
+}
+
+body:not(.dark-theme) .blog-hero-copy[data-hero-tone="blog"] {
+  background:
+    linear-gradient(135deg, rgba(220, 252, 231, 0.55), rgba(242, 234, 219, 0.88));
+  border-color: rgba(16, 185, 129, 0.25);
+}
+
+body:not(.dark-theme) .blog-hero-copy[data-hero-tone="playlists"] {
+  background:
+    linear-gradient(135deg, rgba(237, 233, 254, 0.55), rgba(242, 234, 219, 0.88));
+  border-color: rgba(124, 58, 237, 0.22);
+}
+
+body:not(.dark-theme) .blog-hero-copy[data-hero-tone="news"] {
+  background:
+    linear-gradient(135deg, rgba(219, 234, 254, 0.55), rgba(242, 234, 219, 0.88));
+  border-color: rgba(59, 130, 246, 0.22);
+}
+
+body:not(.dark-theme) .blog-hero-copy[data-hero-tone="featured"] {
+  background:
+    linear-gradient(135deg, rgba(254, 249, 195, 0.65), rgba(242, 234, 219, 0.88));
+  border-color: rgba(234, 179, 8, 0.28);
+}
+
+/* Eyebrow dentro do hero (era cyan claro — invisível no claro) */
+body:not(.dark-theme) .blog-hero-copy .eyebrow {
+  color: #065f46;
+}
+
+/* Dots do rotator */
+body:not(.dark-theme) .blog-hero-dots button {
+  background: rgba(31, 29, 26, 0.2);
+  border-color: rgba(31, 29, 26, 0.25);
+}
+body:not(.dark-theme) .blog-hero-dots button.active {
+  background: #1f1d1a;
+  border-color: #1f1d1a;
+}
+
+/* Visuals do slide (ícones YouTube/Spotify etc.) */
+body:not(.dark-theme) .blog-hero-slide-footer {
+  border-top-color: rgba(31, 29, 26, 0.12);
+}
+
+/* 25 · Blog hero card e post-featured (no modo claro já têm estilos próprios, só garantir texto) */
+body:not(.dark-theme) .blog-hero-card:not(.has-bg) h2,
+body:not(.dark-theme) .blog-hero-card:not(.has-bg) p,
+body:not(.dark-theme) .blog-hero-card:not(.has-bg) a {
+  color: #1f2933;
+}
+
+/* 26 · Sidebar boxes (Mais Controversos + Calendário) */
+body:not(.dark-theme) .sidebar-box h2 {
+  color: #1f2933;
+}
+body:not(.dark-theme) .sidebar-box .eyebrow {
+  color: #065f46;
+}
+body:not(.dark-theme) .hot-list a strong {
+  color: #b45309;
+}
+
+/* 27 · Texto secundário geral que pode estar usando var branco */
+body:not(.dark-theme) .muted,
+body:not(.dark-theme) [class*="muted"] {
+  color: var(--muted);
+}
+body:not(.dark-theme) .stat-sub {
+  color: var(--muted);
+}
