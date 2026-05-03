@@ -7882,3 +7882,400 @@ body.dark-theme .blog-categories a:nth-child(3) {
   color: transparent;
   -webkit-text-fill-color: transparent;
 }
+
+/* ================================================================
+   LIGHT THEME  ·  body:not(.dark-theme)
+   Sobrescreve cores hardcoded feitas para o modo escuro.
+   Paleta quente: fundo #f5f1e8, cards #fffdf7, texto #1f1d1a
+   ================================================================ */
+
+/* 1 · Fundo da página */
+body:not(.dark-theme) {
+  background:
+    radial-gradient(circle at 18% 8%, rgba(139, 92, 246, 0.05), transparent 420px),
+    radial-gradient(circle at 82% 18%, rgba(6, 182, 212, 0.04), transparent 380px),
+    var(--bg);
+  background-attachment: fixed;
+  color: var(--text);
+}
+
+body:not(.dark-theme)::before {
+  opacity: 0.04;
+  background-image:
+    linear-gradient(rgba(31, 29, 26, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(31, 29, 26, 0.08) 1px, transparent 1px);
+}
+
+/* 2 · Nav */
+body:not(.dark-theme) .nav {
+  background: rgba(255, 253, 247, 0.94);
+  border-bottom-color: rgba(31, 29, 26, 0.1);
+  box-shadow: 0 2px 16px rgba(31, 29, 26, 0.07);
+}
+
+/* 3 · Headings que usam color:var(--paper) na base (branco → invisível no claro) */
+body:not(.dark-theme) .page-header h1,
+body:not(.dark-theme) .section-head h2,
+body:not(.dark-theme) .quick-links strong,
+body:not(.dark-theme) .member-card h3,
+body:not(.dark-theme) .feature-main h2,
+body:not(.dark-theme) .news-card h3,
+body:not(.dark-theme) .modal-title,
+body:not(.dark-theme) .person-hero h1,
+body:not(.dark-theme) .anime-name,
+body:not(.dark-theme) .stat-value {
+  color: var(--text);
+}
+
+/* 4 · Divisores de seção */
+body:not(.dark-theme) .page-header,
+body:not(.dark-theme) .section-head,
+body:not(.dark-theme) .person-hero,
+body:not(.dark-theme) .blog-section {
+  border-color: var(--border);
+}
+
+/* 5 · Cards genéricos */
+body:not(.dark-theme) .card,
+body:not(.dark-theme) .stat-card,
+body:not(.dark-theme) .news-card,
+body:not(.dark-theme) .modal,
+body:not(.dark-theme) .hero-panel,
+body:not(.dark-theme) .quick-links a {
+  background: var(--card);
+  border-color: var(--border);
+  box-shadow: var(--shadow);
+  color: var(--text);
+}
+
+body:not(.dark-theme) .card:hover,
+body:not(.dark-theme) .stat-card:hover,
+body:not(.dark-theme) .news-card:hover,
+body:not(.dark-theme) .quick-links a:hover {
+  background: var(--card2);
+  border-color: var(--border-hover);
+}
+
+/* 6 · Stat cards coloridos */
+body:not(.dark-theme) .stat-card:nth-child(1),
+body:not(.dark-theme) #person-stats .stat-card:nth-child(1) {
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.08), var(--card) 68%);
+  border-color: rgba(124, 58, 237, 0.25);
+}
+body:not(.dark-theme) .stat-card:nth-child(2),
+body:not(.dark-theme) #person-stats .stat-card:nth-child(2) {
+  background: linear-gradient(135deg, rgba(236, 72, 153, 0.08), var(--card) 68%);
+  border-color: rgba(236, 72, 153, 0.25);
+}
+body:not(.dark-theme) .stat-card:nth-child(3),
+body:not(.dark-theme) #person-stats .stat-card:nth-child(3) {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), var(--card) 68%);
+  border-color: rgba(16, 185, 129, 0.22);
+}
+body:not(.dark-theme) .stat-card:nth-child(4),
+body:not(.dark-theme) #person-stats .stat-card:nth-child(4) {
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.08), var(--card) 68%);
+  border-color: rgba(6, 182, 212, 0.22);
+}
+body:not(.dark-theme) #person-stats .stat-card:nth-child(5) {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.08), var(--card) 68%);
+  border-color: rgba(239, 68, 68, 0.2);
+}
+
+/* 7 · Grid cards com acento por posição */
+body:not(.dark-theme) .grid-2 > .card:nth-child(1),
+body:not(.dark-theme) .grid-3 > .card:nth-child(1) {
+  background: linear-gradient(145deg, rgba(124, 58, 237, 0.06), var(--card) 64%);
+  border-color: rgba(124, 58, 237, 0.18);
+}
+body:not(.dark-theme) .grid-2 > .card:nth-child(2),
+body:not(.dark-theme) .grid-3 > .card:nth-child(2) {
+  background: linear-gradient(145deg, rgba(236, 72, 153, 0.06), var(--card) 64%);
+  border-color: rgba(236, 72, 153, 0.18);
+}
+body:not(.dark-theme) .grid-3 > .card:nth-child(3) {
+  background: linear-gradient(145deg, rgba(16, 185, 129, 0.06), var(--card) 64%);
+  border-color: rgba(16, 185, 129, 0.16);
+}
+
+/* 8 · Member / post cards */
+body:not(.dark-theme) .member-card:nth-child(1),
+body:not(.dark-theme) .post-card:nth-child(1) {
+  --member-color: var(--rafael-light);
+  background: linear-gradient(160deg, rgba(124, 58, 237, 0.09), var(--card) 60%);
+  border-color: rgba(124, 58, 237, 0.2);
+}
+body:not(.dark-theme) .member-card:nth-child(2),
+body:not(.dark-theme) .post-card:nth-child(2) {
+  --member-color: var(--fernando-light);
+  background: linear-gradient(160deg, rgba(236, 72, 153, 0.09), var(--card) 60%);
+  border-color: rgba(236, 72, 153, 0.2);
+}
+body:not(.dark-theme) .member-card:nth-child(3),
+body:not(.dark-theme) .post-card:nth-child(3) {
+  --member-color: var(--dudu-light);
+  background: linear-gradient(160deg, rgba(234, 179, 8, 0.09), var(--card) 60%);
+  border-color: rgba(234, 179, 8, 0.2);
+}
+body:not(.dark-theme) .member-card:nth-child(4),
+body:not(.dark-theme) .post-card:nth-child(4) {
+  --member-color: var(--hacksuya-light);
+  background: linear-gradient(160deg, rgba(6, 182, 212, 0.09), var(--card) 60%);
+  border-color: rgba(6, 182, 212, 0.2);
+}
+body:not(.dark-theme) .post-card:nth-child(5) {
+  --member-color: var(--zana-light);
+  background: linear-gradient(160deg, rgba(249, 115, 22, 0.09), var(--card) 60%);
+  border-color: rgba(249, 115, 22, 0.2);
+}
+
+/* 9 · Tabela do acervo */
+body:not(.dark-theme) .table-wrap {
+  background: var(--card);
+  border-color: var(--border);
+}
+body:not(.dark-theme) .acervo-main-card {
+  background: var(--card) padding-box,
+    linear-gradient(135deg, rgba(124, 58, 237, 0.3), rgba(16, 185, 129, 0.25), rgba(236, 72, 153, 0.25)) border-box;
+  border: 1.5px solid transparent;
+}
+body:not(.dark-theme) table {
+  background: transparent;
+}
+body:not(.dark-theme) thead {
+  background: var(--card2);
+}
+body:not(.dark-theme) thead th {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--faint);
+}
+body:not(.dark-theme) thead th:hover,
+body:not(.dark-theme) thead th.sorted {
+  color: var(--text);
+}
+body:not(.dark-theme) tbody tr {
+  border-color: var(--border);
+}
+body:not(.dark-theme) tbody tr:hover {
+  background: var(--card2);
+}
+body:not(.dark-theme) tbody td {
+  color: var(--text);
+}
+
+/* 10 · Filtros e selects */
+body:not(.dark-theme) .filters input,
+body:not(.dark-theme) .filters select,
+body:not(.dark-theme) .compare-selectors select {
+  background: var(--card) padding-box,
+    linear-gradient(135deg, rgba(124, 58, 237, 0.35), rgba(6, 182, 212, 0.28)) border-box;
+  border: 1.5px solid transparent;
+  color: var(--text);
+  box-shadow: 0 4px 12px rgba(31, 29, 26, 0.06);
+}
+
+/* 11 · Badges de gênero */
+body:not(.dark-theme) .badge-genre {
+  background: var(--card2);
+  border-color: var(--border);
+  color: var(--muted);
+}
+
+/* 12 · Note-box, comment-item */
+body:not(.dark-theme) .note-box,
+body:not(.dark-theme) .comment-item,
+body:not(.dark-theme) .modal-comment {
+  background: var(--card2);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+/* 13 · Modal */
+body:not(.dark-theme) .modal-overlay {
+  background: rgba(31, 29, 26, 0.5);
+  backdrop-filter: blur(4px);
+}
+body:not(.dark-theme) .modal {
+  background: var(--card);
+  border: 1px solid var(--border);
+  box-shadow: 0 24px 60px rgba(31, 29, 26, 0.18);
+}
+
+/* 14 · Botões */
+body:not(.dark-theme) .btn {
+  background: var(--card2);
+  border-color: var(--border);
+  color: var(--text);
+  box-shadow: none;
+}
+body:not(.dark-theme) .btn:hover {
+  background: var(--card);
+  border-color: var(--border-hover);
+}
+body:not(.dark-theme) .btn-primary {
+  background: #1f1d1a;
+  border-color: #1f1d1a;
+  color: #fffdf7;
+}
+body:not(.dark-theme) .btn-primary:hover {
+  background: #3d3a35;
+  border-color: #3d3a35;
+}
+
+/* 15 · Tags e pill metrics */
+body:not(.dark-theme) .mini-metrics span,
+body:not(.dark-theme) .quick-links a span,
+body:not(.dark-theme) .post-meta span,
+body:not(.dark-theme) .post-tags span,
+body:not(.dark-theme) .member-card footer span {
+  background: var(--card2);
+  border-color: var(--border);
+  color: var(--muted);
+}
+
+/* 16 · Listas com bordas */
+body:not(.dark-theme) .hot-list a,
+body:not(.dark-theme) .anime-list li,
+body:not(.dark-theme) .spotlight-list div,
+body:not(.dark-theme) .rank-block li {
+  border-color: var(--border);
+}
+
+/* 17 · Card title e rótulos */
+body:not(.dark-theme) .card-title,
+body:not(.dark-theme) .stat-label {
+  color: var(--faint);
+}
+
+/* 18 · Hamburger e drawer mobile */
+body:not(.dark-theme) .nav-hamburger {
+  background: rgba(31, 29, 26, 0.06);
+  border-color: rgba(31, 29, 26, 0.14);
+}
+body:not(.dark-theme) .nav-hamburger span {
+  background: var(--text);
+}
+body:not(.dark-theme) .nav > .theme-toggle {
+  background: rgba(31, 29, 26, 0.06);
+  border-color: rgba(31, 29, 26, 0.14);
+  color: var(--text);
+}
+body:not(.dark-theme) .mobile-drawer-panel {
+  background: var(--card);
+  border-left-color: var(--border);
+}
+body:not(.dark-theme) .mobile-drawer-backdrop {
+  background: rgba(31, 29, 26, 0.5);
+}
+body:not(.dark-theme) .mobile-drawer-logo {
+  color: var(--text);
+}
+body:not(.dark-theme) .mobile-drawer-link {
+  border-bottom-color: var(--border);
+  color: var(--muted);
+}
+body:not(.dark-theme) .mobile-drawer-link:hover,
+body:not(.dark-theme) .mobile-drawer-link.active {
+  color: var(--text);
+}
+body:not(.dark-theme) .mobile-drawer-members a {
+  background: var(--card2);
+  border-color: var(--border);
+  color: var(--muted);
+}
+body:not(.dark-theme) .mobile-drawer-members a:hover,
+body:not(.dark-theme) .mobile-drawer-members a.active {
+  background: var(--card);
+  border-color: var(--border-hover);
+  color: var(--text);
+}
+body:not(.dark-theme) .mobile-drawer-close,
+body:not(.dark-theme) .mobile-theme-btn {
+  background: var(--card2);
+  border-color: var(--border);
+  color: var(--muted);
+}
+body:not(.dark-theme) .mobile-drawer-close:hover,
+body:not(.dark-theme) .mobile-theme-btn:hover {
+  background: var(--card);
+  color: var(--text);
+}
+
+/* 19 · Charts page: gradiente do título e pills em tons escuros */
+body:not(.dark-theme) .charts-page .page-header h1 {
+  background: linear-gradient(90deg, #6d28d9 0%, #be185d 55%, #b45309 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+body:not(.dark-theme) .charts-stat-pill {
+  background: rgba(109, 40, 217, 0.07);
+  border-color: rgba(109, 40, 217, 0.2);
+  color: #6d28d9;
+}
+body:not(.dark-theme) .charts-stat-pill span {
+  color: var(--muted);
+}
+body:not(.dark-theme) .charts-eyebrow {
+  color: #6d28d9;
+}
+body:not(.dark-theme) .charts-section-divider {
+  color: var(--faint);
+}
+body:not(.dark-theme) .charts-section-divider::before,
+body:not(.dark-theme) .charts-section-divider::after {
+  background: var(--border);
+}
+body:not(.dark-theme) .card-desc {
+  color: var(--muted);
+}
+body:not(.dark-theme) .card-badge {
+  background: var(--card2);
+  border-color: var(--border);
+  color: var(--faint);
+}
+
+/* 20 · Acervo: gradiente do título */
+body:not(.dark-theme) .archive-title-gradient {
+  background: linear-gradient(90deg, #5b21b6 0%, #0e7490 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/* 21 · Venn / compare */
+body:not(.dark-theme) .venn-circle:nth-child(1) {
+  background: rgba(124, 58, 237, 0.12);
+  border: 2px solid rgba(124, 58, 237, 0.4);
+}
+body:not(.dark-theme) .venn-circle:nth-child(2) {
+  background: rgba(236, 72, 153, 0.12);
+  border: 2px solid rgba(236, 72, 153, 0.4);
+}
+body:not(.dark-theme) .diff-highlight {
+  background: rgba(239, 68, 68, 0.1);
+}
+
+/* 22 · Calendar (sidebar) */
+body:not(.dark-theme) .calendar-item {
+  border-color: var(--border);
+  color: var(--text);
+}
+body:not(.dark-theme) .calendar-mal-link {
+  background: var(--card2) padding-box,
+    linear-gradient(135deg, rgba(16, 185, 129, 0.5), rgba(6, 182, 212, 0.5)) border-box;
+  border: 1px solid transparent;
+  color: var(--text);
+}
+
+/* 23 · Opening chips (member cards) */
+body:not(.dark-theme) .opening-chip {
+  background: var(--card2);
+  border-color: var(--border);
+  color: var(--muted);
+}
+body:not(.dark-theme) .opening-chip b {
+  color: var(--faint);
+}
