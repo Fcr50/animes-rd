@@ -7,6 +7,138 @@
     <link rel="stylesheet" href="css/style.css?v=desafios-soft-1" />
     <script type="module" src="./js/theme.js?v=desafios-soft-1"></script>
     <script type="module" src="./js/utils.js?v=desafios-soft-1"></script>
+    <style>
+      @media (max-width: 768px) {
+        /* Stat cards menores */
+        .stat-value {
+          font-size: 28px;
+        }
+
+        /* Tabela → grade de cards 2 colunas */
+        .acervo-main-card .table-wrap {
+          border: none;
+          border-radius: 0;
+          overflow: visible;
+        }
+
+        .acervo-main-card table {
+          display: block;
+        }
+
+        .acervo-main-card thead {
+          display: none;
+        }
+
+        .acervo-main-card tbody {
+          display: grid;
+          gap: 10px;
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .acervo-main-card tbody tr {
+          background: rgba(243, 239, 230, 0.04);
+          border: 1px solid rgba(243, 239, 230, 0.1);
+          border-radius: 10px;
+          cursor: pointer;
+          display: flex;
+          flex-direction: column;
+          overflow: hidden;
+          transition: background 0.15s ease, border-color 0.15s ease;
+        }
+
+        /* Override: último tr não perde a borda inferior */
+        .acervo-main-card tbody tr:last-child {
+          border-bottom: 1px solid rgba(243, 239, 230, 0.1);
+        }
+
+        .acervo-main-card tbody tr:hover {
+          background: rgba(243, 239, 230, 0.07);
+          border-color: rgba(243, 239, 230, 0.2);
+        }
+
+        /* Estado vazio/carregando: span full width */
+        .acervo-main-card tbody tr:has(td[colspan]) {
+          background: none;
+          border: none;
+          grid-column: 1 / -1;
+        }
+
+        /* Ocultar gêneros, votos e controvérsia */
+        .acervo-main-card tbody td:nth-child(2),
+        .acervo-main-card tbody td:nth-child(5),
+        .acervo-main-card tbody td:nth-child(6) {
+          display: none;
+        }
+
+        /* Célula do anime: imagem cover + nome */
+        .acervo-main-card tbody td:nth-child(1) {
+          padding: 0;
+        }
+
+        .acervo-main-card tbody .anime-identity {
+          align-items: flex-start;
+          display: flex;
+          flex-direction: column;
+          gap: 0;
+          min-width: 0;
+          width: 100%;
+        }
+
+        .acervo-main-card tbody .anime-img {
+          border-radius: 0;
+          flex: none;
+          height: 105px;
+          object-fit: cover;
+          width: 100%;
+        }
+
+        .acervo-main-card tbody .anime-name {
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+          display: -webkit-box;
+          font-size: 11px;
+          line-height: 1.35;
+          overflow: hidden;
+          padding: 7px 8px 3px;
+        }
+
+        .acervo-main-card tbody .dub-badge {
+          font-size: 9px;
+          margin: 0 8px 4px;
+        }
+
+        /* Quem assistiu: badges compactos */
+        .acervo-main-card tbody td:nth-child(3) {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 3px;
+          padding: 2px 8px 6px;
+        }
+
+        .acervo-main-card tbody td:nth-child(3) .badge {
+          font-size: 9px;
+          padding: 2px 5px;
+        }
+
+        /* Nota: empurrada para o rodapé do card */
+        .acervo-main-card tbody td:nth-child(4) {
+          border-top: 1px solid rgba(243, 239, 230, 0.08);
+          margin-top: auto;
+          padding: 7px 8px;
+          text-align: left !important;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .acervo-main-card tbody {
+          gap: 8px;
+        }
+
+        .acervo-main-card tbody .anime-img {
+          height: 90px;
+        }
+      }
+    </style>
   </head>
   <body>
     <nav class="nav"></nav>
