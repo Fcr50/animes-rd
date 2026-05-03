@@ -45,12 +45,50 @@ async function exportAndApproveAnimes() {
     const pendingAnimesSnapshot = await pendingAnimesRef.get();
     let approvedCount = 0;
 
+    const now = new Date();
+    const AUTO_VOTE_THRESHOLD_MS = 5 * 24 * 60 * 60 * 1000; // 5 dias
+
     for (const doc of pendingAnimesSnapshot.docs) {
       const animeId = doc.id;
-      const animeData = doc.data();
+      let animeData = doc.data();
+      const createdAt = animeData.createdAt ? animeData.createdAt.toDate() : now;
+      const isStale = (now - createdAt) > AUTO_VOTE_THRESHOLD_MS;
 
-      // Verifica se todos votaram
-      if (animeData.votedUserIds && animeData.votedUserIds.length === PEOPLE.length) {
+      // Lógica de Voto Automático para animes parados há mais de 5 dias
+      if (isStale && animeData.votedUserIds.length < PEOPLE.length) {
+        console.log(`Anime parado há mais de 5 dias: ${animeData.nome}. Registrando votos automáticos...`);
+        
+        const updatedVotes = { ...animeData.votes };
+        const updatedVotedUserIds = [ ...animeData.votedUserIds ];
+        let changesMade = false;
+
+        for (const personName of PEOPLE) {
+          if (!updatedVotes[personName]) {
+            console.log(`   - Registrando 'Não assisti' automático para: ${personName}`);
+            updatedVotes[personName] = {
+              score: null,
+              comment: "",
+              votedAt: admin.firestore.FieldValue.serverTimestamp()
+            };
+            // Adiciona um placeholder de sistema no votedUserIds para completar a contagem
+            updatedVotedUserIds.push(`system-auto-${personName.toLowerCase()}`);
+            changesMade = true;
+          }
+        }
+
+        if (changesMade) {
+          await doc.ref.update({
+            votes: updatedVotes,
+            votedUserIds: updatedVotedUserIds
+          });
+          // Atualiza o objeto local para que a lógica de aprovação abaixo o pegue nesta mesma rodada
+          animeData.votes = updatedVotes;
+          animeData.votedUserIds = updatedVotedUserIds;
+        }
+      }
+
+      // Verifica se todos votaram (seja voto real ou automático do sistema acima)
+      if (animeData.votedUserIds && animeData.votedUserIds.length >= PEOPLE.length) {
         console.log(`Processando anime pendente: ${animeData.nome} (ID: ${animeId})`);
 
         // Prepara os dados para a coleção 'animes'
