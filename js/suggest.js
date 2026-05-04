@@ -137,9 +137,9 @@ function normalizeName(str) {
     .trim();
 }
 
-async function checkDuplicates(malId, inputName) {
+async function checkDuplicates(malId, inputName, allTitles = []) {
   const found = [];
-  const normInput = normalizeName(inputName);
+  const titlesToCheck = new Set([inputName, ...allTitles].filter(Boolean).map(normalizeName));
 
   if (db) {
     if (malId) {
@@ -154,14 +154,14 @@ async function checkDuplicates(malId, inputName) {
     if (found.length === 0) {
       const pendingAll = await getDocs(collection(db, "pending_animes"));
       pendingAll.forEach((d) => {
-        if (normalizeName(d.data().nome) === normInput) found.push(d.data().nome);
+        if (titlesToCheck.has(normalizeName(d.data().nome))) found.push(d.data().nome);
       });
     }
 
     if (found.length === 0) {
       const animesAll = await getDocs(collection(db, "animes"));
       animesAll.forEach((d) => {
-        if (normalizeName(d.data().nome) === normInput) found.push(d.data().nome);
+        if (titlesToCheck.has(normalizeName(d.data().nome))) found.push(d.data().nome);
       });
     }
   }
@@ -172,7 +172,7 @@ async function checkDuplicates(malId, inputName) {
     const res = await fetch("data/animes.json");
     const data = await res.json();
     for (const anime of data.animes || []) {
-      if (normalizeName(anime.nome) === normInput) found.push(anime.nome);
+      if (titlesToCheck.has(normalizeName(anime.nome))) found.push(anime.nome);
     }
   } catch {}
 
@@ -320,7 +320,7 @@ async function renderSubmissionForm() {
     }
     resultsDropdown.style.display = "none";
 
-    const duplicates = await checkDuplicates(animeData.malId, animeData.displayTitle);
+    const duplicates = await checkDuplicates(animeData.malId, animeData.displayTitle, animeData.allTitles);
     if (duplicates.length > 0) {
       duplicateEl.textContent = `🚫 "${duplicates[0]}" já existe`;
       submitBtn.disabled = true;
@@ -552,7 +552,7 @@ async function handleSubmitAnime() {
   const submitBtn = document.getElementById("submit-anime-button");
   submitBtn.disabled = true;
   try {
-    const duplicates = await checkDuplicates(currentAnimeData?.malId, name);
+    const duplicates = await checkDuplicates(currentAnimeData?.malId, name, currentAnimeData?.allTitles);
     if (duplicates.length > 0) {
       alert(`🚫 "${duplicates[0]}" já está na lista.`);
       return;
