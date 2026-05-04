@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-04T01:30:44.340Z",
+  "updatedAt": "2026-05-04T03:27:58.161Z",
   "total": 186,
   "animes": [
     {
@@ -1602,6 +1602,50 @@
       }
     },
     {
+      "id": "3416beab-c784-81d7-8d54-d180fb3688b9",
+      "nome": "A Empregada Dragão da Senhorita Kobayashi",
+      "quemAssistiu": [
+        "Rafael"
+      ],
+      "generos": [
+        "Comédia 😂",
+        "Slice of Life 🍃",
+        "Fantasia 🧙"
+      ],
+      "notaFernando": null,
+      "notaDudu": null,
+      "notaHacksuya": null,
+      "maisDeUmVoto": "nao",
+      "controversia": 0,
+      "migratedAt": {
+        "_seconds": 1777314441,
+        "_nanoseconds": 493000000
+      },
+      "malId": 2924,
+      "notaZana": null,
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=Ku5fgOHy1JY"
+        }
+      ],
+      "qtdVotos": 1,
+      "comments": [
+        {
+          "person": "Rafael",
+          "text": "\"Slice of life puro, com um toque de fantasia fantástico. As cenas de ação são muito bem animadas!! Vale muito a pena!\""
+        }
+      ],
+      "comentarios": "Rafael: \"Slice of life puro, com um toque de fantasia fantástico. As cenas de ação são muito bem animadas!! Vale muito a pena!\"",
+      "notaSort": 9,
+      "notaRafael": 9,
+      "nota": "9.00",
+      "updatedAt": {
+        "_seconds": 1777863859,
+        "_nanoseconds": 87000000
+      }
+    },
+    {
       "id": "3416beab-c784-81f8-a37f-f5737daee6a0",
       "nome": "Little Busters!: Refrain",
       "quemAssistiu": [
@@ -2829,12 +2873,6 @@
         }
       ],
       "comentarios": "Dudu: Esse aqui achei a pegada bem legal quando assisti.",
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=The%20Promised%20Neverland%20opening%201"
-        }
-      ],
       "notaZana": null,
       "controversia": 0.4,
       "quemAssistiu": [
@@ -2846,9 +2884,15 @@
       "notaSort": 8.63,
       "notaRafael": 8.4,
       "nota": "8.63",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=iIH38n1o6Kg"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777828819,
-        "_nanoseconds": 912000000
+        "_seconds": 1777858409,
+        "_nanoseconds": 822000000
       }
     },
     {
@@ -2869,12 +2913,6 @@
         "_nanoseconds": 493000000
       },
       "malId": 31043,
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Boku%20dake%20ga%20Inai%20Machi%20opening%201"
-        }
-      ],
       "notaZana": null,
       "quemAssistiu": [
         "Rafael",
@@ -2890,9 +2928,15 @@
       "maisDeUmVoto": "sim",
       "notaRafael": 8.6,
       "comentarios": "Rafael: Anime bom! Mistério com viagem no tempo que te prende do começo ao fim, vale muito a pena.",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=fodAJ-1dN3I"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777793404,
-        "_nanoseconds": 701000000
+        "_seconds": 1777858502,
+        "_nanoseconds": 342000000
       }
     },
     {
@@ -2922,13 +2966,17 @@
         "_nanoseconds": 493000000
       },
       "malId": 18897,
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Nisekoi%20opening%201"
+          "url": "https://www.youtube.com/watch?v=G5YmZRs_L9k"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777858522,
+        "_nanoseconds": 560000000
+      }
     },
     {
       "id": "3416beab-c784-81f1-a3d4-dcc59c9014b1",
@@ -2962,17 +3010,17 @@
       "notaRafael": 8.6,
       "comentarios": "Rafael: Muito bom para o que se propõe, um anime único. Para relaxar, é excelente. Para quem gosta de tocar algum instrumento musical, vai curtir demais.",
       "nota": "8.60",
-      "updatedAt": {
-        "_seconds": 1777354870,
-        "_nanoseconds": 425000000
-      },
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Bocchi%20the%20Rock!%20opening%201"
+          "url": "https://www.youtube.com/watch?v=dlSbEP4V-gI"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777858534,
+        "_nanoseconds": 837000000
+      }
     },
     {
       "id": "3416beab-c784-8123-8933-ede5e064437c",
@@ -3046,12 +3094,6 @@
         }
       ],
       "comentarios": "Dudu: Muito bom.",
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Rent-a-Girlfriend%20opening%201"
-        }
-      ],
       "notaZana": null,
       "controversia": 0.5,
       "quemAssistiu": [
@@ -3063,9 +3105,15 @@
       "notaSort": 8.55,
       "notaRafael": 8.3,
       "nota": "8.55",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=cM1WSovcn4I"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777828846,
-        "_nanoseconds": 970000000
+        "_seconds": 1777858560,
+        "_nanoseconds": 889000000
       }
     },
     {
@@ -3102,17 +3150,17 @@
       "notaRafael": 8.3,
       "comentarios": "Rafael: Anime muito bom, a história é unica e muito bem construida!",
       "nota": "8.55",
-      "updatedAt": {
-        "_seconds": 1777419101,
-        "_nanoseconds": 202000000
-      },
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Assassination%20Classroom%20opening%201"
+          "url": "https://www.youtube.com/watch?v=Tgla0Q88V_Y"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777858583,
+        "_nanoseconds": 26000000
+      }
     },
     {
       "id": "3416beab-c784-812e-87c7-d5af55d67b32",
@@ -3140,13 +3188,17 @@
         "_nanoseconds": 493000000
       },
       "malId": 14513,
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Magi%3A%20The%20Labyrinth%20of%20Magic%20opening%201"
+          "url": "https://www.youtube.com/watch?v=pwO2AVjTH9k"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777858599,
+        "_nanoseconds": 846000000
+      }
     },
     {
       "id": "3416beab-c784-8149-a43f-e436ee2dbc66",
@@ -3174,13 +3226,17 @@
         "_nanoseconds": 493000000
       },
       "malId": 2167,
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Clannad%20opening%201"
+          "url": "https://www.youtube.com/watch?v=oHdZOKm5xzo"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777858674,
+        "_nanoseconds": 242000000
+      }
     },
     {
       "id": "3416beab-c784-816a-ae6b-d81b43c1b74c",
@@ -3214,17 +3270,17 @@
         }
       ],
       "comentarios": "Dudu: Incrivelmente um anime de patins conseguiu acertar e ser bom, uma pena que sofreu do mesmo mal de muitos da época, sem investimento para novas temporadas.",
-      "updatedAt": {
-        "_seconds": 1777400018,
-        "_nanoseconds": 221000000
-      },
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Air%20Gear%20opening%201"
+          "url": "https://www.youtube.com/watch?v=klFVxGAacz0"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777858685,
+        "_nanoseconds": 439000000
+      }
     },
     {
       "id": "3416beab-c784-81ba-9f5f-f0422d934210",
@@ -3242,12 +3298,6 @@
         "_nanoseconds": 493000000
       },
       "malId": 38101,
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=The%20Quintessential%20Quintuplets%20opening%201"
-        }
-      ],
       "notaZana": null,
       "controversia": 0.6,
       "quemAssistiu": [
@@ -3266,9 +3316,15 @@
       "notaRafael": 8.2,
       "comentarios": "Rafael: Personagens bem diferentes entre si e uma dinâmica muito divertida, vale a pena.",
       "nota": "8.50",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=FKIT6G_lw7c"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777793246,
-        "_nanoseconds": 843000000
+        "_seconds": 1777858724,
+        "_nanoseconds": 394000000
       }
     },
     {
@@ -3298,22 +3354,22 @@
         }
       ],
       "comentarios": "Dudu: Anime que o Rafa gostaria de assistir, certeza.",
-      "updatedAt": {
-        "_seconds": 1777352488,
-        "_nanoseconds": 920000000
-      },
       "generos": [
         "Comédia 😂",
         "Ecchi 🔥",
         "Fantasia 🧙"
       ],
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Shimoneta%20opening%201"
+          "url": "https://www.youtube.com/watch?v=hfBY2E3snFs"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777858740,
+        "_nanoseconds": 131000000
+      }
     },
     {
       "id": "3416beab-c784-81c2-8ff3-de1e62f26648",
@@ -3341,24 +3397,24 @@
         "Drama 😢",
         "Esportes ⚽"
       ],
-      "comments": [
-        {
-          "person": "Dudu",
-          "text": "Acompanhar a jornada do nosso mano Ippo é muito bom, anime de esporte das antigas, se você relevar a animação dos anos 90 vai se surpreender."
-        }
-      ],
-      "comentarios": "Dudu: Acompanhar a jornada do nosso mano Ippo é muito bom, anime de esporte das antigas, se você relevar a animação dos anos 90 vai se surpreender.",
-      "updatedAt": {
-        "_seconds": 1777400104,
-        "_nanoseconds": 120000000
-      },
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Hajime%20no%20Ippo%20opening%201"
+          "url": "https://www.youtube.com/watch?v=-LD0SUdJfeU"
         }
       ],
-      "notaZana": null
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Acompanhar a jornada do nosso mano Makunouchi é muito bom, anime de esporte das antigas, se você relevar a animação dos anos 90 vai se surpreender."
+        }
+      ],
+      "comentarios": "Dudu: Acompanhar a jornada do nosso mano Makunouchi é muito bom, anime de esporte das antigas, se você relevar a animação dos anos 90 vai se surpreender.",
+      "updatedAt": {
+        "_seconds": 1777858884,
+        "_nanoseconds": 274000000
+      }
     },
     {
       "id": "3416beab-c784-81e5-8c9f-d3bdef66458f",
@@ -3376,12 +3432,6 @@
         "_nanoseconds": 493000000
       },
       "malId": 50346,
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Yofukashi%20no%20Uta%20opening%201"
-        }
-      ],
       "notaZana": null,
       "controversia": 0.2,
       "quemAssistiu": [
@@ -3400,9 +3450,15 @@
       "notaRafael": 8.4,
       "comentarios": "Rafael: Top! Vibe da madrugada é muito boa, romance diferente e bem relax de assistir.",
       "nota": "8.50",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=L96VbQ9ytWk"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777793469,
-        "_nanoseconds": 701000000
+        "_seconds": 1777858939,
+        "_nanoseconds": 322000000
       }
     },
     {
@@ -3437,17 +3493,17 @@
         }
       ],
       "comentarios": "Rafael: Bom pakas, ecchi de qualidade e muito sangue.",
-      "updatedAt": {
-        "_seconds": 1777355252,
-        "_nanoseconds": 638000000
-      },
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=High%20Rise%20Invasion%20opening%201"
+          "url": "https://www.youtube.com/watch?v=gys8uMt5FPg"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777858960,
+        "_nanoseconds": 688000000
+      }
     },
     {
       "id": "3416beab-c784-8153-a414-f8f001e703c7",
@@ -3510,12 +3566,6 @@
         "_nanoseconds": 493000000
       },
       "malId": 20507,
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Noragami%20opening%201"
-        }
-      ],
       "notaZana": null,
       "controversia": 1.3,
       "quemAssistiu": [
@@ -3534,9 +3584,15 @@
       "notaRafael": 9.1,
       "comentarios": "Rafael: Tonight, we honor the hero!!!!!",
       "nota": "8.45",
+      "files": [
+        {
+          "name": "Kyouran Hey Kids",
+          "url": "https://www.youtube.com/watch?v=aZenmeRytEM"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777794259,
-        "_nanoseconds": 602000000
+        "_seconds": 1777859013,
+        "_nanoseconds": 940000000
       }
     },
     {
@@ -3556,12 +3612,6 @@
         "Ecchi 🔥",
         "Comédia 😂"
       ],
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Kissxsis%20opening%201"
-        }
-      ],
       "notaZana": null,
       "controversia": 0.5,
       "quemAssistiu": [
@@ -3574,9 +3624,15 @@
       "notaSort": 8.45,
       "notaRafael": 8.2,
       "nota": "8.45",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=l_RqpP00kkw"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777793322,
-        "_nanoseconds": 119000000
+        "_seconds": 1777859043,
+        "_nanoseconds": 954000000
       }
     },
     {
@@ -3596,12 +3652,6 @@
         "_nanoseconds": 493000000
       },
       "malId": 1254,
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Cavaleiros%20do%20Zod%C3%ADaco%20opening%201"
-        }
-      ],
       "controversia": 0.8,
       "notaZana": 8,
       "notaSort": 8.43,
@@ -3629,9 +3679,15 @@
       ],
       "notaRafael": 8.4,
       "comentarios": "Dudu: PEGASUUUUUU.Zana: Queria dar uma nota maior, é legal a ideias, mas os personagens e até mesmo as lutas deixam muito a desejar. Dito isso, fala de signo e me ajudou a puxar conversa com as mina. Por último: Shaka, o cavaleiro de Virgem <3Rafael: Faça elevar.",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=Nds9oPVLATc"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777828420,
-        "_nanoseconds": 378000000
+        "_seconds": 1777859067,
+        "_nanoseconds": 578000000
       }
     },
     {
@@ -3698,12 +3754,6 @@
         "_nanoseconds": 493000000
       },
       "malId": 9253,
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Steins%3BGate%20opening%201"
-        }
-      ],
       "notaZana": null,
       "qtdVotos": 1,
       "comments": [
@@ -3716,9 +3766,15 @@
       "notaRafael": 8.4,
       "comentarios": "Rafael: Começa mais lento, mas depois fica absurdo, viagem no tempo muito bem feita.",
       "nota": "8.40",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=1FPdtR_5KFo"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777794666,
-        "_nanoseconds": 462000000
+        "_seconds": 1777859092,
+        "_nanoseconds": 99000000
       }
     },
     {
@@ -3747,13 +3803,17 @@
         "_nanoseconds": 493000000
       },
       "malId": 31859,
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Grimgar%2C%20Ashes%20and%20Illusions%20opening%201"
+          "url": "https://www.youtube.com/watch?v=afNYXz-AHBY"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777859106,
+        "_nanoseconds": 67000000
+      }
     },
     {
       "id": "3416beab-c784-817b-b394-c5faeb5d1c11",
@@ -3776,12 +3836,6 @@
         "_nanoseconds": 493000000
       },
       "malId": 63018,
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Evangelion%20opening%201"
-        }
-      ],
       "notaZana": null,
       "qtdVotos": 1,
       "comments": [
@@ -3794,9 +3848,15 @@
       "notaRafael": 8.4,
       "comentarios": "Rafael: Clássico, Anime diferente demais. Começa como mecha, mas vira algo bem mais profundo e meio confuso.",
       "nota": "8.40",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=nU21rCWkuJw"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777794778,
-        "_nanoseconds": 851000000
+        "_seconds": 1777859119,
+        "_nanoseconds": 437000000
       }
     },
     {
@@ -3815,12 +3875,6 @@
         "_nanoseconds": 493000000
       },
       "malId": 52701,
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Dungeon%20Meshi%20opening%201"
-        }
-      ],
       "notaZana": null,
       "controversia": 0.8,
       "quemAssistiu": [
@@ -3843,9 +3897,15 @@
       "notaRafael": 8.8,
       "comentarios": "Dudu: Assisti com a minha ex isso aqui, bad vibes.Rafael: Gostosinho de asssitir!",
       "nota": "8.40",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=60_2zt9l3Yk"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777828678,
-        "_nanoseconds": 177000000
+        "_seconds": 1777859144,
+        "_nanoseconds": 216000000
       }
     },
     {
@@ -3865,12 +3925,6 @@
         "Drama 😢",
         "Ecchi 🔥"
       ],
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Goblin%20Slayer%20opening%201"
-        }
-      ],
       "notaZana": null,
       "controversia": 0.7,
       "quemAssistiu": [
@@ -3889,9 +3943,15 @@
       "notaRafael": 8.7,
       "comentarios": "Rafael: Anime pesado. Mostra o que seria a “realidade” de um mundo de fantasia, bem brutal, muito sangue. Dá neles, Goblin Slayer!!!",
       "nota": "8.35",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=0i0z98M2y5U"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777793916,
-        "_nanoseconds": 12000000
+        "_seconds": 1777859162,
+        "_nanoseconds": 255000000
       }
     },
     {
@@ -3932,17 +3992,17 @@
       "notaSort": 8.35,
       "notaRafael": 8.2,
       "nota": "8.35",
-      "updatedAt": {
-        "_seconds": 1777420424,
-        "_nanoseconds": 923000000
-      },
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Date%20a%20Live%20opening%201"
+          "url": "https://www.youtube.com/watch?v=Qg0prWizHhQ"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777859181,
+        "_nanoseconds": 674000000
+      }
     },
     {
       "id": "3416beab-c784-81d7-8d27-d3d5f074c8ad",
@@ -3966,12 +4026,6 @@
         }
       ],
       "comentarios": "Dudu: Esse aqui é um clássico, se você não assistiu na época que passava na REDETV não teve infância.",
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Inazuma%20Eleven%20opening%201"
-        }
-      ],
       "notaZana": null,
       "controversia": 1.9,
       "quemAssistiu": [
@@ -3983,9 +4037,15 @@
       "notaSort": 8.35,
       "notaRafael": 7.4,
       "nota": "8.35",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=DJPS5Zn_O9A"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777828622,
-        "_nanoseconds": 502000000
+        "_seconds": 1777859193,
+        "_nanoseconds": 980000000
       }
     },
     {
@@ -4020,17 +4080,17 @@
         }
       ],
       "comentarios": "Dudu: O mangá aparentemente está muito bom, mas o anime infelizmente foi bem rushado da 2 temporada pra frente. A opening da temporada 1 é muito boa.",
-      "updatedAt": {
-        "_seconds": 1777400204,
-        "_nanoseconds": 566000000
-      },
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Tokyo%20Ghoul%20opening%201"
+          "url": "https://www.youtube.com/watch?v=7aMOurgDB-o"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777859273,
+        "_nanoseconds": 277000000
+      }
     },
     {
       "id": "3416beab-c784-813f-9c49-e374655cc241",
@@ -4065,17 +4125,17 @@
         }
       ],
       "comentarios": "Dudu: Lembro que achei bem legal na época, e o ecchi está até na dose certa.",
-      "updatedAt": {
-        "_seconds": 1777400363,
-        "_nanoseconds": 649000000
-      },
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Kill%20la%20Kill%20opening%201"
+          "url": "https://www.youtube.com/watch?v=9_5LhZ7pQpM"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777859289,
+        "_nanoseconds": 814000000
+      }
     },
     {
       "id": "3416beab-c784-81a5-92dc-dc81864e05f6",
@@ -4103,13 +4163,17 @@
         "_nanoseconds": 493000000
       },
       "malId": 7674,
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Bakuman.%20opening%201"
+          "url": "https://www.youtube.com/watch?v=8vMRheOXO_w"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777859303,
+        "_nanoseconds": 519000000
+      }
     },
     {
       "id": "3416beab-c784-81cb-b099-f6d6b28d8a92",
@@ -4129,16 +4193,6 @@
       "malId": 550,
       "controversia": 1.2,
       "notaZana": 9.2,
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Yu-Gi-Oh!%20opening%201"
-        },
-        {
-          "name": "Yugi  meme",
-          "url": "https://www.youtube.com/shorts/AdKD9pG08A8"
-        }
-      ],
       "quemAssistiu": [
         "Rafael",
         "Fernando",
@@ -4164,9 +4218,23 @@
       "notaRafael": 8,
       "comentarios": "Dudu: Exodia sola.Zana: Esse anime é a definição sobre o poder da amizade, do roteiro protagonista. Yu-Gi-Oh! chega no físico também, olhar pro meu Dragão Branco de Olhos Azuis faz meu dia mais feliz. Dito isso, anime mais infantil. Dito isso, poha, Slyfer vs Obelisco no arco da batalha da cidade PQPRafael: Yugi faz as regras.",
       "nota": "8.30",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=WHUcHw7j2Mc"
+        },
+        {
+          "name": "Yugi  meme",
+          "url": "https://www.youtube.com/shorts/AdKD9pG08A8"
+        },
+        {
+          "name": "Eu vim ver o macaco",
+          "url": "https://www.youtube.com/watch?v=0mZ2OXT52fQ"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777828571,
-        "_nanoseconds": 958000000
+        "_seconds": 1777859388,
+        "_nanoseconds": 5000000
       }
     },
     {
@@ -4193,12 +4261,6 @@
         }
       ],
       "comentarios": "Dudu: Um dos primeiros animes de suspense que eu assisti, tenho trauma de elevador e descer escada com guarda-chuva até hoje.",
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Another%20opening%201"
-        }
-      ],
       "notaZana": null,
       "quemAssistiu": [
         "Rafael",
@@ -4209,9 +4271,15 @@
       "notaSort": 8.3,
       "notaRafael": 8.2,
       "nota": "8.30",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=O7yhjJGxTyY"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777828899,
-        "_nanoseconds": 782000000
+        "_seconds": 1777859422,
+        "_nanoseconds": 141000000
       }
     },
     {
@@ -4240,13 +4308,17 @@
         "Drama 😢",
         "Slice of Life 🍃"
       ],
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Free!%20Eternal%20Summer%20opening%201"
+          "url": "https://www.youtube.com/watch?v=b-bdlOqRI9U"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777859437,
+        "_nanoseconds": 84000000
+      }
     },
     {
       "id": "3416beab-c784-8176-b098-c22bbc815cf5",
@@ -4273,12 +4345,6 @@
         }
       ],
       "comentarios": "Dudu: Primeira temporada muito boa, a segunda ainda mantém um nível bom, mas o que o estúdio de animação fez a partir da terceira temporada é sacanagem, intankavel a merda que ficou.",
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Nanatsu%20no%20Taizai%20opening%201"
-        }
-      ],
       "notaZana": null,
       "quemAssistiu": [
         "Rafael",
@@ -4289,9 +4355,15 @@
       "notaSort": 8.27,
       "notaRafael": 8.4,
       "nota": "8.27",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=MHsp-KkGo_g"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777828832,
-        "_nanoseconds": 760000000
+        "_seconds": 1777859451,
+        "_nanoseconds": 548000000
       }
     },
     {
@@ -4312,12 +4384,6 @@
         "Esportes ⚽",
         "Comédia 😂"
       ],
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Musculo%20Total%20opening%201"
-        }
-      ],
       "controversia": 0.5,
       "notaZana": 8.5,
       "quemAssistiu": [
@@ -4335,9 +4401,15 @@
       "notaSort": 8.25,
       "comentarios": "Zana: Muito ocmédia, e uma intro musicalmente inesquecível",
       "nota": "8.25",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=gvd9OHDw4nM"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777585704,
-        "_nanoseconds": 314000000
+        "_seconds": 1777859469,
+        "_nanoseconds": 538000000
       }
     },
     {
@@ -4368,13 +4440,17 @@
         "_nanoseconds": 493000000
       },
       "malId": 17895,
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Golden%20Time%20opening%201"
+          "url": "https://www.youtube.com/watch?v=7X-QtQqbWR0"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777859487,
+        "_nanoseconds": 268000000
+      }
     },
     {
       "id": "3416beab-c784-8155-a0de-e7fa178cdddd",
@@ -4403,13 +4479,17 @@
         "_nanoseconds": 493000000
       },
       "malId": 33506,
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Ao%20no%20Exorcist%3A%20Kyoto%20Fujouou-hen%20opening%201"
+          "url": "https://www.youtube.com/watch?v=s99s4VCtCP8"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777859507,
+        "_nanoseconds": 848000000
+      }
     },
     {
       "id": "3416beab-c784-8172-bfe3-df8db45eddd7",
@@ -4437,13 +4517,17 @@
         "_nanoseconds": 493000000
       },
       "malId": 41353,
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=The%20God%20of%20High%20School%20opening%201"
+          "url": "https://www.youtube.com/watch?v=eRJyYfAq2tk"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777859528,
+        "_nanoseconds": 801000000
+      }
     },
     {
       "id": "3416beab-c784-8181-9245-f6de5a388320",
@@ -4470,12 +4554,6 @@
         }
       ],
       "comentarios": "Dudu: Assisti logo depois de SAO, e me falaram recentemente que ele faz parte do mesmo universo, muito bom.",
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Accel%20World%20opening%201"
-        }
-      ],
       "notaZana": null,
       "controversia": 0.5,
       "quemAssistiu": [
@@ -4487,9 +4565,15 @@
       "notaSort": 8.2,
       "notaRafael": 8,
       "nota": "8.20",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=uTErr5pGmZc"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777828375,
-        "_nanoseconds": 349000000
+        "_seconds": 1777859544,
+        "_nanoseconds": 106000000
       }
     },
     {
@@ -4524,17 +4608,17 @@
         }
       ],
       "comentarios": "Dudu: Esse aqui fez eu acertar uma questão na escola de um trabalho de química, nunca vou esquecer, GOAT.",
-      "updatedAt": {
-        "_seconds": 1777400521,
-        "_nanoseconds": 17000000
-      },
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Seikon%20no%20Qwaser%20opening%201"
+          "url": "https://www.youtube.com/watch?v=Sxvd05fsA6c"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777860016,
+        "_nanoseconds": 421000000
+      }
     },
     {
       "id": "3416beab-c784-81d0-b92d-f9904e5e7f18",
@@ -4553,12 +4637,6 @@
         "_nanoseconds": 493000000
       },
       "malId": 552,
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Digimon%20opening%201"
-        }
-      ],
       "notaZana": 8.4,
       "controversia": 0.6,
       "quemAssistiu": [
@@ -4586,9 +4664,15 @@
       "notaRafael": 7.9,
       "comentarios": "Dudu: Muito bom, algumas vezes cheguei a preferir ele a pokémon, mas hoje percebo que todos tem lugar no meu coração.Zana: Era pra ser melhor que Pokémon, mas a arte pouco atrativa para crianças e a insistência em transformar os monstrinhos em eletrodomésticos comprometeu a notaRafael: Pokémon é muito melhor.",
       "nota": "8.20",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=XV2TfYSgXT4"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777828599,
-        "_nanoseconds": 358000000
+        "_seconds": 1777860030,
+        "_nanoseconds": 474000000
       }
     },
     {
@@ -4608,12 +4692,6 @@
         "_nanoseconds": 493000000
       },
       "malId": 22535,
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Parasyte%3A%20The%20Maxim%20opening%201"
-        }
-      ],
       "notaZana": null,
       "controversia": 0.4,
       "quemAssistiu": [
@@ -4626,9 +4704,15 @@
       "notaSort": 8.2,
       "notaRafael": 8,
       "nota": "8.20",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=ziatgnrtG0Y"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777793586,
-        "_nanoseconds": 372000000
+        "_seconds": 1777860044,
+        "_nanoseconds": 476000000
       }
     },
     {
@@ -4662,17 +4746,17 @@
         }
       ],
       "comentarios": "Rafael: Anime bom pra porra, protagonista forte e apelão.",
-      "updatedAt": {
-        "_seconds": 1777355040,
-        "_nanoseconds": 435000000
-      },
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Tsukimichi%3A%20Moonlit%20Fantasy%20opening%201"
+          "url": "https://www.youtube.com/watch?v=i80OoZ73p5g"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777860059,
+        "_nanoseconds": 798000000
+      }
     },
     {
       "id": "3416beab-c784-8138-998b-ed30db2a3712",
@@ -4691,12 +4775,6 @@
         "_nanoseconds": 493000000
       },
       "malId": 35790,
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=The%20Rising%20of%20the%20Shield%20Hero%20opening%201"
-        }
-      ],
       "notaZana": null,
       "controversia": 0.5,
       "quemAssistiu": [
@@ -4719,9 +4797,15 @@
       "notaRafael": 8.3,
       "comentarios": "Dudu: Isekai legal, mas tem seus defeitos. Queria ver meu mano Naofumi no arco vilão matando geral.Rafael: Isekai dahora! O herói do escudo é justamente o que mais desce ataque kkk.",
       "nota": "8.10",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=jZvFEtR8RH0"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777792925,
-        "_nanoseconds": 797000000
+        "_seconds": 1777860075,
+        "_nanoseconds": 261000000
       }
     },
     {
@@ -4754,20 +4838,20 @@
       ],
       "maisDeUmVoto": "sim",
       "comentarios": "Rafael: Zero Two delicinha dms!",
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Darling%20in%20the%20Franxx%20opening%201"
-        }
-      ],
       "notaZana": null,
       "controversia": 0.2,
       "notaSort": 8.1,
       "notaRafael": 8.2,
       "nota": "8.10",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=A4kLcDWBYcQ"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777793575,
-        "_nanoseconds": 302000000
+        "_seconds": 1777860174,
+        "_nanoseconds": 387000000
       }
     },
     {
@@ -4787,12 +4871,6 @@
         "_nanoseconds": 493000000
       },
       "malId": 37984,
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Kumo%20desu%20ga%2C%20Nani%20ka%3F%20opening%201"
-        }
-      ],
       "notaZana": null,
       "controversia": 0.2,
       "quemAssistiu": [
@@ -4811,9 +4889,15 @@
       "notaRafael": 8.2,
       "comentarios": "Rafael: Isekai diferente, A protagonista é uma aranha que mete porrada em geral.",
       "nota": "8.10",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=2hyDlt_yvv4"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777793815,
-        "_nanoseconds": 129000000
+        "_seconds": 1777860187,
+        "_nanoseconds": 285000000
       }
     },
     {
@@ -4832,12 +4916,6 @@
         "_nanoseconds": 493000000
       },
       "malId": 38671,
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Fire%20Force%20opening%201"
-        }
-      ],
       "notaZana": null,
       "quemAssistiu": [
         "Rafael",
@@ -4856,9 +4934,15 @@
       "notaSort": 8.1,
       "notaRafael": 8.2,
       "nota": "8.10",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=JBqxVX_LXvk"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777794093,
-        "_nanoseconds": 774000000
+        "_seconds": 1777860200,
+        "_nanoseconds": 745000000
       }
     },
     {
@@ -4879,12 +4963,6 @@
         "_nanoseconds": 493000000
       },
       "malId": 45,
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Samurai%20X%20opening%201"
-        }
-      ],
       "notaZana": null,
       "controversia": 0.1,
       "quemAssistiu": [
@@ -4897,9 +4975,15 @@
       "notaSort": 8.05,
       "notaRafael": 8.1,
       "nota": "8.05",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=YvvlGma6COM"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777793741,
-        "_nanoseconds": 886000000
+        "_seconds": 1777860218,
+        "_nanoseconds": 681000000
       }
     },
     {
@@ -4918,12 +5002,6 @@
         "_nanoseconds": 493000000
       },
       "malId": 288,
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Beyblade%20opening%201"
-        }
-      ],
       "notaZana": 8,
       "controversia": 1.2,
       "quemAssistiu": [
@@ -4951,9 +5029,15 @@
       "notaRafael": 8.7,
       "comentarios": "Dudu: LET IT RIP!!.Zana: Dranzer > Drassiel > Tiger > DragonRafael: O jogo de PS1 era pika!",
       "nota": "8.05",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=-PQRtq_xddM"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777828658,
-        "_nanoseconds": 381000000
+        "_seconds": 1777860231,
+        "_nanoseconds": 340000000
       }
     },
     {
@@ -4984,13 +5068,17 @@
         "_nanoseconds": 493000000
       },
       "malId": 4224,
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Toradora!%20opening%201"
+          "url": "https://www.youtube.com/watch?v=CzOEMJSQRZU"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777860276,
+        "_nanoseconds": 924000000
+      }
     },
     {
       "id": "3416beab-c784-8111-9b17-cdb65595acca",
@@ -5017,13 +5105,17 @@
         "_nanoseconds": 493000000
       },
       "malId": 28223,
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Death%20Parade%20opening%201"
+          "url": "https://www.youtube.com/watch?v=Ca5Tf5BDSYI"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777860301,
+        "_nanoseconds": 441000000
+      }
     },
     {
       "id": "3416beab-c784-811e-b9da-e1fceba1efd9",
@@ -5050,13 +5142,17 @@
         "_nanoseconds": 493000000
       },
       "malId": 16592,
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Danganronpa%3A%20The%20Animation%20opening%201"
+          "url": "https://www.youtube.com/watch?v=Avr-Iu5vWsM"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777860340,
+        "_nanoseconds": 611000000
+      }
     },
     {
       "id": "3416beab-c784-8123-b4c2-cfe4c4c0c9a2",
@@ -5076,16 +5172,6 @@
       },
       "malId": 30276,
       "notaZana": null,
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=One%20Punch%20Man%20opening%201"
-        },
-        {
-          "name": "meme",
-          "url": "https://www.instagram.com/reels/DQCYITJDY4o/"
-        }
-      ],
       "controversia": 3.1,
       "quemAssistiu": [
         "Rafael",
@@ -5107,9 +5193,19 @@
       "notaRafael": 6,
       "comentarios": "Dudu: Primeira temporada fenomenal, mas acho que esse sofre do mesmo problema do Solo Leveling, só que no gênero de comédia. Acaba ficando mais do mesmo em certo ponto.Rafael: A obra tinha um grande potencial, mas sofreu do mesmo mal de The Seven Deadly Sins: um desrespeito total, com uma animação parecendo PNGs se mexendo. LIXO. Se for assistir, assista apenas à primeira temporada e leia o resto do material.",
       "nota": "8.00",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=erQURy_Ys5Y"
+        },
+        {
+          "name": "Meme",
+          "url": "https://www.instagram.com/reels/DQCYITJDY4o/"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777828187,
-        "_nanoseconds": 350000000
+        "_seconds": 1777860422,
+        "_nanoseconds": 888000000
       }
     },
     {
@@ -5144,17 +5240,17 @@
         }
       ],
       "comentarios": "Dudu: Achava o anime razoável, mas os brinquedos que vinham nos salgadinhos e os jogos de PS2 eram outro nível.",
-      "updatedAt": {
-        "_seconds": 1777400617,
-        "_nanoseconds": 567000000
-      },
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Bakugan%20opening%201"
+          "url": "https://www.youtube.com/watch?v=eHttiSmVkUk"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777860451,
+        "_nanoseconds": 291000000
+      }
     },
     {
       "id": "3416beab-c784-814c-a2d2-f9d1c51ad0e1",
@@ -5188,17 +5284,17 @@
         }
       ],
       "comentarios": "Dudu: Alucard apelaaaaaaum.",
-      "updatedAt": {
-        "_seconds": 1777400629,
-        "_nanoseconds": 806000000
-      },
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Hellsing%20opening%201"
+          "url": "https://www.youtube.com/watch?v=rBPegoYoD9Q"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777860463,
+        "_nanoseconds": 765000000
+      }
     },
     {
       "id": "3416beab-c784-815d-916f-e40ebc379451",
@@ -5275,17 +5371,17 @@
         }
       ],
       "comentarios": "Dudu: Ecchizão das antigas, meninas samurais gostosas, bom dmais.",
-      "updatedAt": {
-        "_seconds": 1777400672,
-        "_nanoseconds": 954000000
-      },
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Senran%20Kagura%20opening%201"
+          "url": "https://www.youtube.com/watch?v=EM1wl1RdH5s"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777860483,
+        "_nanoseconds": 718000000
+      }
     },
     {
       "id": "3416beab-c784-8187-b7f7-e7653c1a9d21",
@@ -5307,12 +5403,6 @@
         "_nanoseconds": 493000000
       },
       "malId": 21855,
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Hanamonogatari%20opening%201"
-        }
-      ],
       "notaZana": null,
       "qtdVotos": 1,
       "comments": [
@@ -5325,9 +5415,15 @@
       "notaRafael": 8,
       "comentarios": "Rafael: Anime diferente, mais focado em diálogo e reflexão, clima mais parado, mas interessante.",
       "nota": "8.00",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=i27cViremYM"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777794892,
-        "_nanoseconds": 192000000
+        "_seconds": 1777860494,
+        "_nanoseconds": 686000000
       }
     },
     {
@@ -5356,13 +5452,17 @@
         "Esportes ⚽",
         "Drama 😢"
       ],
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Ace%20of%20the%20Diamond%20opening%201"
+          "url": "https://www.youtube.com/watch?v=ViBE_zYivNc"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777860505,
+        "_nanoseconds": 701000000
+      }
     },
     {
       "id": "3416beab-c784-81fd-bd2e-e7977d3c04f9",
@@ -5390,13 +5490,17 @@
         "_nanoseconds": 493000000
       },
       "malId": 1469,
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Monster%20Rancher%20opening%201"
+          "url": "https://www.youtube.com/watch?v=j4242KSUjZc"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777860519,
+        "_nanoseconds": 579000000
+      }
     },
     {
       "id": "zn6JJPEwkKT8C7kY7xNx",
@@ -5413,7 +5517,6 @@
           "text": "Bem, bemmm genérico, Prota apelão, extremamente forte. vale a pena se não tiver nada para assistir."
         }
       ],
-      "files": [],
       "maisDeUmVoto": "nao",
       "qtdVotos": 1,
       "controversia": 0,
@@ -5426,7 +5529,17 @@
       "quemAssistiu": [
         "Rafael"
       ],
-      "nota": "8.00"
+      "nota": "8.00",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=3yDeMEK4TCU"
+        }
+      ],
+      "updatedAt": {
+        "_seconds": 1777860534,
+        "_nanoseconds": 930000000
+      }
     },
     {
       "id": "3416beab-c784-816f-a3c1-ff61deb9d883",
@@ -5451,12 +5564,6 @@
         "Drama 😢",
         "Ecchi 🔥"
       ],
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Yosuga%20no%20Sora%20opening%201"
-        }
-      ],
       "notaZana": null,
       "controversia": 3.5,
       "comments": [
@@ -5473,9 +5580,15 @@
       "notaRafael": 6.5,
       "comentarios": "Dudu: Melhor prota dos animes, não perdoa uma.Rafael: Bizarro, não assita!",
       "nota": "7.97",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=wnSZbt5Cl5U"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777793357,
-        "_nanoseconds": 965000000
+        "_seconds": 1777860549,
+        "_nanoseconds": 228000000
       }
     },
     {
@@ -5495,12 +5608,6 @@
         "Fantasia 🧙",
         "Ecchi 🔥"
       ],
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Kaifuku%20Jutsushi%20no%20Yarinaoshi%20opening%201"
-        }
-      ],
       "notaZana": null,
       "controversia": 0.1,
       "quemAssistiu": [
@@ -5519,9 +5626,15 @@
       "notaRafael": 7.9,
       "comentarios": "Rafael: Anime bem pesado. Não é pra todo mundo, bem extremo.",
       "nota": "7.95",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=_3J9VLDU9aI"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777793726,
-        "_nanoseconds": 117000000
+        "_seconds": 1777860564,
+        "_nanoseconds": 39000000
       }
     },
     {
@@ -5540,12 +5653,6 @@
         "_nanoseconds": 493000000
       },
       "malId": 14813,
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Oregairu%20opening%201"
-        }
-      ],
       "notaZana": null,
       "controversia": 0.1,
       "quemAssistiu": [
@@ -5564,9 +5671,15 @@
       "notaRafael": 8,
       "comentarios": "Rafael: Romance diferente. Protagonista bem fora do padrão, cheio de diálogo e umas reflexões mais profundas.",
       "nota": "7.95",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=RFrTfEa4cyw"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777794152,
-        "_nanoseconds": 805000000
+        "_seconds": 1777860616,
+        "_nanoseconds": 511000000
       }
     },
     {
@@ -5594,13 +5707,17 @@
         "_nanoseconds": 493000000
       },
       "malId": 1137,
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Shinzo%20opening%201"
+          "url": "https://www.youtube.com/watch?v=dDIrEHS_p98"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777860631,
+        "_nanoseconds": 99000000
+      }
     },
     {
       "id": "3416beab-c784-811a-9b7a-e4351e8c2a75",
@@ -5619,12 +5736,6 @@
         "_nanoseconds": 493000000
       },
       "malId": 232,
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Cardcaptor%20Sakura%20opening%201"
-        }
-      ],
       "notaZana": null,
       "controversia": 0.1,
       "quemAssistiu": [
@@ -5637,9 +5748,15 @@
       "notaSort": 7.85,
       "notaRafael": 7.9,
       "nota": "7.85",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=QDezQD57h-g&list=RDQDezQD57h-g&start_radio=1"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777794170,
-        "_nanoseconds": 746000000
+        "_seconds": 1777860651,
+        "_nanoseconds": 706000000
       }
     },
     {
@@ -5715,13 +5832,17 @@
         "_nanoseconds": 493000000
       },
       "malId": 50739,
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=The%20Angel%20Next%20Door%20Spoils%20Me%20Rotten%20opening%201"
+          "url": "https://www.youtube.com/watch?v=X-CC7rfO2us"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777860980,
+        "_nanoseconds": 974000000
+      }
     },
     {
       "id": "3416beab-c784-8191-b9bf-ed0c66062a9f",
@@ -5755,17 +5876,17 @@
         }
       ],
       "comentarios": "Dudu: Anime da lenda, meu mano Hacksuya. (Infelizmente só ele salva essa bomba de anime).",
-      "updatedAt": {
-        "_seconds": 1777400740,
-        "_nanoseconds": 411000000
-      },
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Mahouka%20Koukou%20no%20Rettousei%20opening%201"
+          "url": "https://www.youtube.com/watch?v=hRxZ2qfF1Dg"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777860992,
+        "_nanoseconds": 201000000
+      }
     },
     {
       "id": "3416beab-c784-81a2-ba4d-c9ad78664da8",
@@ -5792,13 +5913,17 @@
         "_nanoseconds": 493000000
       },
       "malId": 38656,
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Darwin's%20Game%20opening%201"
+          "url": "https://www.youtube.com/watch?v=NxZcDkYqfqM"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777861004,
+        "_nanoseconds": 332000000
+      }
     },
     {
       "id": "3416beab-c784-81ec-83ad-d1443b42e31d",
@@ -5817,12 +5942,6 @@
         "_nanoseconds": 493000000
       },
       "malId": 5081,
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Bakemonogatari%20opening%201"
-        }
-      ],
       "notaZana": null,
       "quemAssistiu": [
         "Rafael"
@@ -5838,9 +5957,15 @@
       "notaRafael": 7.8,
       "comentarios": "Rafael: Muito diálogo, personagens estranhos e umas paradas bem viajadas.",
       "nota": "7.80",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=uVuJiunPo4E"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777794977,
-        "_nanoseconds": 568000000
+        "_seconds": 1777861040,
+        "_nanoseconds": 85000000
       }
     },
     {
@@ -5859,7 +5984,6 @@
           "text": "Muitooo genérico, mas bem legal."
         }
       ],
-      "files": [],
       "maisDeUmVoto": "nao",
       "qtdVotos": 1,
       "controversia": 0,
@@ -5872,7 +5996,17 @@
       "quemAssistiu": [
         "Rafael"
       ],
-      "nota": "7.80"
+      "nota": "7.80",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=Vagl4Pvh3O8"
+        }
+      ],
+      "updatedAt": {
+        "_seconds": 1777861056,
+        "_nanoseconds": 920000000
+      }
     },
     {
       "id": "3416beab-c784-8153-80ff-caf68947a1a3",
@@ -5908,17 +6042,17 @@
         }
       ],
       "comentarios": "Dudu: Lembro de ter bugado na época que assisti, não achei la aquelas coisas mas até que é legalzinho.",
-      "updatedAt": {
-        "_seconds": 1777400764,
-        "_nanoseconds": 93000000
-      },
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Mirai%20Nikki%20opening%201"
+          "url": "https://www.youtube.com/watch?v=LLDA9cfRLlg"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777861067,
+        "_nanoseconds": 540000000
+      }
     },
     {
       "id": "3416beab-c784-81e9-9875-e7eb473079b7",
@@ -5942,12 +6076,6 @@
         "Comédia 😂",
         "Fantasia 🧙"
       ],
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Yuragi-Sou%20no%20Yuuna-san%20opening%201"
-        }
-      ],
       "notaZana": null,
       "qtdVotos": 1,
       "comments": [
@@ -5960,9 +6088,15 @@
       "notaRafael": 7.7,
       "comentarios": "Rafael: Famoso Anime ecchi kkk. Comédia leve com fantasia e bastante fanservice, mas divertido.",
       "nota": "7.70",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=ZK-47qsGhKs"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777794944,
-        "_nanoseconds": 482000000
+        "_seconds": 1777861079,
+        "_nanoseconds": 719000000
       }
     },
     {
@@ -5982,12 +6116,6 @@
         "_nanoseconds": 493000000
       },
       "malId": 1195,
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Zero%20no%20Tsukaima%20opening%201"
-        }
-      ],
       "notaZana": null,
       "controversia": 0.3,
       "quemAssistiu": [
@@ -6010,9 +6138,15 @@
       "notaRafael": 7.8,
       "comentarios": "Dudu: Isekai mediano, não achei tão bom assim, tem melhores.Rafael: Isekaizin dahorinha.",
       "nota": "7.65",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=l2_pR8lopXA"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777828347,
-        "_nanoseconds": 216000000
+        "_seconds": 1777861098,
+        "_nanoseconds": 569000000
       }
     },
     {
@@ -6047,17 +6181,17 @@
         }
       ],
       "comentarios": "Dudu: Pra quem era fã do jogo Ragnarok, achar esse anime aqui foi tipo achar uma hidden gem.",
-      "updatedAt": {
-        "_seconds": 1777400797,
-        "_nanoseconds": 387000000
-      },
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Ragnarok%3A%20The%20Animation%20opening%201"
+          "url": "https://www.youtube.com/watch?v=6mZHdUMLcno"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777861116,
+        "_nanoseconds": 12000000
+      }
     },
     {
       "id": "3416beab-c784-8131-b5e6-fd2f9eb9d1f4",
@@ -6086,13 +6220,17 @@
         "Ecchi 🔥",
         "Comédia 😂"
       ],
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Keijo!!!!!!!!%20opening%201"
+          "url": "https://www.youtube.com/watch?v=Cq9cM0D_fZU"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777861137,
+        "_nanoseconds": 77000000
+      }
     },
     {
       "id": "3416beab-c784-815f-b750-c2923099dce1",
@@ -6120,13 +6258,17 @@
         "Ecchi 🔥",
         "Slice of Life 🍃"
       ],
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Eromanga%20Sensei%20opening%201"
+          "url": "https://www.youtube.com/watch?v=DeGw8-KwxM4"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777861150,
+        "_nanoseconds": 222000000
+      }
     },
     {
       "id": "3416beab-c784-819a-badc-d00a50d81818",
@@ -6155,13 +6297,17 @@
         "_nanoseconds": 493000000
       },
       "malId": 48316,
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=The%20Eminence%20in%20Shadow%20opening%201"
+          "url": "https://www.youtube.com/watch?v=9iQVgj4z-I4"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777861348,
+        "_nanoseconds": 654000000
+      }
     },
     {
       "id": "3416beab-c784-81bb-95b8-dd7ccf4d232c",
@@ -6187,13 +6333,17 @@
         "_nanoseconds": 493000000
       },
       "malId": 23283,
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Zankyou%20no%20Terror%20opening%201"
+          "url": "https://www.youtube.com/watch?v=g1ARRcK4LVs"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777861360,
+        "_nanoseconds": 334000000
+      }
     },
     {
       "id": "3416beab-c784-81fb-ba61-c8bf996267d6",
@@ -6220,13 +6370,17 @@
         "Esportes ⚽",
         "Shounen 💥"
       ],
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Track%20City%20opening%201"
+          "url": "https://www.youtube.com/watch?v=cVyv56psv50"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777861454,
+        "_nanoseconds": 442000000
+      }
     },
     {
       "id": "3416beab-c784-8146-9c44-d25915a03b74",
@@ -6246,12 +6400,6 @@
         "_nanoseconds": 493000000
       },
       "malId": 40221,
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Tower%20of%20God%20opening%201"
-        }
-      ],
       "controversia": 1,
       "notaZana": 7,
       "quemAssistiu": [
@@ -6273,9 +6421,15 @@
       "notaSort": 7.57,
       "comentarios": "Dudu: Achei legal a primeira temporada, mas a segunda tava tão ruim que dei uma dropada, confesso.Zana: Ok, passou, meio esquecível, mas nada de horroroso",
       "nota": "7.57",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=apII5VFTce0"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777585805,
-        "_nanoseconds": 562000000
+        "_seconds": 1777861465,
+        "_nanoseconds": 471000000
       }
     },
     {
@@ -6310,17 +6464,17 @@
         }
       ],
       "comentarios": "Rafael: Um bom anime de romance, ele inverte os papéis tradicionais da função de cada gênero aceitos pela sociedade, a principal é gata. s2",
-      "updatedAt": {
-        "_seconds": 1777355153,
-        "_nanoseconds": 400000000
-      },
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Kawaii%20dake%20ja%20nai%20Shikimori-san%20opening%201"
+          "url": "https://www.youtube.com/watch?v=Bme2siFikIs"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777861478,
+        "_nanoseconds": 147000000
+      }
     },
     {
       "id": "3416beab-c784-810c-8dc8-e48312849171",
@@ -6354,17 +6508,17 @@
         }
       ],
       "comentarios": "Dudu: Muito bom até a metade, mas após isso ficou muito rushado e perdeu a qualidade",
-      "updatedAt": {
-        "_seconds": 1777351901,
-        "_nanoseconds": 111000000
-      },
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Dororo%20opening%201"
+          "url": "https://www.youtube.com/watch?v=dijFixp74rM"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777861738,
+        "_nanoseconds": 724000000
+      }
     },
     {
       "id": "3416beab-c784-810e-8637-dea33e73650e",
@@ -6387,21 +6541,21 @@
         "_nanoseconds": 493000000
       },
       "malId": 36649,
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Banana%20Fish%20opening%201"
-        }
-      ],
       "notaZana": null,
       "qtdVotos": 1,
       "comments": [],
       "notaSort": 7.5,
       "notaRafael": 7.5,
       "nota": "7.50",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=0z6FLH2HXl4"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777794565,
-        "_nanoseconds": 770000000
+        "_seconds": 1777861759,
+        "_nanoseconds": 199000000
       }
     },
     {
@@ -6425,12 +6579,6 @@
         "Comédia 😂",
         "Ecchi 🔥"
       ],
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=100%20Namoradas%20Que%20Te%20Amam%20Muuuuuito%20opening%201"
-        }
-      ],
       "notaZana": null,
       "qtdVotos": 1,
       "comments": [
@@ -6443,9 +6591,15 @@
       "notaRafael": 7.5,
       "comentarios": "Rafael: Romance maluco kkk. Exagerado ao máximo, cheio de personagem doida!",
       "nota": "7.50",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=ZmA3O50cMTY"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777794608,
-        "_nanoseconds": 712000000
+        "_seconds": 1777861783,
+        "_nanoseconds": 780000000
       }
     },
     {
@@ -6474,13 +6628,17 @@
         "_nanoseconds": 493000000
       },
       "malId": 28623,
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Kotetsujo%20no%20Kabaneri%20opening%201"
+          "url": "https://www.youtube.com/watch?v=ohuMXMuo4pU"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777861801,
+        "_nanoseconds": 430000000
+      }
     },
     {
       "id": "3416beab-c784-8136-af16-d8fce0e46233",
@@ -6514,17 +6672,17 @@
         }
       ],
       "comentarios": "Dudu: Segue a mesma linha do Zero no Tsukaima, não me pegou muito.",
-      "updatedAt": {
-        "_seconds": 1777400851,
-        "_nanoseconds": 417000000
-      },
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Baka%20to%20Test%20to%20Sh%C5%8DkanJ%C5%AB%20opening%201"
+          "url": "https://www.youtube.com/watch?v=4NGGMPESDl4"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777861813,
+        "_nanoseconds": 792000000
+      }
     },
     {
       "id": "3416beab-c784-8143-86b8-efe4927f4244",
@@ -6542,12 +6700,6 @@
         "_nanoseconds": 493000000
       },
       "malId": 17265,
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Log%20Horizon%20opening%201"
-        }
-      ],
       "notaZana": null,
       "controversia": 0.4,
       "quemAssistiu": [
@@ -6566,9 +6718,15 @@
       "notaRafael": 7.7,
       "comentarios": "Rafael: Isekai nerd. Em vez de só lutar, os caras ficam pensando e organizando tudo na maior parte do tempo.",
       "nota": "7.50",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=MtPBQ4BhzOY"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777794365,
-        "_nanoseconds": 529000000
+        "_seconds": 1777861915,
+        "_nanoseconds": 946000000
       }
     },
     {
@@ -6604,17 +6762,17 @@
         }
       ],
       "comentarios": "Dudu: Isekai underground que eu achei aleatoriamente em 2013, uma pena ter tido só uma temporada, mas até que foi legal.",
-      "updatedAt": {
-        "_seconds": 1777400875,
-        "_nanoseconds": 597000000
-      },
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Mondaiji-tachi%20ga%20Isekai%20kara%20Kuru%20Sou%20Desu%20yo%20opening%201"
+          "url": "https://www.youtube.com/watch?v=-0Qcc6VGnds"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777861927,
+        "_nanoseconds": 60000000
+      }
     },
     {
       "id": "3416beab-c784-81c1-add7-e533ad0bc187",
@@ -6641,13 +6799,17 @@
         "_nanoseconds": 493000000
       },
       "malId": 1138,
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Medabots%20opening%201"
+          "url": "https://www.youtube.com/watch?v=E_UbP463wrQ"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777862002,
+        "_nanoseconds": 212000000
+      }
     },
     {
       "id": "3416beab-c784-8142-b850-fa46a40f2477",
@@ -6683,17 +6845,17 @@
         }
       ],
       "comentarios": "Dudu: O inicio parece promissor, mas sinto que o autor se perdeu um pouco na plot e no final, ficou meio bunda.",
-      "updatedAt": {
-        "_seconds": 1777400901,
-        "_nanoseconds": 898000000
-      },
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Owari%20no%20Seraph%20opening%201"
+          "url": "https://www.youtube.com/watch?v=MxoJvOE7hcU"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777862025,
+        "_nanoseconds": 864000000
+      }
     },
     {
       "id": "3416beab-c784-810b-8274-dd6b902c6d8d",
@@ -6722,13 +6884,17 @@
         "_nanoseconds": 493000000
       },
       "malId": 16049,
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Toaru%20Kagaku%20no%20Railgun%20S%20opening%201"
+          "url": "https://www.youtube.com/watch?v=Oj5Z0AXmF6I"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777862046,
+        "_nanoseconds": 648000000
+      }
     },
     {
       "id": "3416beab-c784-81c1-83e0-d655e3e8674d",
@@ -6756,13 +6922,17 @@
         "_nanoseconds": 493000000
       },
       "malId": 5680,
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=K-On!%20opening%201"
+          "url": "https://www.youtube.com/watch?v=qN41mx4tA0I"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777862073,
+        "_nanoseconds": 297000000
+      }
     },
     {
       "id": "3416beab-c784-8107-86ec-f0408c0b21f7",
@@ -6791,13 +6961,17 @@
         "_nanoseconds": 493000000
       },
       "malId": 3588,
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Soul%20Eater%20opening%201"
+          "url": "https://www.youtube.com/watch?v=zzJ8U8OtEsE"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777862113,
+        "_nanoseconds": 365000000
+      }
     },
     {
       "id": "3416beab-c784-815c-a32f-d0dbb6f02e6c",
@@ -6824,13 +6998,17 @@
         "_nanoseconds": 493000000
       },
       "malId": 13601,
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Psycho-Pass%20opening%201"
+          "url": "https://www.youtube.com/watch?v=daQkx-Jwq2g"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777862454,
+        "_nanoseconds": 936000000
+      }
     },
     {
       "id": "zYfLlKnbUcSwodnE5xfR",
@@ -6860,13 +7038,17 @@
         "Fantasia 🧙",
         "Romance 💖"
       ],
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Our%20Last%20Crusade%20or%20the%20Rise%20of%20a%20New%20World%20opening%201"
+          "url": "https://www.youtube.com/watch?v=BKLMd9J_ONI"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777862585,
+        "_nanoseconds": 8000000
+      }
     },
     {
       "id": "3416beab-c784-81be-a04b-eef81601455d",
@@ -6900,17 +7082,17 @@
         }
       ],
       "comentarios": "Rafael: Anime com uma vibe bem parada, muito repetitivo, e os ganchos no final dos episódios não pegam como deveriam.",
-      "updatedAt": {
-        "_seconds": 1777355228,
-        "_nanoseconds": 238000000
-      },
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Sakamoto%20Days%20opening%201"
+          "url": "https://www.youtube.com/watch?v=ZVkcjgTfLHU"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777862597,
+        "_nanoseconds": 408000000
+      }
     },
     {
       "id": "3416beab-c784-81e0-bb29-db75c75e13a5",
@@ -6938,13 +7120,17 @@
         "_nanoseconds": 493000000
       },
       "malId": 15809,
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Hataraku%20Maou-sama!%20opening%201"
+          "url": "https://www.youtube.com/watch?v=oe9gQt-x_BE"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777862614,
+        "_nanoseconds": 894000000
+      }
     },
     {
       "id": "3416beab-c784-81f2-a40e-f6353355d1ef",
@@ -6972,13 +7158,17 @@
         "_nanoseconds": 493000000
       },
       "malId": 28297,
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Ore%20Monogatari!!%20opening%201"
+          "url": "https://www.youtube.com/watch?v=vdfzGtGiiv0"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777862626,
+        "_nanoseconds": 687000000
+      }
     },
     {
       "id": "lf8xBP3dkrE9VtlAihNF",
@@ -6998,7 +7188,6 @@
           "text": "Genérico."
         }
       ],
-      "files": [],
       "maisDeUmVoto": "nao",
       "qtdVotos": 1,
       "controversia": 0,
@@ -7011,7 +7200,17 @@
       "quemAssistiu": [
         "Rafael"
       ],
-      "nota": "7.20"
+      "nota": "7.20",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=UcCTFOEls9g"
+        }
+      ],
+      "updatedAt": {
+        "_seconds": 1777862675,
+        "_nanoseconds": 348000000
+      }
     },
     {
       "id": "3416beab-c784-8101-a93d-e960a59dda20",
@@ -7051,17 +7250,17 @@
         }
       ],
       "comentarios": "Rafael: O anime em si é bom, porém os efeitos 3d e a fragilidade do protagonista irritam um pouco, anime mediano.\nDudu: Achei o anime ok, não é um Jujutsu Kaisen da vida, mas até que foi legalzinho.",
-      "updatedAt": {
-        "_seconds": 1777400932,
-        "_nanoseconds": 983000000
-      },
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Kaiju%20No.%208%20opening%201"
+          "url": "https://www.youtube.com/watch?v=aso1mQLUAbc"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777862702,
+        "_nanoseconds": 167000000
+      }
     },
     {
       "id": "3416beab-c784-8078-8a11-d87361de7a17",
@@ -7095,17 +7294,17 @@
         }
       ],
       "comentarios": "Rafael: Anime isekai pra relaxar, bemmm lentinho, sem grandes objetivos ou trama muito trabalhada.",
-      "updatedAt": {
-        "_seconds": 1777354959,
-        "_nanoseconds": 33000000
-      },
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=I've%20Been%20Killing%20Slimes%20For%20300%20Years%20And%20Maxed%20Out%20My%20Level%20opening%201"
+          "url": "https://www.youtube.com/watch?v=IRdj7BDF5kw"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777862742,
+        "_nanoseconds": 444000000
+      }
     },
     {
       "id": "3416beab-c784-8180-9109-f0cc75d9ab85",
@@ -7124,12 +7323,6 @@
         "_nanoseconds": 493000000
       },
       "malId": 530,
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Sailor%20Moon%20opening%201"
-        }
-      ],
       "notaZana": null,
       "controversia": 0.2,
       "quemAssistiu": [
@@ -7142,9 +7335,15 @@
       "notaSort": 7.1,
       "notaRafael": 7,
       "nota": "7.10",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=LGQCPOMcYJQ"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777794381,
-        "_nanoseconds": 12000000
+        "_seconds": 1777862769,
+        "_nanoseconds": 720000000
       }
     },
     {
@@ -7172,12 +7371,6 @@
         }
       ],
       "comentarios": "Dudu: Esse aqui não chega aos pés de Inazuma Eleven, falo mesmo.",
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Captain%20Tsubasa%20opening%201"
-        }
-      ],
       "notaZana": null,
       "quemAssistiu": [
         "Rafael",
@@ -7188,9 +7381,15 @@
       "notaSort": 7.03,
       "notaRafael": 7,
       "nota": "7.03",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=yYV3rEY3jR4"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777828311,
-        "_nanoseconds": 587000000
+        "_seconds": 1777862782,
+        "_nanoseconds": 638000000
       }
     },
     {
@@ -7225,17 +7424,17 @@
       "notaRafael": 7,
       "comentarios": "Rafael: Isekai Clássico, sem tirar nem por. Mas bom de assistir.",
       "nota": "7.00",
-      "updatedAt": {
-        "_seconds": 1777354933,
-        "_nanoseconds": 645000000
-      },
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Kenja%20no%20Mago%20opening%201"
+          "url": "https://www.youtube.com/watch?v=QMF1P02ffpg"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777862795,
+        "_nanoseconds": 806000000
+      }
     },
     {
       "id": "3416beab-c784-8174-824c-e8f423e68f17",
@@ -7270,17 +7469,17 @@
         }
       ],
       "comentarios": "Dudu: Meu eu adolescente achava Fairy Tail um 10, mas hoje em dia percebo que é o famoso clichêzão de poder da amizade e prota sempre vence, hoje em dia recomendaria apenas assistir as melhores lutas.",
-      "updatedAt": {
-        "_seconds": 1777351801,
-        "_nanoseconds": 691000000
-      },
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Fairy%20Tail%20opening%201"
+          "url": "https://www.youtube.com/watch?v=9jvVBVcZ0-Y"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777862807,
+        "_nanoseconds": 794000000
+      }
     },
     {
       "id": "3416beab-c784-81d1-abec-fa1b709d5ce0",
@@ -7304,12 +7503,6 @@
         "_nanoseconds": 493000000
       },
       "malId": 53421,
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Hokkaido%20Gals%20Are%20Super%20Adorable!%20opening%201"
-        }
-      ],
       "notaZana": null,
       "comments": [
         {
@@ -7321,9 +7514,15 @@
       "notaRafael": 7,
       "comentarios": "Rafael: Climinha leve, personagens carismáticas e bem divertido de assistir.",
       "nota": "7.00",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=zhG_0Dqo_SQ"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777794425,
-        "_nanoseconds": 929000000
+        "_seconds": 1777862819,
+        "_nanoseconds": 9000000
       }
     },
     {
@@ -7354,13 +7553,17 @@
         "_nanoseconds": 493000000
       },
       "malId": 1575,
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Code%20Geass%20opening%201"
+          "url": "https://www.youtube.com/watch?v=G8CFuZ9MseQ"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777862829,
+        "_nanoseconds": 183000000
+      }
     },
     {
       "id": "tk7b9k46Oggji8B1XsZo",
@@ -7379,7 +7582,6 @@
           "text": "Isekai genérico, mas gostosinho de assistir, animção ruim."
         }
       ],
-      "files": [],
       "maisDeUmVoto": "nao",
       "qtdVotos": 1,
       "controversia": 0,
@@ -7392,7 +7594,17 @@
       "quemAssistiu": [
         "Rafael"
       ],
-      "nota": "7.00"
+      "nota": "7.00",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=3BSBgI2NgVw"
+        }
+      ],
+      "updatedAt": {
+        "_seconds": 1777862842,
+        "_nanoseconds": 577000000
+      }
     },
     {
       "id": "3416beab-c784-8109-92f9-daaa7507f7f7",
@@ -7427,17 +7639,17 @@
         }
       ],
       "comentarios": "Rafael: Protagonista lixo, chora chora e não faz nada. O poder do prota também é uma bosta.\n\nAkame é linda S2",
-      "updatedAt": {
-        "_seconds": 1777333863,
-        "_nanoseconds": 899000000
-      },
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Akame%20ga%20Kill!%20opening%201"
+          "url": "https://www.youtube.com/watch?v=wVFWBoKP-lQ"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777862853,
+        "_nanoseconds": 657000000
+      }
     },
     {
       "id": "3416beab-c784-81bf-a035-fc37b5b078c2",
@@ -7464,13 +7676,17 @@
         "_nanoseconds": 493000000
       },
       "malId": 41025,
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=To%20Your%20Eternity%20opening%201"
+          "url": "https://www.youtube.com/watch?v=2RrkFCw0t90"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777862866,
+        "_nanoseconds": 499000000
+      }
     },
     {
       "id": "hJxxL5kkUMT3R4eYZuPJ",
@@ -7495,23 +7711,23 @@
         }
       ],
       "comentarios": "Dudu: Não lembro de muita coisa da época que assisti ele, ja faz bastante tempo, mas foi bem meh e o anime se eu não me engano só tem 1 temporada com 12 episódios, uma tentativa que não foi pra frente aparentemente. Mas os mechas no anime são legais.",
-      "updatedAt": {
-        "_seconds": 1777352412,
-        "_nanoseconds": 572000000
-      },
       "generos": [
         "Ficção Científica 🚀",
         "Aventura 🎒",
         "Mecha 🤖",
         "Romance 💖"
       ],
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Suisei%20no%20Gargantia%20opening%201"
+          "url": "https://www.youtube.com/watch?v=psA4WK3sNpw"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777862877,
+        "_nanoseconds": 446000000
+      }
     },
     {
       "id": "8mOpl1lrAUMDw4eVRryb",
@@ -7534,12 +7750,6 @@
         "Fantasia 🧙",
         "Bomba 💣"
       ],
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Death%20March%20to%20the%20Parallel%20World%20Rhapsody%20opening%201"
-        }
-      ],
       "notaZana": null,
       "comments": [
         {
@@ -7548,9 +7758,15 @@
         }
       ],
       "comentarios": "Rafael: ANIME BOMBA!!! Anime bem ruim, muito mal animado, mas serve para passar o tempo, existe algumas interações estranhas entre o prota e suas escravas, mas, nunca passado ponto.",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=qMeC9fydMaI"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777794445,
-        "_nanoseconds": 450000000
+        "_seconds": 1777862887,
+        "_nanoseconds": 536000000
       }
     },
     {
@@ -7584,13 +7800,17 @@
         "Romance 💖",
         "Bomba 💣"
       ],
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=In%20Another%20World%20With%20My%20Smartphone%20opening%201"
+          "url": "https://www.youtube.com/watch?v=LNfxVXR6U4o"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777862898,
+        "_nanoseconds": 989000000
+      }
     },
     {
       "id": "3416beab-c784-81f8-a819-e31a618f2b8e",
@@ -7617,12 +7837,6 @@
         "_nanoseconds": 493000000
       },
       "malId": 39195,
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Beastars%20opening%201"
-        }
-      ],
       "notaZana": null,
       "comments": [
         {
@@ -7631,9 +7845,15 @@
         }
       ],
       "comentarios": "Rafael: O anime não me pegou, não gostei de nada.",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=bgo9dJB_icw"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777794472,
-        "_nanoseconds": 38000000
+        "_seconds": 1777862911,
+        "_nanoseconds": 172000000
       }
     },
     {
@@ -7663,22 +7883,22 @@
         }
       ],
       "comentarios": "Rafael: lixo puro!",
-      "updatedAt": {
-        "_seconds": 1777355171,
-        "_nanoseconds": 781000000
-      },
       "generos": [
         "Shounen 💥",
         "Esportes ⚽",
         "Drama 😢"
       ],
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Blue%20Lock%20opening%201"
+          "url": "https://www.youtube.com/watch?v=5Iv3Fi8eb7w"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777862933,
+        "_nanoseconds": 640000000
+      }
     },
     {
       "id": "3416beab-c784-8143-a730-e19c67251ab4",
@@ -7704,13 +7924,17 @@
         "Comédia 😂",
         "Ecchi 🔥"
       ],
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Kakkou%20no%20Iinazuke%20opening%201"
+          "url": "https://www.youtube.com/watch?v=PSAG9PlimgE"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777862953,
+        "_nanoseconds": 153000000
+      }
     },
     {
       "id": "3416beab-c784-8168-93db-d01a5f474dea",
@@ -7768,13 +7992,17 @@
         "_nanoseconds": 493000000
       },
       "malId": 14719,
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=JoJo's%20Bizarre%20Adventure%20opening%201"
+          "url": "https://www.youtube.com/watch?v=1ZKAQzGYYSo"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777862983,
+        "_nanoseconds": 680000000
+      }
     },
     {
       "id": "3416beab-c784-8175-ac90-e179c400e71c",
@@ -7800,13 +8028,17 @@
         "_nanoseconds": 493000000
       },
       "malId": 32379,
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Berserk%20opening%201"
+          "url": "https://www.youtube.com/watch?v=Qw9iMfRBDf0"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777862994,
+        "_nanoseconds": 637000000
+      }
     },
     {
       "id": "3416beab-c784-819b-832c-cd13d2da7c08",
@@ -7835,13 +8067,17 @@
         "Comédia 😂",
         "Fantasia 🧙"
       ],
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=To%20Love%20Ru%20opening%201"
+          "url": "https://www.youtube.com/watch?v=FkE1mWrmGjM"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777863005,
+        "_nanoseconds": 844000000
+      }
     },
     {
       "id": "3416beab-c784-81a1-a011-c9a0453c7657",
@@ -7866,13 +8102,17 @@
         "_nanoseconds": 493000000
       },
       "malId": 1,
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Cowboy%20Bebop%20opening%201"
+          "url": "https://www.youtube.com/watch?v=EL-D9LrFJd4"
         }
       ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777863015,
+        "_nanoseconds": 680000000
+      }
     },
     {
       "id": "3416beab-c784-81c3-a27c-eec9c71e51f9",
@@ -7895,12 +8135,6 @@
         "_nanoseconds": 493000000
       },
       "malId": 42249,
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Tokyo%20Revengers%20opening%201"
-        }
-      ],
       "notaZana": null,
       "quemAssistiu": [
         "Rafael"
@@ -7913,9 +8147,15 @@
         }
       ],
       "comentarios": "Rafael: Que prota chorão, pqp esse superou todos.",
+      "files": [
+        {
+          "name": "Opening 1",
+          "url": "https://www.youtube.com/watch?v=By_JYrhx-WY"
+        }
+      ],
       "updatedAt": {
-        "_seconds": 1777794797,
-        "_nanoseconds": 982000000
+        "_seconds": 1777863026,
+        "_nanoseconds": 78000000
       }
     },
     {
@@ -7942,47 +8182,17 @@
         "_nanoseconds": 493000000
       },
       "malId": 33352,
+      "notaZana": null,
       "files": [
         {
           "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=Violet%20Evergarden%20opening%201"
+          "url": "https://www.youtube.com/watch?v=ZAKuyZEyZjY"
         }
       ],
-      "notaZana": null
-    },
-    {
-      "id": "3416beab-c784-81d7-8d54-d180fb3688b9",
-      "nome": "A Empregada Dragão da Senhorita Kobayashi",
-      "quemAssistiu": [
-        "Rafael"
-      ],
-      "nota": "0.00",
-      "generos": [
-        "Comédia 😂",
-        "Slice of Life 🍃",
-        "Fantasia 🧙"
-      ],
-      "comentarios": "",
-      "notaRafael": null,
-      "notaFernando": null,
-      "notaDudu": null,
-      "notaHacksuya": null,
-      "maisDeUmVoto": "nao",
-      "qtdVotos": 0,
-      "notaSort": 0,
-      "controversia": 0,
-      "migratedAt": {
-        "_seconds": 1777314441,
-        "_nanoseconds": 493000000
-      },
-      "malId": 2924,
-      "files": [
-        {
-          "name": "Opening 1",
-          "url": "https://www.youtube.com/results?search_query=A%20Empregada%20Drag%C3%A3o%20da%20Senhorita%20Kobayashi%20opening%201"
-        }
-      ],
-      "notaZana": null
+      "updatedAt": {
+        "_seconds": 1777863038,
+        "_nanoseconds": 777000000
+      }
     }
   ]
 }
