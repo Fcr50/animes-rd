@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-05-04T08:13:44.431Z",
-  "total": 186,
+  "updatedAt": "2026-05-05T01:27:06.016Z",
+  "total": 187,
   "animes": [
     {
       "id": "3416beab-c784-813f-bff6-df2369802356",
@@ -363,6 +363,35 @@
         "_seconds": 1777844376,
         "_nanoseconds": 264000000
       }
+    },
+    {
+      "id": "HfgvI4VIYJHThKhBG2NM",
+      "nome": "Discipline: The Hentai Academy",
+      "generos": [
+        "Hentai 💦"
+      ],
+      "malId": 2432,
+      "comentarios": "Dudu: Melhor hentai que ja assisti na vida, esse é old school, sem censura e os krl, o prota vai parar em uma universidade só pra mulheres... vai vendo kkkk, no final come até a diretora",
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Melhor hentai que ja assisti na vida, esse é old school, sem censura e os krl, o prota vai parar em uma universidade só pra mulheres... vai vendo kkkk, no final come até a diretora"
+        }
+      ],
+      "files": [],
+      "maisDeUmVoto": "nao",
+      "qtdVotos": 1,
+      "controversia": 0,
+      "notaSort": 9.5,
+      "notaRafael": null,
+      "notaFernando": null,
+      "notaDudu": 9.5,
+      "notaHacksuya": null,
+      "notaZana": null,
+      "quemAssistiu": [
+        "Dudu"
+      ],
+      "nota": "9.50"
     },
     {
       "id": "3416beab-c784-81ed-8d10-fb70710e1958",
