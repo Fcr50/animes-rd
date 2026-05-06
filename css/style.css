@@ -2584,7 +2584,7 @@ tbody tr:hover {
 /* Refined editorial palette */
 :root {
   /* Paleta baseada em artsluminare.com */
-  --bg: #f4f8ff;
+  --bg: #fdf4e7;
   --paper: #ffffff;
   --paper-soft: #fff3e4;
   --ink: #1b1718;
@@ -8007,9 +8007,8 @@ body.dark-theme .blog-categories a:nth-child(3) {
 /* 1 · Fundo da página */
 body:not(.dark-theme) {
   background:
-    radial-gradient(ellipse at 10% 15%, rgba(93, 139, 255, 0.14), transparent 480px),
-    radial-gradient(ellipse at 88% 80%, rgba(87, 205, 174, 0.12), transparent 440px),
-    radial-gradient(ellipse at 55% 50%, rgba(93, 139, 255, 0.05), transparent 600px),
+    radial-gradient(ellipse at 10% 15%, rgba(255, 185, 0, 0.08), transparent 480px),
+    radial-gradient(ellipse at 88% 80%, rgba(255, 105, 74, 0.06), transparent 440px),
     var(--bg);
   background-attachment: fixed;
   color: var(--text);
@@ -8025,10 +8024,10 @@ body:not(.dark-theme)::before {
 /* 2 · Nav */
 body:not(.dark-theme) .nav {
   background:
-    linear-gradient(90deg, rgba(93, 139, 255, 0.08) 0%, rgba(87, 205, 174, 0.06) 100%),
-    rgba(244, 248, 255, 0.94);
-  border-bottom-color: rgba(93, 139, 255, 0.14);
-  box-shadow: 0 2px 16px rgba(93, 139, 255, 0.08);
+    linear-gradient(90deg, rgba(255, 185, 0, 0.06) 0%, rgba(255, 105, 74, 0.04) 100%),
+    rgba(253, 244, 231, 0.95);
+  border-bottom-color: rgba(180, 83, 9, 0.1);
+  box-shadow: 0 2px 16px rgba(180, 83, 9, 0.06);
 }
 
 /* Logo: gradiente azul→verde para contraste no fundo claro */
