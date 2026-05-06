@@ -8130,10 +8130,9 @@ body:not(.dark-theme) .table-wrap {
   border-radius: 10px;
 }
 body:not(.dark-theme) .acervo-main-card {
-  background: var(--card) padding-box,
-    linear-gradient(135deg, #5d8bff, #57cdae 50%, #ff9fc7) border-box;
-  border: 2.5px solid transparent;
-  box-shadow: 0 4px 28px rgba(93, 139, 255, 0.12);
+  background: var(--card) !important;
+  border: 2.5px solid #5d8bff !important;
+  box-shadow: 0 4px 24px rgba(93, 139, 255, 0.14);
 }
 body:not(.dark-theme) table {
   background: transparent;
