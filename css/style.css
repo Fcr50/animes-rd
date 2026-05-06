@@ -8366,7 +8366,7 @@ body:not(.dark-theme) .card-badge {
 
 /* 20 · Acervo: gradiente do título */
 body:not(.dark-theme) .archive-title-gradient {
-  background: linear-gradient(90deg, #ff6a4a 0%, #57cdae 100%);
+  background: linear-gradient(90deg, #5d8bff 0%, #57cdae 100%);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
