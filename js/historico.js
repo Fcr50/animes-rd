@@ -232,6 +232,7 @@ function renderHistorico(animes, currentUser) {
 
             ${renderHistoricoLinksSection(anime)}
 
+            <div style="margin-top:auto">
             <div id="vote-display-${anime.id}" style="background:rgba(255,255,255,0.03);border:1px solid rgba(134,239,172,0.1);border-radius:16px;padding:14px">
               <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:${otherVotes ? "12px" : "0"}">
                 <div style="color:${myColor};font-weight:800;font-size:14px">
@@ -248,6 +249,7 @@ function renderHistorico(animes, currentUser) {
             </div>
 
             ${buildEditForm(anime.id, myVote)}
+            </div>
           </div>`;
         })
         .join("")}
