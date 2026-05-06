@@ -8429,11 +8429,28 @@ body:not(.dark-theme) .blog-hero-slide-footer {
   border-top-color: rgba(16, 16, 16, 0.1);
 }
 
-/* 25 · Blog hero card e post-featured (no modo claro já têm estilos próprios, só garantir texto) */
+/* 25 · Blog hero card */
 body:not(.dark-theme) .blog-hero-card:not(.has-bg) h2,
 body:not(.dark-theme) .blog-hero-card:not(.has-bg) p,
 body:not(.dark-theme) .blog-hero-card:not(.has-bg) a {
-  color: #1f2933;
+  color: #1b1718;
+}
+
+/* has-bg: overlay mais claro + texto branco */
+body:not(.dark-theme) .blog-hero-card.has-bg::before {
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.42)),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.32), rgba(0, 0, 0, 0.04)),
+    var(--hero-anime-bg);
+  background-position: center;
+  background-size: cover;
+}
+
+body:not(.dark-theme) .blog-hero-card.has-bg h2,
+body:not(.dark-theme) .blog-hero-card.has-bg p,
+body:not(.dark-theme) .blog-hero-card.has-bg a,
+body:not(.dark-theme) .blog-hero-card.has-bg .post-kicker {
+  color: #ffffff;
 }
 
 /* 26 · Sidebar boxes (Mais Controversos + Calendário) */
