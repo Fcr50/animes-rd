@@ -8455,6 +8455,71 @@ body:not(.dark-theme) .stat-sub {
   color: var(--muted);
 }
 
+/* 28 · Blog cards — TUDO em texto preto (cards já têm fundo claro/pastel) */
+body:not(.dark-theme) .featured-comment-title {
+  color: #1b1718;
+  text-shadow: none;
+}
+
+body:not(.dark-theme) .comment-balloon strong {
+  color: #1b1718;
+}
+
+body:not(.dark-theme) .comment-balloon p {
+  color: #1b1718;
+}
+
+body:not(.dark-theme) .post-featured h2,
+body:not(.dark-theme) .blog-section-head h2,
+body:not(.dark-theme) .member-section-head h2 {
+  color: #1b1718;
+}
+
+body:not(.dark-theme) .post-card h3,
+body:not(.dark-theme) .post-card p,
+body:not(.dark-theme) .post-card ol li span,
+body:not(.dark-theme) .post-card ol li strong {
+  color: #1b1718;
+}
+
+body:not(.dark-theme) .post-card a {
+  color: #1b1718;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+body:not(.dark-theme) .sidebar-box h2,
+body:not(.dark-theme) .sidebar-box p,
+body:not(.dark-theme) .sidebar-box .eyebrow {
+  color: #1b1718;
+}
+
+body:not(.dark-theme) .hot-list a span {
+  color: #1b1718;
+}
+
+body:not(.dark-theme) .calendar-item {
+  color: #1b1718;
+}
+
+body:not(.dark-theme) .calendar-day {
+  color: var(--muted);
+}
+
+body:not(.dark-theme) .blog-hero-card h2,
+body:not(.dark-theme) .blog-hero-card p {
+  color: #1b1718;
+}
+
+/* Opening chips no blog */
+body:not(.dark-theme) .opening-chip b {
+  color: var(--muted);
+}
+
+body:not(.dark-theme) .opening-list .opening-chip {
+  color: #1b1718;
+}
+
 /* ================================================================
    PENDING PAGE  ·  mobile responsive
    ================================================================ */
