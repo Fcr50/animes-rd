@@ -663,12 +663,28 @@ function renderPendingLinksSection(anime) {
   const listHtml = files
     .map(
       (f, i) => `
-      <div class="pending-link-chip-wrap">
-        <a href="${escapeHTML(f.url)}" target="_blank" rel="noopener noreferrer"
-           class="pending-link-chip" title="${escapeHTML(f.url)}">
-          ${escapeHTML(f.name)}
-        </a>
-        ${canEdit ? `<button onclick="deleteLinkPending('${id}',${i})" class="pending-link-delete" title="Remover link">×</button>` : ""}
+      <div>
+        <div class="pending-link-chip-wrap">
+          <a href="${escapeHTML(f.url)}" target="_blank" rel="noopener noreferrer"
+             class="pending-link-chip" title="${escapeHTML(f.url)}">
+            ${escapeHTML(f.name)}
+          </a>
+          ${canEdit ? `
+            <button onclick="startEditLinkPending('${id}',${i})" class="pending-link-edit" title="Editar link">✎</button>
+            <button onclick="deleteLinkPending('${id}',${i})" class="pending-link-delete" title="Remover link">×</button>` : ""}
+        </div>
+        ${canEdit ? `
+        <div id="pend-link-edit-${id}-${i}" style="display:none;margin:6px 0 10px">
+          <input id="pend-link-ename-${id}-${i}" type="text" value="${escapeHTML(f.name)}" maxlength="60" placeholder="Nome do link"
+                 style="width:100%;margin-bottom:6px;background:rgba(0,0,0,0.25);border:1px solid rgba(42,157,180,0.25);border-radius:6px;padding:7px 10px;color:white;font-size:13px" />
+          <input id="pend-link-eurl-${id}-${i}" type="url" value="${escapeHTML(f.url)}" maxlength="500" placeholder="https://..."
+                 style="width:100%;margin-bottom:8px;background:rgba(0,0,0,0.25);border:1px solid rgba(42,157,180,0.25);border-radius:6px;padding:7px 10px;color:white;font-size:13px" />
+          <div style="display:flex;gap:6px;align-items:center">
+            <button onclick="saveEditLinkPending('${id}',${i})" style="background:rgba(42,157,180,0.8);border:none;border-radius:6px;color:white;cursor:pointer;font-size:12px;font-weight:700;padding:6px 14px">Salvar</button>
+            <button onclick="cancelEditLinkPending('${id}',${i})" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:6px;color:var(--muted);cursor:pointer;font-size:12px;padding:6px 10px">Cancelar</button>
+            <span id="pend-link-estatus-${id}-${i}" style="font-size:11px;color:var(--muted)"></span>
+          </div>
+        </div>` : ""}
       </div>`,
     )
     .join("");
@@ -696,6 +712,34 @@ function renderPendingLinksSection(anime) {
       ${addFormHtml}
     </div>`;
 }
+
+window.startEditLinkPending = (animeId, idx) => {
+  document.getElementById(`pend-link-edit-${animeId}-${idx}`)?.style.setProperty("display", "block");
+};
+
+window.cancelEditLinkPending = (animeId, idx) => {
+  document.getElementById(`pend-link-edit-${animeId}-${idx}`)?.style.setProperty("display", "none");
+};
+
+window.saveEditLinkPending = async (animeId, idx) => {
+  if (!currentUser || !db) return;
+  const nameEl = document.getElementById(`pend-link-ename-${animeId}-${idx}`);
+  const urlEl = document.getElementById(`pend-link-eurl-${animeId}-${idx}`);
+  const statusEl = document.getElementById(`pend-link-estatus-${animeId}-${idx}`);
+  const name = nameEl?.value.trim();
+  const url = urlEl?.value.trim();
+  if (!name || !url) { if (statusEl) statusEl.textContent = "Preencha nome e URL."; return; }
+  try { new URL(url); } catch { if (statusEl) statusEl.textContent = "URL inválida."; return; }
+  if (statusEl) statusEl.textContent = "Salvando...";
+  try {
+    const anime = lastAnimesData.find((a) => a.id === animeId);
+    const newFiles = [...(anime?.files || [])];
+    newFiles[idx] = { name, url };
+    await updateDoc(doc(db, "pending_animes", animeId), { files: newFiles });
+  } catch (e) {
+    if (statusEl) statusEl.textContent = "Erro ao salvar.";
+  }
+};
 
 window.toggleAddLinkPending = (animeId) => {
   const form = document.getElementById(`pending-link-add-${animeId}`);

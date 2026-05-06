@@ -7732,12 +7732,10 @@ body.pending-page .nav-person span[title] {
   color: #a5f3fc;
 }
 
+.pending-link-edit,
 .pending-link-delete {
   align-items: center;
-  background: rgba(239, 68, 68, 0.08);
-  border: 1px solid rgba(239, 68, 68, 0.18);
   border-radius: 50%;
-  color: #f87171;
   cursor: pointer;
   display: flex;
   flex-shrink: 0;
@@ -7750,8 +7748,25 @@ body.pending-page .nav-person span[title] {
   width: 20px;
 }
 
+.pending-link-edit {
+  background: rgba(42, 157, 180, 0.08);
+  border: 1px solid rgba(42, 157, 180, 0.2);
+  color: #67e8f9;
+}
+
+.pending-link-delete {
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.18);
+  color: #f87171;
+}
+
+.pending-link-chip-wrap:hover .pending-link-edit,
 .pending-link-chip-wrap:hover .pending-link-delete {
   opacity: 1;
+}
+
+.pending-link-edit:hover {
+  background: rgba(42, 157, 180, 0.2);
 }
 
 .pending-link-delete:hover {

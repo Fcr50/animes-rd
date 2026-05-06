@@ -39,12 +39,28 @@ function renderHistoricoLinksSection(anime) {
   const listHtml = files
     .map(
       (f, i) => `
-      <div class="pending-link-chip-wrap">
-        <a href="${escapeHTML(f.url)}" target="_blank" rel="noopener noreferrer"
-           class="pending-link-chip" title="${escapeHTML(f.url)}">
-          ${escapeHTML(f.name)}
-        </a>
-        ${canEdit ? `<button onclick="deleteHistoricoLink('${id}',${i})" class="pending-link-delete" title="Remover link">×</button>` : ""}
+      <div>
+        <div class="pending-link-chip-wrap">
+          <a href="${escapeHTML(f.url)}" target="_blank" rel="noopener noreferrer"
+             class="pending-link-chip" title="${escapeHTML(f.url)}">
+            ${escapeHTML(f.name)}
+          </a>
+          ${canEdit ? `
+            <button onclick="startEditHistoricoLink('${id}',${i})" class="pending-link-edit" title="Editar link">✎</button>
+            <button onclick="deleteHistoricoLink('${id}',${i})" class="pending-link-delete" title="Remover link">×</button>` : ""}
+        </div>
+        ${canEdit ? `
+        <div id="hist-link-edit-${id}-${i}" style="display:none;margin:6px 0 10px">
+          <input id="hist-link-ename-${id}-${i}" type="text" value="${escapeHTML(f.name)}" maxlength="60" placeholder="Nome do link"
+                 style="width:100%;margin-bottom:6px;background:rgba(0,0,0,0.25);border:1px solid rgba(42,157,180,0.25);border-radius:6px;padding:7px 10px;color:white;font-size:13px" />
+          <input id="hist-link-eurl-${id}-${i}" type="url" value="${escapeHTML(f.url)}" maxlength="500" placeholder="https://..."
+                 style="width:100%;margin-bottom:8px;background:rgba(0,0,0,0.25);border:1px solid rgba(42,157,180,0.25);border-radius:6px;padding:7px 10px;color:white;font-size:13px" />
+          <div style="display:flex;gap:6px;align-items:center">
+            <button onclick="saveEditHistoricoLink('${id}',${i})" style="background:rgba(42,157,180,0.8);border:none;border-radius:6px;color:white;cursor:pointer;font-size:12px;font-weight:700;padding:6px 14px">Salvar</button>
+            <button onclick="cancelEditHistoricoLink('${id}',${i})" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:6px;color:var(--muted);cursor:pointer;font-size:12px;padding:6px 10px">Cancelar</button>
+            <span id="hist-link-estatus-${id}-${i}" style="font-size:11px;color:var(--muted)"></span>
+          </div>
+        </div>` : ""}
       </div>`,
     )
     .join("");
@@ -74,6 +90,34 @@ function renderHistoricoLinksSection(anime) {
       ${addFormHtml}
     </div>`;
 }
+
+window.startEditHistoricoLink = (animeId, idx) => {
+  document.getElementById(`hist-link-edit-${animeId}-${idx}`)?.style.setProperty("display", "block");
+};
+
+window.cancelEditHistoricoLink = (animeId, idx) => {
+  document.getElementById(`hist-link-edit-${animeId}-${idx}`)?.style.setProperty("display", "none");
+};
+
+window.saveEditHistoricoLink = async (animeId, idx) => {
+  if (!_currentUser || !db) return;
+  const nameEl = document.getElementById(`hist-link-ename-${animeId}-${idx}`);
+  const urlEl = document.getElementById(`hist-link-eurl-${animeId}-${idx}`);
+  const statusEl = document.getElementById(`hist-link-estatus-${animeId}-${idx}`);
+  const name = nameEl?.value.trim();
+  const url = urlEl?.value.trim();
+  if (!name || !url) { if (statusEl) statusEl.textContent = "Preencha nome e URL."; return; }
+  try { new URL(url); } catch { if (statusEl) statusEl.textContent = "URL inválida."; return; }
+  if (statusEl) statusEl.textContent = "Salvando...";
+  try {
+    const anime = _allAnimes.find((a) => a.id === animeId);
+    const newFiles = [...(anime?.files || [])];
+    newFiles[idx] = { name, url };
+    await updateDoc(doc(db, "pending_animes", animeId), { files: newFiles });
+  } catch (e) {
+    if (statusEl) statusEl.textContent = "Erro ao salvar.";
+  }
+};
 
 window.toggleHistoricoLinkForm = (animeId) => {
   const form = document.getElementById(`hist-link-add-${animeId}`);
