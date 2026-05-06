@@ -127,7 +127,7 @@ function getCachedImage(malId) {
   if (IMAGE_OVERRIDES[malId]) return IMAGE_OVERRIDES[malId];
   if (imageCache.has(malId)) return imageCache.get(malId);
 
-  const cached = localStorage.getItem(`jikan-image-${malId}`);
+  const cached = localStorage.getItem(`jikan-image-v2-${malId}`);
   if (cached) {
     imageCache.set(malId, cached);
     return cached;
@@ -140,7 +140,7 @@ function setCachedImage(malId, imageUrl) {
   if (!malId || !imageUrl) return;
   imageCache.set(malId, imageUrl);
   try {
-    localStorage.setItem(`jikan-image-${malId}`, imageUrl);
+    localStorage.setItem(`jikan-image-v2-${malId}`, imageUrl);
   } catch {
     // Cache is best-effort; images still work for this render.
   }
@@ -186,10 +186,10 @@ async function runImageQueue() {
       if (res.ok) {
         const payload = await res.json();
         const imageUrl =
-          payload?.data?.images?.webp?.small_image_url ||
-          payload?.data?.images?.jpg?.small_image_url ||
           payload?.data?.images?.webp?.image_url ||
-          payload?.data?.images?.jpg?.image_url;
+          payload?.data?.images?.jpg?.image_url ||
+          payload?.data?.images?.webp?.small_image_url ||
+          payload?.data?.images?.jpg?.small_image_url;
         if (imageUrl) {
           setCachedImage(malId, imageUrl);
           updateRenderedImages(malId, imageUrl);
