@@ -7,6 +7,7 @@ import {
   onSnapshot,
   doc,
   runTransaction,
+  updateDoc,
 } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 import {
   getAuth,
@@ -26,6 +27,90 @@ const container = document.getElementById("historico-container");
 
 // State acessível pelos handlers globais
 let _currentUser = null;
+let _allAnimes = [];
+
+// ── Links nos cards do histórico ────────────────────────────────────────────
+
+function renderHistoricoLinksSection(anime) {
+  const files = anime.files || [];
+  const canEdit = !!_currentUser?.personName;
+  const id = anime.id;
+
+  const listHtml = files
+    .map(
+      (f, i) => `
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+        <a href="${escapeHTML(f.url)}" target="_blank" rel="noopener noreferrer"
+           style="background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.22);border-radius:999px;color:#c4b5fd;font-size:12px;padding:4px 12px;text-decoration:none;max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-block" title="${escapeHTML(f.url)}">
+          ${escapeHTML(f.name)}
+        </a>
+        ${canEdit ? `<button onclick="deleteHistoricoLink('${id}',${i})" style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);border-radius:4px;color:#ef4444;cursor:pointer;font-size:11px;padding:3px 7px;flex-shrink:0">×</button>` : ""}
+      </div>`,
+    )
+    .join("");
+
+  const addFormHtml = canEdit
+    ? `
+      <div id="hist-link-add-${id}" style="display:none;margin-top:8px">
+        <input id="hist-link-name-${id}" type="text" placeholder="Nome do link" maxlength="60"
+               style="width:100%;margin-bottom:6px;background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.12);border-radius:6px;padding:7px 10px;color:white;font-size:13px" />
+        <input id="hist-link-url-${id}" type="url" placeholder="https://..." maxlength="500"
+               style="width:100%;margin-bottom:8px;background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.12);border-radius:6px;padding:7px 10px;color:white;font-size:13px" />
+        <div style="display:flex;gap:6px;align-items:center">
+          <button onclick="saveHistoricoLink('${id}')" style="background:#8b5cf6;border:none;border-radius:6px;color:white;cursor:pointer;font-size:12px;font-weight:700;padding:6px 14px">Salvar</button>
+          <button onclick="toggleHistoricoLinkForm('${id}')" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:6px;color:var(--muted);cursor:pointer;font-size:12px;padding:6px 10px">Cancelar</button>
+          <span id="hist-link-status-${id}" style="font-size:11px;color:var(--muted)"></span>
+        </div>
+      </div>
+      <button onclick="toggleHistoricoLinkForm('${id}')" style="margin-top:6px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:6px;color:var(--muted);cursor:pointer;font-size:11px;font-weight:700;padding:5px 10px">+ Link</button>`
+    : "";
+
+  if (!files.length && !canEdit) return "";
+
+  return `
+    <div style="margin-bottom:12px">
+      ${files.length ? `<div style="font-size:10px;font-weight:800;letter-spacing:.1em;color:var(--faint);text-transform:uppercase;margin-bottom:6px">Links</div>` : ""}
+      ${listHtml}
+      ${addFormHtml}
+    </div>`;
+}
+
+window.toggleHistoricoLinkForm = (animeId) => {
+  const form = document.getElementById(`hist-link-add-${animeId}`);
+  if (!form) return;
+  form.style.display = form.style.display === "none" ? "block" : "none";
+  if (form.style.display === "block") document.getElementById(`hist-link-name-${animeId}`)?.focus();
+};
+
+window.saveHistoricoLink = async (animeId) => {
+  if (!_currentUser || !db) return;
+  const nameEl = document.getElementById(`hist-link-name-${animeId}`);
+  const urlEl = document.getElementById(`hist-link-url-${animeId}`);
+  const statusEl = document.getElementById(`hist-link-status-${animeId}`);
+  const name = nameEl?.value.trim();
+  const url = urlEl?.value.trim();
+  if (!name || !url) { if (statusEl) statusEl.textContent = "Preencha nome e URL."; return; }
+  try { new URL(url); } catch { if (statusEl) statusEl.textContent = "URL inválida."; return; }
+  if (statusEl) statusEl.textContent = "Salvando...";
+  try {
+    const anime = _allAnimes.find((a) => a.id === animeId);
+    const newFiles = [...(anime?.files || []), { name, url }];
+    await updateDoc(doc(db, "pending_animes", animeId), { files: newFiles });
+  } catch (e) {
+    if (statusEl) statusEl.textContent = "Erro ao salvar.";
+  }
+};
+
+window.deleteHistoricoLink = async (animeId, idx) => {
+  if (!_currentUser || !db) return;
+  try {
+    const anime = _allAnimes.find((a) => a.id === animeId);
+    const newFiles = (anime?.files || []).filter((_, i) => i !== idx);
+    await updateDoc(doc(db, "pending_animes", animeId), { files: newFiles });
+  } catch (e) {
+    console.error(e);
+  }
+};
 
 function getVoteLabel(vote) {
   if (!vote) return "—";
@@ -84,6 +169,7 @@ function buildEditForm(animeId, myVote) {
 function renderHistorico(animes, currentUser) {
   if (!container) return;
   _currentUser = currentUser;
+  _allAnimes = animes;
 
   const voted = animes.filter((a) => a.votedUserIds?.includes(currentUser.uid));
 
@@ -143,6 +229,8 @@ function renderHistorico(animes, currentUser) {
             <div style="font-size:12px;color:var(--faint);margin-bottom:12px">
               Sugerido por <strong style="color:${PERSON_LIGHTS[anime.submittedByName] || "var(--paper)"}">${escapeHTML(anime.submittedByName || "")}</strong>
             </div>
+
+            ${renderHistoricoLinksSection(anime)}
 
             <div id="vote-display-${anime.id}" style="background:rgba(255,255,255,0.03);border:1px solid rgba(134,239,172,0.1);border-radius:16px;padding:14px">
               <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:${otherVotes ? "12px" : "0"}">
