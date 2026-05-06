@@ -8476,12 +8476,16 @@ body:not(.dark-theme) .stat-sub {
 
 /* 28 · Blog cards — TUDO em texto preto (cards já têm fundo claro/pastel) */
 
-/* post-featured: fundo suave + borda gradiente amarelo → vermelho/coral */
+/* post-featured: fundo branco + borda gradiente amarelo → coral (só o contorno) */
 body:not(.dark-theme) .post-featured {
-  background:
-    linear-gradient(145deg, rgba(255, 185, 0, 0.07) 0%, #ffffff 65%) padding-box,
-    linear-gradient(135deg, rgba(255, 211, 54, 0.7) 0%, rgba(255, 106, 74, 0.65) 100%) border-box;
+  background: var(--card) padding-box,
+    linear-gradient(135deg, #ffd336 0%, #ff6a4a 100%) border-box;
   border: 2px solid transparent;
+}
+
+/* Desativa o ::after nativo que criava um gradiente extra dentro do card */
+body:not(.dark-theme) .post-featured::after {
+  display: none;
 }
 
 body:not(.dark-theme) .featured-comment-title {
