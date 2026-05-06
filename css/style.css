@@ -8856,3 +8856,80 @@ body:not(.dark-theme) .comment-balloon-8 {
   background: linear-gradient(145deg, rgba(87, 205, 174, 0.16) 0%, rgba(87, 205, 174, 0.04) 100%);
   box-shadow: 0 8px 22px rgba(87, 205, 174, 0.12);
 }
+
+/* ================================================================
+   PENDING PAGE  ·  light mode — estilo igual aos cards do Top 3
+   ================================================================ */
+
+/* Ciclo de pastéis nos vote-cards */
+body.pending-page:not(.dark-theme) .vote-card:nth-child(4n+1) {
+  background: linear-gradient(160deg, rgba(93, 139, 255, 0.12) 0%, #ffffff 62%) !important;
+  border: 2px solid rgba(93, 139, 255, 0.35) !important;
+  box-shadow: 0 4px 20px rgba(93, 139, 255, 0.08) !important;
+}
+body.pending-page:not(.dark-theme) .vote-card:nth-child(4n+2) {
+  background: linear-gradient(160deg, rgba(255, 105, 180, 0.12) 0%, #ffffff 62%) !important;
+  border: 2px solid rgba(255, 105, 180, 0.35) !important;
+  box-shadow: 0 4px 20px rgba(255, 105, 180, 0.08) !important;
+}
+body.pending-page:not(.dark-theme) .vote-card:nth-child(4n+3) {
+  background: linear-gradient(160deg, rgba(255, 185, 0, 0.12) 0%, #ffffff 62%) !important;
+  border: 2px solid rgba(255, 185, 0, 0.38) !important;
+  box-shadow: 0 4px 20px rgba(255, 185, 0, 0.08) !important;
+}
+body.pending-page:not(.dark-theme) .vote-card:nth-child(4n) {
+  background: linear-gradient(160deg, rgba(87, 205, 174, 0.12) 0%, #ffffff 62%) !important;
+  border: 2px solid rgba(87, 205, 174, 0.35) !important;
+  box-shadow: 0 4px 20px rgba(87, 205, 174, 0.08) !important;
+}
+
+/* Texto dos cards em preto */
+body.pending-page:not(.dark-theme) .vote-card h3,
+body.pending-page:not(.dark-theme) .vote-card p,
+body.pending-page:not(.dark-theme) .vote-card div,
+body.pending-page:not(.dark-theme) .vote-card span,
+body.pending-page:not(.dark-theme) .vote-card label {
+  color: #1b1718 !important;
+}
+
+body.pending-page:not(.dark-theme) .vote-card h3 {
+  font-size: 18px !important;
+}
+
+/* Seção de voto (fundo interno) */
+body.pending-page:not(.dark-theme) .vote-card > div:last-child,
+body.pending-page:not(.dark-theme) .vote-card .vote-controls {
+  background: rgba(16, 16, 16, 0.04) !important;
+  border: 1px solid rgba(16, 16, 16, 0.1) !important;
+}
+
+/* Chips de gênero */
+body.pending-page:not(.dark-theme) .pending-genre-chip {
+  background: rgba(16, 16, 16, 0.06);
+  border: 1px solid rgba(16, 16, 16, 0.14);
+  color: #1b1718;
+}
+
+/* Botão confirmar voto */
+body.pending-page:not(.dark-theme) .vote-controls button[onclick*="handleCastVote"] {
+  background: linear-gradient(135deg, #5d8bff, #57cdae) !important;
+  border: none !important;
+  color: #ffffff !important;
+}
+
+/* Dots de votação */
+body.pending-page:not(.dark-theme) .vote-card span[title] {
+  opacity: 1 !important;
+}
+
+/* Seção de voto exibição (meu voto) */
+body.pending-page:not(.dark-theme) #pending-animes-container [id^="vote-display-"] {
+  background: rgba(16, 16, 16, 0.04) !important;
+  border: 1px solid rgba(16, 16, 16, 0.12) !important;
+}
+
+/* Link chips e botões de link */
+body.pending-page:not(.dark-theme) .pending-link-add-btn {
+  border-color: rgba(87, 205, 174, 0.5);
+  color: #2a9d8f;
+}
