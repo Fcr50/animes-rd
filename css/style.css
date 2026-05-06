@@ -8024,9 +8024,11 @@ body:not(.dark-theme)::before {
 
 /* 2 · Nav */
 body:not(.dark-theme) .nav {
-  background: rgba(255, 250, 241, 0.95);
-  border-bottom-color: rgba(16, 16, 16, 0.1);
-  box-shadow: 0 2px 16px rgba(16, 16, 16, 0.08);
+  background:
+    linear-gradient(90deg, rgba(93, 139, 255, 0.08) 0%, rgba(87, 205, 174, 0.06) 100%),
+    rgba(244, 248, 255, 0.94);
+  border-bottom-color: rgba(93, 139, 255, 0.14);
+  box-shadow: 0 2px 16px rgba(93, 139, 255, 0.08);
 }
 
 /* Logo: gradiente azul→verde para contraste no fundo claro */
