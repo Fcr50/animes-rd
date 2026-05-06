@@ -7700,6 +7700,84 @@ body.pending-page .nav-person span[title] {
   box-shadow: 0 0 0 3px rgba(26, 107, 120, 0.08);
 }
 
+/* ── Link chips (fila de aprovação + histórico) ── */
+.pending-link-chip-wrap {
+  align-items: center;
+  display: inline-flex;
+  gap: 5px;
+  margin-bottom: 5px;
+}
+
+.pending-link-chip {
+  background: rgba(42, 157, 180, 0.1);
+  border: 1px solid rgba(42, 157, 180, 0.3);
+  border-radius: 999px;
+  color: #67e8f9;
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  max-width: 220px;
+  overflow: hidden;
+  padding: 5px 13px;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  transition: background 0.15s ease, border-color 0.15s ease;
+  white-space: nowrap;
+}
+
+.pending-link-chip:hover {
+  background: rgba(42, 157, 180, 0.2);
+  border-color: rgba(42, 157, 180, 0.55);
+  color: #a5f3fc;
+}
+
+.pending-link-delete {
+  align-items: center;
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.18);
+  border-radius: 50%;
+  color: #f87171;
+  cursor: pointer;
+  display: flex;
+  flex-shrink: 0;
+  font-size: 10px;
+  font-weight: 900;
+  height: 20px;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.15s ease, background 0.15s ease;
+  width: 20px;
+}
+
+.pending-link-chip-wrap:hover .pending-link-delete {
+  opacity: 1;
+}
+
+.pending-link-delete:hover {
+  background: rgba(239, 68, 68, 0.2);
+}
+
+.pending-link-add-btn {
+  background: rgba(42, 157, 180, 0.06);
+  border: 1px dashed rgba(42, 157, 180, 0.28);
+  border-radius: 999px;
+  color: rgba(103, 232, 249, 0.55);
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 700;
+  margin-top: 4px;
+  padding: 4px 13px;
+  transition: all 0.15s ease;
+}
+
+.pending-link-add-btn:hover {
+  background: rgba(42, 157, 180, 0.14);
+  border-color: rgba(42, 157, 180, 0.5);
+  border-style: solid;
+  color: #67e8f9;
+}
+
 body.dark-theme .modal-overlay,
 .modal-overlay {
   background:

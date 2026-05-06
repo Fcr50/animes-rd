@@ -663,12 +663,12 @@ function renderPendingLinksSection(anime) {
   const listHtml = files
     .map(
       (f, i) => `
-      <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+      <div class="pending-link-chip-wrap">
         <a href="${escapeHTML(f.url)}" target="_blank" rel="noopener noreferrer"
-           style="background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.22);border-radius:999px;color:#c4b5fd;font-size:12px;padding:4px 12px;text-decoration:none;max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-block" title="${escapeHTML(f.url)}">
+           class="pending-link-chip" title="${escapeHTML(f.url)}">
           ${escapeHTML(f.name)}
         </a>
-        ${canEdit ? `<button onclick="deleteLinkPending('${id}',${i})" style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);border-radius:4px;color:#ef4444;cursor:pointer;font-size:11px;padding:3px 7px;flex-shrink:0">×</button>` : ""}
+        ${canEdit ? `<button onclick="deleteLinkPending('${id}',${i})" class="pending-link-delete" title="Remover link">×</button>` : ""}
       </div>`,
     )
     .join("");
@@ -677,16 +677,16 @@ function renderPendingLinksSection(anime) {
     ? `
       <div id="pending-link-add-${id}" style="display:none;margin-top:8px">
         <input id="pending-link-name-${id}" type="text" placeholder="Nome do link" maxlength="60"
-               style="width:100%;margin-bottom:6px;background:rgba(0,0,0,0.25);border:1px solid var(--border);border-radius:6px;padding:7px 10px;color:white;font-size:13px" />
+               style="width:100%;margin-bottom:6px;background:rgba(0,0,0,0.25);border:1px solid rgba(42,157,180,0.25);border-radius:6px;padding:7px 10px;color:white;font-size:13px" />
         <input id="pending-link-url-${id}" type="url" placeholder="https://..." maxlength="500"
-               style="width:100%;margin-bottom:8px;background:rgba(0,0,0,0.25);border:1px solid var(--border);border-radius:6px;padding:7px 10px;color:white;font-size:13px" />
+               style="width:100%;margin-bottom:8px;background:rgba(0,0,0,0.25);border:1px solid rgba(42,157,180,0.25);border-radius:6px;padding:7px 10px;color:white;font-size:13px" />
         <div style="display:flex;gap:6px;align-items:center">
-          <button onclick="saveAddLinkPending('${id}')" style="background:var(--accent);border:none;border-radius:6px;color:white;cursor:pointer;font-size:12px;font-weight:700;padding:6px 14px">Salvar</button>
+          <button onclick="saveAddLinkPending('${id}')" style="background:rgba(42,157,180,0.8);border:none;border-radius:6px;color:white;cursor:pointer;font-size:12px;font-weight:700;padding:6px 14px">Salvar</button>
           <button onclick="toggleAddLinkPending('${id}')" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:6px;color:var(--muted);cursor:pointer;font-size:12px;padding:6px 10px">Cancelar</button>
           <span id="pending-link-status-${id}" style="font-size:11px;color:var(--muted)"></span>
         </div>
       </div>
-      <button onclick="toggleAddLinkPending('${id}')" style="margin-top:6px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:6px;color:var(--muted);cursor:pointer;font-size:11px;font-weight:700;padding:5px 10px">+ Link</button>`
+      <button onclick="toggleAddLinkPending('${id}')" class="pending-link-add-btn">+ Link</button>`
     : "";
 
   return `
