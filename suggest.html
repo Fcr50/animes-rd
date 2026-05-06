@@ -27,29 +27,32 @@
         color: white;
       }
 
-      /* Light mode: inputs claros com texto escuro */
+      /* Light mode: labels, inputs e textos em preto */
+      body:not(.dark-theme) .form-group label {
+        color: #1b1718 !important;
+      }
+
       body:not(.dark-theme) .form-group input[type="text"],
       body:not(.dark-theme) #submission-form-container input,
       body:not(.dark-theme) #submission-form-container textarea,
       body:not(.dark-theme) #submission-form-container select {
-        background: #ffffff;
-        border: 1.5px solid rgba(16, 16, 16, 0.18);
-        color: #1b1718;
+        background: #ffffff !important;
+        border: 1.5px solid rgba(16, 16, 16, 0.18) !important;
+        color: #1b1718 !important;
       }
 
       body:not(.dark-theme) .form-group input[type="text"]::placeholder,
       body:not(.dark-theme) #submission-form-container input::placeholder {
-        color: #a09490;
+        color: #a09490 !important;
       }
 
       body:not(.dark-theme) #submission-form-container p,
-      body:not(.dark-theme) #submission-form-container span:not(.opening-chip),
       body:not(.dark-theme) #submission-form-container small {
-        color: #1b1718;
+        color: #1b1718 !important;
       }
 
       body:not(.dark-theme) #submission-form-container a {
-        color: #5d8bff;
+        color: #5d8bff !important;
       }
     </style>
     <script type="module" src="./js/theme.js?v=desafios-soft-1"></script>
