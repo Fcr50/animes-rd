@@ -8476,14 +8476,14 @@ body:not(.dark-theme) .stat-sub {
 
 /* 28 · Blog cards — TUDO em texto preto (cards já têm fundo claro/pastel) */
 
-/* post-featured: fundo branco + borda gradiente amarelo → coral (só o contorno) */
+/* post-featured: mesmo gradiente suave dos sidebar-box + borda amarelo→coral */
 body:not(.dark-theme) .post-featured {
-  background: var(--card) padding-box,
+  background:
+    linear-gradient(145deg, var(--pastel-mint) 0%, #ffffff 68%) padding-box,
     linear-gradient(135deg, #ffd336 0%, #ff6a4a 100%) border-box;
   border: 2px solid transparent;
 }
 
-/* Desativa o ::after nativo que criava um gradiente extra dentro do card */
 body:not(.dark-theme) .post-featured::after {
   display: none;
 }
