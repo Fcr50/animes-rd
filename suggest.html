@@ -54,6 +54,15 @@
       body:not(.dark-theme) #submission-form-container a {
         color: #5d8bff !important;
       }
+
+      /* Título da página mais escuro no light mode */
+      body.suggest-page:not(.dark-theme) .page-header h1 {
+        background: linear-gradient(90deg, #ff6a4a 0%, #5d8bff 50%, #57cdae 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: transparent;
+      }
     </style>
     <script type="module" src="./js/theme.js?v=desafios-soft-1"></script>
     <script type="module" src="./js/utils.js?v=desafios-soft-1"></script>
