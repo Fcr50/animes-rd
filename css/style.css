@@ -2584,7 +2584,7 @@ tbody tr:hover {
 /* Refined editorial palette */
 :root {
   /* Paleta baseada em artsluminare.com */
-  --bg: #fef0e0;
+  --bg: #f4f8ff;
   --paper: #ffffff;
   --paper-soft: #fff3e4;
   --ink: #1b1718;
@@ -8007,8 +8007,9 @@ body.dark-theme .blog-categories a:nth-child(3) {
 /* 1 · Fundo da página */
 body:not(.dark-theme) {
   background:
-    radial-gradient(circle at 8% 0%, rgba(255, 211, 54, 0.07), transparent 400px),
-    radial-gradient(circle at 92% 10%, rgba(87, 205, 174, 0.07), transparent 380px),
+    radial-gradient(ellipse at 10% 15%, rgba(93, 139, 255, 0.14), transparent 480px),
+    radial-gradient(ellipse at 88% 80%, rgba(87, 205, 174, 0.12), transparent 440px),
+    radial-gradient(ellipse at 55% 50%, rgba(93, 139, 255, 0.05), transparent 600px),
     var(--bg);
   background-attachment: fixed;
   color: var(--text);
