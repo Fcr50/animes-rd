@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-05-05T07:51:49.026Z",
-  "total": 187,
+  "updatedAt": "2026-05-06T01:25:08.333Z",
+  "total": 192,
   "animes": [
     {
       "id": "3416beab-c784-813f-bff6-df2369802356",
@@ -2650,6 +2650,77 @@
       }
     },
     {
+      "id": "KrK2FppmUxLJbQKK3NtD",
+      "nome": "Mashle",
+      "generos": [
+        "Ação ⚔️",
+        "Comédia 🤣",
+        "Fantasia 🧙"
+      ],
+      "malId": 52211,
+      "comentarios": "Rafael: Anime muitooo gostoso de assistir, dei muita risada, enredo totalmente fora da curva, vale a pena.\nFernando: A verdadeira magia é a força bruta",
+      "comments": [
+        {
+          "person": "Rafael",
+          "text": "Anime muitooo gostoso de assistir, dei muita risada, enredo totalmente fora da curva, vale a pena."
+        },
+        {
+          "person": "Fernando",
+          "text": "A verdadeira magia é a força bruta"
+        }
+      ],
+      "files": [],
+      "maisDeUmVoto": "nao",
+      "qtdVotos": 2,
+      "controversia": 0,
+      "notaSort": 8.75,
+      "notaRafael": 9.1,
+      "notaFernando": 8.4,
+      "notaDudu": null,
+      "notaHacksuya": null,
+      "notaZana": null,
+      "quemAssistiu": [
+        "Rafael",
+        "Fernando"
+      ],
+      "nota": "8.75"
+    },
+    {
+      "id": "fF8ZIhdAaSECvxMetIxC",
+      "nome": "Higehiro: Hige wo Soru. Soshite Joshikousei wo Hirou",
+      "generos": [
+        "Drama 🎭",
+        "Romance 💖"
+      ],
+      "malId": 40938,
+      "comentarios": "Rafael: Protagonista exemplar, paciênte e muito racional, história pesada. Vale a pena assistir.\nFernando: Nao tem como ganhar do cara paciente",
+      "comments": [
+        {
+          "person": "Rafael",
+          "text": "Protagonista exemplar, paciênte e muito racional, história pesada. Vale a pena assistir."
+        },
+        {
+          "person": "Fernando",
+          "text": "Nao tem como ganhar do cara paciente"
+        }
+      ],
+      "files": [],
+      "maisDeUmVoto": "nao",
+      "qtdVotos": 2,
+      "controversia": 0,
+      "notaSort": 8.75,
+      "notaRafael": 8.6,
+      "notaFernando": 8.9,
+      "notaDudu": null,
+      "notaHacksuya": null,
+      "notaZana": null,
+      "quemAssistiu": [
+        "Rafael",
+        "Fernando"
+      ],
+      "nota": "8.75"
+    },
+    {
       "id": "3416beab-c784-8197-b350-c58ecfdc1042",
       "nome": "Re:ZERO",
       "generos": [
@@ -3533,6 +3604,61 @@
         "_seconds": 1777858960,
         "_nanoseconds": 688000000
       }
+    },
+    {
+      "id": "4ZujhDJ6zh6KZZO5nctA",
+      "nome": "Sword Art Online Alternative: Gun Gale Online",
+      "generos": [
+        "Ação ⚔️"
+      ],
+      "malId": 36475,
+      "comentarios": "Fernando: Spin-Off de SAO, versão Counter Strike muito boa",
+      "comments": [
+        {
+          "person": "Fernando",
+          "text": "Spin-Off de SAO, versão Counter Strike muito boa"
+        }
+      ],
+      "files": [],
+      "maisDeUmVoto": "nao",
+      "qtdVotos": 1,
+      "controversia": 0,
+      "notaSort": 8.5,
+      "notaRafael": null,
+      "notaFernando": 8.5,
+      "notaDudu": null,
+      "notaHacksuya": null,
+      "notaZana": null,
+      "quemAssistiu": [
+        "Fernando"
+      ],
+      "nota": "8.50"
+    },
+    {
+      "id": "Q5FM5q7yl0qzdgiPDSO7",
+      "nome": "Tenchi Muyou!",
+      "generos": [
+        "Comédia 🤣",
+        "Romance 💖",
+        "Ficção Científica 🚀"
+      ],
+      "malId": 696,
+      "comentarios": "",
+      "comments": [],
+      "files": [],
+      "maisDeUmVoto": "nao",
+      "qtdVotos": 1,
+      "controversia": 0,
+      "notaSort": 8.5,
+      "notaRafael": null,
+      "notaFernando": null,
+      "notaDudu": null,
+      "notaHacksuya": null,
+      "notaZana": 8.5,
+      "quemAssistiu": [
+        "Zana"
+      ],
+      "nota": "8.50"
     },
     {
       "id": "3416beab-c784-8153-a414-f8f001e703c7",
@@ -6410,6 +6536,32 @@
         "_seconds": 1777861454,
         "_nanoseconds": 442000000
       }
+    },
+    {
+      "id": "8I67uTkrwT0pmd11E2u6",
+      "nome": "Takt Op. Destiny",
+      "generos": [
+        "Ação ⚔️",
+        "Fantasia 🧙",
+        "Ficção Científica 🚀"
+      ],
+      "malId": 48556,
+      "comentarios": "",
+      "comments": [],
+      "files": [],
+      "maisDeUmVoto": "nao",
+      "qtdVotos": 1,
+      "controversia": 0,
+      "notaSort": 7.6,
+      "notaRafael": null,
+      "notaFernando": 7.6,
+      "notaDudu": null,
+      "notaHacksuya": null,
+      "notaZana": null,
+      "quemAssistiu": [
+        "Fernando"
+      ],
+      "nota": "7.60"
     },
     {
       "id": "3416beab-c784-8146-9c44-d25915a03b74",
