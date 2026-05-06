@@ -8126,7 +8126,8 @@ body:not(.dark-theme) .post-card:nth-child(5) {
 /* 9 · Tabela do acervo */
 body:not(.dark-theme) .table-wrap {
   background: var(--card);
-  border-color: var(--border);
+  border: 1.5px solid rgba(16, 16, 16, 0.18);
+  border-radius: 10px;
 }
 body:not(.dark-theme) .acervo-main-card {
   background: var(--card) padding-box,
@@ -8137,11 +8138,11 @@ body:not(.dark-theme) table {
   background: transparent;
 }
 body:not(.dark-theme) thead {
-  background: var(--card2);
+  background: rgba(16, 16, 16, 0.04);
 }
 body:not(.dark-theme) thead th {
   background: transparent;
-  border-color: var(--border);
+  border-bottom: 1.5px solid rgba(16, 16, 16, 0.16);
   color: var(--faint);
 }
 body:not(.dark-theme) thead th:hover,
@@ -8149,10 +8150,10 @@ body:not(.dark-theme) thead th.sorted {
   color: var(--text);
 }
 body:not(.dark-theme) tbody tr {
-  border-color: var(--border);
+  border-bottom: 1px solid rgba(16, 16, 16, 0.09);
 }
 body:not(.dark-theme) tbody tr:hover {
-  background: var(--card2);
+  background: rgba(16, 16, 16, 0.03);
 }
 body:not(.dark-theme) tbody td {
   color: var(--text);
