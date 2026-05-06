@@ -7516,6 +7516,13 @@ body.desafios-page .page-header p {
   color: #f0fdf4;
 }
 
+body.pending-page:not(.dark-theme) .pending-all-voted-title {
+  color: #2a8a73 !important;
+}
+body.pending-page:not(.dark-theme) .pending-all-voted-sub {
+  color: #57cdae !important;
+}
+
 body.pending-page:not(.dark-theme) .pending-history-btn {
   background: linear-gradient(135deg, #f0fdf9 0%, #e0faf2 100%) padding-box,
     linear-gradient(135deg, #57cdae, #5d8bff) border-box;
