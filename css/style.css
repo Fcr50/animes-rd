@@ -8954,3 +8954,175 @@ body.pending-page:not(.dark-theme) .pending-link-add-btn {
   border-color: rgba(87, 205, 174, 0.5);
   color: #2a9d8f;
 }
+
+/* ================================================================
+   CIEL PAGE  ·  light mode
+   Tema âmbar/dourado sobre fundos claros
+   ================================================================ */
+
+body.ciel-page:not(.dark-theme) {
+  background:
+    radial-gradient(ellipse 55% 45% at 5% 8%, rgba(251, 191, 36, 0.1), transparent),
+    radial-gradient(ellipse 45% 55% at 92% 92%, rgba(180, 83, 9, 0.07), transparent),
+    var(--bg);
+}
+
+/* Sidebar */
+body.ciel-page:not(.dark-theme) .ciel-sidebar {
+  background: #fffdf3;
+  border-color: rgba(180, 83, 9, 0.25);
+  box-shadow: 0 4px 24px rgba(180, 83, 9, 0.08);
+}
+
+body.ciel-page:not(.dark-theme) .ciel-avatar-wrap {
+  background: linear-gradient(180deg, rgba(251, 191, 36, 0.08), transparent 80%);
+}
+
+body.ciel-page:not(.dark-theme) .ciel-avatar-ring {
+  background: #fffdf3;
+  box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.12), 0 8px 24px rgba(180, 83, 9, 0.12);
+}
+
+body.ciel-page:not(.dark-theme) .ciel-id-block p,
+body.ciel-page:not(.dark-theme) .ciel-online-badge,
+body.ciel-page:not(.dark-theme) .ciel-profile-label {
+  color: rgba(180, 83, 9, 0.6);
+}
+
+body.ciel-page:not(.dark-theme) .ciel-info-item {
+  border-bottom-color: rgba(180, 83, 9, 0.1);
+}
+
+body.ciel-page:not(.dark-theme) .ciel-info-item small {
+  color: rgba(180, 83, 9, 0.5);
+}
+
+body.ciel-page:not(.dark-theme) .ciel-info-item span {
+  color: #92400e;
+}
+
+body.ciel-page:not(.dark-theme) .ciel-profile-section {
+  border-top-color: rgba(180, 83, 9, 0.12);
+}
+
+body.ciel-page:not(.dark-theme) .ciel-people button {
+  border-color: rgba(180, 83, 9, 0.2);
+  color: rgba(180, 83, 9, 0.55);
+}
+
+body.ciel-page:not(.dark-theme) .ciel-people button:hover {
+  background: rgba(251, 191, 36, 0.08);
+  border-color: #d97706;
+  color: #92400e;
+}
+
+body.ciel-page:not(.dark-theme) .ciel-people button.active {
+  background: rgba(251, 191, 36, 0.12);
+  border-color: #d97706;
+  color: #78350f;
+  box-shadow: 0 0 10px rgba(251, 191, 36, 0.15);
+}
+
+/* Chat wrap */
+body.ciel-page:not(.dark-theme) .ciel-chat-wrap {
+  background: #ffffff;
+  border-color: rgba(180, 83, 9, 0.22);
+  box-shadow: 0 4px 32px rgba(180, 83, 9, 0.08);
+}
+
+body.ciel-page:not(.dark-theme) .ciel-chat-topbar {
+  background: linear-gradient(90deg, rgba(251, 191, 36, 0.1), transparent);
+  border-bottom-color: rgba(180, 83, 9, 0.12);
+  color: #92400e;
+}
+
+body.ciel-page:not(.dark-theme) .ciel-topbar-status {
+  color: rgba(180, 83, 9, 0.5);
+}
+
+/* Bolhas de mensagem */
+body.ciel-page:not(.dark-theme) .ciel-msg-bubble {
+  background: #fffef7;
+  border-color: rgba(251, 191, 36, 0.18);
+  border-left-color: #d97706;
+  box-shadow: 0 2px 8px rgba(180, 83, 9, 0.06);
+  color: #1b1718;
+}
+
+body.ciel-page:not(.dark-theme) .ciel-msg-user .ciel-msg-bubble {
+  background: rgba(251, 191, 36, 0.08);
+  border-color: rgba(180, 83, 9, 0.2);
+  border-right-color: #d97706;
+  box-shadow: 0 2px 8px rgba(180, 83, 9, 0.06);
+  color: #1b1718;
+}
+
+body.ciel-page:not(.dark-theme) .ciel-msg-avatar {
+  background: #fffdf3;
+  border-color: rgba(251, 191, 36, 0.5);
+  box-shadow: 0 0 8px rgba(251, 191, 36, 0.15);
+}
+
+/* Rec cards */
+body.ciel-page:not(.dark-theme) .ciel-rec-card {
+  background: #fffef7;
+  border-color: rgba(251, 191, 36, 0.22);
+  border-top-color: #d97706;
+  color: #1b1718;
+}
+
+body.ciel-page:not(.dark-theme) .ciel-rec-card:hover {
+  background: #fffcee;
+  border-color: rgba(251, 191, 36, 0.45);
+  border-top-color: #f59e0b;
+  box-shadow: 0 4px 16px rgba(180, 83, 9, 0.1);
+}
+
+body.ciel-page:not(.dark-theme) .ciel-rec-body strong {
+  color: #1b1718;
+}
+
+body.ciel-page:not(.dark-theme) .ciel-rec-body p {
+  color: rgba(120, 53, 15, 0.6);
+}
+
+body.ciel-page:not(.dark-theme) .ciel-rec-body small {
+  color: #b45309;
+}
+
+/* Quick actions */
+body.ciel-page:not(.dark-theme) .ciel-quick-actions {
+  background: rgba(251, 191, 36, 0.04);
+  border-top-color: rgba(180, 83, 9, 0.1);
+}
+
+body.ciel-page:not(.dark-theme) .ciel-quick-btn {
+  border-color: rgba(180, 83, 9, 0.22);
+  color: rgba(120, 53, 15, 0.7);
+}
+
+body.ciel-page:not(.dark-theme) .ciel-quick-btn:hover {
+  background: rgba(251, 191, 36, 0.1);
+  border-color: #d97706;
+  color: #78350f;
+  box-shadow: none;
+}
+
+/* Input */
+body.ciel-page:not(.dark-theme) .ciel-input-bar {
+  border-top-color: rgba(180, 83, 9, 0.12);
+}
+
+body.ciel-page:not(.dark-theme) #ciel-input {
+  background: transparent;
+  border-bottom-color: rgba(180, 83, 9, 0.25);
+  color: #1b1718;
+}
+
+body.ciel-page:not(.dark-theme) #ciel-input:focus {
+  border-bottom-color: #d97706;
+}
+
+body.ciel-page:not(.dark-theme) #ciel-input::placeholder {
+  color: rgba(180, 83, 9, 0.3);
+}
