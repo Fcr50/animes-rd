@@ -8740,7 +8740,7 @@ body:not(.dark-theme) .opening-list .opening-chip {
 :root {
   --pastel-purple: rgba(93, 139, 255, 0.09);
   --pastel-pink:   rgba(255, 105, 180, 0.09);
-  --pastel-yellow: rgba(255, 211, 54, 0.10);
+  --pastel-yellow: rgba(255, 185, 0, 0.20);
   --pastel-mint:   rgba(87, 205, 174, 0.08);
 }
 
