@@ -8007,6 +8007,18 @@ body:not(.dark-theme) .nav {
   box-shadow: 0 2px 16px rgba(16, 16, 16, 0.08);
 }
 
+/* Logo: gradiente mais escuro para contraste no fundo claro */
+body:not(.dark-theme) .nav-logo,
+body:not(.dark-theme) .brand-gradient,
+body:not(.dark-theme) .nav > a.nav-logo,
+body:not(.dark-theme) .nav > a.nav-logo.active {
+  background: linear-gradient(90deg, #ff6a4a 0%, #57cdae 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
 /* 3 · Headings que usam color:var(--paper) na base (branco → invisível no claro) */
 body:not(.dark-theme) .page-header h1,
 body:not(.dark-theme) .section-head h2,
