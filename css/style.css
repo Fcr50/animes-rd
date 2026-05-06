@@ -7516,6 +7516,20 @@ body.desafios-page .page-header p {
   color: #f0fdf4;
 }
 
+body.pending-page:not(.dark-theme) .pending-history-btn {
+  background: linear-gradient(135deg, #f0fdf9 0%, #e0faf2 100%) padding-box,
+    linear-gradient(135deg, #57cdae, #5d8bff) border-box;
+  border: 1.5px solid transparent;
+  color: #2a8a73;
+}
+
+body.pending-page:not(.dark-theme) .pending-history-btn:hover {
+  background: linear-gradient(135deg, #e0faf2 0%, #d0f5ea 100%) padding-box,
+    linear-gradient(135deg, #57cdae, #5d8bff) border-box;
+  box-shadow: 0 4px 16px rgba(87, 205, 174, 0.25);
+  color: #1a6b58;
+}
+
 /* ── Pending page ─────────────────────────────────────────────────────────── */
 body.pending-page {
   background:
