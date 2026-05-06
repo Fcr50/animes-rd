@@ -8731,56 +8731,56 @@ body:not(.dark-theme) .card:not(.modal):not(.acervo-main-card):nth-child(4n+1),
 body:not(.dark-theme) .stat-card:nth-child(4n+1),
 body:not(.dark-theme) .news-card:nth-child(4n+1) {
   background: linear-gradient(145deg, var(--pastel-purple) 0%, #ffffff 68%);
-  border-color: rgba(93, 139, 255, 0.18);
+  border-color: rgba(93, 139, 255, 0.40);
 }
 
 body:not(.dark-theme) .card:not(.modal):not(.acervo-main-card):nth-child(4n+2),
 body:not(.dark-theme) .stat-card:nth-child(4n+2),
 body:not(.dark-theme) .news-card:nth-child(4n+2) {
   background: linear-gradient(145deg, var(--pastel-pink) 0%, #ffffff 68%);
-  border-color: rgba(255, 105, 180, 0.18);
+  border-color: rgba(255, 105, 180, 0.40);
 }
 
 body:not(.dark-theme) .card:not(.modal):not(.acervo-main-card):nth-child(4n+3),
 body:not(.dark-theme) .stat-card:nth-child(4n+3),
 body:not(.dark-theme) .news-card:nth-child(4n+3) {
   background: linear-gradient(145deg, var(--pastel-yellow) 0%, #ffffff 68%);
-  border-color: rgba(255, 211, 54, 0.22);
+  border-color: rgba(255, 185, 0, 0.45);
 }
 
 body:not(.dark-theme) .card:not(.modal):not(.acervo-main-card):nth-child(4n),
 body:not(.dark-theme) .stat-card:nth-child(4n),
 body:not(.dark-theme) .news-card:nth-child(4n) {
   background: linear-gradient(145deg, var(--pastel-mint) 0%, #ffffff 68%);
-  border-color: rgba(87, 205, 174, 0.18);
+  border-color: rgba(87, 205, 174, 0.40);
 }
 
 /* Sidebar boxes: 1º roxo, 2º rosa */
 body:not(.dark-theme) .sidebar-box:nth-child(odd) {
   background: linear-gradient(145deg, var(--pastel-purple) 0%, #ffffff 68%);
-  border-color: rgba(93, 139, 255, 0.18);
+  border-color: rgba(93, 139, 255, 0.40);
 }
 body:not(.dark-theme) .sidebar-box:nth-child(even) {
   background: linear-gradient(145deg, var(--pastel-pink) 0%, #ffffff 68%);
-  border-color: rgba(255, 105, 180, 0.18);
+  border-color: rgba(255, 105, 180, 0.40);
 }
 
 /* Quick-links ciclados */
 body:not(.dark-theme) .quick-links a:nth-child(4n+1) {
   background: linear-gradient(145deg, var(--pastel-purple) 0%, #ffffff 68%);
-  border-color: rgba(93, 139, 255, 0.18);
+  border-color: rgba(93, 139, 255, 0.40);
 }
 body:not(.dark-theme) .quick-links a:nth-child(4n+2) {
   background: linear-gradient(145deg, var(--pastel-pink) 0%, #ffffff 68%);
-  border-color: rgba(255, 105, 180, 0.18);
+  border-color: rgba(255, 105, 180, 0.40);
 }
 body:not(.dark-theme) .quick-links a:nth-child(4n+3) {
   background: linear-gradient(145deg, var(--pastel-yellow) 0%, #ffffff 68%);
-  border-color: rgba(255, 211, 54, 0.22);
+  border-color: rgba(255, 185, 0, 0.45);
 }
 body:not(.dark-theme) .quick-links a:nth-child(4n) {
   background: linear-gradient(145deg, var(--pastel-mint) 0%, #ffffff 68%);
-  border-color: rgba(87, 205, 174, 0.18);
+  border-color: rgba(87, 205, 174, 0.40);
 }
 
 /* Hover: intensifica ligeiramente */
