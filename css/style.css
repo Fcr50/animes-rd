@@ -2583,19 +2583,19 @@ tbody tr:hover {
 
 /* Refined editorial palette */
 :root {
-  /* Paleta baseada em artsluminare.com */
-  --bg: #fdf4e7;
-  --paper: #ffffff;
-  --paper-soft: #fff3e4;
-  --ink: #1b1718;
-  --text: #1b1718;
-  --muted: #716866;
-  --faint: #a09490;
-  --card: #ffffff;
+  /* Paleta baseada em artsluminare.com — tom papel quente */
+  --bg: #ede4d6;
+  --paper: #f5ede0;
+  --paper-soft: #e8ddd0;
+  --ink: #2c2420;
+  --text: #2c2420;
+  --muted: #7a6f66;
+  --faint: #a8998e;
+  --card: #f9f3ec;
   --card-bg: var(--card);
-  --card2: #fff5eb;
-  --border: rgba(16, 16, 16, 0.12);
-  --border-hover: rgba(16, 16, 16, 0.32);
+  --card2: #f0e8de;
+  --border: rgba(60, 40, 20, 0.14);
+  --border-hover: rgba(60, 40, 20, 0.30);
   --accent: #ff6a4a;
   --danger: #ff6a4a;
   --warning: #f7b900;
@@ -2605,7 +2605,7 @@ tbody tr:hover {
   --dudu-light: #f7b900;
   --hacksuya-light: #57cdae;
   --zana-light: #ff6a4a;
-  --shadow: 0 20px 48px rgba(16, 16, 16, 0.10);
+  --shadow: 0 16px 40px rgba(60, 40, 20, 0.10);
 }
 
 body {
@@ -8007,8 +8007,8 @@ body.dark-theme .blog-categories a:nth-child(3) {
 /* 1 · Fundo da página */
 body:not(.dark-theme) {
   background:
-    radial-gradient(ellipse at 10% 15%, rgba(255, 185, 0, 0.08), transparent 480px),
-    radial-gradient(ellipse at 88% 80%, rgba(255, 105, 74, 0.06), transparent 440px),
+    radial-gradient(ellipse at 10% 10%, rgba(255, 185, 0, 0.10), transparent 420px),
+    radial-gradient(ellipse at 90% 85%, rgba(180, 83, 9, 0.07), transparent 400px),
     var(--bg);
   background-attachment: fixed;
   color: var(--text);
@@ -8023,11 +8023,9 @@ body:not(.dark-theme)::before {
 
 /* 2 · Nav */
 body:not(.dark-theme) .nav {
-  background:
-    linear-gradient(90deg, rgba(255, 185, 0, 0.06) 0%, rgba(255, 105, 74, 0.04) 100%),
-    rgba(253, 244, 231, 0.95);
-  border-bottom-color: rgba(180, 83, 9, 0.1);
-  box-shadow: 0 2px 16px rgba(180, 83, 9, 0.06);
+  background: rgba(237, 228, 214, 0.96);
+  border-bottom-color: rgba(60, 40, 20, 0.12);
+  box-shadow: 0 2px 16px rgba(60, 40, 20, 0.07);
 }
 
 /* Logo: gradiente azul→verde para contraste no fundo claro */
