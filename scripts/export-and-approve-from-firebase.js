@@ -99,7 +99,7 @@ async function exportAndApproveAnimes() {
           malId: animeData.malId || null,
           comentarios: "", 
           comments: [], // Novo campo estruturado
-          files: [],
+          files: animeData.files || [],
           maisDeUmVoto: "nao",
           qtdVotos: 0,
           controversia: 0,

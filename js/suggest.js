@@ -295,6 +295,22 @@ async function renderSubmissionForm() {
       <label>Submetido por</label>
       <input type="text" value="${currentUser.personName}" readonly disabled style="background:rgba(255,255,255,0.05); color:var(--faint)" />
     </div>
+    <div class="form-group">
+      <label>Links <span style="font-weight:normal;color:var(--faint);font-size:12px">(opcional — opening, onde assistir, etc.)</span></label>
+      <div id="suggest-links-list"></div>
+      <button type="button" onclick="toggleSuggestLinkForm()" style="margin-top:4px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:6px;color:var(--muted);cursor:pointer;font-size:12px;font-weight:700;padding:6px 12px">+ Adicionar link</button>
+      <div id="suggest-link-form" style="display:none;margin-top:8px">
+        <input id="suggest-link-name" type="text" placeholder="Nome (ex: Opening 1, Crunchyroll...)" maxlength="60"
+               style="width:100%;margin-bottom:6px;padding:8px 10px;background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:6px;color:white;font-size:13px" />
+        <input id="suggest-link-url" type="url" placeholder="https://..." maxlength="500"
+               style="width:100%;margin-bottom:8px;padding:8px 10px;background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:6px;color:white;font-size:13px" />
+        <div style="display:flex;gap:6px;align-items:center">
+          <button type="button" onclick="addSuggestLink()" style="background:var(--accent);border:none;border-radius:6px;color:white;cursor:pointer;font-size:12px;font-weight:700;padding:6px 14px">Adicionar</button>
+          <button type="button" onclick="toggleSuggestLinkForm()" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:6px;color:var(--muted);cursor:pointer;font-size:12px;padding:6px 10px">Cancelar</button>
+          <span id="suggest-link-status" style="font-size:11px;color:var(--muted)"></span>
+        </div>
+      </div>
+    </div>
     <button id="submit-anime-button" class="suggest-submit">Submeter Anime</button>
   `;
 
@@ -445,7 +461,8 @@ function renderPendingAnimes(animes) {
             <div style="display:flex">${dots}</div>
         </div>
         <div class="pending-genres">${(anime.generos || []).map((g) => `<span class="pending-genre-chip">${g}</span>`).join("")}</div>
-        <div style="font-size:12px; color:var(--faint); margin-bottom:15px">Sugerido por <strong style="color:${PERSON_LIGHTS[anime.submittedByName] || "var(--paper)"}">${anime.submittedByName}</strong></div>
+        <div style="font-size:12px; color:var(--faint); margin-bottom:12px">Sugerido por <strong style="color:${PERSON_LIGHTS[anime.submittedByName] || "var(--paper)"}">${anime.submittedByName}</strong></div>
+        ${renderPendingLinksSection(anime)}
         ${
           currentUser
             ? `
@@ -570,12 +587,14 @@ async function handleSubmitAnime() {
       votes: {},
       votedUserIds: [],
       status: "pending",
+      files: suggestLinks.map((l) => ({ ...l })),
     });
     alert("Anime sugerido!");
     document.getElementById("anime-name").value = "";
     document.getElementById("anime-genres").value = "";
     document.getElementById("official-title").textContent = "";
     currentAnimeData = null;
+    suggestLinks = [];
   } catch (e) {
     alert("Erro ao sugerir.");
   } finally {
@@ -585,6 +604,135 @@ async function handleSubmitAnime() {
 
 let unsubscribePendingListener = null;
 let lastAnimesData = [];
+let suggestLinks = []; // links adicionados no formulário de sugestão
+
+// ── Helpers de links no formulário de sugestão ──────────────────────────────
+
+function renderSuggestLinksList() {
+  const el = document.getElementById("suggest-links-list");
+  if (!el) return;
+  el.innerHTML = suggestLinks.length
+    ? suggestLinks
+        .map(
+          (f, i) => `
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+            <span style="background:rgba(139,92,246,0.12);border:1px solid rgba(139,92,246,0.25);border-radius:999px;color:#c4b5fd;font-size:12px;padding:4px 12px;max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${escapeHTML(f.url)}">${escapeHTML(f.name)}</span>
+            <button type="button" onclick="removeSuggestLink(${i})" style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);border-radius:4px;color:#ef4444;cursor:pointer;font-size:11px;padding:3px 7px;flex-shrink:0">×</button>
+          </div>`,
+        )
+        .join("")
+    : "";
+}
+
+window.toggleSuggestLinkForm = () => {
+  const form = document.getElementById("suggest-link-form");
+  if (!form) return;
+  const showing = form.style.display !== "none";
+  form.style.display = showing ? "none" : "block";
+  if (!showing) document.getElementById("suggest-link-name")?.focus();
+};
+
+window.addSuggestLink = () => {
+  const nameEl = document.getElementById("suggest-link-name");
+  const urlEl = document.getElementById("suggest-link-url");
+  const statusEl = document.getElementById("suggest-link-status");
+  const name = nameEl?.value.trim();
+  const url = urlEl?.value.trim();
+  if (!name || !url) { if (statusEl) statusEl.textContent = "Preencha nome e URL."; return; }
+  try { new URL(url); } catch { if (statusEl) statusEl.textContent = "URL inválida."; return; }
+  suggestLinks.push({ name, url });
+  renderSuggestLinksList();
+  nameEl.value = "";
+  urlEl.value = "";
+  if (statusEl) statusEl.textContent = "";
+  document.getElementById("suggest-link-form").style.display = "none";
+};
+
+window.removeSuggestLink = (idx) => {
+  suggestLinks.splice(idx, 1);
+  renderSuggestLinksList();
+};
+
+// ── Helpers de links nos cards pendentes ────────────────────────────────────
+
+function renderPendingLinksSection(anime) {
+  const files = anime.files || [];
+  const canEdit = !!currentUser?.personName;
+  const id = anime.id;
+
+  const listHtml = files
+    .map(
+      (f, i) => `
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+        <a href="${escapeHTML(f.url)}" target="_blank" rel="noopener noreferrer"
+           style="background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.22);border-radius:999px;color:#c4b5fd;font-size:12px;padding:4px 12px;text-decoration:none;max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-block" title="${escapeHTML(f.url)}">
+          ${escapeHTML(f.name)}
+        </a>
+        ${canEdit ? `<button onclick="deleteLinkPending('${id}',${i})" style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);border-radius:4px;color:#ef4444;cursor:pointer;font-size:11px;padding:3px 7px;flex-shrink:0">×</button>` : ""}
+      </div>`,
+    )
+    .join("");
+
+  const addFormHtml = canEdit
+    ? `
+      <div id="pending-link-add-${id}" style="display:none;margin-top:8px">
+        <input id="pending-link-name-${id}" type="text" placeholder="Nome do link" maxlength="60"
+               style="width:100%;margin-bottom:6px;background:rgba(0,0,0,0.25);border:1px solid var(--border);border-radius:6px;padding:7px 10px;color:white;font-size:13px" />
+        <input id="pending-link-url-${id}" type="url" placeholder="https://..." maxlength="500"
+               style="width:100%;margin-bottom:8px;background:rgba(0,0,0,0.25);border:1px solid var(--border);border-radius:6px;padding:7px 10px;color:white;font-size:13px" />
+        <div style="display:flex;gap:6px;align-items:center">
+          <button onclick="saveAddLinkPending('${id}')" style="background:var(--accent);border:none;border-radius:6px;color:white;cursor:pointer;font-size:12px;font-weight:700;padding:6px 14px">Salvar</button>
+          <button onclick="toggleAddLinkPending('${id}')" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:6px;color:var(--muted);cursor:pointer;font-size:12px;padding:6px 10px">Cancelar</button>
+          <span id="pending-link-status-${id}" style="font-size:11px;color:var(--muted)"></span>
+        </div>
+      </div>
+      <button onclick="toggleAddLinkPending('${id}')" style="margin-top:6px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:6px;color:var(--muted);cursor:pointer;font-size:11px;font-weight:700;padding:5px 10px">+ Link</button>`
+    : "";
+
+  return `
+    <div style="margin-bottom:14px">
+      ${files.length ? `<div style="font-size:10px;font-weight:800;letter-spacing:.1em;color:var(--faint);text-transform:uppercase;margin-bottom:6px">Links</div>` : ""}
+      ${listHtml}
+      ${addFormHtml}
+    </div>`;
+}
+
+window.toggleAddLinkPending = (animeId) => {
+  const form = document.getElementById(`pending-link-add-${animeId}`);
+  if (!form) return;
+  form.style.display = form.style.display === "none" ? "block" : "none";
+  if (form.style.display === "block") document.getElementById(`pending-link-name-${animeId}`)?.focus();
+};
+
+window.saveAddLinkPending = async (animeId) => {
+  if (!currentUser || !db) return;
+  const nameEl = document.getElementById(`pending-link-name-${animeId}`);
+  const urlEl = document.getElementById(`pending-link-url-${animeId}`);
+  const statusEl = document.getElementById(`pending-link-status-${animeId}`);
+  const name = nameEl?.value.trim();
+  const url = urlEl?.value.trim();
+  if (!name || !url) { if (statusEl) statusEl.textContent = "Preencha nome e URL."; return; }
+  try { new URL(url); } catch { if (statusEl) statusEl.textContent = "URL inválida."; return; }
+  if (statusEl) statusEl.textContent = "Salvando...";
+  try {
+    const anime = lastAnimesData.find((a) => a.id === animeId);
+    const newFiles = [...(anime?.files || []), { name, url }];
+    await updateDoc(doc(db, "pending_animes", animeId), { files: newFiles });
+  } catch (e) {
+    if (statusEl) statusEl.textContent = "Erro ao salvar.";
+  }
+};
+
+window.deleteLinkPending = async (animeId, idx) => {
+  if (!currentUser || !db) return;
+  try {
+    const anime = lastAnimesData.find((a) => a.id === animeId);
+    const newFiles = (anime?.files || []).filter((_, i) => i !== idx);
+    await updateDoc(doc(db, "pending_animes", animeId), { files: newFiles });
+  } catch (e) {
+    console.error(e);
+  }
+};
 
 function startPendingAnimesListener() {
   if (!db || !currentUser || !pendingAnimesContainer) return;
