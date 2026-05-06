@@ -35,7 +35,7 @@ import {
   formatNota,
   notaColor,
 } from "./data.js?v=desafios-soft-1";
-import { normalizeText } from "./utils.js";
+import { normalizeText, escapeHTML } from "./utils.js";
 
 const GENRE_TRANSLATION = {
   Action: "Ação ⚔️",
