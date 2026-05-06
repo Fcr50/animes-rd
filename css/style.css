@@ -8543,13 +8543,17 @@ body:not(.dark-theme) .blog-hero-card p {
   color: #1b1718;
 }
 
-/* Opening chips no blog */
-body:not(.dark-theme) .opening-chip b {
-  color: var(--muted);
+/* Opening chips no blog — !important para vencer a regra base */
+body:not(.dark-theme) .post-tags .opening-chip,
+body:not(.dark-theme) .post-openings .opening-chip,
+body:not(.dark-theme) .opening-list .opening-chip {
+  color: var(--text) !important;
+  background: rgba(16, 16, 16, 0.05) !important;
+  border-color: rgba(16, 16, 16, 0.12) !important;
 }
 
-body:not(.dark-theme) .opening-list .opening-chip {
-  color: #1b1718;
+body:not(.dark-theme) .opening-chip b {
+  color: var(--muted) !important;
 }
 
 /* ================================================================
