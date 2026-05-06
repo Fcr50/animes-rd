@@ -8457,6 +8457,13 @@ body:not(.dark-theme) .stat-sub {
 }
 
 /* 28 · Blog cards — TUDO em texto preto (cards já têm fundo claro/pastel) */
+
+/* post-featured: substituir amarelo forte por gradiente suave */
+body:not(.dark-theme) .post-featured {
+  background: linear-gradient(145deg, rgba(255, 211, 54, 0.08) 0%, #ffffff 65%);
+  border-color: rgba(255, 211, 54, 0.2);
+}
+
 body:not(.dark-theme) .featured-comment-title {
   color: #1b1718;
   text-shadow: none;
