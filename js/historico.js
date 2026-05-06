@@ -5,6 +5,8 @@ import {
   query,
   orderBy,
   onSnapshot,
+  doc,
+  runTransaction,
 } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 import {
   getAuth,
@@ -22,14 +24,66 @@ const db = app ? getFirestore(app) : null;
 
 const container = document.getElementById("historico-container");
 
+// State acessível pelos handlers globais
+let _currentUser = null;
+
 function getVoteLabel(vote) {
   if (!vote) return "—";
   if (vote.score === null || vote.score === undefined) return "Não assisti";
   return Number(vote.score).toFixed(1);
 }
 
+function buildEditForm(animeId, myVote) {
+  const hasScore = myVote?.score !== null && myVote?.score !== undefined;
+  const score = hasScore ? Number(myVote.score).toFixed(1) : "7.0";
+  const comment = myVote?.comment ? myVote.comment : "";
+
+  return `
+    <div id="vote-edit-${animeId}" style="display:none; margin-top:8px">
+      <div style="display:flex;gap:12px;margin-bottom:10px">
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;color:var(--muted)">
+          <input type="radio" name="hedit-watch-${animeId}" value="watched"
+            ${hasScore ? "checked" : ""}
+            onchange="document.getElementById('hedit-score-wrap-${animeId}').style.display='block'"
+          /> Assisti
+        </label>
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;color:var(--muted)">
+          <input type="radio" name="hedit-watch-${animeId}" value="not_watched"
+            ${!hasScore ? "checked" : ""}
+            onchange="document.getElementById('hedit-score-wrap-${animeId}').style.display='none'"
+          /> Não assisti
+        </label>
+      </div>
+      <div id="hedit-score-wrap-${animeId}" style="display:${hasScore ? "block" : "none"}">
+        <div style="margin-bottom:8px">
+          <label style="font-size:11px;font-weight:800;letter-spacing:.08em;color:var(--faint);text-transform:uppercase">Nota (0–10)</label>
+          <input id="hedit-score-${animeId}" type="number" min="0" max="10" step="0.1" value="${score}"
+            style="margin-top:4px;width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:8px 10px;color:var(--text);font-size:14px;font-weight:700" />
+        </div>
+        <div style="margin-bottom:10px">
+          <label style="font-size:11px;font-weight:800;letter-spacing:.08em;color:var(--faint);text-transform:uppercase">Comentário (opcional)</label>
+          <textarea id="hedit-comment-${animeId}" maxlength="400" placeholder="Seu comentário..."
+            style="margin-top:4px;width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:8px 10px;color:var(--text);font-size:13px;resize:vertical;min-height:64px">${escapeHTML(comment)}</textarea>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <button id="hedit-save-${animeId}"
+          onclick="saveEditVoteHistorico('${animeId}')"
+          style="background:#22c55e;border:none;border-radius:8px;color:#fff;cursor:pointer;font-size:13px;font-weight:800;padding:8px 16px">
+          Salvar
+        </button>
+        <button onclick="cancelEditVoteHistorico('${animeId}')"
+          style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:8px;color:var(--muted);cursor:pointer;font-size:13px;font-weight:600;padding:8px 14px">
+          Cancelar
+        </button>
+        <span id="hedit-status-${animeId}" style="font-size:12px;color:var(--muted)"></span>
+      </div>
+    </div>`;
+}
+
 function renderHistorico(animes, currentUser) {
   if (!container) return;
+  _currentUser = currentUser;
 
   const voted = animes.filter((a) => a.votedUserIds?.includes(currentUser.uid));
 
@@ -89,19 +143,84 @@ function renderHistorico(animes, currentUser) {
             <div style="font-size:12px;color:var(--faint);margin-bottom:12px">
               Sugerido por <strong style="color:${PERSON_LIGHTS[anime.submittedByName] || "var(--paper)"}">${escapeHTML(anime.submittedByName || "")}</strong>
             </div>
-            <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(134,239,172,0.1);border-radius:16px;padding:14px">
-              <div style="color:${myColor};font-weight:800;font-size:14px;margin-bottom:${otherVotes ? "12px" : "0"}">
-                ✓ Meu voto: ${myLabel}
-                ${myVote?.comment ? `<div style="color:var(--muted);font-size:12px;font-weight:600;margin-top:6px">"${escapeHTML(myVote.comment)}"</div>` : ""}
+
+            <div id="vote-display-${anime.id}" style="background:rgba(255,255,255,0.03);border:1px solid rgba(134,239,172,0.1);border-radius:16px;padding:14px">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start">
+                <div style="color:${myColor};font-weight:800;font-size:14px;margin-bottom:${otherVotes ? "12px" : "0"}">
+                  ✓ Meu voto: ${myLabel}
+                  ${myVote?.comment ? `<div style="color:var(--muted);font-size:12px;font-weight:600;margin-top:6px">"${escapeHTML(myVote.comment)}"</div>` : ""}
+                </div>
+                <button onclick="startEditVoteHistorico('${anime.id}')"
+                  title="Editar voto"
+                  style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:8px;color:var(--muted);cursor:pointer;font-size:11px;font-weight:700;padding:5px 10px;white-space:nowrap;flex-shrink:0">
+                  ✎ Editar
+                </button>
               </div>
               ${otherVotes ? `<div style="display:flex;flex-wrap:wrap;gap:6px">${otherVotes}</div>` : ""}
             </div>
+
+            ${buildEditForm(anime.id, myVote)}
           </div>`;
         })
         .join("")}
     </div>
   `;
 }
+
+window.startEditVoteHistorico = (animeId) => {
+  document.getElementById(`vote-display-${animeId}`).style.display = "none";
+  document.getElementById(`vote-edit-${animeId}`).style.display = "block";
+};
+
+window.cancelEditVoteHistorico = (animeId) => {
+  document.getElementById(`vote-display-${animeId}`).style.display = "block";
+  document.getElementById(`vote-edit-${animeId}`).style.display = "none";
+};
+
+window.saveEditVoteHistorico = async (animeId) => {
+  if (!_currentUser?.personName || !db) return;
+
+  const statusEl = document.querySelector(`input[name="hedit-watch-${animeId}"]:checked`);
+  if (!statusEl) return;
+
+  const watchStatus = statusEl.value;
+  const score =
+    watchStatus === "watched"
+      ? parseFloat(document.getElementById(`hedit-score-${animeId}`).value)
+      : null;
+  const comment =
+    watchStatus === "watched"
+      ? (document.getElementById(`hedit-comment-${animeId}`)?.value || "").trim()
+      : "";
+
+  if (watchStatus === "watched" && (isNaN(score) || score < 0 || score > 10)) {
+    document.getElementById(`hedit-status-${animeId}`).textContent = "Nota inválida (0–10).";
+    return;
+  }
+
+  const saveBtn = document.getElementById(`hedit-save-${animeId}`);
+  const statusMsg = document.getElementById(`hedit-status-${animeId}`);
+  saveBtn.disabled = true;
+  statusMsg.textContent = "Salvando...";
+
+  try {
+    const docRef = doc(db, "pending_animes", animeId);
+    await runTransaction(db, async (t) => {
+      const snap = await t.get(docRef);
+      const data = snap.data();
+      const votes = data.votes || {};
+      const votedUserIds = data.votedUserIds || [];
+      votes[_currentUser.personName] = { score, comment, votedAt: new Date() };
+      if (!votedUserIds.includes(_currentUser.uid)) votedUserIds.push(_currentUser.uid);
+      t.update(docRef, { votes, votedUserIds });
+    });
+    // onSnapshot re-renderiza automaticamente
+  } catch (e) {
+    console.error(e);
+    statusMsg.textContent = "Erro ao salvar.";
+    saveBtn.disabled = false;
+  }
+};
 
 function init() {
   if (!auth) {
@@ -123,7 +242,7 @@ function init() {
 
     onSnapshot(q, (snapshot) => {
       const animes = [];
-      snapshot.forEach((doc) => animes.push({ ...doc.data(), id: doc.id }));
+      snapshot.forEach((d) => animes.push({ ...d.data(), id: d.id }));
       renderHistorico(animes, currentUser);
     });
   });
