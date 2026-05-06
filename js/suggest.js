@@ -615,14 +615,46 @@ function renderSuggestLinksList() {
     ? suggestLinks
         .map(
           (f, i) => `
-          <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
-            <span style="background:rgba(139,92,246,0.12);border:1px solid rgba(139,92,246,0.25);border-radius:999px;color:#c4b5fd;font-size:12px;padding:4px 12px;max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${escapeHTML(f.url)}">${escapeHTML(f.name)}</span>
-            <button type="button" onclick="removeSuggestLink(${i})" style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);border-radius:4px;color:#ef4444;cursor:pointer;font-size:11px;padding:3px 7px;flex-shrink:0">×</button>
+          <div>
+            <div class="pending-link-chip-wrap">
+              <span class="pending-link-chip" title="${escapeHTML(f.url)}">${escapeHTML(f.name)}</span>
+              <button type="button" onclick="startEditSuggestLink(${i})" class="pending-link-edit" title="Editar link">✎</button>
+              <button type="button" onclick="removeSuggestLink(${i})" class="pending-link-delete" title="Remover link">×</button>
+            </div>
+            <div id="suggest-link-edit-${i}" style="display:none;margin:6px 0 10px">
+              <input id="suggest-link-ename-${i}" type="text" value="${escapeHTML(f.name)}" maxlength="60" placeholder="Nome do link"
+                     style="width:100%;margin-bottom:6px;background:rgba(0,0,0,0.2);border:1px solid rgba(42,157,180,0.25);border-radius:6px;padding:7px 10px;color:white;font-size:13px" />
+              <input id="suggest-link-eurl-${i}" type="url" value="${escapeHTML(f.url)}" maxlength="500" placeholder="https://..."
+                     style="width:100%;margin-bottom:8px;background:rgba(0,0,0,0.2);border:1px solid rgba(42,157,180,0.25);border-radius:6px;padding:7px 10px;color:white;font-size:13px" />
+              <div style="display:flex;gap:6px;align-items:center">
+                <button type="button" onclick="saveEditSuggestLink(${i})" style="background:rgba(42,157,180,0.8);border:none;border-radius:6px;color:white;cursor:pointer;font-size:12px;font-weight:700;padding:6px 14px">Salvar</button>
+                <button type="button" onclick="cancelEditSuggestLink(${i})" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:6px;color:var(--muted);cursor:pointer;font-size:12px;padding:6px 10px">Cancelar</button>
+                <span id="suggest-link-estatus-${i}" style="font-size:11px;color:var(--muted)"></span>
+              </div>
+            </div>
           </div>`,
         )
         .join("")
     : "";
 }
+
+window.startEditSuggestLink = (idx) => {
+  document.getElementById(`suggest-link-edit-${idx}`)?.style.setProperty("display", "block");
+};
+
+window.cancelEditSuggestLink = (idx) => {
+  document.getElementById(`suggest-link-edit-${idx}`)?.style.setProperty("display", "none");
+};
+
+window.saveEditSuggestLink = (idx) => {
+  const name = document.getElementById(`suggest-link-ename-${idx}`)?.value.trim();
+  const url = document.getElementById(`suggest-link-eurl-${idx}`)?.value.trim();
+  const statusEl = document.getElementById(`suggest-link-estatus-${idx}`);
+  if (!name || !url) { if (statusEl) statusEl.textContent = "Preencha nome e URL."; return; }
+  try { new URL(url); } catch { if (statusEl) statusEl.textContent = "URL inválida."; return; }
+  suggestLinks[idx] = { name, url };
+  renderSuggestLinksList();
+};
 
 window.toggleSuggestLinkForm = () => {
   const form = document.getElementById("suggest-link-form");
