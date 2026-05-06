@@ -10,9 +10,13 @@
         margin-bottom: 15px;
       }
       .form-group label {
+        color: var(--text);
         display: block;
-        margin-bottom: 5px;
-        font-weight: bold;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        margin-bottom: 6px;
+        text-transform: uppercase;
       }
       .form-group input[type="text"] {
         width: 100%;
@@ -21,6 +25,31 @@
         border: 1px solid var(--border);
         border-radius: 6px;
         color: white;
+      }
+
+      /* Light mode: inputs claros com texto escuro */
+      body:not(.dark-theme) .form-group input[type="text"],
+      body:not(.dark-theme) #submission-form-container input,
+      body:not(.dark-theme) #submission-form-container textarea,
+      body:not(.dark-theme) #submission-form-container select {
+        background: #ffffff;
+        border: 1.5px solid rgba(16, 16, 16, 0.18);
+        color: #1b1718;
+      }
+
+      body:not(.dark-theme) .form-group input[type="text"]::placeholder,
+      body:not(.dark-theme) #submission-form-container input::placeholder {
+        color: #a09490;
+      }
+
+      body:not(.dark-theme) #submission-form-container p,
+      body:not(.dark-theme) #submission-form-container span:not(.opening-chip),
+      body:not(.dark-theme) #submission-form-container small {
+        color: #1b1718;
+      }
+
+      body:not(.dark-theme) #submission-form-container a {
+        color: #5d8bff;
       }
     </style>
     <script type="module" src="./js/theme.js?v=desafios-soft-1"></script>
