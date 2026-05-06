@@ -8131,9 +8131,9 @@ body:not(.dark-theme) .table-wrap {
 }
 body:not(.dark-theme) .acervo-main-card {
   background: var(--card) padding-box,
-    linear-gradient(135deg, rgba(93, 139, 255, 0.7), rgba(87, 205, 174, 0.65), rgba(255, 105, 180, 0.65)) border-box;
-  border: 2px solid transparent;
-  box-shadow: 0 4px 24px rgba(93, 139, 255, 0.08);
+    linear-gradient(135deg, #5d8bff, #57cdae 50%, #ff9fc7) border-box;
+  border: 2.5px solid transparent;
+  box-shadow: 0 4px 28px rgba(93, 139, 255, 0.12);
 }
 body:not(.dark-theme) table {
   background: transparent;
