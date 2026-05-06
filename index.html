@@ -11,47 +11,59 @@
       @media (max-width: 768px) {
         /* Hero: quebra a altura fixa de 470px */
         .blog-hero-copy {
-          height: 230px;
-          min-height: 230px;
-          padding: 18px 18px 14px;
+          height: 210px;
+          min-height: 210px;
+          padding: 14px 16px 10px;
         }
 
-        /* Padding interno do slide cabe na nova altura */
         .blog-hero-slide {
-          padding: 8px 12px 36px;
+          padding: 6px 10px 28px;
+        }
+
+        /* Hero copy: h1 menor */
+        .blog-hero-copy h1 {
+          font-size: clamp(20px, 5.5vw, 28px);
+          line-height: 1.1;
         }
 
         /* Card do anime destaque: compacto */
         .blog-hero-card {
           min-height: auto;
-          padding: 18px 18px 20px;
+          padding: 14px 16px 16px;
         }
 
         /* Mural de comentários: altura limitada */
         .post-featured {
           min-height: auto;
-          padding: 18px 20px;
+          padding: 16px;
+        }
+
+        .featured-comment-title {
+          font-size: 20px;
+          margin-bottom: 12px;
         }
 
         .featured-comment-wall {
-          max-height: 240px;
+          max-height: 220px;
+          min-height: 180px;
           overflow: hidden;
         }
 
         /* Sidebar: lado a lado em vez de empilhado */
         .blog-sidebar {
           display: grid;
-          gap: 12px;
+          gap: 10px;
           grid-template-columns: 1fr 1fr;
         }
 
         .sidebar-box {
-          padding: 16px 14px;
+          padding: 14px 12px;
         }
 
         .sidebar-box h2 {
-          font-size: 22px;
-          margin-bottom: 10px;
+          font-size: 18px;
+          line-height: 1.1;
+          margin-bottom: 8px;
         }
 
         /* Notícias: 2 colunas */
@@ -60,7 +72,11 @@
         }
 
         .news-card {
-          padding: 12px 14px;
+          padding: 12px 12px;
+        }
+
+        .news-card h3 {
+          font-size: 13px;
         }
 
         /* Trunca descrição para economizar espaço */
@@ -69,6 +85,33 @@
           -webkit-line-clamp: 2;
           display: -webkit-box;
           overflow: hidden;
+        }
+
+        /* Blog shell: menos padding */
+        .blog-shell {
+          padding: 18px 14px 48px;
+        }
+
+        /* Blog categories: menores */
+        .blog-categories a {
+          font-size: 12px;
+          padding: 8px 12px;
+        }
+      }
+
+      /* Telas muito pequenas: 1 coluna */
+      @media (max-width: 430px) {
+        .blog-sidebar {
+          grid-template-columns: 1fr;
+        }
+
+        .news-grid {
+          grid-template-columns: 1fr !important;
+        }
+
+        .blog-hero-copy {
+          height: 190px;
+          min-height: 190px;
         }
       }
     </style>

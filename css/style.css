@@ -8539,3 +8539,102 @@ body:not(.dark-theme) .stat-sub {
     font-size: 15px !important;
   }
 }
+
+/* ================================================================
+   MOBILE MELHORIAS GLOBAIS — todas as páginas
+   ================================================================ */
+
+@media (max-width: 768px) {
+  /* ── Person pages: h1 e mascote menores ── */
+  .person-hero h1 {
+    font-size: clamp(28px, 7.5vw, 42px);
+  }
+
+  .rafael-hero-mascot {
+    height: clamp(68px, 16vw, 90px);
+  }
+
+  /* ── Blog: member cards mostram ~1.3 por vez (carousel sensato) ── */
+  #member-grid.post-grid .post-card {
+    flex: 0 0 min(280px, 76vw);
+  }
+
+  /* Setas desnecessárias em touch */
+  .member-scroll-arrows {
+    display: none;
+  }
+
+  /* Cards do blog: título menor */
+  .post-card h3 {
+    font-size: 18px !important;
+  }
+
+  /* Section head do blog: empilha */
+  .blog-section-head,
+  .member-section-head {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  /* Blog hero card: h2 menor */
+  .blog-hero-card h2 {
+    font-size: clamp(20px, 5.5vw, 32px);
+  }
+
+  /* ── Suggest: padding menor ── */
+  body.suggest-page .card.suggest-form-card {
+    padding: 16px;
+  }
+
+  body.suggest-page .page-header {
+    margin-bottom: 16px;
+    padding-bottom: 14px;
+  }
+
+  /* ── Compare: selectors empilham ── */
+  .compare-selectors {
+    flex-direction: column;
+  }
+
+  .compare-selectors select {
+    min-width: 0;
+    width: 100%;
+  }
+
+  /* ── Person profile: charts menores ── */
+  body.person-profile-page .chart-container {
+    height: 200px !important;
+  }
+
+  body.person-profile-page .grid-2 {
+    gap: 12px;
+  }
+
+  /* ── Desafios: tabs mais compactas ── */
+  .desafio-tab {
+    font-size: 11px;
+    padding: 8px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* ── Person: ainda menor ── */
+  .person-hero h1 {
+    font-size: clamp(24px, 8.5vw, 32px);
+  }
+
+  .rafael-hero-mascot {
+    height: clamp(56px, 14vw, 70px);
+  }
+
+  /* ── Blog member cards: um pouco mais largo ── */
+  #member-grid.post-grid .post-card {
+    flex: 0 0 min(250px, 82vw);
+  }
+
+  /* ── Suggest: form bem compacto ── */
+  body.suggest-page .card.suggest-form-card {
+    padding: 12px;
+  }
+}
