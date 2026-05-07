@@ -86,7 +86,7 @@ const HERO_IMAGE_FALLBACKS = {
 };
 
 const FEATURED_ROTATION_MINUTES = 30;
-const FEATURED_ROTATION_SALT = "thirty-minute-rotation-2";
+const FEATURED_ROTATION_SALT = "thirty-minute-rotation-3";
 const YOUTUBE_PLAYLIST_URL =
   "https://youtube.com/playlist?list=PLjNlQ2vXx1xbt30X8TcUfNzw_akVISXEu&si=sjrgOdNP3MwdhC6D";
 const SPOTIFY_PLAYLIST_URL =
