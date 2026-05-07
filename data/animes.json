@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-05-07T01:30:27.376Z",
-  "total": 193,
+  "updatedAt": "2026-05-07T08:11:17.357Z",
+  "total": 194,
   "animes": [
     {
       "id": "3416beab-c784-813f-bff6-df2369802356",
@@ -1157,11 +1157,15 @@
         {
           "name": "Opening 3",
           "url": "https://www.youtube.com/watch?v=RkkGHJUpJCw"
+        },
+        {
+          "name": "Tutorial",
+          "url": "https://www.youtube.com/watch?v=UDArlXzL2kA&t=6s"
         }
       ],
       "updatedAt": {
-        "_seconds": 1777847320,
-        "_nanoseconds": 81000000
+        "_seconds": 1778122713,
+        "_nanoseconds": 976000000
       }
     },
     {
@@ -4869,6 +4873,36 @@
         "_seconds": 1777860044,
         "_nanoseconds": 476000000
       }
+    },
+    {
+      "id": "I5Jd75gWcM8uA2ilqg8z",
+      "nome": "Rokudenashi Majutsu Koushi to Akashic Records",
+      "generos": [
+        "Ação ⚔️",
+        "Fantasia 🧙"
+      ],
+      "malId": 32951,
+      "comentarios": "Rafael: Anime muito bom, a história é mt pika, meio genérico, infelizmente acho que não teremos uma continuação.",
+      "comments": [
+        {
+          "person": "Rafael",
+          "text": "Anime muito bom, a história é mt pika, meio genérico, infelizmente acho que não teremos uma continuação."
+        }
+      ],
+      "files": [],
+      "maisDeUmVoto": "nao",
+      "qtdVotos": 1,
+      "controversia": 0,
+      "notaSort": 8.2,
+      "notaRafael": 8.2,
+      "notaFernando": null,
+      "notaDudu": null,
+      "notaHacksuya": null,
+      "notaZana": null,
+      "quemAssistiu": [
+        "Rafael"
+      ],
+      "nota": "8.20"
     },
     {
       "id": "f6e6beab-c784-83c0-b7a0-817ac90bf966",
