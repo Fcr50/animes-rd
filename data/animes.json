@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-05-06T21:14:07.049Z",
-  "total": 192,
+  "updatedAt": "2026-05-07T01:30:27.376Z",
+  "total": 193,
   "animes": [
     {
       "id": "3416beab-c784-813f-bff6-df2369802356",
@@ -7992,6 +7992,37 @@
         "_seconds": 1777862898,
         "_nanoseconds": 989000000
       }
+    },
+    {
+      "id": "JA6SUkNFozL8ZMnJjeui",
+      "nome": "Yuusha-kei ni Shosu: Choubatsu Yuusha 9004-tai Keimu Kiroku",
+      "generos": [
+        "Ação ⚔️",
+        "Aventura 🎒",
+        "Fantasia 🧙"
+      ],
+      "malId": 56009,
+      "comentarios": "Rafael: MUitooo bem, é bem diferente do típico isekai. Mistura humor meio ácido com uma visão mais dura do que significa ser “herói”. Achei interessante como quebra expectativas e mostra consequências reais, mesmo mantendo um tom leve em alguns momentos.",
+      "comments": [
+        {
+          "person": "Rafael",
+          "text": "MUitooo bem, é bem diferente do típico isekai. Mistura humor meio ácido com uma visão mais dura do que significa ser “herói”. Achei interessante como quebra expectativas e mostra consequências reais, mesmo mantendo um tom leve em alguns momentos."
+        }
+      ],
+      "files": [],
+      "maisDeUmVoto": "nao",
+      "qtdVotos": 1,
+      "controversia": 0,
+      "notaSort": 5,
+      "notaRafael": 5,
+      "notaFernando": null,
+      "notaDudu": null,
+      "notaHacksuya": null,
+      "notaZana": null,
+      "quemAssistiu": [
+        "Rafael"
+      ],
+      "nota": "5.00"
     },
     {
       "id": "3416beab-c784-81f8-a819-e31a618f2b8e",
