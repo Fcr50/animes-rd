@@ -445,23 +445,30 @@ document.addEventListener("click", async (e) => {
 
 // ── Link management ───────────────────────────────────────────────────────────
 
+// Normaliza links para sempre ser array [{name, url}]
+function normalizeLinks(raw) {
+  if (!raw) return [];
+  if (Array.isArray(raw)) return raw.filter(l => l && l.url);
+  if (typeof raw === 'object') return Object.entries(raw).filter(([,v]) => v).map(([name, url]) => ({ name, url }));
+  return [];
+}
+
 function renderModalLinks(anime) {
   const canEdit = !!currentUser;
-  const links = anime.links || {};
-  const entries = Object.entries(links).filter(([, url]) => url);
+  const links = normalizeLinks(anime.links);
   const malLink = anime.mal_id
     ? `<a class="modal-link-chip modal-link-mal" href="https://myanimelist.net/anime/${encodeURIComponent(anime.mal_id)}" target="_blank" rel="noopener">MyAnimeList</a>`
     : "";
   const openingSearch = `<a class="modal-link-chip modal-link-opening" href="https://www.youtube.com/results?search_query=${encodeURIComponent(anime.name + ' anime opening')}" target="_blank" rel="noopener">Buscar opening</a>`;
 
-  const linkChips = entries.map(([name, url], idx) => {
+  const linkChips = links.map((link, idx) => {
     const editDelete = canEdit ? `
       <div class="modal-link-chip-actions">
-        <button class="modal-link-chip-action-btn" onclick="window.startEditLink('${escapeHTML(anime.id)}','${escapeHTML(name)}')" title="Editar">✎</button>
-        <button class="modal-link-chip-action-btn modal-link-delete-btn" onclick="window.deleteAnimeLink('${escapeHTML(anime.id)}','${escapeHTML(name)}')" title="Excluir">×</button>
+        <button class="modal-link-chip-action-btn" onclick="window.startEditLink('${escapeHTML(anime.id)}',${idx})" title="Editar">✎</button>
+        <button class="modal-link-chip-action-btn modal-link-delete-btn" onclick="window.deleteAnimeLink('${escapeHTML(anime.id)}',${idx})" title="Excluir">×</button>
       </div>` : "";
     return `<div class="modal-link-chip-wrap">
-      <a class="modal-link-chip modal-link-custom" href="${escapeHTML(url)}" target="_blank" rel="noopener">${escapeHTML(name)}</a>
+      <a class="modal-link-chip modal-link-custom" href="${escapeHTML(link.url)}" target="_blank" rel="noopener">${escapeHTML(link.name)}</a>
       ${editDelete}
     </div>`;
   }).join("");
@@ -543,27 +550,27 @@ window.saveCustomLink = async (animeId) => {
   try { new URL(url); } catch { if (statusEl) statusEl.textContent = "URL inválida."; return; }
   try {
     const anime = allAnimes.find(a => a.id === animeId);
-    const newLinks = { ...(anime?.links || {}), [name]: url };
+    const newLinks = [...normalizeLinks(anime?.links), { name, url }];
     await updateAnimeLinks(animeId, newLinks);
-  } catch { if (statusEl) statusEl.textContent = "Erro ao salvar."; }
+  } catch (e) { if (statusEl) statusEl.textContent = "Erro ao salvar."; console.error(e); }
 };
 
-let _editingLinkName = null;
-window.startEditLink = (animeId, linkName) => {
-  _editingLinkName = linkName;
+let _editingLinkIdx = null;
+window.startEditLink = (animeId, idx) => {
+  _editingLinkIdx = idx;
   const anime = allAnimes.find(a => a.id === animeId);
-  const url = anime?.links?.[linkName] || "";
+  const link = normalizeLinks(anime?.links)[idx] || {};
   document.getElementById(`add-link-form-${animeId}`).hidden = true;
   const form = document.getElementById(`edit-link-form-${animeId}`);
   const nameEl = document.getElementById(`edit-link-name-${animeId}`);
   const urlEl = document.getElementById(`edit-link-url-${animeId}`);
-  if (nameEl) nameEl.value = linkName;
-  if (urlEl) urlEl.value = url;
+  if (nameEl) nameEl.value = link.name || "";
+  if (urlEl) urlEl.value = link.url || "";
   if (form) { form.hidden = false; nameEl?.focus(); }
 };
 
 window.cancelEditLink = (animeId) => {
-  _editingLinkName = null;
+  _editingLinkIdx = null;
   const form = document.getElementById(`edit-link-form-${animeId}`);
   if (form) form.hidden = true;
 };
@@ -578,22 +585,22 @@ window.saveEditLink = async (animeId) => {
   try { new URL(newUrl); } catch { if (statusEl) statusEl.textContent = "URL inválida."; return; }
   try {
     const anime = allAnimes.find(a => a.id === animeId);
-    const newLinks = { ...(anime?.links || {}) };
-    if (_editingLinkName && _editingLinkName !== newName) delete newLinks[_editingLinkName];
-    newLinks[newName] = newUrl;
-    _editingLinkName = null;
+    const newLinks = normalizeLinks(anime?.links).map((l, i) =>
+      i === _editingLinkIdx ? { name: newName, url: newUrl } : l
+    );
+    _editingLinkIdx = null;
     await updateAnimeLinks(animeId, newLinks);
-  } catch { if (statusEl) statusEl.textContent = "Erro ao salvar."; }
+  } catch (e) { if (statusEl) statusEl.textContent = "Erro ao salvar."; console.error(e); }
 };
 
-window.deleteAnimeLink = async (animeId, linkName) => {
-  if (!confirm(`Remover link "${linkName}"?`)) return;
+window.deleteAnimeLink = async (animeId, idx) => {
+  const anime = allAnimes.find(a => a.id === animeId);
+  const link = normalizeLinks(anime?.links)[idx];
+  if (!confirm(`Remover "${link?.name}"?`)) return;
   try {
-    const anime = allAnimes.find(a => a.id === animeId);
-    const newLinks = { ...(anime?.links || {}) };
-    delete newLinks[linkName];
+    const newLinks = normalizeLinks(anime?.links).filter((_, i) => i !== idx);
     await updateAnimeLinks(animeId, newLinks);
-  } catch { alert("Erro ao remover link."); }
+  } catch (e) { alert("Erro ao remover link."); console.error(e); }
 };
 
 window.closeModal = function() {
