@@ -1,7 +1,7 @@
 // js/table.js
 import { supabase } from './supabase-client.js';
 import { getGroupId, normalizeText, escapeHTML, stripEmoji, shortText } from './utils.js';
-import { loadData, notaColor, formatNota, getPersonColor } from './data.js';
+import { loadData, notaColor, formatNota, getPersonColor, invalidateCache } from './data.js';
 
 let allAnimes = [];
 let filtered = [];
@@ -270,6 +270,7 @@ function renderModal() {
       <div id="modal-meta" class="modal-meta"></div>
       <div id="modal-links"></div>
       <div id="modal-comment"></div>
+      <div id="modal-edit"></div>
     </div>
   `;
   div.addEventListener("click", e => { if (e.target === div) window.closeModal(); });
@@ -312,13 +313,18 @@ window.openModal = function(idx) {
     .join("");
 
   // Links
+  const links = a.links || {};
+  const customChips = Object.entries(links)
+    .filter(([, url]) => url)
+    .map(([name, url]) => `<a class="modal-link-chip modal-link-custom" href="${escapeHTML(url)}" target="_blank" rel="noopener">${escapeHTML(name)}</a>`)
+    .join("");
   const malLink = a.mal_id
     ? `<a class="modal-link-chip modal-link-mal" href="https://myanimelist.net/anime/${encodeURIComponent(a.mal_id)}" target="_blank" rel="noopener">MyAnimeList</a>`
     : "";
   const openingLink = `<a class="modal-link-chip modal-link-opening" href="https://www.youtube.com/results?search_query=${encodeURIComponent(a.name + ' anime opening')}" target="_blank" rel="noopener">Buscar opening</a>`;
   document.getElementById("modal-links").innerHTML = `
     <section class="modal-links"><h3>Links úteis</h3>
-      <div class="modal-link-list">${malLink}${openingLink}</div>
+      <div class="modal-link-list">${malLink}${customChips || openingLink}</div>
     </section>
   `;
 
@@ -339,9 +345,114 @@ window.openModal = function(idx) {
     </section>
   ` : "";
 
+  // Edição de nota
+  document.getElementById("modal-edit").innerHTML = renderEditPanel(a);
+
   document.getElementById("modal-overlay").classList.add("open");
   document.body.style.overflow = "hidden";
 };
+
+function renderEditPanel(anime) {
+  if (!currentUser) {
+    return `
+      <section class="anime-edit-panel">
+        <h3>Seu registro</h3>
+        <p>Faça login para editar sua nota e comentário.</p>
+        <button class="edit-button" type="button" onclick="window.supabaseLogin()">Login com Google</button>
+      </section>
+    `;
+  }
+
+  const myMember = members.find(m => m.user_id === currentUser.id);
+  if (!myMember) return "";
+
+  const nick = myMember.nickname;
+  const color = getPersonColor(nick);
+  const currentScore = anime[`nota${nick}`];
+  const hasScore = currentScore !== null && currentScore !== undefined;
+  const score = hasScore ? Number(currentScore).toFixed(1) : "5.0";
+  const currentComment = (() => {
+    const lines = (anime.comentarios || "").split("\n");
+    const line = lines.find(l => l.startsWith(`${nick}: `));
+    return line ? line.slice(nick.length + 2) : "";
+  })();
+
+  return `
+    <details class="anime-edit-panel anime-edit-collapsible">
+      <summary class="anime-edit-summary">
+        <div>
+          <h3>Seu registro</h3>
+          <p>Editando como <strong style="color:${color}">${escapeHTML(nick)}</strong></p>
+        </div>
+        <span class="edit-expand-button">Editar</span>
+      </summary>
+      <div class="anime-edit-body">
+        <label class="edit-field">
+          <span>Nota</span>
+          <input id="anime-edit-score" type="number" min="0" max="10" step="0.1" value="${score}" />
+        </label>
+        <label class="edit-field">
+          <span>Comentário</span>
+          <textarea id="anime-edit-comment" maxlength="600" placeholder="Escreva seu comentário...">${escapeHTML(currentComment)}</textarea>
+        </label>
+        <div class="anime-edit-actions">
+          <button class="edit-button" type="button" data-save-anime-edit data-anime-id="${anime.id}">${hasScore || currentComment ? "Salvar alterações" : "Enviar nota"}</button>
+          <span id="anime-edit-status" class="edit-status"></span>
+        </div>
+      </div>
+    </details>
+  `;
+}
+
+window.supabaseLogin = async () => {
+  await supabase.auth.signInWithOAuth({ provider: 'google' });
+};
+
+document.addEventListener("click", async (e) => {
+  const saveBtn = e.target.closest("[data-save-anime-edit]");
+  if (!saveBtn || !currentUser) return;
+
+  const animeId = saveBtn.dataset.animeId;
+  const scoreEl = document.getElementById("anime-edit-score");
+  const commentEl = document.getElementById("anime-edit-comment");
+  const statusEl = document.getElementById("anime-edit-status");
+
+  const rawScore = scoreEl?.value.trim();
+  const score = rawScore === "" ? null : Number(rawScore);
+  const comment = commentEl?.value.trim() || "";
+
+  if (score !== null && (isNaN(score) || score < 0 || score > 10)) {
+    if (statusEl) statusEl.textContent = "Use uma nota entre 0 e 10.";
+    return;
+  }
+
+  saveBtn.disabled = true;
+  if (statusEl) statusEl.textContent = "Salvando...";
+
+  try {
+    const { error } = await supabase
+      .from('votes')
+      .upsert({ anime_id: animeId, user_id: currentUser.id, score, comment }, { onConflict: 'anime_id,user_id' });
+
+    if (error) throw error;
+    if (statusEl) statusEl.textContent = "Salvo!";
+    setTimeout(() => { if (statusEl) statusEl.textContent = ""; }, 2000);
+
+    // Invalida cache e recarrega dados
+    invalidateCache();
+    const data = await loadData();
+    allAnimes = data.animes;
+    members = data.members;
+    filtered = [...allAnimes];
+    sortData();
+    renderTable();
+    if (currentModalIndex !== null) window.openModal(currentModalIndex);
+  } catch (err) {
+    console.error(err);
+    if (statusEl) statusEl.textContent = "Erro ao salvar.";
+    saveBtn.disabled = false;
+  }
+});
 
 window.closeModal = function() {
   document.getElementById("modal-overlay")?.classList.remove("open");

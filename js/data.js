@@ -5,6 +5,8 @@ import { normalizeText, stripEmoji, getGroupId } from "./utils.js";
 let _data = null;
 let _members = [];
 
+export function invalidateCache() { _data = null; }
+
 // Mapeamento oficial de Gênero Limpo -> Gênero com Emoji
 export const PRETTY_GENRES = {
   "Ação": "Ação ⚔️",
