@@ -1,6 +1,6 @@
 const currentPage = window.location.pathname.split("/").pop() || "index.html";
 
-if (currentPage !== "ciel.html") {
+if (currentPage !== "ciel.html" && currentPage !== "dashboard.html") {
   const link = document.createElement("a");
   link.className = "nyx-floating-link";
   link.href = "ciel.html";
