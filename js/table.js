@@ -1,7 +1,7 @@
 // js/table.js
 import { supabase } from './supabase-client.js';
-import { getGroupId, normalizeText, escapeHTML, stripEmoji } from './utils.js';
-import { loadData, notaColor, getPersonNota, getPersonColor } from './data.js';
+import { getGroupId, normalizeText, escapeHTML, stripEmoji, shortText } from './utils.js';
+import { loadData, notaColor, formatNota, getPersonColor } from './data.js';
 
 let allAnimes = [];
 let filtered = [];
@@ -10,10 +10,88 @@ let sortDir = -1;
 let currentModalIndex = null;
 let currentUser = null;
 let members = [];
+let imageQueueRunning = false;
 
-/**
- * Inicializa a tabela carregando os dados do grupo.
- */
+const imageCache = new Map();
+const queuedImageMalIds = new Set();
+
+const FALLBACK_IMAGE =
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Crect width='56' height='56' rx='8' fill='%2318171d'/%3E%3Cpath d='M16 36h24M18 18h20v20H18z' stroke='%237b7165' stroke-width='2' fill='none'/%3E%3Ccircle cx='23' cy='24' r='3' fill='%237b7165'/%3E%3Cpath d='M19 35l8-8 5 5 3-3 4 6' stroke='%237b7165' stroke-width='2' fill='none'/%3E%3C/svg%3E";
+
+const IMAGE_OVERRIDES = {
+  49730: "https://myanimelist.net/images/anime/1787/140239l.webp",
+};
+
+// ── Image cache ──────────────────────────────────────────────────────────────
+
+function getCachedImage(malId) {
+  if (!malId) return null;
+  if (IMAGE_OVERRIDES[malId]) return IMAGE_OVERRIDES[malId];
+  if (imageCache.has(malId)) return imageCache.get(malId);
+  const cached = localStorage.getItem(`jikan-image-v2-${malId}`);
+  if (cached) { imageCache.set(malId, cached); return cached; }
+  return null;
+}
+
+function setCachedImage(malId, imageUrl) {
+  if (!malId || !imageUrl) return;
+  imageCache.set(malId, imageUrl);
+  try { localStorage.setItem(`jikan-image-v2-${malId}`, imageUrl); } catch {}
+}
+
+function updateRenderedImages(malId, imageUrl) {
+  document.querySelectorAll(`img[data-mal-id="${CSS.escape(String(malId))}"]`).forEach(img => {
+    img.src = imageUrl;
+    img.classList.add("loaded");
+  });
+}
+
+function queueAnimeImage(malId) {
+  if (!malId || getCachedImage(malId) || queuedImageMalIds.has(malId)) return;
+  queuedImageMalIds.add(malId);
+  runImageQueue();
+}
+
+async function runImageQueue() {
+  if (imageQueueRunning) return;
+  imageQueueRunning = true;
+  while (queuedImageMalIds.size) {
+    const [malId] = queuedImageMalIds;
+    queuedImageMalIds.delete(malId);
+    try {
+      const res = await fetch(`https://api.jikan.moe/v4/anime/${encodeURIComponent(malId)}`);
+      if (res.ok) {
+        const payload = await res.json();
+        const imageUrl =
+          payload?.data?.images?.webp?.image_url ||
+          payload?.data?.images?.jpg?.image_url ||
+          payload?.data?.images?.webp?.small_image_url ||
+          payload?.data?.images?.jpg?.small_image_url;
+        if (imageUrl) { setCachedImage(malId, imageUrl); updateRenderedImages(malId, imageUrl); }
+      }
+    } catch {}
+    await new Promise(r => setTimeout(r, 450));
+  }
+  imageQueueRunning = false;
+}
+
+// ── Anime identity (image + name) ────────────────────────────────────────────
+
+function renderAnimeIdentity(anime) {
+  const malId = anime.mal_id;
+  const imageUrl = getCachedImage(malId) || FALLBACK_IMAGE;
+  const imgAttrs = malId ? `data-mal-id="${escapeHTML(String(malId))}" data-anime-img` : "";
+  return `
+    <span class="anime-identity">
+      <img class="anime-img" src="${escapeHTML(imageUrl)}" alt="" loading="lazy" ${imgAttrs} />
+      <span class="anime-name">${escapeHTML(anime.name)}</span>
+      ${anime.pt_dub ? `<span class="dub-badge" title="Disponível dublado em Português">🇧🇷 DUB</span>` : ""}
+    </span>
+  `;
+}
+
+// ── Init ─────────────────────────────────────────────────────────────────────
+
 export async function initTable() {
   const data = await loadData();
   allAnimes = data.animes;
@@ -23,30 +101,31 @@ export async function initTable() {
   renderFilters();
   renderTable();
   renderModal();
-  
-  // Escuta mudanças de auth para habilitar edição
+
   supabase.auth.onAuthStateChange((event, session) => {
     currentUser = session?.user || null;
     refreshModal();
   });
+
+  const { data: { session } } = await supabase.auth.getSession();
+  currentUser = session?.user || null;
 }
+
+// ── Filters ──────────────────────────────────────────────────────────────────
 
 function renderFilters() {
   const wrap = document.getElementById("filters");
   if (!wrap) return;
 
-  // Coleta gêneros únicos
   const genreMap = new Map();
   allAnimes.forEach(a => {
     (a.generos || []).forEach(g => {
       const clean = stripEmoji(g);
-      if (!genreMap.has(clean) || g.length > genreMap.get(clean).length) {
+      if (!genreMap.has(clean) || g.length > genreMap.get(clean).length)
         genreMap.set(clean, g);
-      }
     });
   });
-
-  const genres = [...genreMap.values()].sort();
+  const genres = [...genreMap.values()].sort((a, b) => a.localeCompare(b));
 
   wrap.innerHTML = `
     <input type="text" id="search" placeholder="🔍  Buscar anime..." />
@@ -54,10 +133,22 @@ function renderFilters() {
       <option value="">Todos os gêneros</option>
       ${genres.map(g => `<option value="${g}">${g}</option>`).join("")}
     </select>
+    <select id="filter-person">
+      <option value="">Todos os usuários</option>
+      ${members.map(m => `<option value="${m.nickname}">${m.nickname}</option>`).join("")}
+    </select>
     <select id="filter-status">
       <option value="">Status (Qualquer)</option>
       <option value="watched">Que eu assisti</option>
       <option value="not-watched">Que eu NÃO assisti</option>
+    </select>
+    <select id="filter-votes">
+      <option value="">Qtd. votos</option>
+      <option value="5">5 votos</option>
+      <option value="4">4 votos</option>
+      <option value="3">3 votos</option>
+      <option value="2">2 votos</option>
+      <option value="1">1 voto</option>
     </select>
   `;
 
@@ -68,21 +159,34 @@ function renderFilters() {
 
 function applyFilters() {
   const search = document.getElementById("search")?.value.toLowerCase() || "";
-  const genre = document.getElementById("filter-genre")?.value || "";
+  const genreSelected = document.getElementById("filter-genre")?.value || "";
+  const person = document.getElementById("filter-person")?.value || "";
   const status = document.getElementById("filter-status")?.value || "";
+  const votes = document.getElementById("filter-votes")?.value || "";
+
+  const cleanedGenre = genreSelected ? stripEmoji(genreSelected) : "";
 
   filtered = allAnimes.filter(a => {
     if (search && !a.name.toLowerCase().includes(search)) return false;
-    if (genre && !(a.generos || []).includes(genre)) return false;
-    
+
+    if (cleanedGenre) {
+      const hasGenre = (a.generos || []).some(g => stripEmoji(g) === cleanedGenre);
+      if (!hasGenre) return false;
+    }
+
+    if (person && !a.quemAssistiu.includes(person)) return false;
+
     if (status && currentUser) {
       const myMember = members.find(m => m.user_id === currentUser.id);
       if (myMember) {
         const watched = a.quemAssistiu.includes(myMember.nickname);
-        if (status === 'watched' && !watched) return false;
-        if (status === 'not-watched' && watched) return false;
+        if (status === "watched" && !watched) return false;
+        if (status === "not-watched" && watched) return false;
       }
     }
+
+    if (votes && String(a.qtdVotos) !== votes) return false;
+
     return true;
   });
 
@@ -90,40 +194,65 @@ function applyFilters() {
   renderTable();
 }
 
+// ── Sort ─────────────────────────────────────────────────────────────────────
+
 function sortData() {
   filtered.sort((a, b) => {
     let va = a[sortCol];
     let vb = b[sortCol];
     if (va == null) va = -Infinity;
     if (vb == null) vb = -Infinity;
-    return sortDir * (va < vb ? -1 : va > vb ? 1 : 0);
+    if (typeof va === "string") return sortDir * va.localeCompare(vb);
+    return sortDir * (va - vb);
   });
 }
+
+// ── Table ────────────────────────────────────────────────────────────────────
 
 function renderTable() {
   const tbody = document.getElementById("anime-tbody");
   if (!tbody) return;
 
-  tbody.innerHTML = filtered.map((a, i) => {
-    const nota = a.nota || "—";
+  if (!filtered.length) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--faint)">Nenhum anime encontrado</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = filtered.map(a => {
+    const nota = a.nota !== null ? Number(a.nota).toFixed(2) : "—";
     const notaCls = notaColor(a.nota);
-    const viewers = a.quemAssistiu.map(p => {
-      const color = getPersonColor(p);
-      return `<span class="badge" style="background: ${color}22; color: ${color}">${p}</span>`;
-    }).join("");
+    const genres = (a.generos || [])
+      .slice(0, 2)
+      .map(g => `<span class="badge badge-genre">${g}</span>`)
+      .join("");
+    const moreGenres = (a.generos || []).length > 2
+      ? `<span class="badge badge-genre">+${a.generos.length - 2}</span>`
+      : "";
+    const viewers = a.quemAssistiu
+      .map(p => {
+        const color = getPersonColor(p);
+        return `<span class="badge" style="background:${color}22;color:${color}">${p}</span>`;
+      })
+      .join("");
+    const contr = a.controversia !== null ? Number(a.controversia).toFixed(1) : "—";
+    const contrCls = a.controversia > 1.5 ? "controversia-hot" : "controversia";
 
     return `
-      <tr onclick="window.openModal(${allAnimes.indexOf(a)})">
-        <td>${escapeHTML(a.name)}</td>
-        <td>${(a.generos || []).slice(0, 2).join(", ")}</td>
+      <tr data-idx="${allAnimes.indexOf(a)}" onclick="window.openModal(${allAnimes.indexOf(a)})">
+        <td>${renderAnimeIdentity(a)}</td>
+        <td>${genres}${moreGenres}</td>
         <td>${viewers}</td>
-        <td><span class="nota ${notaCls}">${nota}</span></td>
-        <td>${a.qtdVotos}</td>
-        <td>${a.controversia}</td>
+        <td style="text-align:center"><span class="nota ${notaCls}">${nota}</span></td>
+        <td style="text-align:center">${a.qtdVotos ?? "—"}</td>
+        <td style="text-align:center"><span class="${contrCls}">${Number(contr) > 0 ? "🌶️ " + contr : contr}</span></td>
       </tr>
     `;
   }).join("");
+
+  filtered.forEach(anime => queueAnimeImage(anime.mal_id));
 }
+
+// ── Modal ────────────────────────────────────────────────────────────────────
 
 function renderModal() {
   if (document.getElementById("modal-overlay")) return;
@@ -131,14 +260,19 @@ function renderModal() {
   div.id = "modal-overlay";
   div.className = "modal-overlay";
   div.innerHTML = `
-    <div class="modal">
+    <div class="modal" id="modal-content">
       <div class="modal-header">
-        <h2 id="modal-title"></h2>
-        <button onclick="closeModal()">✕</button>
+        <h2 class="modal-title" id="modal-title"></h2>
+        <button class="modal-close" onclick="window.closeModal()">✕</button>
       </div>
-      <div id="modal-body"></div>
+      <div id="modal-genres" class="modal-genres"></div>
+      <div class="notes-grid" id="modal-notes"></div>
+      <div id="modal-meta" class="modal-meta"></div>
+      <div id="modal-links"></div>
+      <div id="modal-comment"></div>
     </div>
   `;
+  div.addEventListener("click", e => { if (e.target === div) window.closeModal(); });
   document.body.appendChild(div);
 }
 
@@ -146,34 +280,91 @@ window.openModal = function(idx) {
   const a = allAnimes[idx];
   if (!a) return;
   currentModalIndex = idx;
-  
+
   document.getElementById("modal-title").textContent = a.name;
-  const body = document.getElementById("modal-body");
-  
-  body.innerHTML = `
-    <div class="modal-info">
-      <p><strong>Gêneros:</strong> ${a.generos?.join(", ")}</p>
-      <p><strong>Média:</strong> ${a.nota || "—"}</p>
-    </div>
-    <div class="modal-votes">
-      ${members.map(m => {
-        const nota = a[`nota${m.nickname}`] || "—";
-        return `<div><strong>${m.nickname}:</strong> ${nota}</div>`;
-      }).join("")}
-    </div>
-    <div class="modal-comments">
-      <h3>Comentários</h3>
-      <pre>${a.comentarios || "Sem comentários."}</pre>
-    </div>
+
+  document.getElementById("modal-genres").innerHTML = (a.generos || [])
+    .map(g => `<span class="badge badge-genre">${g}</span>`)
+    .join(" ");
+
+  document.getElementById("modal-notes").innerHTML = members.map(m => {
+    const nota = a[`nota${m.nickname}`];
+    const color = getPersonColor(m.nickname);
+    return `
+      <div class="note-box" style="--note-color:${color}">
+        <div class="person" style="color:${color}">${m.nickname}</div>
+        <div class="score ${nota === null ? "empty" : notaColor(nota)}">
+          ${nota !== null ? Number(nota).toFixed(1) : "—"}
+        </div>
+      </div>
+    `;
+  }).join("");
+
+  const metaItems = [];
+  if (a.nota !== null) metaItems.push(`Média: <span>${Number(a.nota).toFixed(2)}</span>`);
+  if (a.controversia !== null) {
+    const hot = a.controversia > 1.5 ? "🌶️ " : "";
+    metaItems.push(`Controvérsia: <span>${hot}${Number(a.controversia).toFixed(1)}</span>`);
+  }
+  if (a.qtdVotos != null) metaItems.push(`Votos: <span>${a.qtdVotos}</span>`);
+  document.getElementById("modal-meta").innerHTML = metaItems
+    .map(m => `<span class="meta-item">${m}</span>`)
+    .join("");
+
+  // Links
+  const malLink = a.mal_id
+    ? `<a class="modal-link-chip modal-link-mal" href="https://myanimelist.net/anime/${encodeURIComponent(a.mal_id)}" target="_blank" rel="noopener">MyAnimeList</a>`
+    : "";
+  const openingLink = `<a class="modal-link-chip modal-link-opening" href="https://www.youtube.com/results?search_query=${encodeURIComponent(a.name + ' anime opening')}" target="_blank" rel="noopener">Buscar opening</a>`;
+  document.getElementById("modal-links").innerHTML = `
+    <section class="modal-links"><h3>Links úteis</h3>
+      <div class="modal-link-list">${malLink}${openingLink}</div>
+    </section>
   `;
 
+  // Comentários
+  const comments = (a.comentarios || "").split("\n").filter(Boolean);
+  document.getElementById("modal-comment").innerHTML = comments.length ? `
+    <section class="modal-comments"><h3>Comentários</h3>
+      <div class="comment-list">
+        ${comments.map(line => {
+          const [nick, ...rest] = line.split(": ");
+          const color = getPersonColor(nick.trim());
+          return `<article class="comment-item">
+            <strong style="color:${color}">${escapeHTML(nick.trim())}</strong>
+            <p>${escapeHTML(rest.join(": ").trim())}</p>
+          </article>`;
+        }).join("")}
+      </div>
+    </section>
+  ` : "";
+
   document.getElementById("modal-overlay").classList.add("open");
+  document.body.style.overflow = "hidden";
 };
 
 window.closeModal = function() {
-  document.getElementById("modal-overlay").classList.remove("open");
+  document.getElementById("modal-overlay")?.classList.remove("open");
+  document.body.style.overflow = "";
+  currentModalIndex = null;
 };
 
 function refreshModal() {
   if (currentModalIndex !== null) window.openModal(currentModalIndex);
 }
+
+// ── Column sort ──────────────────────────────────────────────────────────────
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll("thead th[data-col]").forEach(th => {
+    th.addEventListener("click", () => {
+      const col = th.dataset.col;
+      if (sortCol === col) { sortDir *= -1; }
+      else { sortCol = col; sortDir = -1; }
+      document.querySelectorAll("thead th").forEach(h => h.classList.remove("sorted"));
+      th.classList.add("sorted");
+      sortData();
+      renderTable();
+    });
+  });
+});
