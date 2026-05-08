@@ -228,7 +228,19 @@ async function updateNavbarState(user) {
     
     // Marca como ativo apenas se for um link da navbar
     if (link.closest("nav.nav")) {
-      if (linkPath === currentPath || (linkPath === "index.html" && currentPath === "")) {
+      const isSamePath = linkPath === currentPath || (linkPath === "index.html" && currentPath === "");
+      let isActive = isSamePath;
+
+      // Refinamento para perfis: checa o parâmetro 'p' (nickname)
+      if (currentPath === "profile.html") {
+        const linkParams = new URLSearchParams(url.hash.substring(1) || url.search);
+        const currentParams = new URLSearchParams(window.location.hash.substring(1) || window.location.search);
+        if (linkParams.get("p") !== currentParams.get("p")) {
+          isActive = false;
+        }
+      }
+
+      if (isActive) {
         link.classList.add("active");
       } else {
         link.classList.remove("active");

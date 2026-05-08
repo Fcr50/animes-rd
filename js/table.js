@@ -103,6 +103,16 @@ export async function initTable() {
   renderTable();
   renderModal();
 
+  // Verifica se há instrução de abrir um modal específico vindo do Blog
+  const hashParams = new URLSearchParams(window.location.hash.substring(1));
+  const openMalId = hashParams.get('open');
+  if (openMalId) {
+    const idx = allAnimes.findIndex(a => String(a.mal_id) === openMalId);
+    if (idx !== -1) {
+      setTimeout(() => window.openModal(idx), 300);
+    }
+  }
+
   supabase.auth.onAuthStateChange((event, session) => {
     currentUser = session?.user || null;
     refreshModal();

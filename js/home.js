@@ -86,7 +86,14 @@ async function renderHero(data) {
   if (top && top.image_url && heroPanel) {
     heroPanel.style.setProperty("--hero-anime-bg", `url("${top.image_url}")`);
     heroPanel.classList.add("has-bg");
-    heroPanel.innerHTML = `<span class="post-kicker">Destaque do acervo</span><h2>${top.name}</h2><p>Nota ${formatNota(top.nota)} no grupo.</p><a href="acervo.html#g=${getGroupId()}">Ler no acervo</a>`;
+    // O link agora inclui o parâmetro open para abrir o modal automaticamente
+    const href = `acervo.html#g=${getGroupId()}&open=${top.mal_id}`;
+    heroPanel.innerHTML = `
+      <span class="post-kicker">Destaque do acervo</span>
+      <h2>${top.name}</h2>
+      <p>Nota ${formatNota(top.nota)} no grupo.</p>
+      <a href="${href}">Ler no acervo</a>
+    `;
   }
 }
 
@@ -96,20 +103,36 @@ function renderFeaturedPost(animes) {
   const wall = document.getElementById("featured-post");
   if(!wall) return;
   wall.innerHTML = `<h2 class="featured-comment-title">Comentários</h2><div class="featured-comment-wall" id="featured-comments"></div>`;
+
+  // Extrai comentários de todos os animes incluindo o mal_id
   const allComments = animes.flatMap(a => {
     if(!a.comentarios) return [];
     return a.comentarios.split('\n').map(line => {
       const parts = line.split(': ');
-      return { person: parts[0], text: parts[1] || "", anime: a.name };
+      return { 
+        person: parts[0], 
+        text: parts[1] || "", 
+        anime: a.name,
+        malId: a.mal_id // Guardamos o ID para o link
+      };
     });
   }).filter(c => c.text.length > 5);
+
   const shuffled = shuffleItems(allComments);
   const container = document.getElementById("featured-comments");
+
   const rotate = () => {
     const batch = shuffled.slice(0, 8);
+    const groupId = getGroupId();
     if(container) container.innerHTML = batch.map((c, i) => {
       const color = _members.find(m => m.nickname === c.person)?.color || "#a78bfa";
-      return `<a class="comment-balloon comment-balloon-${i+1}" style="--balloon-color:${color}"><strong>${c.person}</strong><p>${shortText(c.text, 100)}</p></a>`;
+      // O link agora leva para o acervo com a instrução de abrir o modal
+      const href = `acervo.html#g=${groupId}&open=${c.malId}`;
+      return `
+        <a href="${href}" class="comment-balloon comment-balloon-${i+1}" style="--balloon-color:${color}" title="Ver ${c.anime} no acervo">
+          <strong>${c.person}</strong>
+          <p>${shortText(c.text, 100)}</p>
+        </a>`;
     }).join("");
   };
   rotate();
@@ -119,12 +142,29 @@ function renderFeaturedPost(animes) {
 // --- 🎶 OPENINGS ---
 
 function renderOpeningChips(member) {
-  const ops = (member.openings || []).slice(0, 3);
+  const ops = member.openings || [];
   const canEdit = _currentUser?.id === member.user_id;
-  const list = ops.length ? ops : (canEdit ? [{name: "Abertura 1", url: ""}, {name: "Abertura 2", url: ""}, {name: "Abertura 3", url: ""}] : []);
-  return list.map((op, i) => {
-    const chip = op.url ? `<a class="opening-chip" href="${escapeHTML(op.url)}" target="_blank" rel="noopener noreferrer"><b>${i+1}</b>${escapeHTML(op.name)}</a>` : `<span class="opening-chip"><b>${i+1}</b>${escapeHTML(op.name)}</span>`;
-    return `<div class="opening-chip-wrap">${chip}${canEdit ? `<button class="opening-edit-btn" onclick="window.editOpening('${member.user_id}', ${i})" style="cursor:pointer; background:none; border:none; margin-left:5px; font-size:10px;">✎</button>` : ""}</div>`;
+  
+  // SEMPRE garante uma lista de 3 slots (preenchidos ou vazios)
+  const fullList = [
+    ops[0] || { name: "Adicionar Abertura 1", url: "" },
+    ops[1] || { name: "Adicionar Abertura 2", url: "" },
+    ops[2] || { name: "Adicionar Abertura 3", url: "" }
+  ];
+
+  return fullList.map((op, i) => {
+    const isPlaceholder = !op.url && op.name.includes("Adicionar");
+    
+    let content;
+    if (op.url) {
+      content = `<a class="opening-chip" href="${escapeHTML(op.url)}" target="_blank" rel="noopener noreferrer"><b>${i+1}</b>${escapeHTML(op.name)}</a>`;
+    } else {
+      content = `<span class="opening-chip placeholder"><b>${i+1}</b>${escapeHTML(op.name)}</span>`;
+    }
+    
+    const editBtn = canEdit ? `<button class="opening-edit-btn" onclick="window.editOpening('${member.user_id}', ${i})" style="cursor:pointer; background:none; border:none; margin-left:5px; font-size:10px;">✎</button>` : "";
+    
+    return `<div class="opening-chip-wrap">${content}${editBtn}</div>`;
   }).join("");
 }
 

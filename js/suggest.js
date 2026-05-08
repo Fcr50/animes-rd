@@ -1,7 +1,7 @@
 // js/suggest.js
 import { supabase } from './supabase-client.js';
 import { getGroupId, normalizeText, escapeHTML } from './utils.js';
-import { loadData } from './data.js';
+import { loadData, prettyGenre } from './data.js';
 
 const animeNameInput = document.getElementById("anime-name");
 const resultsDropdown = document.getElementById("search-results-list");
@@ -20,6 +20,21 @@ let currentGroupId = null;
 let selectedToImport = new Set();
 let userLibrary = [];
 let groupAnimeIds = new Set();
+
+// Mapeamento Jikan (English) -> Animes RD (Português Limpo)
+const GENRE_MAP = {
+  "Action": "Ação", "Adventure": "Aventura", "Comedy": "Comédia", "Drama": "Drama",
+  "Fantasy": "Fantasia", "Horror": "Terror", "Mystery": "Mistério", "Romance": "Romance",
+  "Sci-Fi": "Ficção Científica", "Suspense": "Suspense", "Slice of Life": "Slice of Life",
+  "Sports": "Esportes", "Supernatural": "Sobrenatural", "Psychological": "Psicológico",
+  "Ecchi": "Ecchi", "Mecha": "Mecha", "Music": "Música", "Award Winning": "Premiado",
+  "Gourmet": "Culinária", "Boys Love": "BL", "Girls Love": "GL", "Hentai": "Hentai",
+  "Super Power": "Superpoderes", "Erotica": "Hentai", "Historical": "Histórico",
+  "Military": "Militar", "Magia": "Magia", "Martial Arts": "Artes Marciais",
+  "Vampiro": "Vampiro", "Demons": "Demônios", "School": "Escola", "Space": "Espaço",
+  "Samurai": "Samurai", "Police": "Policial", "Harem": "Harém", "Game": "Jogo",
+  "Parody": "Paródia", "Isekai": "Isekai", "Seinen": "Seinen", "Shounen": "Shounen"
+};
 
 async function init() {
   currentGroupId = getGroupId();
@@ -49,13 +64,23 @@ async function init() {
 function setupTabs() {
   document.querySelectorAll(".tab-btn").forEach(btn => {
     btn.onclick = () => {
+      // Limpa classes ativas das abas
       document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+      // Limpa classes ativas dos painéis
       document.querySelectorAll(".suggest-panel").forEach(p => p.classList.remove("active"));
       
+      // Ativa a aba clicada
       btn.classList.add("active");
       const panelId = `panel-${btn.dataset.tab}`;
       document.getElementById(panelId).classList.add("active");
     };
+  });
+}
+
+function translateGenres(apiGenres) {
+  return apiGenres.map(g => {
+    const translated = GENRE_MAP[g] || g;
+    return prettyGenre(translated);
   });
 }
 
@@ -74,7 +99,6 @@ function setupSearch() {
     timeout = setTimeout(() => fetchJikan(query), 500);
   });
 
-  // Fecha dropdown ao clicar fora
   document.addEventListener("click", (e) => {
     if (!e.target.closest(".search-container")) {
       resultsDropdown?.classList.add("hidden");
@@ -106,46 +130,22 @@ function renderResults(list) {
       </div>
     `;
     li.onclick = () => selectAnime(anime);
-    import { loadData, prettyGenre } from './data.js';
-
-    ...
-
-    // Mapeamento Jikan (English) -> Animes RD (Português Limpo)
-    const GENRE_MAP = {
-      "Action": "Ação", "Adventure": "Aventura", "Comedy": "Comédia", "Drama": "Drama",
-      "Fantasy": "Fantasia", "Horror": "Terror", "Mystery": "Mistério", "Romance": "Romance",
-      "Sci-Fi": "Ficção Científica", "Suspense": "Suspense", "Slice of Life": "Slice of Life",
-      "Sports": "Esportes", "Supernatural": "Sobrenatural", "Psychological": "Psicológico",
-      "Ecchi": "Ecchi", "Mecha": "Mecha", "Music": "Música", "Award Winning": "Premiado",
-      "Gourmet": "Culinária", "Boys Love": "BL", "Girls Love": "GL", "Hentai": "Hentai",
-      "Super Power": "Superpoderes", "Erotica": "Hentai", "Historical": "Histórico",
-      "Military": "Militar", "Magia": "Magia", "Martial Arts": "Artes Marciais",
-      "Vampire": "Vampiro", "Demons": "Demônios", "School": "Escola", "Space": "Espaço",
-      "Samurai": "Samurai", "Police": "Policial", "Harem": "Harém", "Game": "Jogo",
-      "Parody": "Paródia", "Isekai": "Isekai", "Seinen": "Seinen", "Shounen": "Shounen"
-    };
-
-    function translateGenres(apiGenres) {
-      return apiGenres.map(g => {
-        // 1. Tenta traduzir se estiver em inglês
-        const translated = GENRE_MAP[g] || g;
-        // 2. Aplica o emoji oficial do dicionário do projeto
-        return prettyGenre(translated);
-      });
-    }
+    resultsDropdown.appendChild(li);
+  });
+}
 
 function selectAnime(anime) {
-  const prettyGenres = translateGenres(anime.genres.map(g => g.name));
+  const prettyGenresList = translateGenres(anime.genres.map(g => g.name));
 
   currentAnimeData = {
     malId: anime.mal_id,
     name: anime.title,
-    genres: prettyGenres,
+    genres: prettyGenresList,
     imageUrl: anime.images.jpg.large_image_url || anime.images.jpg.image_url,
   };
 
   if (animeNameInput) animeNameInput.value = anime.title;
-  if (genresInput) genresInput.value = prettyGenres.join(", ");
+  if (genresInput) genresInput.value = prettyGenresList.join(", ");
   
   resultsDropdown?.classList.add("hidden");
   manualFields?.classList.remove("hidden");
@@ -156,7 +156,7 @@ function selectAnime(anime) {
         <img src="${currentAnimeData.imageUrl}" style="width:60px; height:80px; object-fit:cover; border-radius:8px">
         <div>
           <h4 style="margin:0; color:white;">${currentAnimeData.name}</h4>
-          <p style="font-size:11px; margin:5px 0; color:var(--faint)">${prettyGenres.slice(0, 3).join(", ")}</p>
+          <p style="font-size:11px; margin:5px 0; color:var(--faint)">${prettyGenresList.slice(0, 3).join(", ")}</p>
           <p style="font-size:12px; margin:0; color:var(--accent)">✓ Traduzido e pronto para sugestão</p>
         </div>
       </div>`;
@@ -177,7 +177,6 @@ async function handleSubmit() {
   const comment = document.getElementById("my-comment")?.value.trim() || (isNotWatched ? "Ainda não assisti." : "Sugerido por mim.");
 
   try {
-    // 1. Salvar na Biblioteca Global (Cache)
     await supabase.from('animes').upsert([{ 
       mal_id: currentAnimeData.malId, 
       name: currentAnimeData.name, 
@@ -185,7 +184,6 @@ async function handleSubmit() {
       image_url: currentAnimeData.imageUrl 
     }]);
 
-    // 2. Salvar na Biblioteca Pessoal (Histórico)
     await supabase.from('user_library').upsert([{ 
       user_id: currentUser.id, 
       mal_id: currentAnimeData.malId, 
@@ -193,7 +191,6 @@ async function handleSubmit() {
       last_comment: comment 
     }]);
 
-    // 3. Criar Instância no Grupo
     const { error } = await supabase.from('group_animes').insert([{ 
       group_id: currentGroupId, 
       mal_id: currentAnimeData.malId, 
@@ -207,7 +204,6 @@ async function handleSubmit() {
       return;
     }
 
-    // 4. Inserir o Voto do Sugeridor
     await supabase.from('votes').insert([{ 
       group_id: currentGroupId, 
       mal_id: currentAnimeData.malId, 
@@ -250,10 +246,13 @@ function renderImportList() {
   importContainer.innerHTML = userLibrary.map(item => {
     const anime = item.animes;
     const exists = groupAnimeIds.has(anime.mal_id);
+    // Garantindo que usamos a image_url do banco
+    const thumb = anime.image_url || 'assets/placeholder.png';
+    
     return `
       <label class="import-item ${exists ? 'exists' : ''}">
         <input type="checkbox" ${exists ? 'disabled' : ''} onchange="window.toggleSelectImport('${anime.mal_id}', this.checked)">
-        <img src="${anime.image_url}" onerror="this.src='assets/placeholder.png'">
+        <img src="${thumb}" onerror="this.src='assets/placeholder.png'">
         <div class="import-item-info">
           <strong>${escapeHTML(anime.name)}</strong>
           <p style="font-size:11px; color:var(--faint)">Sua nota: ${item.last_score || '—'}</p>
