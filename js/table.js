@@ -98,6 +98,7 @@ export async function initTable() {
   members = data.members;
   filtered = [...allAnimes];
 
+  sortData();
   renderFilters();
   renderTable();
   renderModal();
