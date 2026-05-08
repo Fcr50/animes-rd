@@ -499,10 +499,25 @@ function renderModalLinks(anime) {
 }
 
 async function updateAnimeLinks(animeId, newLinks) {
-  const { error } = await supabase.from('animes').update({ links: newLinks }).eq('id', animeId);
-  if (error) throw error;
+  const { data: updated, error, count } = await supabase
+    .from('animes')
+    .update({ links: newLinks })
+    .eq('id', animeId)
+    .select('id, links');
 
-  // Atualiza estado local imediatamente (sem aguardar propagação do Supabase)
+  if (error) {
+    console.error('[updateAnimeLinks] Supabase error:', error);
+    throw new Error(error.message);
+  }
+
+  if (!updated || updated.length === 0) {
+    console.warn('[updateAnimeLinks] 0 rows updated — possível falta de permissão (RLS) ou coluna links inexistente.');
+    throw new Error('Nenhuma linha atualizada. Verifique permissões ou schema.');
+  }
+
+  console.log('[updateAnimeLinks] Salvo com sucesso:', updated[0]);
+
+  // Atualiza estado local imediatamente
   const update = a => a.id === animeId ? { ...a, links: newLinks } : a;
   allAnimes = allAnimes.map(update);
   filtered = filtered.map(update);
