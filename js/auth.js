@@ -43,8 +43,16 @@ export async function signOut() {
     console.error('Erro ao fazer logout:', error.message);
     throw error;
   }
-  // Força uma limpeza completa da URL ao sair
-  window.location.href = window.location.origin + '/index.html';
+  
+  // Detecta o caminho da pasta para o logout
+  let path = window.location.pathname;
+  if (path.includes('.html')) {
+    path = path.substring(0, path.lastIndexOf('/') + 1);
+  }
+  if (!path.endsWith('/')) path += '/';
+
+  // Força o retorno para a raiz do projeto (/animes-rd/)
+  window.location.href = window.location.origin + path + 'index.html';
 }
 
 /**

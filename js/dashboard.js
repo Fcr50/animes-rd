@@ -62,6 +62,7 @@ function handleAuthState(user) {
 
 async function loadGroups() {
   if (!groupsList) return;
+  console.log('Tentando carregar grupos para o usuário:', currentUser.id);
   groupsList.innerHTML = '<div class="skeleton" style="height: 100px;"></div>';
 
   const { data, error } = await supabase
@@ -70,10 +71,12 @@ async function loadGroups() {
     .eq('user_id', currentUser.id);
 
   if (error) {
-    console.error('Supabase error loading groups:', error);
-    groupsList.innerHTML = '<p>Erro ao carregar seus grupos.</p>';
+    console.error('ERRO CRÍTICO SUPABASE (loadGroups):', error);
+    groupsList.innerHTML = `<p>Erro ao carregar grupos: ${error.message}</p>`;
     return;
   }
+
+  console.log('Dados recebidos do Supabase:', data);
 
   if (!data || data.length === 0) {
     groupsList.innerHTML = '<p style="color: var(--faint); grid-column: 1/-1; text-align: center; padding: 20px; border: 1px dashed var(--border); border-radius: 8px;">Você ainda não participa de nenhum grupo.</p>';
