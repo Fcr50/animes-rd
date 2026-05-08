@@ -131,35 +131,47 @@ async function loadGroups() {
         ">+${extra}</div>` : '';
 
       return `
-        <div class="card group-card" style="position: relative; padding-bottom: 54px;">
-          <a href="${url}" style="text-decoration: none; color: inherit; display: block;">
-            <div style="
-              font-family: 'Newsreader', serif;
-              font-size: 26px; font-weight: 750;
-              letter-spacing: -0.02em; line-height: 1.1;
-              background: linear-gradient(90deg, #5d8bff, #57cdae);
-              -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-              background-clip: text; margin-bottom: 6px;
-            ">${g.name}</div>
-            <p style="font-size: 11px; color: var(--faint); margin-bottom: 12px;">
-              ${isCreator ? `👑 Criador · <span style="color:var(--accent)">${g.invite_code}</span>` : 'Membro'}
-            </p>
-            <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
-              ${memberAvatars}${extraBadge}
+        <div class="card group-card" style="display:flex; flex-direction:column; gap:0; padding: 22px;">
+
+          <!-- Nome -->
+          <div style="
+            font-family: 'Newsreader', serif;
+            font-size: 28px; font-weight: 750;
+            letter-spacing: -0.02em; line-height: 1.1;
+            background: linear-gradient(90deg, #5d8bff, #57cdae);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; margin-bottom: 4px;
+          ">${g.name}</div>
+
+          <!-- Role -->
+          <p style="font-size: 11px; color: var(--faint); margin: 0 0 16px 0;">
+            ${isCreator ? `👑 Criador · <span style="color:var(--accent)">${g.invite_code}</span>` : 'Membro'}
+          </p>
+
+          <!-- Membros -->
+          <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-bottom: 16px;">
+            ${memberAvatars}${extraBadge}
+          </div>
+
+          <!-- Divisor -->
+          <div style="border-top: 1px solid var(--border); margin-bottom: 14px;"></div>
+
+          <!-- Minha cor + Abrir -->
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <button
+                onclick="window.editMemberColor('${g.id}', '${memberColor}', this)"
+                style="width:20px; height:20px; border-radius:50%; background:${memberColor}; border:2px solid rgba(255,255,255,0.25); cursor:pointer; flex-shrink:0;"
+                title="Editar minha cor no grupo"
+              ></button>
+              <span style="font-size:11px; color:var(--faint);">Minha cor</span>
             </div>
-          </a>
-          <div style="margin-top: 12px; display: flex; align-items: center; gap: 8px;">
-            <button
-              onclick="window.editMemberColor('${g.id}', '${memberColor}', this)"
-              style="width: 20px; height: 20px; border-radius: 50%; background: ${memberColor}; border: 2px solid rgba(255,255,255,0.25); cursor: pointer; flex-shrink: 0;"
-              title="Editar minha cor no grupo"
-            ></button>
-            <span style="font-size: 11px; color: var(--faint);">Minha cor</span>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <a href="${url}" style="font-size:12px; font-weight:700; color:var(--accent); text-decoration:none;">Abrir acervo →</a>
+              ${isCreator ? `<button class="btn-manage-trigger" onclick="window.openManageModal('${g.id}', '${g.name}')">⚙️</button>` : ''}
+            </div>
           </div>
-          <div style="position: absolute; bottom: 15px; left: 20px; right: 15px; display: flex; justify-content: space-between; align-items: center;">
-             <a href="${url}" style="font-size: 12px; font-weight: 700; color: var(--accent); text-decoration: none;">Abrir acervo →</a>
-             ${isCreator ? `<button class="btn-manage-trigger" onclick="window.openManageModal('${g.id}', '${g.name}')">⚙️</button>` : ''}
-          </div>
+
         </div>`;
     }).join('');
   } catch (err) {
