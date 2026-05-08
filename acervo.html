@@ -195,8 +195,56 @@
     </main>
 
     <script type="module">
+      import { loadData, formatNota } from "./js/data.js?v=platform-v4";
       import { initTable } from "./js/table.js?v=platform-v4";
-      initTable().catch(console.error);
+
+      async function init() {
+        const { animes, updatedAt, total } = await loadData();
+
+        const d = new Date(updatedAt);
+        document.getElementById("updated-at").textContent =
+          `${total} animes — atualizado em ${d.toLocaleDateString("pt-BR")} às ${d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}`;
+
+        const withNota = animes.filter((a) => a.nota !== null);
+        const avgAll = withNota.length
+          ? withNota.reduce((s, a) => s + Number(a.nota), 0) / withNota.length
+          : null;
+
+        const mostContr = [...animes]
+          .filter((a) => a.controversia !== null && a.controversia > 0)
+          .sort((a, b) => b.controversia - a.controversia)[0];
+
+        const topRated = [...animes]
+          .filter((a) => a.nota !== null)
+          .sort((a, b) => Number(b.nota) - Number(a.nota))[0];
+
+        document.getElementById("stats-grid").innerHTML = `
+          <div class="stat-card">
+            <div class="stat-label">Total de animes</div>
+            <div class="stat-value" style="color:#a78bfa">${total}</div>
+            <div class="stat-sub">na base de dados</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Média geral</div>
+            <div class="stat-value" style="color:#ff9dcc">${avgAll ? avgAll.toFixed(2) : "—"}</div>
+            <div class="stat-sub">de 10</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Mais controverso</div>
+            <div class="stat-value" style="color:#86efac">${mostContr ? Number(mostContr.controversia).toFixed(1) : "—"}</div>
+            <div class="stat-sub" title="${mostContr?.name ?? ""}">${mostContr?.name?.slice(0, 22) ?? "—"}</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Melhor nota</div>
+            <div class="stat-value" style="color:#67e8f9">${topRated ? Number(topRated.nota).toFixed(2) : "—"}</div>
+            <div class="stat-sub" title="${topRated?.name ?? ""}">${topRated?.name?.slice(0, 22) ?? "—"}</div>
+          </div>
+        `;
+
+        await initTable();
+      }
+
+      init().catch(console.error);
     </script>
     <script type="module" src="js/nyx-widget.js?v=platform-v4"></script>
   </body>
