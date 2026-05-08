@@ -17,13 +17,21 @@
       <p>Gerencie seus catálogos de animes compartilhados.</p>
     </div>
 
-    <div id="auth-check" style="display: none;">
+    <!-- Tela de Carregamento/Login (Visível por padrão) -->
+    <div id="auth-check">
       <div class="card" style="text-align: center; padding: 40px;">
-        <p>Você precisa estar logado para acessar seu dashboard.</p>
-        <button id="btn-login-dashboard" class="btn btn-primary" style="margin-top: 20px;">Fazer Login com Google</button>
+        <div id="auth-loading">
+          <p>Verificando autenticação...</p>
+          <div class="skeleton" style="height: 40px; width: 200px; margin: 20px auto;"></div>
+        </div>
+        <div id="auth-login-box" style="display: none;">
+          <p>Você precisa estar logado para acessar seu dashboard.</p>
+          <button id="btn-login-dashboard" class="btn btn-primary" style="margin-top: 20px;">Fazer Login com Google</button>
+        </div>
       </div>
     </div>
 
+    <!-- Tela do Dashboard (Escondida por padrão) -->
     <div id="dashboard-content" style="display: none;">
       <div class="grid-2">
         <div class="card">
@@ -94,7 +102,7 @@
     </div>
   </div>
 
-    <script type="module" src="js/home.js?v=desafios-soft-1"></script>
-    <script type="module" src="js/nyx-widget.js?v=desafios-soft-1"></script>
+  <script type="module" src="./js/dashboard.js?v=platform-v8"></script>
+  <script type="module" src="js/nyx-widget.js?v=platform-v8"></script>
   </body>
 </html>
