@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-05-08T07:13:45.152Z",
-  "total": 205,
+  "updatedAt": "2026-05-08T12:47:08.735Z",
+  "total": 206,
   "animes": [
     {
       "id": "3416beab-c784-813f-bff6-df2369802356",
@@ -794,6 +794,38 @@
         "_seconds": 1777846681,
         "_nanoseconds": 592000000
       }
+    },
+    {
+      "id": "S7ObUjnO3s3ajfBnurQw",
+      "nome": "Guimi Zhi Zhu Tebie Pian: Liewu",
+      "generos": [
+        "Ação ⚔️",
+        "Fantasia 🧙",
+        "Mistério 🔍",
+        "Suspense 😱"
+      ],
+      "malId": 62276,
+      "comentarios": "Rafael: Anime único e muito bom, ambientação da era vitoriana/industrial, animação impecácel. assista!",
+      "comments": [
+        {
+          "person": "Rafael",
+          "text": "Anime único e muito bom, ambientação da era vitoriana/industrial, animação impecácel. assista!"
+        }
+      ],
+      "files": [],
+      "maisDeUmVoto": "nao",
+      "qtdVotos": 1,
+      "controversia": 0,
+      "notaSort": 9.3,
+      "notaRafael": 9.3,
+      "notaFernando": null,
+      "notaDudu": null,
+      "notaHacksuya": null,
+      "notaZana": null,
+      "quemAssistiu": [
+        "Rafael"
+      ],
+      "nota": "9.30"
     },
     {
       "id": "3416beab-c784-815a-b830-c61e927ffd26",
