@@ -501,10 +501,13 @@ function renderModalLinks(anime) {
 async function updateAnimeLinks(animeId, newLinks) {
   const { error } = await supabase.from('animes').update({ links: newLinks }).eq('id', animeId);
   if (error) throw error;
-  invalidateCache();
-  const data = await loadData();
-  allAnimes = data.animes; members = data.members; filtered = [...allAnimes];
-  sortData(); renderTable();
+
+  // Atualiza estado local imediatamente (sem aguardar propagação do Supabase)
+  const update = a => a.id === animeId ? { ...a, links: newLinks } : a;
+  allAnimes = allAnimes.map(update);
+  filtered = filtered.map(update);
+
+  renderTable();
   if (currentModalIndex !== null) window.openModal(currentModalIndex);
 }
 
