@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-05-08T01:46:44.952Z",
-  "total": 194,
+  "updatedAt": "2026-05-08T07:13:45.152Z",
+  "total": 205,
   "animes": [
     {
       "id": "3416beab-c784-813f-bff6-df2369802356",
@@ -1755,6 +1755,36 @@
         "_seconds": 1777848423,
         "_nanoseconds": 687000000
       }
+    },
+    {
+      "id": "eynw3YNZKliHde9Su2ur",
+      "nome": "Kobayashi-san Chi no Maid Dragon",
+      "generos": [
+        "Slice of Life 🍃",
+        "Sobrenatural 👻"
+      ],
+      "malId": 33206,
+      "comentarios": "Rafael: Slice of life puro, com um toque de fantasia fantástico. As cenas de ação são muito bem animadas!! Vale muito a pena!",
+      "comments": [
+        {
+          "person": "Rafael",
+          "text": "Slice of life puro, com um toque de fantasia fantástico. As cenas de ação são muito bem animadas!! Vale muito a pena!"
+        }
+      ],
+      "files": [],
+      "maisDeUmVoto": "nao",
+      "qtdVotos": 1,
+      "controversia": 0,
+      "notaSort": 9,
+      "notaRafael": 9,
+      "notaFernando": null,
+      "notaDudu": null,
+      "notaHacksuya": null,
+      "notaZana": null,
+      "quemAssistiu": [
+        "Rafael"
+      ],
+      "nota": "9.00"
     },
     {
       "id": "t9RZyXLHK4HJ1yUJpOqn",
@@ -4909,6 +4939,37 @@
       "nota": "8.20"
     },
     {
+      "id": "Wks3prx86KS3XuN5Xd5P",
+      "nome": "Masamune-kun no Revenge",
+      "generos": [
+        "Comédia 🤣",
+        "Romance 💖"
+      ],
+      "malId": 33487,
+      "comentarios": "Rafael: Legalzinho de assistir. O romance surge de uma motivação diferente do normal, vale a pena.",
+      "comments": [
+        {
+          "person": "Rafael",
+          "text": "Legalzinho de assistir. O romance surge de uma motivação diferente do normal, vale a pena."
+        }
+      ],
+      "files": [],
+      "maisDeUmVoto": "nao",
+      "qtdVotos": 2,
+      "controversia": 0,
+      "notaSort": 8.15,
+      "notaRafael": 7.8,
+      "notaFernando": null,
+      "notaDudu": 8.5,
+      "notaHacksuya": null,
+      "notaZana": null,
+      "quemAssistiu": [
+        "Rafael",
+        "Dudu"
+      ],
+      "nota": "8.15"
+    },
+    {
       "id": "f6e6beab-c784-83c0-b7a0-817ac90bf966",
       "nome": "Tsukimichi: Moonlit Fantasy",
       "nota": "8.15",
@@ -5696,6 +5757,67 @@
       }
     },
     {
+      "id": "Dx4yTrkOwuhb0R6CpxnT",
+      "nome": "Haite Kudasai, Takamine-san",
+      "generos": [
+        "Comédia 🤣",
+        "Romance 💖",
+        "Ecchi 🔥"
+      ],
+      "malId": 59457,
+      "comentarios": "Rafael: Anime bom kkk. Romance com viagem no tempo de um jeito diferente 👀, muito ecchi.",
+      "comments": [
+        {
+          "person": "Rafael",
+          "text": "Anime bom kkk. Romance com viagem no tempo de um jeito diferente 👀, muito ecchi."
+        }
+      ],
+      "files": [],
+      "maisDeUmVoto": "nao",
+      "qtdVotos": 1,
+      "controversia": 0,
+      "notaSort": 8,
+      "notaRafael": 8,
+      "notaFernando": null,
+      "notaDudu": null,
+      "notaHacksuya": null,
+      "notaZana": null,
+      "quemAssistiu": [
+        "Rafael"
+      ],
+      "nota": "8.00"
+    },
+    {
+      "id": "u93TULKOfDW8MOviXK11",
+      "nome": "Gachiakuta",
+      "generos": [
+        "Ação ⚔️",
+        "Fantasia 🧙"
+      ],
+      "malId": 59062,
+      "comentarios": "Rafael: Lembra os shounen de antigamente, protagonista clássico com motivação clássica. Vale a pena dar uma chance, é dahorinha.",
+      "comments": [
+        {
+          "person": "Rafael",
+          "text": "Lembra os shounen de antigamente, protagonista clássico com motivação clássica. Vale a pena dar uma chance, é dahorinha."
+        }
+      ],
+      "files": [],
+      "maisDeUmVoto": "nao",
+      "qtdVotos": 1,
+      "controversia": 0,
+      "notaSort": 8,
+      "notaRafael": 8,
+      "notaFernando": null,
+      "notaDudu": null,
+      "notaHacksuya": null,
+      "notaZana": null,
+      "quemAssistiu": [
+        "Rafael"
+      ],
+      "nota": "8.00"
+    },
+    {
       "id": "zn6JJPEwkKT8C7kY7xNx",
       "nome": "The Greatest Demon Lord Is Reborn as a Typical Nobody",
       "generos": [
@@ -5911,6 +6033,36 @@
         "_seconds": 1777860631,
         "_nanoseconds": 99000000
       }
+    },
+    {
+      "id": "QvAbh8n7FlDjYxn46I4o",
+      "nome": "Clevatess: Majuu no Ou to Akago to Shikabane no Yuusha",
+      "generos": [
+        "Ação ⚔️",
+        "Fantasia 🧙"
+      ],
+      "malId": 59205,
+      "comentarios": "Rafael: Anime legal, vale a pena se você gosta de um anime mais dark.",
+      "comments": [
+        {
+          "person": "Rafael",
+          "text": "Anime legal, vale a pena se você gosta de um anime mais dark."
+        }
+      ],
+      "files": [],
+      "maisDeUmVoto": "nao",
+      "qtdVotos": 1,
+      "controversia": 0,
+      "notaSort": 7.9,
+      "notaRafael": 7.9,
+      "notaFernando": null,
+      "notaDudu": null,
+      "notaHacksuya": null,
+      "notaZana": null,
+      "quemAssistiu": [
+        "Rafael"
+      ],
+      "nota": "7.90"
     },
     {
       "id": "3416beab-c784-811a-9b7a-e4351e8c2a75",
@@ -7031,6 +7183,36 @@
       }
     },
     {
+      "id": "V6a87qfidzfL3vcMM2YB",
+      "nome": "Ijiranaide, Nagatoro-san",
+      "generos": [
+        "Comédia 🤣",
+        "Romance 💖"
+      ],
+      "malId": 42361,
+      "comentarios": "Rafael: Nagatoro é do mal com o nosso nerdinho! Vale a pena: um romance levinho, com personagens com personalidades diferentes do normal.",
+      "comments": [
+        {
+          "person": "Rafael",
+          "text": "Nagatoro é do mal com o nosso nerdinho! Vale a pena: um romance levinho, com personagens com personalidades diferentes do normal."
+        }
+      ],
+      "files": [],
+      "maisDeUmVoto": "nao",
+      "qtdVotos": 1,
+      "controversia": 0,
+      "notaSort": 7.5,
+      "notaRafael": 7.5,
+      "notaFernando": null,
+      "notaDudu": null,
+      "notaHacksuya": null,
+      "notaZana": null,
+      "quemAssistiu": [
+        "Rafael"
+      ],
+      "nota": "7.50"
+    },
+    {
       "id": "3416beab-c784-8142-b850-fa46a40f2477",
       "nome": "Owari no Seraph",
       "quemAssistiu": [
@@ -7230,6 +7412,65 @@
       }
     },
     {
+      "id": "eQbO1XjLS1dPdNPsyB3u",
+      "nome": "Watashi ga Motete Dousunda",
+      "generos": [
+        "Comédia 🤣",
+        "Romance 💖"
+      ],
+      "malId": 32899,
+      "comentarios": "Dudu: Meio meh, a mina ficar gata da noite pro dia nem faz sentido mas blz",
+      "comments": [
+        {
+          "person": "Dudu",
+          "text": "Meio meh, a mina ficar gata da noite pro dia nem faz sentido mas blz"
+        }
+      ],
+      "files": [],
+      "maisDeUmVoto": "nao",
+      "qtdVotos": 1,
+      "controversia": 0,
+      "notaSort": 7.3,
+      "notaRafael": null,
+      "notaFernando": null,
+      "notaDudu": 7.3,
+      "notaHacksuya": null,
+      "notaZana": null,
+      "quemAssistiu": [
+        "Dudu"
+      ],
+      "nota": "7.30"
+    },
+    {
+      "id": "p8lckNxL9F37sZLTW0sT",
+      "nome": "Isshun de Chiryou shiteita noni Yakutatazu to Tsuihou sareta Tensai Chiyushi, Yami Healer toshite Tanoshiku Ikiru",
+      "generos": [
+        "Fantasia 🧙"
+      ],
+      "malId": 58359,
+      "comentarios": "Rafael: Um anime muito bom, nada de espetacular, mas vale a pena pelo prota, muito inteligente e habilidoso.",
+      "comments": [
+        {
+          "person": "Rafael",
+          "text": "Um anime muito bom, nada de espetacular, mas vale a pena pelo prota, muito inteligente e habilidoso."
+        }
+      ],
+      "files": [],
+      "maisDeUmVoto": "nao",
+      "qtdVotos": 1,
+      "controversia": 0,
+      "notaSort": 7.3,
+      "notaRafael": 7.3,
+      "notaFernando": null,
+      "notaDudu": null,
+      "notaHacksuya": null,
+      "notaZana": null,
+      "quemAssistiu": [
+        "Rafael"
+      ],
+      "nota": "7.30"
+    },
+    {
       "id": "zYfLlKnbUcSwodnE5xfR",
       "nome": "Our Last Crusade or the Rise of a New World",
       "malId": 40595,
@@ -7388,6 +7629,36 @@
         "_seconds": 1777862626,
         "_nanoseconds": 687000000
       }
+    },
+    {
+      "id": "IwTxtH8V83WYfPNk2wjw",
+      "nome": "Kanchigai no Atelier Meister: Eiyuu Party no Moto Zatsuyougakari ga, Jitsu wa Sentou Igai ga SSS Rank Datta to Iu Yoku Aru Hanashi",
+      "generos": [
+        "Ação ⚔️",
+        "Fantasia 🧙"
+      ],
+      "malId": 60140,
+      "comentarios": "Rafael: Anime bomba. Protagonista inocente em um nível que dá raiva.",
+      "comments": [
+        {
+          "person": "Rafael",
+          "text": "Anime bomba. Protagonista inocente em um nível que dá raiva."
+        }
+      ],
+      "files": [],
+      "maisDeUmVoto": "nao",
+      "qtdVotos": 1,
+      "controversia": 0,
+      "notaSort": 7.2,
+      "notaRafael": 7.2,
+      "notaFernando": null,
+      "notaDudu": null,
+      "notaHacksuya": null,
+      "notaZana": null,
+      "quemAssistiu": [
+        "Rafael"
+      ],
+      "nota": "7.20"
     },
     {
       "id": "lf8xBP3dkrE9VtlAihNF",
@@ -8063,6 +8334,36 @@
       "nota": "5.00"
     },
     {
+      "id": "Ky0lmAxKCDsWlkWlEFxO",
+      "nome": "Tensei shitara Dainana Ouji Datta node, Kimama ni Majutsu wo Kiwamemasu",
+      "generos": [
+        "Aventura 🎒",
+        "Fantasia 🧙"
+      ],
+      "malId": 53516,
+      "comentarios": "Rafael: Selo anime bomba. Não assista, por favor. bizarro.",
+      "comments": [
+        {
+          "person": "Rafael",
+          "text": "Selo anime bomba. Não assista, por favor. bizarro."
+        }
+      ],
+      "files": [],
+      "maisDeUmVoto": "nao",
+      "qtdVotos": 1,
+      "controversia": 0,
+      "notaSort": 5,
+      "notaRafael": 5,
+      "notaFernando": null,
+      "notaDudu": null,
+      "notaHacksuya": null,
+      "notaZana": null,
+      "quemAssistiu": [
+        "Rafael"
+      ],
+      "nota": "5.00"
+    },
+    {
       "id": "3416beab-c784-81f8-a819-e31a618f2b8e",
       "nome": "Beastars",
       "quemAssistiu": [
@@ -8105,6 +8406,37 @@
         "_seconds": 1777862911,
         "_nanoseconds": 172000000
       }
+    },
+    {
+      "id": "ezpFMIogdrxB4qUz9qua",
+      "nome": "Hajimete no Gal",
+      "generos": [
+        "Comédia 🤣",
+        "Romance 💖",
+        "Ecchi 🔥"
+      ],
+      "malId": 34403,
+      "comentarios": "Rafael: Anime Bomba, Muitoo ecchi, bizarro, assista se não tiver amor a vida.",
+      "comments": [
+        {
+          "person": "Rafael",
+          "text": "Anime Bomba, Muitoo ecchi, bizarro, assista se não tiver amor a vida."
+        }
+      ],
+      "files": [],
+      "maisDeUmVoto": "nao",
+      "qtdVotos": 1,
+      "controversia": 0,
+      "notaSort": 4,
+      "notaRafael": 4,
+      "notaFernando": null,
+      "notaDudu": null,
+      "notaHacksuya": null,
+      "notaZana": null,
+      "quemAssistiu": [
+        "Rafael"
+      ],
+      "nota": "4.00"
     },
     {
       "id": "3416beab-c784-813c-8582-e3b257fccd84",
