@@ -5,8 +5,19 @@ import { supabase } from './supabase-client.js';
  * Faz login com o provedor Google.
  */
 export async function signInWithGoogle() {
-  // Captura a URL atual sem os parâmetros de hash/query para o redirect
-  const targetRedirect = window.location.origin + window.location.pathname;
+  // Pega o caminho da pasta (ex: /animes-rd/)
+  let path = window.location.pathname;
+  if (!path.endsWith('/')) {
+    // Se estiver em um arquivo .html, pega a pasta pai
+    if (path.includes('.html')) {
+      path = path.substring(0, path.lastIndexOf('/') + 1);
+    } else {
+      path += '/';
+    }
+  }
+  
+  // Forçamos o retorno para a index.html da pasta atual
+  const targetRedirect = window.location.origin + path + 'index.html';
   console.log('Solicitando login Google. Redirect planejado:', targetRedirect);
 
   const { data, error } = await supabase.auth.signInWithOAuth({
