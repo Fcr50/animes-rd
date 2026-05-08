@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard | Animes RD</title>
-  <link rel="stylesheet" href="css/style.css?v=platform-v6" />
-  <script type="module" src="./js/theme.js?v=platform-v6"></script>
-  <script type="module" src="./js/utils.js?v=platform-v6"></script>
+  <link rel="stylesheet" href="css/style.css?v=cleanup-1" />
+  <script type="module" src="./js/theme.js?v=platform-v3"></script>
+  <script type="module" src="./js/utils.js?v=platform-v3"></script>
 </head>
 <body class="dashboard-page">
   <nav class="nav"></nav>
@@ -62,38 +62,6 @@
     </div>
   </main>
 
-  <!-- Modal de Gestão de Grupo -->
-  <div id="modal-manage-group" class="modal-overlay">
-    <div class="modal" style="max-width: 500px;">
-      <div class="modal-header">
-        <h2>Gerenciar Grupo</h2>
-        <button onclick="closeManageModal()">✕</button>
-      </div>
-      <div class="modal-body">
-        <form id="edit-group-form">
-          <div class="form-group">
-            <label>Nome do Grupo</label>
-            <input type="text" id="edit-group-name" required style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid var(--border); background: rgba(0,0,0,0.2); color: white;">
-          </div>
-          <button type="submit" class="btn btn-primary" style="margin-top: 10px; width: 100%;">Salvar Alterações</button>
-        </form>
-
-        <div style="margin-top: 30px;">
-          <h3>Membros do Grupo</h3>
-          <div id="manage-members-list" style="margin-top: 10px;">
-            <!-- Lista de membros com botão de remover -->
-          </div>
-        </div>
-
-        <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255,0,0,0.2);">
-          <h3 style="color: var(--danger);">Zona de Perigo</h3>
-          <p style="font-size: 12px; color: var(--faint); margin-bottom: 10px;">A exclusão de um grupo é permanente e apaga todos os animes e votos vinculados.</p>
-          <button id="btn-delete-group" class="btn btn-danger" style="width: 100%;">Excluir Grupo Permanentemente</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script type="module" src="./js/dashboard.js?v=platform-v6"></script>
+  <script type="module" src="./js/dashboard.js?v=platform-v3"></script>
 </body>
 </html>

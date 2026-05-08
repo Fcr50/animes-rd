@@ -1,0 +1,49 @@
+<h2>Scaling Animes RD to a Platform</h2>
+<p class="subtitle">Visualizing the shift from a personal group to a multi-group SaaS</p>
+
+<div class="split">
+  <div class="mockup">
+    <div class="mockup-header">Current: Personal (Fixed)</div>
+    <div class="mockup-body">
+      <div class="mock-nav">Blog | Acervo | Suggest | Rafael | Fernando ...</div>
+      <div class="section">
+        <h3>Fixed Members</h3>
+        <ul>
+          <li>Rafael (Purple)</li>
+          <li>Fernando (Pink)</li>
+          <li>Dudu (Amber)</li>
+          <li>Zana (Orange)</li>
+        </ul>
+      </div>
+      <p class="label">Architecture: Static (JSON via GH Action)</p>
+    </div>
+  </div>
+  <div class="mockup">
+    <div class="mockup-header">New: Platform (Dynamic)</div>
+    <div class="mockup-body">
+      <div class="mock-nav">Dashboard | My Groups | Explore | [Profile]</div>
+      <div class="section">
+        <h3>Dynamic Groups</h3>
+        <div class="placeholder" style="height: 60px; display: flex; align-items: center; justify-content: center;">
+          [Group Selector: "Os Primos", "Galera do Trabalho"]
+        </div>
+        <ul>
+          <li>Add Members via Link/Email</li>
+          <li>Custom Roles/Colors</li>
+        </ul>
+      </div>
+      <p class="label">Architecture: Dynamic (Real-time Firestore)</p>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Key Architectural Shifts</h3>
+  <ul>
+    <li><strong>Data Isolation:</strong> Animes must belong to a <code>groupId</code>.</li>
+    <li><strong>User Management:</strong> Users login, then join or create groups.</li>
+    <li><strong>Performance:</strong> Real-time Firestore reads instead of static JSON.</li>
+  </ul>
+</div>
+
+<p>Please open the URL: <strong>http://localhost:58402</strong> to follow along.</p>

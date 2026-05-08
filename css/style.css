@@ -88,20 +88,77 @@ select {
   z-index: 100;
 }
 
-.nav-logo {
+.nav-person-group {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-left: auto;
+}
+
+.user-auth-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-btn-action {
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text);
+}
+
+.nav-btn-action:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--border-hover);
+}
+
+.nav-btn-action.btn-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+
+.nav-btn-action.btn-primary:hover {
+  filter: brightness(1.1);
+}
+
+.nav-btn-link {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+  transition: color 0.2s;
+}
+
+.nav-btn-link:hover {
   color: var(--paper);
-  font-family: "Newsreader", serif;
-  font-size: 22px;
-  font-weight: 750;
-  letter-spacing: 0.01em;
-  margin-right: 18px;
-  white-space: nowrap;
+}
+
+.nav-btn-action.btn-logout {
+  color: var(--danger);
+  border-color: rgba(251, 113, 133, 0.2);
+  background: rgba(251, 113, 133, 0.05);
+}
+.nav-btn-action.btn-logout:hover {
+  background: rgba(251, 113, 133, 0.1);
+  border-color: var(--danger);
+}
+
+/* Oculta itens que exigem um grupo selecionado */
+.group-only {
+  display: none !important;
 }
 
 .nav a {
   border: 1px solid transparent;
   border-radius: 999px;
   color: var(--muted);
+...
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.01em;
@@ -3750,26 +3807,17 @@ a.opening-chip:hover { border-color: rgba(255,255,255,0.25); }
   padding: 24px;
   display: flex;
   flex-direction: column;
-}
-
-.post-card:nth-child(1) {
-  background: #fff5ca;
-}
-.post-card:nth-child(2) {
-  background: #ffe0ef;
-}
-.post-card:nth-child(3) {
-  background: #fff3bd;
-}
-.post-card:nth-child(4) {
-  background: #dff5ff;
-}
-.post-card:nth-child(5) {
-  background: #fff3e8;
+  background: linear-gradient(
+    135deg,
+    rgba(var(--member-color-rgb), 0.18) 0%,
+    rgba(var(--member-color-rgb), 0.05) 100%
+  );
+  border: 1px solid rgba(var(--member-color-rgb), 0.25);
+  border-radius: 20px;
 }
 
 .post-card h3 {
-  color: #1f2933;
+  color: var(--member-color);
   font-family: "Baloo 2", "Inter", sans-serif;
   font-size: 30px;
   font-weight: 700;
@@ -4413,43 +4461,15 @@ body.dark-theme #person-stats .stat-card:nth-child(5) {
   border-color: rgba(251, 113, 133, 0.38);
 }
 
-body.dark-theme .member-card:nth-child(1),
-body.dark-theme .post-card:nth-child(1) {
-  --member-color: var(--rafael-light);
-  background:
-    linear-gradient(160deg, rgba(124, 58, 237, 0.34), rgba(24, 23, 29, 0.96) 58%), var(--card);
-  border-color: rgba(182, 156, 255, 0.52);
-}
-
-body.dark-theme .member-card:nth-child(2),
-body.dark-theme .post-card:nth-child(2) {
-  --member-color: var(--fernando-light);
-  background:
-    linear-gradient(160deg, rgba(236, 72, 153, 0.32), rgba(24, 23, 29, 0.96) 58%), var(--card);
-  border-color: rgba(255, 157, 204, 0.5);
-}
-
-body.dark-theme .member-card:nth-child(3),
-body.dark-theme .post-card:nth-child(3) {
-  --member-color: var(--dudu-light);
-  background:
-    linear-gradient(160deg, rgba(234, 179, 8, 0.28), rgba(24, 23, 29, 0.96) 58%), var(--card);
-  border-color: rgba(253, 230, 138, 0.52);
-}
-
-body.dark-theme .member-card:nth-child(4),
-body.dark-theme .post-card:nth-child(4) {
-  --member-color: var(--hacksuya-light);
-  background:
-    linear-gradient(160deg, rgba(6, 182, 212, 0.3), rgba(24, 23, 29, 0.96) 58%), var(--card);
-  border-color: rgba(103, 232, 249, 0.48);
-}
-
-body.dark-theme .post-card:nth-child(5) {
-  --member-color: var(--zana-light);
-  background:
-    linear-gradient(160deg, rgba(249, 115, 22, 0.3), rgba(24, 23, 29, 0.96) 58%), var(--card);
-  border-color: rgba(253, 186, 116, 0.5);
+body.dark-theme .member-card,
+body.dark-theme .post-card {
+  --member-color: rgba(var(--member-color-rgb), 1);
+  background: linear-gradient(
+    160deg,
+    rgba(var(--member-color-rgb), 0.28) 0%,
+    rgba(24, 23, 29, 0.96) 58%
+  ), var(--card);
+  border-color: rgba(var(--member-color-rgb), 0.35);
 }
 
 body.dark-theme .grid-2 > .card:nth-child(1),

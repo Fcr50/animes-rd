@@ -1,44 +1,32 @@
 <a class="nav-logo" href="index.html">Animes RD</a>
-<a class="nav-link" href="index.html">Blog</a>
-<a class="nav-link" href="acervo.html">Acervo</a>
-<a class="nav-link" href="charts.html">Gr&aacute;ficos</a>
-<a class="nav-link" href="compare.html">Comparar</a>
-<a class="nav-link" href="suggest.html">Sugerir Anime</a>
-<a class="nav-link" href="pending.html">Fila de Aprova&ccedil;&atilde;o</a>
-<a class="nav-link" href="desafios.html">Desafios</a>
-<a class="nav-link" href="ciel.html">Ciel</a>
-<button
-  class="theme-toggle"
-  type="button"
-  data-theme-toggle
-  aria-label="Ativar modo noturno"
-  title="Modo noturno"
->
-  ☾
-</button>
-<div class="nav-person">
-  <a href="rafael.html"
-    ><span class="nav-avatar" style="background: rgba(124, 58, 237, 0.18); color: #6f45d8">R</span
-    >Rafael</a
+
+<!-- Links que só aparecem quando um grupo está selecionado -->
+<a class="nav-link group-only" href="blog.html">Blog</a>
+<a class="nav-link group-only" href="acervo.html">Acervo</a>
+<a class="nav-link group-only" href="charts.html">Gr&aacute;ficos</a>
+<a class="nav-link group-only" href="compare.html">Comparar</a>
+<a class="nav-link group-only" href="suggest.html">Sugerir Anime</a>
+<a class="nav-link group-only" href="pending.html">Fila de Aprova&ccedil;&atilde;o</a>
+<a class="nav-link group-only" href="desafios.html">Desafios</a>
+<a class="nav-link group-only" href="ciel.html">Ciel</a>
+
+<div class="nav-person-group">
+  <!-- Este contêiner será preenchido dinamicamente com os membros do grupo -->
+  <div id="dynamic-members" class="nav-person group-only"></div>
+  
+  <button
+    class="theme-toggle"
+    type="button"
+    data-theme-toggle
+    aria-label="Ativar modo noturno"
+    title="Modo noturno"
+    style="margin: 0 15px;"
   >
-  <a href="fernando.html"
-    ><span class="nav-avatar" style="background: rgba(236, 72, 153, 0.18); color: #d83182">F</span
-    >Fernando</a
-  >
-  <a href="dudu.html"
-    ><span class="nav-avatar" style="background: rgba(234, 179, 8, 0.18); color: #b7791f">D</span
-    >Dudu</a
-  >
-  <a href="hacksuya.html"
-    ><span class="nav-avatar" style="background: rgba(6, 182, 212, 0.18); color: #0588a6">H</span
-    >Hacksuya</a
-  >
-  <a href="zana.html"
-    ><span class="nav-avatar" style="background: rgba(249, 115, 22, 0.18); color: #c2410c">Z</span
-    >Zana</a
-  >
+    ☾
+  </button>
+
+  <div id="user-nav" class="user-auth-nav"></div>
 </div>
-<div class="nav-person" id="user-nav"></div>
 
 <button
   class="nav-hamburger"
@@ -63,9 +51,9 @@
       </button>
     </div>
 
-    <div class="mobile-drawer-section">
+    <div class="mobile-drawer-section group-only">
       <span class="mobile-drawer-label">Páginas</span>
-      <a class="mobile-drawer-link" href="index.html">Blog</a>
+      <a class="mobile-drawer-link" href="blog.html">Blog</a>
       <a class="mobile-drawer-link" href="acervo.html">Acervo</a>
       <a class="mobile-drawer-link" href="charts.html">Gráficos</a>
       <a class="mobile-drawer-link" href="compare.html">Comparar</a>
@@ -75,29 +63,10 @@
       <a class="mobile-drawer-link" href="ciel.html">Ciel</a>
     </div>
 
-    <div class="mobile-drawer-section">
+    <div class="mobile-drawer-section group-only">
       <span class="mobile-drawer-label">Membros</span>
-      <div class="mobile-drawer-members">
-        <a href="rafael.html">
-          <span class="nav-avatar" style="background: rgba(124,58,237,0.18); color:#6f45d8">R</span>
-          Rafael
-        </a>
-        <a href="fernando.html">
-          <span class="nav-avatar" style="background: rgba(236,72,153,0.18); color:#d83182">F</span>
-          Fernando
-        </a>
-        <a href="dudu.html">
-          <span class="nav-avatar" style="background: rgba(234,179,8,0.18); color:#b7791f">D</span>
-          Dudu
-        </a>
-        <a href="hacksuya.html">
-          <span class="nav-avatar" style="background: rgba(6,182,212,0.18); color:#0588a6">H</span>
-          Hacksuya
-        </a>
-        <a href="zana.html">
-          <span class="nav-avatar" style="background: rgba(249,115,22,0.18); color:#c2410c">Z</span>
-          Zana
-        </a>
+      <div id="mobile-dynamic-members" class="mobile-drawer-members">
+        <!-- Preenchido via JS -->
       </div>
     </div>
 

@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Acervo — Animes RD</title>
     <link rel="stylesheet" href="css/style.css?v=artslum-1" />
-    <script type="module" src="./js/theme.js?v=desafios-soft-1"></script>
-    <script type="module" src="./js/utils.js?v=desafios-soft-1"></script>
+    <script type="module" src="./js/theme.js?v=platform-v4"></script>
+    <script type="module" src="./js/utils.js?v=platform-v4"></script>
     <style>
       @media (max-width: 768px) {
         /* Stat cards menores */
@@ -195,58 +195,9 @@
     </main>
 
     <script type="module">
-      import { loadData, formatNota } from "./js/data.js?v=desafios-soft-1";
-      import { initTable } from "./js/table.js?v=desafios-soft-1";
-
-      async function init() {
-        const { animes, updatedAt, total } = await loadData();
-
-        // Updated at
-        const d = new Date(updatedAt);
-        document.getElementById("updated-at").textContent =
-          `${total} animes — atualizado em ${d.toLocaleDateString("pt-BR")} às ${d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}`;
-
-        // Stats
-        const withNota = animes.filter((a) => a.nota !== null);
-        const avgAll = withNota.reduce((s, a) => s + Number(a.nota), 0) / withNota.length;
-
-        const mostContr = [...animes]
-          .filter((a) => a.controversia !== null)
-          .sort((a, b) => b.controversia - a.controversia)[0];
-
-        const topVoted = [...animes].sort((a, b) => (b.qtdVotos || 0) - (a.qtdVotos || 0))[0];
-        const topRated = [...animes]
-          .filter((a) => a.nota !== null)
-          .sort((a, b) => Number(b.nota) - Number(a.nota))[0];
-
-        document.getElementById("stats-grid").innerHTML = `
-      <div class="stat-card">
-        <div class="stat-label">Total de animes</div>
-        <div class="stat-value" style="color:#a78bfa">${total}</div>
-        <div class="stat-sub">na base de dados</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Média geral</div>
-        <div class="stat-value" style="color:#ff9dcc">${avgAll ? avgAll.toFixed(2) : "—"}</div>
-        <div class="stat-sub">de 10</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Mais controverso</div>
-        <div class="stat-value" style="color:#86efac">${mostContr ? mostContr.controversia.toFixed(1) : "—"}</div>
-        <div class="stat-sub" title="${mostContr?.nome}">${mostContr?.nome?.slice(0, 22) || "—"}</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Melhor nota</div>
-        <div class="stat-value" style="color:#67e8f9">${topRated ? Number(topRated.nota).toFixed(2) : "—"}</div>
-        <div class="stat-sub" title="${topRated?.nome}">${topRated?.nome?.slice(0, 22) || "—"}</div>
-      </div>
-    `;
-
-        initTable(animes);
-      }
-
-      init().catch(console.error);
+      import { initTable } from "./js/table.js?v=platform-v4";
+      initTable().catch(console.error);
     </script>
-    <script type="module" src="js/nyx-widget.js?v=desafios-soft-1"></script>
+    <script type="module" src="js/nyx-widget.js?v=platform-v4"></script>
   </body>
 </html>

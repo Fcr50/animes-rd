@@ -1,15 +1,140 @@
-// js/data.js?v=desafios-soft-1 — carrega e processa animes.json
-
-import { normalizeText, stripEmoji } from "./utils.js";
+// js/data.js
+import { supabase } from './supabase-client.js';
+import { normalizeText, stripEmoji, getGroupId } from "./utils.js";
 
 let _data = null;
+let _members = [];
 
+// Mapeamento oficial de Gênero Limpo -> Gênero com Emoji
+export const PRETTY_GENRES = {
+  "Ação": "Ação ⚔️",
+  "Aventura": "Aventura 🎒",
+  "Comédia": "Comédia 😂",
+  "Drama": "Drama 😢",
+  "Fantasia": "Fantasia 🧙",
+  "Terror": "Terror 👻",
+  "Shounen": "Shounen 💥",
+  "Mistério": "Mistério 🔍",
+  "Romance": "Romance 💖",
+  "Ficção Científica": "Ficção Científica 🚀",
+  "Slice of Life": "Slice of Life 🍃",
+  "Esportes": "Esportes ⚽",
+  "Sobrenatural": "Sobrenatural 👻",
+  "Psicológico": "Psicológico 🧠",
+  "Ecchi": "Ecchi 🔥",
+  "Mecha": "Mecha 🤖",
+  "Música": "Música 🎵",
+  "Histórico": "Histórico 📜",
+  "Militar": "Militar 🎖️",
+  "Magia": "Magia 🪄",
+  "Artes Marciais": "Artes Marciais 🥋",
+  "Vampiro": "Vampiro 🧛",
+  "Demônios": "Demônios 😈",
+  "Escola": "Escola 🏫",
+  "Espaço": "Espaço 👨‍🚀",
+  "Samurai": "Samurai ⚔️",
+  "Policial": "Policial 👮",
+  "Harém": "Harém 👫",
+  "Jogo": "Jogo 🎮",
+  "Paródia": "Paródia 🤡",
+  "Isekai": "Isekai 🌍✨",
+  "Suspense": "Suspense 😱",
+  "Culinária": "Culinária 🍳",
+  "Experimental": "Experimental 🧪",
+  "Premiado": "Premiado 🏆",
+  "BL": "BL 👬",
+  "GL": "GL 👭",
+  "Hentai": "Hentai 💦",
+  "Seinen": "Seinen 👔",
+  "Superpoderes": "Superpoderes ⚡",
+  "Bomba": "Bomba 💣"
+};
+
+export function prettyGenre(name) {
+  const clean = stripEmoji(name);
+  return PRETTY_GENRES[clean] || name;
+}
+
+/**
+ * Carrega os membros e animes aprovados do grupo atual.
+ */
 export async function loadData() {
-  if (_data) return _data;
-  const res = await fetch("data/animes.json");
-  if (!res.ok) throw new Error("Falha ao carregar animes.json");
-  _data = await res.json();
+  const groupId = getGroupId();
+  if (!groupId) {
+    console.error("Nenhum groupId fornecido na URL.");
+    return { animes: [], members: [] };
+  }
+
+  if (_data && _data.groupId === groupId) return _data;
+
+  const { data: members, error: membersError } = await supabase
+    .from('group_members')
+    .select('user_id, nickname, color, role, openings')
+    .eq('group_id', groupId);
+
+  if (membersError) throw membersError;
+  _members = members;
+
+  const { data: animes, error: animesError } = await supabase
+    .from('animes')
+    .select('*, votes(user_id, score, comment)')
+    .eq('group_id', groupId)
+    .eq('status', 'approved');
+
+  if (animesError) throw animesError;
+
+  const processedAnimes = animes.map(anime => {
+    const scores = anime.votes
+      .filter(v => v.score !== null)
+      .map(v => Number(v.score));
+    
+    const avg = scores.length ? scores.reduce((s, n) => s + n, 0) / scores.length : null;
+    const max = scores.length ? Math.max(...scores) : null;
+    const min = scores.length ? Math.min(...scores) : null;
+
+    const animeObj = {
+      ...anime,
+      quemAssistiu: anime.votes.filter(v => v.score !== null).map(v => {
+        const member = _members.find(m => m.user_id === v.user_id);
+        return member ? member.nickname : 'Desconhecido';
+      }),
+      qtdVotos: scores.length,
+      nota: avg === null ? null : avg.toFixed(2),
+      notaSort: avg === null ? 0 : Number(avg.toFixed(2)),
+      controversia: scores.length > 1 ? Number((max - min).toFixed(1)) : 0,
+      comentarios: anime.votes
+        .filter(v => v.comment)
+        .map(v => {
+          const member = _members.find(m => m.user_id === v.user_id);
+          return `${member ? member.nickname : 'Desconhecido'}: ${v.comment}`;
+        })
+        .join('\n')
+    };
+
+    _members.forEach(m => {
+      const vote = anime.votes.find(v => v.user_id === m.user_id);
+      animeObj[`nota${m.nickname}`] = vote ? vote.score : null;
+    });
+
+    return animeObj;
+  });
+
+  _data = {
+    groupId,
+    updatedAt: new Date().toISOString(),
+    total: processedAnimes.length,
+    animes: processedAnimes,
+    members: _members
+  };
+
   return _data;
+}
+
+export function notaColor(nota) {
+  if (nota === null || nota === undefined) return "";
+  if (nota >= 8.5) return "nota-high";
+  if (nota >= 7) return "nota-mid";
+  return "nota-low";
 }
 
 export function formatNota(nota) {
@@ -21,73 +146,71 @@ export function personKey(name) {
   return normalizeText(name);
 }
 
-export const PEOPLE = ["Rafael", "Fernando", "Dudu", "Hacksuya", "Zana"];
-
-export const PERSON_COLORS = {
-  Rafael: "#7c3aed",
-  Fernando: "#ec4899",
-  Dudu: "#f59e0b",
-  Hacksuya: "#06b6d4",
-  Zana: "#f97316", // Laranja
-};
-
-export const PERSON_LIGHTS = {
-  Rafael: "#a78bfa",
-  Fernando: "#f9a8d4",
-  Dudu: "#fcd34d",
-  Hacksuya: "#67e8f9",
-  Zana: "#fdba74", // Laranja claro
-};
-
-export function getPersonNota(anime, person) {
-  if (person === "Rafael") return anime.notaRafael;
-  if (person === "Fernando") return anime.notaFernando;
-  if (person === "Dudu") return anime.notaDudu;
-  if (person === "Hacksuya") return anime.notaHacksuya;
-  if (person === "Zana") return anime.notaZana;
-  return null;
+export function getPersonNota(anime, personNickname) {
+  return anime[`nota${personNickname}`] || null;
 }
 
-// Retorna mapa { gênero: count } para um conjunto de animes
+export function getPersonColor(personNickname) {
+  const member = _members.find(m => m.nickname === personNickname);
+  return member ? member.color : "#ccc";
+}
+
 export function countGenres(animes) {
   const map = {};
   for (const a of animes) {
-    for (const g of a.generos || []) {
-      map[g] = (map[g] || 0) + 1;
+    for (const g of (a.genres || [])) {
+      const p = prettyGenre(g);
+      map[p] = (map[p] || 0) + 1;
     }
   }
   return map;
 }
 
-// Animes que uma pessoa assistiu
-export function animesOf(allAnimes, person) {
-  return allAnimes.filter((a) => a.quemAssistiu.includes(person));
+export function animesOf(allAnimes, personNickname) {
+  return allAnimes.filter((a) => a.quemAssistiu.includes(personNickname));
 }
 
-// Gênero favorito de uma pessoa
-export function favoriteGenre(animes, person) {
-  const mine = animesOf(animes, person);
+export function favoriteGenre(animes, personNickname) {
+  const mine = animesOf(animes, personNickname);
   const map = countGenres(mine);
   if (!Object.keys(map).length) return "—";
   return Object.entries(map).sort((a, b) => b[1] - a[1])[0][0];
 }
 
-// Anime favorito de uma pessoa (nota mais alta)
-export function favoriteAnime(animes, person) {
-  const mine = animesOf(animes, person)
-    .filter((a) => getPersonNota(a, person) !== null)
-    .sort((a, b) => getPersonNota(b, person) - getPersonNota(a, person));
+export function avgNota(animes, personNickname) {
+  const notes = animesOf(animes, personNickname)
+    .map((a) => getPersonNota(a, personNickname))
+    .filter((n) => n !== null);
+  if (!notes.length) return null;
+  return notes.reduce((s, n) => s + n, 0) / notes.length;
+}
+
+export function favoriteAnime(animes, personNickname) {
+  const mine = animesOf(animes, personNickname)
+    .filter((a) => getPersonNota(a, personNickname) !== null)
+    .sort((a, b) => getPersonNota(b, personNickname) - getPersonNota(a, personNickname));
   return mine[0] || null;
 }
 
-// Animes exclusivos de uma pessoa (só ela assistiu)
-export function exclusiveAnimes(animes, person) {
-  return animesOf(animes, person).filter(
-    (a) => a.quemAssistiu.length === 1 && a.quemAssistiu[0] === person,
+export function mostControversial(animes, personNickname) {
+  const mine = animesOf(animes, personNickname)
+    .filter((a) => a.controversia !== null)
+    .sort((a, b) => b.controversia - a.controversia);
+  return mine[0] || null;
+}
+
+export function exclusiveAnimes(animes, personNickname) {
+  return animesOf(animes, personNickname).filter(
+    (a) => a.quemAssistiu.length === 1 && a.quemAssistiu[0] === personNickname
   );
 }
 
-// Gêneros ordenados por contagem para um conjunto de animes
+export function missedAnimes(animes, personNickname) {
+  return animes.filter(
+    (a) => !a.quemAssistiu.includes(personNickname) && (a.quemAssistiu || []).length > 0
+  );
+}
+
 export function topGenres(animes, topN = 10) {
   const map = countGenres(animes);
   return Object.entries(map)
@@ -95,40 +218,12 @@ export function topGenres(animes, topN = 10) {
     .slice(0, topN);
 }
 
+export function commonAnimes(animes, p1, p2) {
+  return animes.filter(
+    (a) => a.quemAssistiu.includes(p1) && a.quemAssistiu.includes(p2)
+  );
+}
+
 export function cleanGenreLabel(g) {
   return stripEmoji(g);
-}
-
-export function notaColor(nota) {
-  if (nota === null || nota === undefined) return "";
-  if (nota >= 8.5) return "nota-high";
-  if (nota >= 7) return "nota-mid";
-  return "nota-low";
-}
-
-// Média de notas de uma pessoa
-export function avgNota(animes, person) {
-  const notes = animesOf(animes, person)
-    .map((a) => getPersonNota(a, person))
-    .filter((n) => n !== null);
-  if (!notes.length) return null;
-  return notes.reduce((s, n) => s + n, 0) / notes.length;
-}
-
-// Anime mais controverso que uma pessoa avaliou
-export function mostControversial(animes, person) {
-  const mine = animesOf(animes, person)
-    .filter((a) => a.controversia !== null)
-    .sort((a, b) => b.controversia - a.controversia);
-  return mine[0] || null;
-}
-
-// Animes que a pessoa não assistiu mas outros sim
-export function missedAnimes(animes, person) {
-  return animes.filter((a) => !a.quemAssistiu.includes(person) && a.quemAssistiu.length > 0);
-}
-
-// Animes em comum entre duas pessoas
-export function commonAnimes(animes, p1, p2) {
-  return animes.filter((a) => a.quemAssistiu.includes(p1) && a.quemAssistiu.includes(p2));
 }

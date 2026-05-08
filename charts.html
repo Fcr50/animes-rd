@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gráficos — Animes RD</title>
     <link rel="stylesheet" href="css/style.css?v=artslum-1" />
-    <script type="module" src="./js/theme.js?v=desafios-soft-1"></script>
-    <script type="module" src="./js/utils.js?v=desafios-soft-1"></script>
+    <script type="module" src="./js/theme.js?v=platform-v7"></script>
+    <script type="module" src="./js/utils.js?v=platform-v7"></script>
     <style>
       body.charts-page {
         background:
@@ -192,13 +192,16 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
     <script type="module">
-      import { loadData } from "./js/data.js?v=desafios-soft-1";
-      import { renderAllCharts, renderChartsStats } from "./js/charts.js?v=charts-cute-1";
+      import { loadData } from "./js/data.js?v=platform-v7";
+      import { renderAllCharts, renderChartsStats } from "./js/charts.js?v=platform-v7";
 
-      const { animes } = await loadData();
-      renderChartsStats(animes);
-      renderAllCharts(animes);
+      async function init() {
+        const { animes, members } = await loadData();
+        renderChartsStats(animes, members);
+        renderAllCharts(animes, members);
+      }
+      init().catch(console.error);
     </script>
-    <script type="module" src="js/nyx-widget.js?v=desafios-soft-1"></script>
+    <script type="module" src="js/nyx-widget.js?v=platform-v7"></script>
   </body>
 </html>

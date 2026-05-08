@@ -1,5 +1,5 @@
 // js/firebase-config.js
-// Preencha com as configurações do seu projeto Firebase
+// Preencha com as configurações do seu projeto FirebaseYeah,i
 export const firebaseConfig = {
   apiKey: "AIzaSyAVQSLidy7NHYQtsH66akf-OwUJkHHgGbo",
   authDomain: "animes-rd.firebaseapp.com",

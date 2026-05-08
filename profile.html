@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Perfil | Animes RD</title>
+  <link rel="stylesheet" href="css/style.css?v=platform-v6" />
+  <script type="module" src="./js/theme.js?v=platform-v6"></script>
+  <script type="module" src="./js/utils.js?v=platform-v6"></script>
+</head>
+<body class="profile-page">
+  <nav class="nav"></nav>
+
+  <main class="page">
+    <div id="profile-header" class="profile-header">
+      <div class="skeleton" style="height: 120px; width: 120px; border-radius: 50%;"></div>
+      <div class="skeleton" style="height: 30px; width: 200px; margin-top: 20px;"></div>
+    </div>
+
+    <div class="stats-grid" id="profile-stats">
+      <!-- Preenchido via JS -->
+    </div>
+
+    <div class="grid-2">
+      <section class="card">
+        <div class="card-title">Top 10 Animes</div>
+        <div id="top-animes" class="profile-list">
+          <p class="skeleton" style="height: 40px;"></p>
+          <p class="skeleton" style="height: 40px;"></p>
+        </div> section>
+
+      <section class="card">
+        <div class="card-title">Gêneros Favoritos</div>
+        <div id="genre-chart" class="profile-chart">
+          <!-- Gráfico ou lista -->
+        </div>
+      </section>
+    </div>
+
+    <section class="card" style="margin-top: 28px;">
+      <div class="card-title">Animes Exclusivos</div>
+      <p style="color: var(--faint); font-size: 13px; margin-bottom: 15px;">Títulos que só esta pessoa assistiu no grupo.</p>
+      <div id="exclusive-list" class="profile-list-horizontal">
+        <!-- Lista de animes -->
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="./js/profile.js?v=platform-v6"></script>
+  <script type="module" src="js/nyx-widget.js?v=platform-v6"></script>
+</body>
+</html>

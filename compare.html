@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Comparar — Animes RD</title>
     <link rel="stylesheet" href="css/style.css?v=artslum-1" />
-    <script type="module" src="./js/theme.js?v=desafios-soft-1"></script>
-    <script type="module" src="./js/utils.js?v=desafios-soft-1"></script>
+    <script type="module" src="./js/theme.js?v=platform-v7"></script>
+    <script type="module" src="./js/utils.js?v=platform-v7"></script>
   </head>
   <body>
     <nav class="nav"></nav>
@@ -53,12 +53,15 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
     <script type="module">
-      import { loadData } from "./js/data.js?v=desafios-soft-1";
-      import { initCompare } from "./js/compare.js?v=desafios-soft-1";
+      import { loadData } from "./js/data.js?v=platform-v7";
+      import { initCompare } from "./js/compare.js?v=platform-v7";
 
-      const { animes } = await loadData();
-      initCompare(animes);
+      async function init() {
+        const { animes, members } = await loadData();
+        initCompare(animes, members);
+      }
+      init().catch(console.error);
     </script>
-    <script type="module" src="js/nyx-widget.js?v=desafios-soft-1"></script>
+    <script type="module" src="js/nyx-widget.js?v=platform-v7"></script>
   </body>
 </html>

@@ -1,30 +1,11 @@
-import {
-  PEOPLE,
-  PERSON_COLORS,
-  PERSON_LIGHTS,
-  animesOf,
-  avgNota,
-  cleanGenreLabel,
-  favoriteGenre,
-  formatNota,
-  getPersonNota,
-  loadData,
-  missedAnimes,
-} from "./data.js?v=desafios-soft-1";
+// js/desafios.js
+import { animesOf, avgNota, favoriteGenre, formatNota, loadData, missedAnimes, getPersonColor } from "./data.js";
 import { escapeHTML, stripEmoji } from "./utils.js";
 import { initBatalha } from "./batalha.js";
 
-const NOTE_FIELDS = {
-  Rafael: "notaRafael",
-  Fernando: "notaFernando",
-  Dudu: "notaDudu",
-  Hacksuya: "notaHacksuya",
-  Zana: "notaZana",
-};
-
 // ── Tabs ─────────────────────────────────────────────────────────────────────
 
-document.getElementById("desafios-tabs").addEventListener("click", (e) => {
+document.getElementById("desafios-tabs")?.addEventListener("click", (e) => {
   const btn = e.target.closest(".desafio-tab");
   if (!btn) return;
   document.querySelectorAll(".desafio-tab").forEach((t) => t.classList.remove("active"));
@@ -55,19 +36,21 @@ function savePrediction(entry) {
   } catch {}
 }
 
-function renderPredictions(animes) {
+function renderPredictions(animes, members) {
   const list = getSavedPredictions();
   const container = document.getElementById("prev-history");
-  if (!list.length) {
-    container.innerHTML = "";
+  if (!list.length || !container) {
+    if(container) container.innerHTML = "";
     return;
   }
 
   const rows = list
     .map((p) => {
       const anime = animes.find((a) => a.id === p.animeId);
-      const color = PERSON_LIGHTS[p.person] || "#a78bfa";
-      const realScore = anime ? anime[NOTE_FIELDS[p.person]] : null;
+      const member = members.find(m => m.nickname === p.person);
+      const color = member?.color || "#a78bfa";
+      
+      const realScore = anime ? anime[`nota${p.person}`] : null;
       const watched = realScore !== null && realScore !== undefined;
       const diff = watched ? (Number(realScore) - Number(p.predicted)).toFixed(1) : null;
       const diffLabel = diff
@@ -107,7 +90,7 @@ function renderPredictions(animes) {
 
   document.getElementById("prev-clear")?.addEventListener("click", () => {
     localStorage.removeItem(PREV_KEY);
-    renderPredictions(animes);
+    renderPredictions(animes, members);
   });
 }
 
@@ -117,7 +100,9 @@ function initPrevisao(data) {
   const slider = document.getElementById("prev-slider");
   const sliderVal = document.getElementById("prev-slider-val");
 
-  personSel.innerHTML = PEOPLE.map((p) => `<option value="${p}">${p}</option>`).join("");
+  if(!personSel) return;
+
+  personSel.innerHTML = data.members.map((m) => `<option value="${m.nickname}">${m.nickname}</option>`).join("");
 
   slider?.addEventListener("input", () => {
     sliderVal.textContent = parseFloat(slider.value).toFixed(1);
@@ -125,53 +110,36 @@ function initPrevisao(data) {
 
   function updateAnimes() {
     const person = personSel.value;
-    const missed = missedAnimes(data.animes, person).sort((a, b) => a.nome.localeCompare(b.nome));
+    const missed = missedAnimes(data.animes, person).sort((a, b) => a.name.localeCompare(b.name));
     animeSel.innerHTML = missed
-      .map((a) => `<option value="${a.id}">${escapeHTML(a.nome)}</option>`)
+      .map((a) => `<option value="${a.id}">${escapeHTML(a.name)}</option>`)
       .join("");
   }
 
   personSel.addEventListener("change", updateAnimes);
   updateAnimes();
-  renderPredictions(data.animes);
+  renderPredictions(data.animes, data.members);
 
-  document.getElementById("prev-btn").addEventListener("click", () => {
+  document.getElementById("prev-btn")?.addEventListener("click", () => {
     const person = personSel.value;
     const anime = data.animes.find((a) => a.id === animeSel.value);
     if (!anime || !slider) return;
 
     const predicted = parseFloat(slider.value).toFixed(1);
-    const color = PERSON_LIGHTS[person] || "#a78bfa";
+    const member = data.members.find(m => m.nickname === person);
+    const color = member?.color || "#a78bfa";
 
     savePrediction({
       person,
       animeId: anime.id,
-      animeName: anime.nome,
+      animeName: anime.name,
       predicted,
       savedAt: Date.now(),
     });
 
     const result = document.getElementById("prev-result");
-    result.innerHTML = `
-      <div class="previsao-output">
-        <div class="previsao-score-wrap">
-          <div class="previsao-score" style="color:${color}">${predicted}</div>
-          <div class="previsao-score-label">/10</div>
-        </div>
-        <div class="previsao-anime-name">${escapeHTML(anime.nome)}</div>
-        <div class="previsao-person-label">Previsão de <span style="color:${color};font-weight:900">${person}</span> salva!</div>
-        <div class="previsao-tags">
-          <span class="ptag">Após assistir, volte aqui para ver a diferença</span>
-        </div>
-        <p class="previsao-note">A nota real aparece automaticamente quando ${person} registrar o voto no acervo.</p>
-      </div>
-    `;
-    result.classList.remove("hidden");
-    renderPredictions(data.animes);
-
-    // dummy removed, kept for compat
     const fav = stripEmoji(favoriteGenre(data.animes, person));
-    const genreMatch = (anime.generos || []).some(
+    const genreMatch = (anime.genres || []).some(
       (g) => stripEmoji(g).toLowerCase() === fav.toLowerCase(),
     );
     const watchedCount = animesOf(data.animes, person).length;
@@ -182,7 +150,7 @@ function initPrevisao(data) {
           <div class="previsao-score" style="color:${color}">${predicted}</div>
           <div class="previsao-score-label">/10</div>
         </div>
-        <div class="previsao-anime-name">${escapeHTML(anime.nome)}</div>
+        <div class="previsao-anime-name">${escapeHTML(anime.name)}</div>
         <div class="previsao-person-label">Previsão de <span style="color:${color};font-weight:900">${person}</span> registrada ✓</div>
         <div class="previsao-tags">
           <span class="ptag">Gênero fav: ${fav}</span>
@@ -194,7 +162,7 @@ function initPrevisao(data) {
       </div>
     `;
     result.classList.remove("hidden");
-    renderPredictions(data.animes);
+    renderPredictions(data.animes, data.members);
   });
 }
 
@@ -203,54 +171,67 @@ function initPrevisao(data) {
 let mystery = null;
 let mysteryDone = false;
 
-function loadMystery(animes) {
+function loadMystery(animes, members) {
   const pool = animes.filter((a) => a.nota !== null && a.qtdVotos > 1);
+  if(!pool.length) return;
+  
   mystery = pool[Math.floor(Math.random() * pool.length)];
   mysteryDone = false;
-  document.getElementById("misterio-guess").value = "";
+  
+  const input = document.getElementById("misterio-guess");
+  if(input) input.value = "";
+  
   const fb = document.getElementById("misterio-feedback");
-  fb.classList.add("hidden");
-  fb.innerHTML = "";
+  if(fb) {
+    fb.classList.add("hidden");
+    fb.innerHTML = "";
+  }
 
-  const genres = (mystery.generos || []).map((g) => `<span class="mchip">${g}</span>`).join("");
+  const genres = (mystery.genres || []).map((g) => `<span class="mchip">${g}</span>`).join("");
 
   const watchers = (mystery.quemAssistiu || [])
     .map(
-      (p) =>
-        `<span class="mperson" style="background:${PERSON_COLORS[p]}22;border:1.5px solid ${PERSON_COLORS[p]}88;color:${PERSON_LIGHTS[p]}" title="${p}">${p[0]}</span>`,
+      (p) => {
+        const m = members.find(member => member.nickname === p);
+        const color = m?.color || "#888";
+        return `<span class="mperson" style="background:${color}22;border:1.5px solid ${color}88;color:${color}" title="${p}">${p[0].toUpperCase()}</span>`;
+      }
     )
     .join("");
 
-  document.getElementById("misterio-clues").innerHTML = `
-    <div class="mystery-board">
-      <div class="mystery-stat-grid">
-        <div class="mstat">
-          <div class="mstat-label">Nota média</div>
-          <div class="mstat-value nota-glow">${formatNota(mystery.nota)}</div>
+  const clues = document.getElementById("misterio-clues");
+  if(clues) {
+    clues.innerHTML = `
+      <div class="mystery-board">
+        <div class="mystery-stat-grid">
+          <div class="mstat">
+            <div class="mstat-label">Nota média</div>
+            <div class="mstat-value nota-glow">${formatNota(mystery.nota)}</div>
+          </div>
+          <div class="mstat">
+            <div class="mstat-label">Votos</div>
+            <div class="mstat-value">${mystery.qtdVotos}</div>
+          </div>
+          <div class="mstat">
+            <div class="mstat-label">Controvérsia</div>
+            <div class="mstat-value">${Number(mystery.controversia || 0).toFixed(1)}</div>
+          </div>
         </div>
-        <div class="mstat">
-          <div class="mstat-label">Votos</div>
-          <div class="mstat-value">${mystery.qtdVotos}</div>
+        <div class="mstat-full">
+          <div class="mstat-label">Gêneros</div>
+          <div class="mystery-chips">${genres}</div>
         </div>
-        <div class="mstat">
-          <div class="mstat-label">Controvérsia</div>
-          <div class="mstat-value">${mystery.controversia?.toFixed(1) ?? "0.0"}</div>
+        <div class="mstat-full">
+          <div class="mstat-label">Quem assistiu</div>
+          <div class="mystery-persons">${watchers}</div>
         </div>
       </div>
-      <div class="mstat-full">
-        <div class="mstat-label">Gêneros</div>
-        <div class="mystery-chips">${genres}</div>
-      </div>
-      <div class="mstat-full">
-        <div class="mstat-label">Quem assistiu</div>
-        <div class="mystery-persons">${watchers}</div>
-      </div>
-    </div>
-  `;
+    `;
+  }
 }
 
 function initMisterio(data) {
-  loadMystery(data.animes);
+  loadMystery(data.animes, data.members);
 
   const guess = document.getElementById("misterio-guess");
   const fb = document.getElementById("misterio-feedback");
@@ -258,10 +239,10 @@ function initMisterio(data) {
   function submit() {
     if (mysteryDone || !mystery) return;
     const g = guess.value.trim().toLowerCase();
-    const name = mystery.nome.toLowerCase();
+    const name = mystery.name.toLowerCase();
     const ok = name.includes(g) || g.includes(name.split(":")[0].trim().toLowerCase().slice(0, 6));
     if (ok) {
-      fb.innerHTML = `<div class="fb-win">🎉 Acertou! É <strong>${escapeHTML(mystery.nome)}</strong></div>`;
+      fb.innerHTML = `<div class="fb-win">🎉 Acertou! É <strong>${escapeHTML(mystery.name)}</strong></div>`;
       mysteryDone = true;
     } else {
       fb.innerHTML = `<div class="fb-miss">❌ Não foi… tente novamente ou revele.</div>`;
@@ -269,21 +250,21 @@ function initMisterio(data) {
     fb.classList.remove("hidden");
   }
 
-  document.getElementById("misterio-submit").addEventListener("click", submit);
-  guess.addEventListener("keydown", (e) => {
+  document.getElementById("misterio-submit")?.addEventListener("click", submit);
+  guess?.addEventListener("keydown", (e) => {
     if (e.key === "Enter") submit();
   });
 
-  document.getElementById("misterio-reveal").addEventListener("click", () => {
+  document.getElementById("misterio-reveal")?.addEventListener("click", () => {
     if (!mystery) return;
-    fb.innerHTML = `<div class="fb-reveal">👁 Era: <strong>${escapeHTML(mystery.nome)}</strong> — ${formatNota(mystery.nota)}</div>`;
+    fb.innerHTML = `<div class="fb-reveal">👁 Era: <strong>${escapeHTML(mystery.name)}</strong> — ${formatNota(mystery.nota)}</div>`;
     fb.classList.remove("hidden");
     mysteryDone = true;
   });
 
   document
     .getElementById("misterio-next")
-    .addEventListener("click", () => loadMystery(data.animes));
+    ?.addEventListener("click", () => loadMystery(data.animes, data.members));
 }
 
 // ── 📊 Timeline ──────────────────────────────────────────────────────────────
@@ -291,23 +272,27 @@ function initMisterio(data) {
 function initTimeline(data) {
   const animes = data.animes;
   const c = document.getElementById("timeline-content");
+  if(!c) return;
 
   const allRated = animes.filter((a) => a.nota !== null && a.qtdVotos > 1);
   const top1 = [...allRated].sort((a, b) => Number(b.nota) - Number(a.nota))[0];
-  const hottest = [...allRated].sort((a, b) => (b.controversia || 0) - (a.controversia || 0))[0];
+  const hottest = [...allRated].sort((a, b) => (Number(b.controversia) || 0) - (Number(a.controversia) || 0))[0];
   const mostVoted = [...animes].sort((a, b) => (b.qtdVotos || 0) - (a.qtdVotos || 0))[0];
 
-  const memberCards = PEOPLE.map((person) => {
+  const memberCards = data.members.map((m) => {
+    const person = m.nickname;
     const watched = animesOf(animes, person);
     const avg = avgNota(animes, person);
     const fav = stripEmoji(favoriteGenre(animes, person));
+    
     const topAnime = watched
-      .filter((a) => a[NOTE_FIELDS[person]] !== null)
-      .sort((a, b) => Number(b[NOTE_FIELDS[person]]) - Number(a[NOTE_FIELDS[person]]))[0];
-    const color = PERSON_LIGHTS[person];
-    const colorBase = PERSON_COLORS[person];
+      .filter((a) => a[`nota${person}`] !== null)
+      .sort((a, b) => Number(b[`nota${person}`]) - Number(a[`nota${person}`]))[0];
+    
+    const color = m.color || "#888";
+    
     return `
-      <div class="tmember" style="--c:${colorBase};--cl:${color}">
+      <div class="tmember" style="--c:${color};--cl:${color}">
         <div class="tmember-name">${person}</div>
         <div class="tmember-stats">
           <div class="ts"><span>Assistidos</span><strong>${watched.length}</strong></div>
@@ -315,7 +300,7 @@ function initTimeline(data) {
           <div class="ts"><span>Gênero fav.</span><strong>${fav}</strong></div>
           <div class="ts"><span>Exclusivos</span><strong>${watched.filter((a) => (a.quemAssistiu || []).length === 1).length}</strong></div>
         </div>
-        ${topAnime ? `<div class="tmember-top"><span>⭐ Favorito</span><strong>${escapeHTML(topAnime.nome)}</strong><em>${formatNota(topAnime[NOTE_FIELDS[person]])}</em></div>` : ""}
+        ${topAnime ? `<div class="tmember-top"><span>⭐ Favorito</span><strong>${escapeHTML(topAnime.name)}</strong><em>${formatNota(topAnime[`nota${person}`])}</em></div>` : ""}
       </div>
     `;
   }).join("");
@@ -324,9 +309,9 @@ function initTimeline(data) {
     <div class="tl-section">
       <h3 class="tl-title">🏆 Recordes do Grupo</h3>
       <div class="tl-records">
-        <div class="tl-record"><div class="tlr-icon">⭐</div><div><small>Melhor avaliado</small><strong>${escapeHTML(top1?.nome ?? "—")}</strong><span>${formatNota(top1?.nota)}</span></div></div>
-        <div class="tl-record"><div class="tlr-icon">🌶️</div><div><small>Mais controverso</small><strong>${escapeHTML(hottest?.nome ?? "—")}</strong><span>${hottest?.controversia?.toFixed(1) ?? "—"} de diferença</span></div></div>
-        <div class="tl-record"><div class="tlr-icon">👥</div><div><small>Mais assistido</small><strong>${escapeHTML(mostVoted?.nome ?? "—")}</strong><span>${mostVoted?.qtdVotos ?? 0} votos</span></div></div>
+        <div class="tl-record"><div class="tlr-icon">⭐</div><div><small>Melhor avaliado</small><strong>${escapeHTML(top1?.name ?? "—")}</strong><span>${formatNota(top1?.nota)}</span></div></div>
+        <div class="tl-record"><div class="tlr-icon">🌶️</div><div><small>Mais controverso</small><strong>${escapeHTML(hottest?.name ?? "—")}</strong><span>${Number(hottest?.controversia || 0).toFixed(1)} de diferença</span></div></div>
+        <div class="tl-record"><div class="tlr-icon">👥</div><div><small>Mais assistido</small><strong>${escapeHTML(mostVoted?.name ?? "—")}</strong><span>${mostVoted?.qtdVotos ?? 0} votos</span></div></div>
         <div class="tl-record"><div class="tlr-icon">📚</div><div><small>Total no acervo</small><strong>${animes.length} animes</strong><span>${allRated.length} com nota</span></div></div>
       </div>
     </div>
@@ -337,8 +322,6 @@ function initTimeline(data) {
   `;
 }
 
-// ── ⚔️ Batalha — handled by batalha.js ──────────────────────────────────────
-
 // ── Init ─────────────────────────────────────────────────────────────────────
 
 async function init() {
@@ -346,7 +329,9 @@ async function init() {
   initPrevisao(data);
   initMisterio(data);
   initTimeline(data);
-  initBatalha(document.getElementById("batalha-container"), data.animes);
+  // Garante que o container da batalha existe antes de chamar
+  const batContainer = document.getElementById("batalha-container");
+  if(batContainer) initBatalha(batContainer, data.animes);
 }
 
 init().catch(console.error);

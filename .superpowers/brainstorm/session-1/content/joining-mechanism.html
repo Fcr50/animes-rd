@@ -1,0 +1,46 @@
+<h2>Group Management & Joining</h2>
+<p class="subtitle">How do users find each other and start a shared catalog?</p>
+
+<div class="options">
+  <div class="option" data-choice="invite_link" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Invite Links</h3>
+      <p>Group creator shares a unique URL. Anyone with the link can join the group instantly.</p>
+      <div class="mockup" style="margin-top: 10px;">
+        <div class="mockup-body" style="padding: 10px; font-size: 12px; background: rgba(0,0,0,0.1);">
+          Share this link: <code>animesrd.com/join/xyz-789</code>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="option" data-choice="admin_add" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Admin Management</h3>
+      <p>Group creator adds members manually by their email address or username.</p>
+      <div class="mockup" style="margin-top: 10px;">
+        <div class="mockup-body" style="padding: 10px; font-size: 12px; background: rgba(0,0,0,0.1);">
+          <input class="mock-input" placeholder="Enter friend's email..." style="width: 70%; padding: 4px;">
+          <button class="mock-button" style="padding: 4px 8px;">Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Impact of "Empty List per Group"</h3>
+  <p>Since each group starts fresh, we will structure the database like this:</p>
+  <pre style="background: rgba(0,0,0,0.2); padding: 10px; border-radius: 4px; font-size: 13px;">
+groups/
+  {groupId}/
+    name: "My Friends"
+    members: ["user1", "user2"]
+    animes/  <-- Each group has its own list
+      {animeId}/
+        nome: "Death Note"
+        status: "pending"
+        votes: { ... }
+  </pre>
+</div>

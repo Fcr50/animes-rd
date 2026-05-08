@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Entrar no Grupo | Animes RD</title>
+  <link rel="stylesheet" href="css/style.css?v=platform-v6" />
+  <script type="module" src="./js/theme.js?v=platform-v6"></script>
+</head>
+<body class="join-page">
+  <main class="page" style="display: flex; align-items: center; justify-content: center; min-height: 100vh;">
+    <div class="card" style="max-width: 400px; width: 100%; text-align: center; padding: 40px;">
+      <h1 id="group-invite-text">Carregando convite...</h1>
+      
+      <div id="loading-group" style="margin-top: 20px;">
+        <div class="skeleton" style="height: 20px; width: 100%;"></div>
+      </div>
+
+      <div id="auth-required" style="display: none; margin-top: 20px;">
+        <p>Você precisa estar logado para entrar em um grupo.</p>
+        <button id="btn-login-join" class="btn btn-primary" style="margin-top: 20px; width: 100%;">Login com Google</button>
+      </div>
+
+      <div id="identity-form" style="display: none; margin-top: 30px; text-align: left;">
+        <p style="margin-bottom: 20px; color: var(--faint);">Como você deseja ser identificado neste grupo?</p>
+        
+        <form id="setup-identity-form">
+          <div class="form-group" style="margin-bottom: 20px;">
+            <label for="member-nickname">Apelido (como os outros te verão)</label>
+            <input type="text" id="member-nickname" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: rgba(0,0,0,0.2); color: white;">
+          </div>
+
+          <div class="form-group" style="margin-bottom: 20px;">
+            <label for="member-color">Sua Cor (para badges e gráficos)</label>
+            <input type="color" id="member-color" value="#8b5cf6" style="width: 100%; height: 50px; padding: 5px; border-radius: 8px; border: 1px solid var(--border); background: rgba(0,0,0,0.2); cursor: pointer;">
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">Entrar no Grupo</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <script type="module" src="./js/join.js?v=platform-v6"></script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<h2>Voting & Approval Logic</h2>
+<p class="subtitle">When is an anime officially "Approved"?</p>
+
+<div class="options">
+  <div class="option" data-choice="unanimous" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Unanimous (Current)</h3>
+      <p>Every single member in the group must cast a vote for the anime to be approved.</p>
+      <div class="label" style="color: var(--warning);">Strict - good for very small close groups.</div>
+    </div>
+  </div>
+  <div class="option" data-choice="majority" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Simple Majority</h3>
+      <p>Anime is approved when >50% of the members have voted.</p>
+      <div class="label" style="color: var(--success);">Faster - good for larger or active groups.</div>
+    </div>
+  </div>
+  <div class="option" data-choice="configurable" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Configurable Threshold</h3>
+      <p>Group creator sets a specific number of votes needed (e.g. "Needs 3 votes").</p>
+      <div class="label" style="color: var(--accent);">Flexible - adaptable to any group size.</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Handling Group Changes</h3>
+  <p>If a member is <strong>kicked</strong> or <strong>leaves</strong>:</p>
+  <ul>
+    <li>Should their previous votes stay or be deleted?</li>
+    <li>Should approval counts be recalculated immediately?</li>
+  </ul>
+</div>

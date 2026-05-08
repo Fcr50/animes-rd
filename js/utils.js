@@ -1,3 +1,12 @@
+// js/utils.js
+import { signInWithGoogle, signOut, onAuthStateChange } from './auth.js';
+import { loadData } from './data.js';
+
+console.log('js/utils.js execution started.');
+
+/**
+ * Escapa caracteres HTML para evitar XSS.
+ */
 export function escapeHTML(value) {
   return String(value == null ? "" : value).replace(
     /[&<>"']/g,
@@ -12,6 +21,9 @@ export function escapeHTML(value) {
   );
 }
 
+/**
+ * Normaliza texto (remove acentos e caracteres especiais).
+ */
 export function normalizeText(value) {
   return String(value == null ? "" : value)
     .toLowerCase()
@@ -19,12 +31,18 @@ export function normalizeText(value) {
     .replace(/[\u0300-\u036f]/g, "");
 }
 
+/**
+ * Remove emojis de uma string.
+ */
 export function stripEmoji(value) {
   return String(value == null ? "" : value)
     .replace(/[\u{1F300}-\u{1FAFF}]|[\u{2600}-\u{27BF}]|[\u{2702}-\u{27B0}]/gu, "")
     .trim();
 }
 
+/**
+ * Converte Hex para RGBA.
+ */
 export function hexToRgba(hex, alpha = 1) {
   const cleanHex = String(hex).replace("#", "");
   const r = parseInt(cleanHex.slice(0, 2), 16);
@@ -33,11 +51,17 @@ export function hexToRgba(hex, alpha = 1) {
   return `rgba(${r},${g},${b},${alpha})`;
 }
 
+/**
+ * Corta um texto se ele for maior que o limite.
+ */
 export function shortText(value, size = 44) {
   const text = String(value == null ? "" : value);
   return text.length > size ? `${text.slice(0, size - 1)}...` : text;
 }
 
+/**
+ * Embaralha um array (Fisher-Yates).
+ */
 export function shuffleItems(items) {
   const shuffled = [...items];
   for (let index = shuffled.length - 1; index > 0; index -= 1) {
@@ -47,76 +71,157 @@ export function shuffleItems(items) {
   return shuffled;
 }
 
-export function formatDateTimeBR(value) {
-  const date = new Date(value);
-  return {
-    date,
-    dateText: date.toLocaleDateString("pt-BR"),
-    timeText: date.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }),
-  };
+/**
+ * Obtém o ID do grupo da URL (?g=... ou #g=...) ou do localStorage como fallback.
+ */
+export function getGroupId() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const hashParams = new URLSearchParams(window.location.hash.substring(1));
+  
+  let gid = urlParams.get("g") || hashParams.get("g");
+
+  if (gid) {
+    localStorage.setItem("active_group_id", gid);
+    console.log(`%c [Group Active] ${gid} (from URL/Hash) `, "background: #8b5cf6; color: white; font-weight: bold;");
+  } else {
+    gid = localStorage.getItem("active_group_id");
+    if (gid) {
+      console.log(`%c [Group Active] ${gid} (from Storage Fallback) `, "background: #10b981; color: white; font-weight: bold;");
+    }
+  }
+  return gid;
 }
 
+/**
+ * Renderiza o botão de Login ou Dashboard no `#user-nav`.
+ */
+function renderUserNav(user) {
+  const userNav = document.getElementById("user-nav");
+  if (!userNav) return;
+
+  if (user) {
+    userNav.innerHTML = `
+      <a href="index.html" class="nav-btn-link" title="Acessar meu Dashboard">Dashboard</a>
+      <button id="btn-logout" class="nav-btn-action" title="Sair">Sair</button>
+    `;
+    document.getElementById("btn-logout")?.addEventListener("click", (e) => {
+      e.preventDefault();
+      // Ao sair, limpamos tudo
+      localStorage.removeItem("active_group_id");
+      signOut();
+    });
+  } else {
+    userNav.innerHTML = `
+      <button id="btn-login" class="nav-btn-action btn-primary">Entrar</button>
+    `;
+    document.getElementById("btn-login")?.addEventListener("click", (e) => {
+      e.preventDefault();
+      signInWithGoogle();
+    });
+  }
+}
+
+/**
+ * Atualiza a visibilidade dos itens da navbar baseada no estado de auth e grupo
+ */
+async function updateNavbarState(user) {
+  const nav = document.querySelector("nav.nav");
+  if (!nav) return;
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const hashParams = new URLSearchParams(window.location.hash.substring(1));
+  const isGroupInURL = urlParams.has("g") || hashParams.has("g");
+  const groupId = getGroupId();
+
+  // RIGOR: Só mostra se houver usuário LOGADO E grupo na URL
+  if (user && isGroupInURL) {
+    nav.querySelectorAll(".group-only").forEach(el => el.classList.remove("group-only"));
+    
+    // Se logado e em um grupo, carregar membros
+    try {
+      const { members } = await loadData();
+      const desktopContainer = document.getElementById("dynamic-members");
+      const mobileContainer = document.getElementById("mobile-dynamic-members");
+
+      const membersHtml = members.map(m => {
+        const profileUrl = `profile.html#p=${m.nickname}&g=${groupId}`;
+        const avatarColor = m.color || "#888";
+        return `
+          <a href="${profileUrl}">
+            <span class="nav-avatar" style="background: ${avatarColor}2e; color: ${avatarColor}">${m.nickname[0].toUpperCase()}</span>${m.nickname}
+          </a>
+        `;
+      }).join("");
+      if (desktopContainer) desktopContainer.innerHTML = membersHtml;
+      if (mobileContainer) mobileContainer.innerHTML = membersHtml;
+    } catch (err) {
+      console.error("Erro ao carregar membros:", err);
+    }
+  } else {
+    // Caso contrário, garante que tudo do grupo suma
+    nav.querySelectorAll("a.nav-link, .nav-person, .mobile-drawer-section").forEach(el => {
+      if (el.getAttribute("href") !== "index.html") {
+         el.classList.add("group-only");
+      }
+    });
+  }
+
+  // Atualiza links de TODA A PÁGINA para manter o contexto do grupo
+  const currentPath = (window.location.pathname.split("/").pop() || "index.html");
+  document.querySelectorAll("a").forEach((link) => {
+    const href = link.getAttribute("href");
+    if (!href || href.startsWith("http") || href.startsWith("#")) return;
+
+    const url = new URL(href, window.location.origin + window.location.pathname);
+    const linkPath = url.pathname.split("/").pop() || "index.html";
+    
+    // Marca como ativo apenas se for um link da navbar
+    if (link.closest("nav.nav")) {
+      if (linkPath === currentPath || (linkPath === "index.html" && currentPath === "")) {
+        link.classList.add("active");
+      } else {
+        link.classList.remove("active");
+      }
+    }
+    
+    // Aplica o contexto de grupo se ele existir
+    if (groupId && !href.includes("index.html")) {
+      const url = new URL(href, window.location.href);
+      // Mantém o hash original se houver, e adiciona o grupo
+      if (url.hash) {
+        if (!url.hash.includes("g=")) {
+          url.hash += `&g=${groupId}`;
+        }
+      } else {
+        url.hash = `g=${groupId}`;
+      }
+      
+      // Define a nova href preservando a estrutura
+      link.href = url.pathname.split("/").pop() + url.search + url.hash;
+    }
+  });
+}
+
+/**
+ * Carrega a navbar dinamicamente.
+ */
 export async function loadNavbar() {
   const nav = document.querySelector("nav.nav");
   if (!nav) return;
 
   try {
-    const response = await fetch("navbar.html?v=mobile-v1");
+    const response = await fetch(`navbar.html?v=platform-v7`);
     if (!response.ok) throw new Error("Falha ao carregar navbar.html");
 
     nav.innerHTML = await response.text();
 
-    const currentPath = window.location.pathname.split("/").pop() || "index.html";
-    nav.querySelectorAll("a.nav-link, .nav-person a").forEach((link) => {
-      link.classList.toggle("active", link.getAttribute("href") === currentPath);
+    onAuthStateChange((event, user) => {
+      renderUserNav(user);
+      updateNavbarState(user);
     });
 
-    // Move mobile drawer out of nav (avoids fixed-inside-backdrop-filter stacking issue)
-    const drawer = nav.querySelector(".mobile-drawer");
-    if (drawer) {
-      document.body.appendChild(drawer);
-
-      // Mark active links inside drawer too
-      drawer.querySelectorAll("a[href]").forEach((link) => {
-        link.classList.toggle("active", link.getAttribute("href") === currentPath);
-      });
-
-      const hamburger = nav.querySelector("[data-nav-toggle]");
-
-      function openDrawer() {
-        drawer.setAttribute("aria-hidden", "false");
-        drawer.classList.add("is-open");
-        hamburger?.setAttribute("aria-expanded", "true");
-        hamburger?.classList.add("is-open");
-        document.body.style.overflow = "hidden";
-      }
-
-      function closeDrawer() {
-        drawer.setAttribute("aria-hidden", "true");
-        drawer.classList.remove("is-open");
-        hamburger?.setAttribute("aria-expanded", "false");
-        hamburger?.classList.remove("is-open");
-        document.body.style.overflow = "";
-      }
-
-      hamburger?.addEventListener("click", () => {
-        drawer.classList.contains("is-open") ? closeDrawer() : openDrawer();
-      });
-
-      drawer.querySelectorAll("[data-nav-close]").forEach((el) => {
-        el.addEventListener("click", closeDrawer);
-      });
-
-      drawer.querySelectorAll(".mobile-drawer-link, .mobile-drawer-members a").forEach((link) => {
-        link.addEventListener("click", closeDrawer);
-      });
-
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") closeDrawer();
-      });
-    }
-
     document.dispatchEvent(new CustomEvent("navbar-loaded"));
+
   } catch (error) {
     console.error("Erro ao carregar a navbar:", error);
   }

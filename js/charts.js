@@ -1,13 +1,5 @@
-// js/charts.js?v=charts-cute-1 — gráficos gerais (charts.html)
-
-import {
-  PEOPLE,
-  PERSON_COLORS,
-  cleanGenreLabel,
-  topGenres,
-  countGenres,
-  animesOf,
-} from "./data.js?v=desafios-soft-1";
+// js/charts.js
+import { cleanGenreLabel, topGenres, countGenres, animesOf, getPersonNota, getPersonColor } from "./data.js";
 import { hexToRgba, shortText } from "./utils.js";
 
 Chart.defaults.color = "#b8ae9d";
@@ -36,29 +28,32 @@ function horizGrad(context, colorStart, colorEnd) {
   return grad;
 }
 
-export function renderAllCharts(animes) {
+export function renderAllCharts(animes, members) {
   renderTopGenresChart(animes);
-  renderGenreByPersonChart(animes);
+  renderGenreByPersonChart(animes, members);
   renderScatterChart(animes);
   renderVotesRankingChart(animes);
-  renderVotesPieChart(animes);
+  renderVotesPieChart(animes, members);
 }
 
-export function renderChartsStats(animes) {
+export function renderChartsStats(animes, members) {
   const el = document.getElementById("charts-stats");
   if (!el) return;
   const total = animes.length;
-  const genres = new Set(animes.flatMap((a) => a.generos || [])).size;
+  const genres = new Set(animes.flatMap((a) => a.genres || [])).size;
   const rated = animes.filter((a) => a.nota !== null);
   const avg = rated.length
-    ? (rated.reduce((s, a) => s + a.nota, 0) / rated.length).toFixed(1)
+    ? (rated.reduce((s, a) => s + Number(a.nota), 0) / rated.length).toFixed(1)
     : "—";
-  const top5 = animes.filter((a) => a.qtdVotos === 5).length;
+  
+  // Visto por todos (dinâmico com base no tamanho do grupo)
+  const topVoted = animes.filter((a) => a.qtdVotos >= members.length).length;
+
   const pills = [
     { val: total, desc: "animes no acervo", icon: "📺" },
     { val: genres, desc: "gêneros únicos", icon: "🎭" },
     { val: avg, desc: "nota média geral", icon: "⭐" },
-    { val: top5, desc: "vistos por todos", icon: "👑" },
+    { val: topVoted, desc: "vistos por todos", icon: "👑" },
   ];
   el.innerHTML = pills
     .map(
@@ -103,17 +98,18 @@ function renderTopGenresChart(animes) {
   });
 }
 
-function renderGenreByPersonChart(animes) {
+function renderGenreByPersonChart(animes, members) {
   const ctx = document.getElementById("chartGenreByPerson");
   if (!ctx) return;
   const allGenres = topGenres(animes, 8).map(([g]) => g);
-  const datasets = PEOPLE.map((p) => {
-    const map = countGenres(animesOf(animes, p));
+  const datasets = members.map((m) => {
+    const map = countGenres(animesOf(animes, m.nickname));
+    const color = m.color || "#ccc";
     return {
-      label: p,
+      label: m.nickname,
       data: allGenres.map((g) => map[g] || 0),
-      backgroundColor: PERSON_COLORS[p] + "99",
-      borderColor: PERSON_COLORS[p],
+      backgroundColor: color + "99",
+      borderColor: color,
       borderWidth: 1,
       borderRadius: 4,
     };
@@ -147,7 +143,7 @@ function renderScatterChart(animes) {
     .map((a) => ({
       x: parseFloat(Number(a.nota).toFixed(2)),
       y: parseFloat(Number(a.controversia).toFixed(2)),
-      nome: a.nome,
+      nome: a.name,
     }));
   new Chart(ctx, {
     type: "scatter",
@@ -200,12 +196,12 @@ function renderVotesRankingChart(animes) {
   if (!ctx) return;
   const top = [...animes]
     .filter((a) => a.nota !== null)
-    .sort((a, b) => (b.nota || 0) - (a.nota || 0))
+    .sort((a, b) => (Number(b.nota) || 0) - (Number(a.nota) || 0))
     .slice(0, 10);
   new Chart(ctx, {
     type: "bar",
     data: {
-      labels: top.map((a) => shortText(a.nome, 22)),
+      labels: top.map((a) => shortText(a.name, 22)),
       datasets: [
         {
           data: top.map((a) => parseFloat(Number(a.nota).toFixed(2))),
@@ -239,26 +235,34 @@ function renderVotesRankingChart(animes) {
   });
 }
 
-function renderVotesPieChart(animes) {
+function renderVotesPieChart(animes, members) {
   const ctx = document.getElementById("chartVotesPie");
   if (!ctx) return;
-  const counts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+  
+  const counts = {};
+  // Inicializa counts para 1 até N membros
+  for(let i=1; i<=members.length; i++) counts[i] = 0;
+
   animes.forEach((a) => {
-    if (a.qtdVotos >= 1 && a.qtdVotos <= 5) counts[a.qtdVotos]++;
+    if (a.qtdVotos >= 1 && a.qtdVotos <= members.length) {
+      counts[a.qtdVotos] = (counts[a.qtdVotos] || 0) + 1;
+    }
   });
+
   new Chart(ctx, {
     type: "doughnut",
     data: {
-      labels: ["1 pessoa", "2 pessoas", "3 pessoas", "4 pessoas", "5 pessoas (todos)"],
+      labels: Object.keys(counts).map(c => c == members.length ? `${c} pessoas (todos)` : `${c} pessoa(s)`),
       datasets: [
         {
-          data: [counts[1], counts[2], counts[3], counts[4], counts[5]],
+          data: Object.values(counts),
           backgroundColor: [
             "rgba(167,139,250,0.85)",
             "rgba(249,168,212,0.85)",
             "rgba(110,231,183,0.85)",
             "rgba(103,232,249,0.85)",
             "rgba(253,186,116,0.85)",
+            "rgba(148,163,184,0.85)"
           ],
           borderColor: "#0f0f1a",
           borderWidth: 3,
@@ -277,85 +281,6 @@ function renderVotesPieChart(animes) {
         tooltip: { ...TOOLTIP, displayColors: true },
       },
       animation: { duration: 900, easing: "easeOutQuart" },
-    },
-  });
-}
-
-export function renderPersonPieChart(canvasId, animes, person, color) {
-  const ctx = document.getElementById(canvasId);
-  if (!ctx) return;
-  const mine = animesOf(animes, person);
-  const map = countGenres(mine);
-  const entries = Object.entries(map)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 8);
-  new Chart(ctx, {
-    type: "doughnut",
-    data: {
-      labels: entries.map(([g]) => cleanGenreLabel(g)),
-      datasets: [
-        {
-          data: entries.map(([, c]) => c),
-          backgroundColor: entries.map((_, i) => hexToRgba(color, Math.max(0.25, 1 - i * 0.1))),
-          borderColor: "#1a1a2e",
-          borderWidth: 2,
-          hoverOffset: 6,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          position: "right",
-          labels: { boxWidth: 10, padding: 10, font: { size: 11 } },
-        },
-      },
-      animation: { duration: 800 },
-    },
-  });
-}
-
-export function renderPersonNotasChart(canvasId, animes, person, color) {
-  const ctx = document.getElementById(canvasId);
-  if (!ctx) return;
-  function pNota(a) {
-    if (person === "Rafael") return a.notaRafael;
-    if (person === "Fernando") return a.notaFernando;
-    if (person === "Dudu") return a.notaDudu;
-    if (person === "Hacksuya") return a.notaHacksuya;
-    if (person === "Zana") return a.notaZana;
-    return null;
-  }
-  const top = animesOf(animes, person)
-    .filter((a) => pNota(a) !== null)
-    .sort((a, b) => pNota(b) - pNota(a))
-    .slice(0, 10);
-  new Chart(ctx, {
-    type: "bar",
-    data: {
-      labels: top.map((a) => shortText(a.nome, 20)),
-      datasets: [
-        {
-          data: top.map((a) => pNota(a)),
-          backgroundColor: hexToRgba(color, 0.75),
-          borderColor: color,
-          borderWidth: 1,
-          borderRadius: 6,
-        },
-      ],
-    },
-    options: {
-      indexAxis: "y",
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: {
-        x: { grid: GRID, min: 5, max: 10 },
-        y: { grid: { display: false } },
-      },
-      animation: { duration: 800, easing: "easeOutQuart" },
     },
   });
 }
