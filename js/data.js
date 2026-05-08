@@ -58,17 +58,15 @@ export function prettyGenre(name) {
 }
 
 /**
- * Carrega os membros e animes aprovados do grupo atual.
+ * Carrega os membros e animes do grupo atual (Nova Estrutura Normalizada).
  */
 export async function loadData() {
   const groupId = getGroupId();
-  if (!groupId) {
-    console.error("Nenhum groupId fornecido na URL.");
-    return { animes: [], members: [] };
-  }
+  if (!groupId) return { animes: [], members: [] };
 
   if (_data && _data.groupId === groupId) return _data;
 
+  // 1. Carregar Membros
   const { data: members, error: membersError } = await supabase
     .from('group_members')
     .select('user_id, nickname, color, role, openings')
@@ -77,16 +75,36 @@ export async function loadData() {
   if (membersError) throw membersError;
   _members = members;
 
-  const { data: animes, error: animesError } = await supabase
-    .from('animes')
-    .select('*, votes(user_id, score, comment)')
-    .eq('group_id', groupId)
-    .eq('status', 'approved');
+  // 2. Carregar Instâncias de Animes do Grupo + Metadados Globais + Votos
+  const { data: groupAnimes, error: animeError } = await supabase
+    .from('group_animes')
+    .select(`
+      status, 
+      links, 
+      created_at,
+      added_by,
+      animes:animes (
+        mal_id, 
+        name, 
+        genres, 
+        image_url
+      ),
+      votes:votes (
+        user_id, 
+        score, 
+        comment
+      )
+    `)
+    .eq('group_id', groupId);
 
-  if (animesError) throw animesError;
+  if (animeError) throw animeError;
 
-  const processedAnimes = animes.map(anime => {
-    const scores = anime.votes
+  // 3. Processar para manter compatibilidade com o frontend
+  const processedAnimes = groupAnimes.map(item => {
+    const global = item.animes;
+    const votes = item.votes || [];
+    
+    const scores = votes
       .filter(v => v.score !== null)
       .map(v => Number(v.score));
     
@@ -94,26 +112,27 @@ export async function loadData() {
     const max = scores.length ? Math.max(...scores) : null;
     const min = scores.length ? Math.min(...scores) : null;
 
-    // Normaliza genres → generos como array sempre
-    const rawGenres = anime.genres || anime.generos;
-    const generos = Array.isArray(rawGenres)
-      ? rawGenres
-      : typeof rawGenres === 'string'
-        ? rawGenres.split(',').map(s => s.trim()).filter(Boolean)
-        : [];
-
     const animeObj = {
-      ...anime,
-      generos,
-      quemAssistiu: anime.votes.filter(v => v.score !== null).map(v => {
+      id: global.mal_id, // Usamos mal_id como ID principal no frontend agora
+      mal_id: global.mal_id,
+      name: global.name,
+      genres: global.genres || [],
+      image_url: global.image_url,
+      status: item.status,
+      links: item.links || {},
+      created_at: item.created_at,
+      added_by: item.added_by,
+      
+      // Campos calculados
+      quemAssistiu: votes.filter(v => v.score !== null).map(v => {
         const member = _members.find(m => m.user_id === v.user_id);
         return member ? member.nickname : 'Desconhecido';
       }),
       qtdVotos: scores.length,
-      nota: avg === null ? null : avg.toFixed(2),
+      nota: avg === null ? null : avg.toFixed(1),
       notaSort: avg === null ? 0 : Number(avg.toFixed(2)),
       controversia: scores.length > 1 ? Number((max - min).toFixed(1)) : 0,
-      comentarios: anime.votes
+      comentarios: votes
         .filter(v => v.comment)
         .map(v => {
           const member = _members.find(m => m.user_id === v.user_id);
@@ -122,9 +141,10 @@ export async function loadData() {
         .join('\n')
     };
 
+    // Notas dinâmicas por nickname (compatibilidade)
     _members.forEach(m => {
-      const vote = anime.votes.find(v => v.user_id === m.user_id);
-      animeObj[`nota${m.nickname}`] = vote ? vote.score : null;
+      const v = votes.find(v => v.user_id === m.user_id);
+      animeObj[`nota${m.nickname}`] = v ? v.score : null;
     });
 
     return animeObj;

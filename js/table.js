@@ -503,27 +503,19 @@ function renderModalLinks(anime) {
   `;
 }
 
-async function updateAnimeLinks(animeId, newLinks) {
-  const { data: updated, error, count } = await supabase
-    .from('animes')
+async function updateAnimeLinks(malId, newLinks) {
+  const groupId = getGroupId();
+  const { data: updated, error } = await supabase
+    .from('group_animes')
     .update({ links: newLinks })
-    .eq('id', animeId)
-    .select('id, links');
+    .eq('mal_id', malId)
+    .eq('group_id', groupId)
+    .select('mal_id, links');
 
-  if (error) {
-    console.error('[updateAnimeLinks] Supabase error:', error);
-    throw new Error(error.message);
-  }
+  if (error) throw error;
 
-  if (!updated || updated.length === 0) {
-    console.warn('[updateAnimeLinks] 0 rows updated — possível falta de permissão (RLS) ou coluna links inexistente.');
-    throw new Error('Nenhuma linha atualizada. Verifique permissões ou schema.');
-  }
-
-  console.log('[updateAnimeLinks] Salvo com sucesso:', updated[0]);
-
-  // Atualiza estado local imediatamente
-  const update = a => a.id === animeId ? { ...a, links: newLinks } : a;
+  // Atualiza estado local
+  const update = a => a.mal_id === malId ? { ...a, links: newLinks } : a;
   allAnimes = allAnimes.map(update);
   filtered = filtered.map(update);
 
