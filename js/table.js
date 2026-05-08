@@ -239,7 +239,7 @@ function renderTable() {
     const contrCls = a.controversia > 1.5 ? "controversia-hot" : "controversia";
 
     return `
-      <tr data-idx="${allAnimes.indexOf(a)}" onclick="window.openModal(${allAnimes.indexOf(a)})">
+      <tr data-idx="${allAnimes.findIndex(x => x.id === a.id)}" onclick="window.openModal(${allAnimes.findIndex(x => x.id === a.id)})">
         <td>${renderAnimeIdentity(a)}</td>
         <td>${genres}${moreGenres}</td>
         <td>${viewers}</td>
