@@ -28,10 +28,11 @@ async function init() {
   const { data: group, error: groupError } = await supabase
     .from('groups')
     .select('id, name, creator_id')
-    .eq('invite_code', inviteCode.trim())
+    .ilike('invite_code', inviteCode.trim())
     .single();
 
   if (groupError || !group) {
+    console.error('Erro ao carregar grupo pelo convite:', groupError);
     alert('Convite inválido ou expirado.');
     window.location.href = 'index.html';
     return;
@@ -51,7 +52,7 @@ async function init() {
         .select('group_id')
         .eq('group_id', group.id)
         .eq('user_id', user.id)
-        .maybeSingle(); // Usamos maybeSingle para evitar erro se não existir
+        .maybeSingle();
 
       if (member) {
         window.location.href = `acervo.html#g=${group.id}`;

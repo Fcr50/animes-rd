@@ -159,9 +159,24 @@ async function createGroup(name) {
 }
 
 async function joinGroup(code) {
-  const { data } = await supabase.from('groups').select('id').eq('invite_code', code.toUpperCase()).single();
-  if (data) window.location.href = `./join.html#code=${code.toUpperCase()}`;
-  else alert('Código inválido');
+  const cleanCode = code.trim().toUpperCase();
+  console.log('Buscando grupo com código:', cleanCode);
+
+  const { data, error } = await supabase
+    .from('groups')
+    .select('id')
+    .ilike('invite_code', cleanCode)
+    .single();
+
+  if (error) {
+    console.error('Erro na busca do grupo:', error);
+    alert('Código inválido ou não encontrado.');
+    return;
+  }
+
+  if (data) {
+    window.location.href = `./join.html#code=${cleanCode}`;
+  }
 }
 
 init();
