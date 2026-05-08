@@ -141,30 +141,53 @@ function renderOpeningChips(member) {
   const list = ops.length ? ops : (canEdit ? [{name: "Abertura 1", url: ""}, {name: "Abertura 2", url: ""}, {name: "Abertura 3", url: ""}] : []);
   return list.map((op, i) => {
     const chip = op.url ? `<a class="opening-chip" href="${escapeHTML(op.url)}" target="_blank" rel="noopener noreferrer"><b>${i+1}</b>${escapeHTML(op.name)}</a>` : `<span class="opening-chip"><b>${i+1}</b>${escapeHTML(op.name)}</span>`;
-    return `<div class="opening-chip-wrap">${chip}${canEdit ? `<button class="opening-edit-btn" onclick="window.editOpening('${member.user_id}', ${i})">✎</button>` : ""}</div>`;
+    return `<div class="opening-chip-wrap">${chip}${canEdit ? `<button class="opening-edit-btn" onclick="window.editOpening('${member.user_id}', ${i})" style="cursor:pointer; background:none; border:none; margin-left:5px; font-size:10px;">✎</button>` : ""}</div>`;
   }).join("");
 }
 
 window.editOpening = (uid, i) => {
   const m = _members.find(m => m.user_id === uid);
   const op = (m.openings || [])[i] || { name: "", url: "" };
-  const wrap = document.getElementById(`openings-${uid}`);
+  
+  const wrap = document.getElementById(`openings-container-${uid}`);
+  if (!wrap) return;
+
+  const formHtml = `
+    <div class="opening-inline-form" style="background: rgba(0,0,0,0.4); padding: 10px; border-radius: 8px; margin-top: 10px;">
+      <input id="op-n-${i}" type="text" value="${escapeHTML(op.name)}" placeholder="Nome da Abertura" style="width: 100%; margin-bottom: 5px; font-size: 11px; padding: 4px;" />
+      <input id="op-u-${i}" type="url" value="${escapeHTML(op.url)}" placeholder="Link (YouTube/Spotify)" style="width: 100%; margin-bottom: 8px; font-size: 11px; padding: 4px;" />
+      <div style="display:flex; gap:5px">
+        <button onclick="window.saveOp('${uid}',${i})" style="background:var(--accent); color:white; border:none; padding:4px 8px; border-radius:4px; font-size:10px; cursor:pointer;">Salvar</button>
+        <button onclick="window.refreshMemberCards()" style="background:none; color:white; border:1px solid var(--border); padding:4px 8px; border-radius:4px; font-size:10px; cursor:pointer;">Cancelar</button>
+      </div>
+    </div>
+  `;
+  
+  // Limpa editores abertos e injeta o novo
   document.querySelectorAll(".opening-inline-form").forEach(el => el.remove());
-  const f = document.createElement("div");
-  f.className = "opening-inline-form";
-  f.innerHTML = `<input id="op-n-${i}" type="text" value="${escapeHTML(op.name)}" /><input id="op-u-${i}" type="url" value="${escapeHTML(op.url)}" /><button onclick="window.saveOp('${uid}',${i})">Salvar</button>`;
-  wrap.after(f);
+  wrap.insertAdjacentHTML('beforeend', formHtml);
 };
 
 window.saveOp = async (uid, i) => {
   const name = document.getElementById(`op-n-${i}`).value.trim();
   const url = document.getElementById(`op-u-${i}`).value.trim();
+  if (!name) return alert("Dê um nome para a abertura!");
+
   const m = _members.find(m => m.user_id === uid);
   const ops = [...(m.openings || [{name:"",url:""},{name:"",url:""},{name:"",url:""}])];
   ops[i] = { name, url };
-  await supabase.from('group_members').update({ openings: ops }).eq('group_id', getGroupId()).eq('user_id', uid);
-  window.location.reload();
+  
+  const { error } = await supabase
+    .from('group_members')
+    .update({ openings: ops })
+    .eq('group_id', getGroupId())
+    .eq('user_id', uid);
+
+  if (error) alert(error.message);
+  else window.location.reload();
 };
+
+window.refreshMemberCards = () => window.location.reload();
 
 // --- 📊 RANKINGS ---
 
@@ -190,8 +213,6 @@ function renderMemberPosts(animes, members) {
     
     const rgb = colorToRgb(m.color);
     const memberColor = m.color || "#8b5cf6";
-
-    // Forçamos o degradê via style inline para vencer o CSS do tema escuro
     const inlineBg = `background: linear-gradient(160deg, rgba(${rgb}, 0.25) 0%, rgba(24, 23, 29, 0.96) 60%) !important; border-color: rgba(${rgb}, 0.4) !important;`;
 
     return `
@@ -199,7 +220,10 @@ function renderMemberPosts(animes, members) {
         <h3 style="color: white !important;"><span>Top 3</span>${m.nickname}</h3>
         <p>${watched.length} animes vistos, média ${formatNota(avg)} e gênero favorito: ${fav}.</p>
         <ol>${top.map(a => `<li><span>${shortText(a.name, 32)}</span><strong>${formatNota(getPersonNota(a, m.nickname))}</strong></li>`).join("")}</ol>
-        <div class="post-tags post-openings"><strong>Top 3 openings</strong><div class="opening-list" id="openings-${m.user_id}">${renderOpeningChips(m)}</div></div>
+        <div class="post-tags post-openings" id="openings-container-${m.user_id}">
+          <strong>Top 3 openings</strong>
+          <div class="opening-list" id="openings-${m.user_id}">${renderOpeningChips(m)}</div>
+        </div>
         <a href="profile.html#p=${m.nickname}&g=${getGroupId()}" style="background: transparent !important; color: white !important; border: none !important; padding: 0 !important; font-size: 13px !important; text-transform: none !important; text-decoration: underline !important;">Abrir perfil</a>
       </article>`;
   }).join("");

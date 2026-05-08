@@ -149,6 +149,27 @@ select {
   border-color: var(--danger);
 }
 
+.nav-badge {
+  background: var(--danger);
+  color: white;
+  font-size: 10px;
+  font-weight: 800;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  margin-left: 6px;
+  vertical-align: middle;
+  box-shadow: 0 0 10px rgba(251, 113, 133, 0.4);
+}
+
+.mobile-drawer-link .nav-badge {
+  margin-left: auto;
+}
+
 /* Oculta itens que exigem um grupo selecionado */
 .group-only {
   display: none !important;

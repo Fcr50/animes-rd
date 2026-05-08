@@ -1,4 +1,5 @@
 // js/utils.js
+import { supabase } from './supabase-client.js';
 import { signInWithGoogle, signOut, onAuthStateChange } from './auth.js';
 import { loadData } from './data.js';
 
@@ -122,6 +123,53 @@ function renderUserNav(user) {
 }
 
 /**
+ * Atualiza o badge de pendências na navbar
+ */
+async function updatePendingBadge(user, groupId) {
+  if (!user || !groupId) return;
+
+  try {
+    // 1. Busca animes pendentes no grupo
+    const { data: pendingAnimes } = await supabase
+      .from('group_animes')
+      .select('mal_id')
+      .eq('group_id', groupId)
+      .eq('status', 'pending');
+
+    if (!pendingAnimes || pendingAnimes.length === 0) return;
+
+    // 2. Busca em quais o usuário já votou
+    const { data: userVotes } = await supabase
+      .from('votes')
+      .select('mal_id')
+      .eq('group_id', groupId)
+      .eq('user_id', user.id)
+      .in('mal_id', pendingAnimes.map(a => a.mal_id));
+
+    const votedIds = new Set(userVotes?.map(v => v.mal_id));
+    const pendingCount = pendingAnimes.filter(a => !votedIds.has(a.mal_id)).length;
+
+    // 3. Atualiza a UI (Desktop e Mobile)
+    const links = document.querySelectorAll('a[href^="pending.html"]');
+    links.forEach(link => {
+      let badge = link.querySelector('.nav-badge');
+      if (pendingCount > 0) {
+        if (!badge) {
+          badge = document.createElement('span');
+          badge.className = 'nav-badge';
+          link.appendChild(badge);
+        }
+        badge.textContent = pendingCount;
+      } else if (badge) {
+        badge.remove();
+      }
+    });
+  } catch (err) {
+    console.error("Erro ao atualizar badge:", err);
+  }
+}
+
+/**
  * Atualiza a visibilidade dos itens da navbar baseada no estado de auth e grupo
  */
 async function updateNavbarState(user) {
@@ -136,6 +184,9 @@ async function updateNavbarState(user) {
   // RIGOR: Só mostra se houver usuário LOGADO E grupo na URL
   if (user && isGroupInURL) {
     nav.querySelectorAll(".group-only").forEach(el => el.classList.remove("group-only"));
+    
+    // Atualiza o contador de pendências
+    updatePendingBadge(user, groupId);
     
     // Se logado e em um grupo, carregar membros
     try {
@@ -187,7 +238,6 @@ async function updateNavbarState(user) {
     // Aplica o contexto de grupo se ele existir
     if (groupId && !href.includes("index.html")) {
       const url = new URL(href, window.location.href);
-      // Mantém o hash original se houver, e adiciona o grupo
       if (url.hash) {
         if (!url.hash.includes("g=")) {
           url.hash += `&g=${groupId}`;
@@ -195,8 +245,6 @@ async function updateNavbarState(user) {
       } else {
         url.hash = `g=${groupId}`;
       }
-      
-      // Define a nova href preservando a estrutura
       link.href = url.pathname.split("/").pop() + url.search + url.hash;
     }
   });
@@ -210,7 +258,7 @@ export async function loadNavbar() {
   if (!nav) return;
 
   try {
-    const response = await fetch(`navbar.html?v=platform-v7`);
+    const response = await fetch(`navbar.html?v=platform-v8`);
     if (!response.ok) throw new Error("Falha ao carregar navbar.html");
 
     nav.innerHTML = await response.text();

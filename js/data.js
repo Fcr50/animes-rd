@@ -9,47 +9,17 @@ export function invalidateCache() { _data = null; }
 
 // Mapeamento oficial de Gênero Limpo -> Gênero com Emoji
 export const PRETTY_GENRES = {
-  "Ação": "Ação ⚔️",
-  "Aventura": "Aventura 🎒",
-  "Comédia": "Comédia 😂",
-  "Drama": "Drama 😢",
-  "Fantasia": "Fantasia 🧙",
-  "Terror": "Terror 👻",
-  "Shounen": "Shounen 💥",
-  "Mistério": "Mistério 🔍",
-  "Romance": "Romance 💖",
-  "Ficção Científica": "Ficção Científica 🚀",
-  "Slice of Life": "Slice of Life 🍃",
-  "Esportes": "Esportes ⚽",
-  "Sobrenatural": "Sobrenatural 👻",
-  "Psicológico": "Psicológico 🧠",
-  "Ecchi": "Ecchi 🔥",
-  "Mecha": "Mecha 🤖",
-  "Música": "Música 🎵",
-  "Histórico": "Histórico 📜",
-  "Militar": "Militar 🎖️",
-  "Magia": "Magia 🪄",
-  "Artes Marciais": "Artes Marciais 🥋",
-  "Vampiro": "Vampiro 🧛",
-  "Demônios": "Demônios 😈",
-  "Escola": "Escola 🏫",
-  "Espaço": "Espaço 👨‍🚀",
-  "Samurai": "Samurai ⚔️",
-  "Policial": "Policial 👮",
-  "Harém": "Harém 👫",
-  "Jogo": "Jogo 🎮",
-  "Paródia": "Paródia 🤡",
-  "Isekai": "Isekai 🌍✨",
-  "Suspense": "Suspense 😱",
-  "Culinária": "Culinária 🍳",
-  "Experimental": "Experimental 🧪",
-  "Premiado": "Premiado 🏆",
-  "BL": "BL 👬",
-  "GL": "GL 👭",
-  "Hentai": "Hentai 💦",
-  "Seinen": "Seinen 👔",
-  "Superpoderes": "Superpoderes ⚡",
-  "Bomba": "Bomba 💣"
+  "Ação": "Ação ⚔️", "Aventura": "Aventura 🎒", "Comédia": "Comédia 😂", "Drama": "Drama 😢",
+  "Fantasia": "Fantasia 🧙", "Terror": "Terror 👻", "Shounen": "Shounen 💥", "Mistério": "Mistério 🔍",
+  "Romance": "Romance 💖", "Ficção Científica": "Ficção Científica 🚀", "Slice of Life": "Slice of Life 🍃",
+  "Esportes": "Esportes ⚽", "Sobrenatural": "Sobrenatural 👻", "Psicológico": "Psicológico 🧠",
+  "Ecchi": "Ecchi 🔥", "Mecha": "Mecha 🤖", "Música": "Música 🎵", "Histórico": "Histórico 📜",
+  "Militar": "Militar 🎖️", "Magia": "Magia 🪄", "Artes Marciais": "Artes Marciais 🥋",
+  "Vampiro": "Vampiro 🧛", "Demônios": "Demônios 😈", "Escola": "Escola 🏫", "Espaço": "Espaço 👨‍🚀",
+  "Samurai": "Samurai ⚔️", "Policial": "Policial 👮", "Harém": "Harém 👫", "Jogo": "Jogo 🎮",
+  "Paródia": "Paródia 🤡", "Isekai": "Isekai 🌍✨", "Suspense": "Suspense 😱", "Culinária": "Culinária 🍳",
+  "Experimental": "Experimental 🧪", "Premiado": "Premiado 🏆", "BL": "BL 👬", "GL": "GL 👭",
+  "Hentai": "Hentai 💦", "Seinen": "Seinen 👔", "Superpoderes": "Superpoderes ⚡", "Bomba": "Bomba 💣"
 };
 
 export function prettyGenre(name) {
@@ -58,7 +28,7 @@ export function prettyGenre(name) {
 }
 
 /**
- * Carrega os membros e animes do grupo atual (Nova Estrutura Normalizada).
+ * Carrega os membros e animes usando a View Otimizada anime_details.
  */
 export async function loadData() {
   const groupId = getGroupId();
@@ -75,75 +45,43 @@ export async function loadData() {
   if (membersError) throw membersError;
   _members = members;
 
-  // 2. Carregar Instâncias de Animes do Grupo + Metadados Globais + Votos
-  const { data: groupAnimes, error: animeError } = await supabase
-    .from('group_animes')
-    .select(`
-      status, 
-      links, 
-      created_at,
-      added_by,
-      animes:animes (
-        mal_id, 
-        name, 
-        genres, 
-        image_url
-      ),
-      votes:votes (
-        user_id, 
-        score, 
-        comment
-      )
-    `)
+  // 2. Carregar tudo da VIEW (Aqui o banco já fez o Join e os Cálculos)
+  const { data: details, error: detailsError } = await supabase
+    .from('anime_details')
+    .select('*')
     .eq('group_id', groupId);
 
-  if (animeError) throw animeError;
+  if (detailsError) throw detailsError;
 
-  // 3. Processar para manter compatibilidade com o frontend
-  const processedAnimes = groupAnimes.map(item => {
-    const global = item.animes;
-    const votes = item.votes || [];
-    
-    const scores = votes
-      .filter(v => v.score !== null)
-      .map(v => Number(v.score));
-    
-    const avg = scores.length ? scores.reduce((s, n) => s + n, 0) / scores.length : null;
-    const max = scores.length ? Math.max(...scores) : null;
-    const min = scores.length ? Math.min(...scores) : null;
+  // 3. Carregar votos brutos para montar a matriz de notas individuais (necessário para tabelas e cards)
+  const { data: rawVotes } = await supabase
+    .from('votes')
+    .select('mal_id, user_id, score, comment')
+    .eq('group_id', groupId);
 
+  // 4. Mapeamento final (muito mais leve)
+  const processedAnimes = details.map(item => {
     const animeObj = {
-      id: global.mal_id, // Usamos mal_id como ID principal no frontend agora
-      mal_id: global.mal_id,
-      name: global.name,
-      genres: global.genres || [],
-      image_url: global.image_url,
-      status: item.status,
-      links: item.links || {},
-      created_at: item.created_at,
-      added_by: item.added_by,
-      
-      // Campos calculados
-      quemAssistiu: votes.filter(v => v.score !== null).map(v => {
-        const member = _members.find(m => m.user_id === v.user_id);
-        return member ? member.nickname : 'Desconhecido';
-      }),
-      qtdVotos: scores.length,
-      nota: avg === null ? null : avg.toFixed(1),
-      notaSort: avg === null ? 0 : Number(avg.toFixed(2)),
-      controversia: scores.length > 1 ? Number((max - min).toFixed(1)) : 0,
-      comentarios: votes
-        .filter(v => v.comment)
+      ...item,
+      id: item.mal_id,
+      nota: item.nota_media, // Já vem calculado da View
+      notaSort: Number(item.nota_media) || 0,
+      qtdVotos: item.qtd_votos,
+      controversia: item.controversia,
+      quemAssistiu: item.quem_assistiu || [],
+      // Reconstruímos os comentários concatenados para o legado
+      comentarios: (rawVotes || [])
+        .filter(v => v.mal_id === item.mal_id && v.comment)
         .map(v => {
-          const member = _members.find(m => m.user_id === v.user_id);
-          return `${member ? member.nickname : 'Desconhecido'}: ${v.comment}`;
+          const m = _members.find(member => member.user_id === v.user_id);
+          return `${m ? m.nickname : 'Desconhecido'}: ${v.comment}`;
         })
         .join('\n')
     };
 
-    // Notas dinâmicas por nickname (compatibilidade)
+    // Preenche as propriedades notaNickname (notaDudu, notaRafael, etc)
     _members.forEach(m => {
-      const v = votes.find(v => v.user_id === m.user_id);
+      const v = (rawVotes || []).find(v => v.mal_id === item.mal_id && v.user_id === m.user_id);
       animeObj[`nota${m.nickname}`] = v ? v.score : null;
     });
 
@@ -198,7 +136,7 @@ export function countGenres(animes) {
 }
 
 export function animesOf(allAnimes, personNickname) {
-  return allAnimes.filter((a) => a.quemAssistiu.includes(personNickname));
+  return allAnimes.filter((a) => (a.quemAssistiu || []).includes(personNickname));
 }
 
 export function favoriteGenre(animes, personNickname) {
@@ -232,13 +170,13 @@ export function mostControversial(animes, personNickname) {
 
 export function exclusiveAnimes(animes, personNickname) {
   return animesOf(animes, personNickname).filter(
-    (a) => a.quemAssistiu.length === 1 && a.quemAssistiu[0] === personNickname
+    (a) => (a.quemAssistiu || []).length === 1 && a.quemAssistiu[0] === personNickname
   );
 }
 
 export function missedAnimes(animes, personNickname) {
   return animes.filter(
-    (a) => !a.quemAssistiu.includes(personNickname) && (a.quemAssistiu || []).length > 0
+    (a) => !(a.quemAssistiu || []).includes(personNickname) && (a.quemAssistiu || []).length > 0
   );
 }
 
@@ -251,7 +189,7 @@ export function topGenres(animes, topN = 10) {
 
 export function commonAnimes(animes, p1, p2) {
   return animes.filter(
-    (a) => a.quemAssistiu.includes(p1) && a.quemAssistiu.includes(p2)
+    (a) => (a.quemAssistiu || []).includes(p1) && (a.quemAssistiu || []).includes(p2)
   );
 }
 
