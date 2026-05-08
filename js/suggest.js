@@ -106,20 +106,46 @@ function renderResults(list) {
       </div>
     `;
     li.onclick = () => selectAnime(anime);
-    resultsDropdown.appendChild(li);
-  });
-}
+    import { loadData, prettyGenre } from './data.js';
+
+    ...
+
+    // Mapeamento Jikan (English) -> Animes RD (Português Limpo)
+    const GENRE_MAP = {
+      "Action": "Ação", "Adventure": "Aventura", "Comedy": "Comédia", "Drama": "Drama",
+      "Fantasy": "Fantasia", "Horror": "Terror", "Mystery": "Mistério", "Romance": "Romance",
+      "Sci-Fi": "Ficção Científica", "Suspense": "Suspense", "Slice of Life": "Slice of Life",
+      "Sports": "Esportes", "Supernatural": "Sobrenatural", "Psychological": "Psicológico",
+      "Ecchi": "Ecchi", "Mecha": "Mecha", "Music": "Música", "Award Winning": "Premiado",
+      "Gourmet": "Culinária", "Boys Love": "BL", "Girls Love": "GL", "Hentai": "Hentai",
+      "Super Power": "Superpoderes", "Erotica": "Hentai", "Historical": "Histórico",
+      "Military": "Militar", "Magia": "Magia", "Martial Arts": "Artes Marciais",
+      "Vampire": "Vampiro", "Demons": "Demônios", "School": "Escola", "Space": "Espaço",
+      "Samurai": "Samurai", "Police": "Policial", "Harem": "Harém", "Game": "Jogo",
+      "Parody": "Paródia", "Isekai": "Isekai", "Seinen": "Seinen", "Shounen": "Shounen"
+    };
+
+    function translateGenres(apiGenres) {
+      return apiGenres.map(g => {
+        // 1. Tenta traduzir se estiver em inglês
+        const translated = GENRE_MAP[g] || g;
+        // 2. Aplica o emoji oficial do dicionário do projeto
+        return prettyGenre(translated);
+      });
+    }
 
 function selectAnime(anime) {
+  const prettyGenres = translateGenres(anime.genres.map(g => g.name));
+
   currentAnimeData = {
     malId: anime.mal_id,
     name: anime.title,
-    genres: anime.genres.map(g => g.name),
+    genres: prettyGenres,
     imageUrl: anime.images.jpg.large_image_url || anime.images.jpg.image_url,
   };
 
   if (animeNameInput) animeNameInput.value = anime.title;
-  if (genresInput) genresInput.value = currentAnimeData.genres.join(", ");
+  if (genresInput) genresInput.value = prettyGenres.join(", ");
   
   resultsDropdown?.classList.add("hidden");
   manualFields?.classList.remove("hidden");
@@ -130,7 +156,8 @@ function selectAnime(anime) {
         <img src="${currentAnimeData.imageUrl}" style="width:60px; height:80px; object-fit:cover; border-radius:8px">
         <div>
           <h4 style="margin:0; color:white;">${currentAnimeData.name}</h4>
-          <p style="font-size:12px; margin:5px 0; color:var(--accent)">✓ Anime pronto para sugestão</p>
+          <p style="font-size:11px; margin:5px 0; color:var(--faint)">${prettyGenres.slice(0, 3).join(", ")}</p>
+          <p style="font-size:12px; margin:0; color:var(--accent)">✓ Traduzido e pronto para sugestão</p>
         </div>
       </div>`;
     detailsSection.classList.remove("hidden");

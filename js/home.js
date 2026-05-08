@@ -14,22 +14,7 @@ const MAL_NEWS_URL = "https://myanimelist.net/news";
 let featuredCommentTimer = null;
 let heroInfoTimer = null;
 
-// --- 🖼️ IMAGENS E HERO ROTATOR ---
-
-async function getAnimeHeroImage(anime) {
-  if (!anime?.mal_id) return "";
-  const cacheKey = `jikan-hero-image-${anime.mal_id}`;
-  const cached = localStorage.getItem(cacheKey);
-  if (cached) return cached;
-  try {
-    const res = await fetch(`https://api.jikan.moe/v4/anime/${encodeURIComponent(anime.mal_id)}`);
-    if (!res.ok) return "";
-    const payload = await res.json();
-    const imageUrl = payload?.data?.images?.webp?.large_image_url || "";
-    if (imageUrl) localStorage.setItem(cacheKey, imageUrl);
-    return imageUrl;
-  } catch { return ""; }
-}
+// --- 🖼️ DESTAQUES ---
 
 function featuredAnimeForNow(animes) {
   const candidates = animes.filter((anime) => Number(anime.nota) >= 9.0);
@@ -53,8 +38,7 @@ function renderHeroInfoRotator(data, featuredAnime) {
     { tone: "featured", eyebrow: "Dica em destaque", title: `Hoje o acervo esta puxando: ${featuredTitle}.`, text: featuredAnime ? `Nota geral ${formatNota(featuredAnime.nota)} com ${featuredAnime.qtdVotos} votos no grupo.` : "Aguardando recomendações.", visuals: [] }
   ];
 
-  rotator.innerHTML = `
-    ${slides.map((s, i) => `
+  rotator.innerHTML = slides.map((s, i) => `
       <section class="blog-hero-slide ${i === 0 ? "active" : ""}" data-hero-slide="${i}" data-hero-tone="${s.tone}">
         <div class="blog-hero-slide-copy">
           <span class="eyebrow">${s.eyebrow}</span>
@@ -62,9 +46,8 @@ function renderHeroInfoRotator(data, featuredAnime) {
           <p>${s.text}</p>
         </div>
         ${s.visuals.length ? `<div class="blog-hero-slide-footer"><div class="blog-hero-visual">${s.visuals.map(v => `<a href="${v.href}" target="_blank" rel="noopener noreferrer"><img src="${v.src}" /></a>`).join("")}</div></div>` : ""}
-      </section>`).join("")}
-    <div class="blog-hero-dots">${slides.map((_, i) => `<button class="${i === 0 ? "active" : ""}" data-hero-dot="${i}"></button>`).join("")}</div>
-  `;
+      </section>`).join("") + 
+      `<div class="blog-hero-dots">${slides.map((_, i) => `<button class="${i === 0 ? "active" : ""}" data-hero-dot="${i}"></button>`).join("")}</div>`;
 
   let active = 0;
   const host = rotator.closest(".blog-hero-copy");
@@ -99,9 +82,9 @@ async function renderHero(data) {
   const top = featuredAnimeForNow(data.animes);
   renderHeroInfoRotator(data, top);
   const heroPanel = document.getElementById("hero-panel");
-  const heroImage = await getAnimeHeroImage(top);
-  if (heroImage && heroPanel) {
-    heroPanel.style.setProperty("--hero-anime-bg", `url("${heroImage}")`);
+  
+  if (top && top.image_url && heroPanel) {
+    heroPanel.style.setProperty("--hero-anime-bg", `url("${top.image_url}")`);
     heroPanel.classList.add("has-bg");
     heroPanel.innerHTML = `<span class="post-kicker">Destaque do acervo</span><h2>${top.name}</h2><p>Nota ${formatNota(top.nota)} no grupo.</p><a href="acervo.html#g=${getGroupId()}">Ler no acervo</a>`;
   }
@@ -148,22 +131,9 @@ function renderOpeningChips(member) {
 window.editOpening = (uid, i) => {
   const m = _members.find(m => m.user_id === uid);
   const op = (m.openings || [])[i] || { name: "", url: "" };
-  
   const wrap = document.getElementById(`openings-container-${uid}`);
   if (!wrap) return;
-
-  const formHtml = `
-    <div class="opening-inline-form" style="background: rgba(0,0,0,0.4); padding: 10px; border-radius: 8px; margin-top: 10px;">
-      <input id="op-n-${i}" type="text" value="${escapeHTML(op.name)}" placeholder="Nome da Abertura" style="width: 100%; margin-bottom: 5px; font-size: 11px; padding: 4px;" />
-      <input id="op-u-${i}" type="url" value="${escapeHTML(op.url)}" placeholder="Link (YouTube/Spotify)" style="width: 100%; margin-bottom: 8px; font-size: 11px; padding: 4px;" />
-      <div style="display:flex; gap:5px">
-        <button onclick="window.saveOp('${uid}',${i})" style="background:var(--accent); color:white; border:none; padding:4px 8px; border-radius:4px; font-size:10px; cursor:pointer;">Salvar</button>
-        <button onclick="window.refreshMemberCards()" style="background:none; color:white; border:1px solid var(--border); padding:4px 8px; border-radius:4px; font-size:10px; cursor:pointer;">Cancelar</button>
-      </div>
-    </div>
-  `;
-  
-  // Limpa editores abertos e injeta o novo
+  const formHtml = `<div class="opening-inline-form" style="background: rgba(0,0,0,0.4); padding: 10px; border-radius: 8px; margin-top: 10px;"><input id="op-n-${i}" type="text" value="${escapeHTML(op.name)}" style="width: 100%; margin-bottom: 5px; font-size: 11px; padding: 4px;" /><input id="op-u-${i}" type="url" value="${escapeHTML(op.url)}" style="width: 100%; margin-bottom: 8px; font-size: 11px; padding: 4px;" /><div style="display:flex; gap:5px"><button onclick="window.saveOp('${uid}',${i})" style="background:var(--accent); color:white; border:none; padding:4px 8px; border-radius:4px; font-size:10px; cursor:pointer;">Salvar</button><button onclick="window.refreshMemberCards()" style="background:none; color:white; border:1px solid var(--border); padding:4px 8px; border-radius:4px; font-size:10px; cursor:pointer;">Cancelar</button></div></div>`;
   document.querySelectorAll(".opening-inline-form").forEach(el => el.remove());
   wrap.insertAdjacentHTML('beforeend', formHtml);
 };
@@ -171,20 +141,11 @@ window.editOpening = (uid, i) => {
 window.saveOp = async (uid, i) => {
   const name = document.getElementById(`op-n-${i}`).value.trim();
   const url = document.getElementById(`op-u-${i}`).value.trim();
-  if (!name) return alert("Dê um nome para a abertura!");
-
   const m = _members.find(m => m.user_id === uid);
   const ops = [...(m.openings || [{name:"",url:""},{name:"",url:""},{name:"",url:""}])];
   ops[i] = { name, url };
-  
-  const { error } = await supabase
-    .from('group_members')
-    .update({ openings: ops })
-    .eq('group_id', getGroupId())
-    .eq('user_id', uid);
-
-  if (error) alert(error.message);
-  else window.location.reload();
+  await supabase.from('group_members').update({ openings: ops }).eq('group_id', getGroupId()).eq('user_id', uid);
+  window.location.reload();
 };
 
 window.refreshMemberCards = () => window.location.reload();
@@ -210,11 +171,9 @@ function renderMemberPosts(animes, members) {
     const avg = avgNota(animes, m.nickname);
     const fav = favoriteGenre(animes, m.nickname);
     const top = watched.sort((a,b) => Number(getPersonNota(b, m.nickname)) - Number(getPersonNota(a, m.nickname))).slice(0,3);
-    
     const rgb = colorToRgb(m.color);
     const memberColor = m.color || "#8b5cf6";
     const inlineBg = `background: linear-gradient(160deg, rgba(${rgb}, 0.25) 0%, rgba(24, 23, 29, 0.96) 60%) !important; border-color: rgba(${rgb}, 0.4) !important;`;
-
     return `
       <article class="post-card" style="${inlineBg} --member-color:${memberColor}; --member-color-rgb:${rgb}">
         <h3 style="color: white !important;"><span>Top 3</span>${m.nickname}</h3>
@@ -244,8 +203,6 @@ async function init() {
   renderFeaturedPost(data.animes);
   renderMemberPosts(data.animes, data.members);
   renderPulse(data.animes);
-  
-  // APIs
   const days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
   fetch(`https://api.jikan.moe/v4/schedules?filter=${days[new Date().getDay()]}&limit=6`).then(r => r.json()).then(d => {
     const el = document.getElementById("calendar-card");

@@ -108,7 +108,7 @@ export function notaColor(nota) {
 
 export function formatNota(nota) {
   if (nota === null || nota === undefined) return "—";
-  return Number(nota).toFixed(1);
+  return Number(nota).toFixed(2);
 }
 
 export function personKey(name) {
