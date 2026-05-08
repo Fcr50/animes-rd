@@ -73,7 +73,7 @@ async function loadGroups() {
   try {
     const { data, error } = await supabase
       .from('group_members')
-      .select('group_id, groups(id, name, creator_id, invite_code)')
+      .select('group_id, color, nickname, groups(id, name, creator_id, invite_code)')
       .eq('user_id', currentUser.id);
 
     if (error) throw error;
@@ -91,6 +91,7 @@ async function loadGroups() {
       if (!g) return '';
       const isCreator = g.creator_id === currentUser.id;
       const url = `acervo.html#g=${g.id}`;
+      const memberColor = item.color || '#888888';
 
       return `
         <div class="card group-card" style="position: relative; padding-bottom: 50px;">
@@ -100,6 +101,14 @@ async function loadGroups() {
               ${isCreator ? `👑 Criador (Cód: <strong style="color: var(--accent)">${g.invite_code}</strong>)` : 'Membro'}
             </p>
           </a>
+          <div style="margin-top: 12px; display: flex; align-items: center; gap: 8px;">
+            <button
+              onclick="window.editMemberColor('${g.id}', '${memberColor}')"
+              style="width: 22px; height: 22px; border-radius: 50%; background: ${memberColor}; border: 2px solid rgba(255,255,255,0.25); cursor: pointer; flex-shrink: 0;"
+              title="Editar minha cor no grupo"
+            ></button>
+            <span style="font-size: 11px; color: var(--faint);">Minha cor</span>
+          </div>
           <div style="position: absolute; bottom: 15px; left: 20px; right: 15px; display: flex; justify-content: space-between; align-items: center;">
              <a href="${url}" style="font-size: 11px; color: var(--accent); text-decoration: none;">Abrir acervo →</a>
              ${isCreator ? `<button class="btn-manage-trigger" onclick="window.openManageModal('${g.id}', '${g.name}')">⚙️</button>` : ''}
@@ -157,6 +166,29 @@ async function createGroup(name) {
   const { data } = await supabase.from('groups').insert([{ name, invite_code: code, creator_id: currentUser.id }]).select().single();
   if (data) window.location.href = `./join.html#code=${data.invite_code}`;
 }
+
+window.editMemberColor = (groupId, currentColor) => {
+  const input = document.createElement('input');
+  input.type = 'color';
+  input.value = currentColor;
+  input.style.position = 'fixed';
+  input.style.opacity = '0';
+  input.style.pointerEvents = 'none';
+  document.body.appendChild(input);
+  input.click();
+  input.addEventListener('change', async () => {
+    const newColor = input.value;
+    document.body.removeChild(input);
+    const { error } = await supabase
+      .from('group_members')
+      .update({ color: newColor })
+      .eq('group_id', groupId)
+      .eq('user_id', currentUser.id);
+    if (!error) loadGroups();
+    else alert('Erro ao salvar cor.');
+  });
+  input.addEventListener('cancel', () => document.body.removeChild(input));
+};
 
 async function joinGroup(code) {
   const cleanCode = code.trim().toUpperCase();
