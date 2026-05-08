@@ -145,11 +145,9 @@ function renderFilters() {
     </select>
     <select id="filter-votes">
       <option value="">Qtd. votos</option>
-      <option value="5">5 votos</option>
-      <option value="4">4 votos</option>
-      <option value="3">3 votos</option>
-      <option value="2">2 votos</option>
-      <option value="1">1 voto</option>
+      ${Array.from({ length: members.length }, (_, i) => members.length - i)
+        .map(n => `<option value="${n}">${n} ${n === 1 ? 'voto' : 'votos'}${n === members.length ? ' (todos)' : ''}</option>`)
+        .join("")}
     </select>
   `;
 
