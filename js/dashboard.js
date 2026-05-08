@@ -5,6 +5,25 @@ import { signInWithGoogle, onAuthStateChange, getCurrentUser } from './auth.js';
 let currentUser = null;
 let currentManagingGroupId = null;
 
+// Substitui títulos dos cards independente do cache do HTML
+function styleCardTitles() {
+  const style = (text, gradient) => {
+    const el = document.createElement('div');
+    el.textContent = text;
+    el.style.cssText = `font-family:'Newsreader',serif;font-size:22px;font-weight:750;letter-spacing:-0.01em;text-align:center;margin-bottom:18px;background:${gradient};-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;`;
+    return el;
+  };
+  document.querySelectorAll('.card-title').forEach(el => {
+    const text = el.textContent.trim().toLowerCase();
+    if (text.includes('criar') || text.includes('novo grupo')) {
+      el.replaceWith(style('Criar Novo Grupo', 'linear-gradient(90deg,#5d8bff,#57cdae)'));
+    } else if (text.includes('entrar') || text.includes('convite')) {
+      el.replaceWith(style('Entrar em um Grupo', 'linear-gradient(90deg,#ff9fc7,#f97316)'));
+    }
+  });
+}
+document.addEventListener('DOMContentLoaded', styleCardTitles);
+
 async function init() {
   console.log('Dashboard: Inicializando...');
   
