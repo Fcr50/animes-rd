@@ -119,7 +119,7 @@ function renderFilters() {
 
   const genreMap = new Map();
   allAnimes.forEach(a => {
-    (a.genres || a.generos || []).forEach(g => {
+    (a.generos || []).forEach(g => {
       const clean = stripEmoji(g);
       if (!genreMap.has(clean) || g.length > genreMap.get(clean).length)
         genreMap.set(clean, g);
@@ -170,7 +170,7 @@ function applyFilters() {
     if (search && !a.name.toLowerCase().includes(search)) return false;
 
     if (cleanedGenre) {
-      const hasGenre = (a.genres || a.generos || []).some(g => stripEmoji(g) === cleanedGenre);
+      const hasGenre = (a.generos || []).some(g => stripEmoji(g) === cleanedGenre);
       if (!hasGenre) return false;
     }
 
@@ -221,12 +221,12 @@ function renderTable() {
   tbody.innerHTML = filtered.map(a => {
     const nota = a.nota !== null ? Number(a.nota).toFixed(2) : "—";
     const notaCls = notaColor(a.nota);
-    const genres = (a.genres || a.generos || [])
+    const genres = (a.generos || [])
       .slice(0, 2)
       .map(g => `<span class="badge badge-genre">${g}</span>`)
       .join("");
-    const moreGenres = (a.genres || a.generos || []).length > 2
-      ? `<span class="badge badge-genre">+${a.genres || a.generos.length - 2}</span>`
+    const moreGenres = (a.generos || []).length > 2
+      ? `<span class="badge badge-genre">+${a.generos.length - 2}</span>`
       : "";
     const viewers = a.quemAssistiu
       .map(p => {
@@ -283,7 +283,7 @@ window.openModal = function(idx) {
 
   document.getElementById("modal-title").textContent = a.name;
 
-  document.getElementById("modal-genres").innerHTML = (a.genres || a.generos || [])
+  document.getElementById("modal-genres").innerHTML = (a.generos || [])
     .map(g => `<span class="badge badge-genre">${g}</span>`)
     .join(" ");
 

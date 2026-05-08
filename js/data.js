@@ -92,8 +92,17 @@ export async function loadData() {
     const max = scores.length ? Math.max(...scores) : null;
     const min = scores.length ? Math.min(...scores) : null;
 
+    // Normaliza genres → generos como array sempre
+    const rawGenres = anime.genres || anime.generos;
+    const generos = Array.isArray(rawGenres)
+      ? rawGenres
+      : typeof rawGenres === 'string'
+        ? rawGenres.split(',').map(s => s.trim()).filter(Boolean)
+        : [];
+
     const animeObj = {
       ...anime,
+      generos,
       quemAssistiu: anime.votes.filter(v => v.score !== null).map(v => {
         const member = _members.find(m => m.user_id === v.user_id);
         return member ? member.nickname : 'Desconhecido';
