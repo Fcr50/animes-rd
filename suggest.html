@@ -4,85 +4,128 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sugerir Anime | Animes RD</title>
-    <link rel="stylesheet" href="css/style.css?v=artslum-1" />
+    <link rel="stylesheet" href="css/style.css?v=platform-v8" />
     <style>
-      .form-group {
-        margin-bottom: 15px;
+      .suggest-tabs {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 25px;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 15px;
       }
-      .form-group label {
-        color: var(--text);
-        display: block;
-        font-size: 13px;
+      .tab-btn {
+        background: none;
+        border: none;
+        color: var(--faint);
         font-weight: 700;
-        letter-spacing: 0.04em;
-        margin-bottom: 6px;
-        text-transform: uppercase;
+        cursor: pointer;
+        padding: 8px 16px;
+        border-radius: 8px;
+        transition: all 0.2s;
       }
-      .form-group input[type="text"] {
-        width: 100%;
-        padding: 10px;
-        background: rgba(0, 0, 0, 0.2);
-        border: 1px solid var(--border);
-        border-radius: 6px;
+      .tab-btn.active {
+        background: var(--accent);
         color: white;
       }
-
-      /* Light mode: labels, inputs e textos em preto */
-      body:not(.dark-theme) .form-group label {
-        color: #1b1718 !important;
+      .suggest-panel {
+        display: none;
       }
-
-      body:not(.dark-theme) .form-group input[type="text"],
-      body:not(.dark-theme) #submission-form-container input,
-      body:not(.dark-theme) #submission-form-container textarea,
-      body:not(.dark-theme) #submission-form-container select {
-        background: #ffffff !important;
-        border: 1.5px solid rgba(16, 16, 16, 0.18) !important;
-        color: #1b1718 !important;
+      .suggest-panel.active {
+        display: block;
       }
-
-      body:not(.dark-theme) .form-group input[type="text"]::placeholder,
-      body:not(.dark-theme) #submission-form-container input::placeholder {
-        color: #a09490 !important;
+      .import-list {
+        display: grid;
+        gap: 12px;
+        max-height: 400px;
+        overflow-y: auto;
+        padding-right: 10px;
       }
-
-      body:not(.dark-theme) #submission-form-container p,
-      body:not(.dark-theme) #submission-form-container small {
-        color: #1b1718 !important;
+      .import-item {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 12px;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        cursor: pointer;
       }
-
-      body:not(.dark-theme) #submission-form-container a {
-        color: #5d8bff !important;
+      .import-item.exists {
+        opacity: 0.5;
+        cursor: not-allowed;
       }
-
-      /* Título da página mais escuro no light mode */
-      body.suggest-page:not(.dark-theme) .page-header h1 {
-        background: linear-gradient(90deg, #ff6a4a 0%, #5d8bff 50%, #57cdae 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        color: transparent;
+      .import-item input {
+        width: 20px;
+        height: 20px;
+      }
+      .import-item img {
+        width: 45px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 6px;
+      }
+      .import-item-info {
+        flex: 1;
       }
     </style>
-    <script type="module" src="./js/theme.js?v=desafios-soft-1"></script>
-    <script type="module" src="./js/utils.js?v=desafios-soft-1"></script>
+    <script type="module" src="./js/theme.js?v=platform-v8"></script>
+    <script type="module" src="./js/utils.js?v=platform-v8"></script>
   </head>
   <body class="suggest-page">
     <nav class="nav"></nav>
 
     <main class="page">
       <div class="page-header">
-        <h1>✨ Sugira um Novo Anime</h1>
+        <h1>✨ Sugerir Anime</h1>
+        <p>Adicione novos títulos ao acervo do grupo.</p>
       </div>
 
       <div class="card suggest-form-card">
-        <div id="submission-form-container">
-          <p style="color: var(--faint)">Carregando formulário...</p>
+        <div class="suggest-tabs">
+          <button class="tab-btn active" data-tab="new">🔍 Sugerir Novo</button>
+          <button class="tab-btn" data-tab="import">📚 Importar do meu Histórico</button>
+        </div>
+
+        <!-- Aba: Novo Anime -->
+        <div id="panel-new" class="suggest-panel active">
+          <div class="form-group">
+            <label for="anime-name">Nome do Anime</label>
+            <div style="position: relative;">
+              <input type="text" id="anime-name" placeholder="Digite o nome para buscar no MAL..." autocomplete="off">
+              <ul id="search-results-list" class="search-dropdown hidden"></ul>
+            </div>
+          </div>
+
+          <div id="anime-details-section" class="hidden" style="margin-top: 20px; padding: 15px; background: rgba(var(--accent-rgb), 0.1); border-radius: 12px; border-left: 4px solid var(--accent);">
+            <!-- Preenchido via JS ao selecionar anime -->
+          </div>
+
+          <div style="margin-top: 25px; display: grid; grid-template-columns: 100px 1fr; gap: 20px;">
+            <div class="form-group">
+              <label for="my-score">Minha Nota</label>
+              <input type="number" id="my-score" value="5.0" min="0" max="10" step="0.1" style="width: 100%; padding: 10px; background: rgba(0,0,0,0.2); border: 1px solid var(--border); border-radius: 6px; color: white;">
+            </div>
+            <div class="form-group">
+              <label for="my-comment">Meu Comentário (Opcional)</label>
+              <input type="text" id="my-comment" placeholder="O que você achou deste anime?">
+            </div>
+          </div>
+
+          <button id="submit-anime-button" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Enviar Sugestão</button>
+        </div>
+
+        <!-- Aba: Importar Histórico -->
+        <div id="panel-import" class="suggest-panel">
+          <p style="color: var(--faint); margin-bottom: 20px; font-size: 14px;">Selecione os animes que você já assistiu em outros grupos para sugerir aqui.</p>
+          <div id="import-list-container" class="import-list">
+            <p>Carregando seu histórico...</p>
+          </div>
+          <button id="import-selected-button" class="btn btn-primary" style="width: 100%; margin-top: 20px;" disabled>Importar Selecionados (0)</button>
         </div>
       </div>
     </main>
 
-    <script type="module" src="./js/suggest.js?v=platform-v4"></script>
-    <script type="module" src="js/nyx-widget.js?v=platform-v4"></script>
+    <script type="module" src="./js/suggest.js?v=platform-v8"></script>
+    <script type="module" src="js/nyx-widget.js?v=platform-v8"></script>
   </body>
 </html>
