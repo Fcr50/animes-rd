@@ -5,7 +5,8 @@ import { supabase } from './supabase-client.js';
  * Faz login com o provedor Google.
  */
 export async function signInWithGoogle() {
-  const targetRedirect = window.location.origin + '/';
+  // Captura a URL atual sem os parâmetros de hash/query para o redirect
+  const targetRedirect = window.location.origin + window.location.pathname;
   console.log('Solicitando login Google. Redirect planejado:', targetRedirect);
 
   const { data, error } = await supabase.auth.signInWithOAuth({
