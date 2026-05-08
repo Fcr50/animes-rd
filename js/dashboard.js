@@ -76,6 +76,20 @@ async function loadGroups() {
       .select('group_id, color, nickname, groups(id, name, creator_id, invite_code)')
       .eq('user_id', currentUser.id);
 
+    // Busca membros de cada grupo
+    const groupIds = (data || []).map(d => d.group_id);
+    let membersMap = {};
+    if (groupIds.length > 0) {
+      const { data: allMembers } = await supabase
+        .from('group_members')
+        .select('group_id, nickname, color')
+        .in('group_id', groupIds);
+      (allMembers || []).forEach(m => {
+        if (!membersMap[m.group_id]) membersMap[m.group_id] = [];
+        membersMap[m.group_id].push(m);
+      });
+    }
+
     if (error) throw error;
 
     if (!data || data.length === 0) {
@@ -92,25 +106,58 @@ async function loadGroups() {
       const isCreator = g.creator_id === currentUser.id;
       const url = `acervo.html#g=${g.id}`;
       const memberColor = item.color || '#888888';
+      const members = membersMap[g.id] || [];
+      const shown = members.slice(0, 4);
+      const extra = members.length - 4;
+
+      const memberAvatars = shown.map(m => `
+        <div title="${m.nickname}" style="
+          width: 32px; height: 32px; border-radius: 50%;
+          background: ${m.color || '#888'}22;
+          border: 2px solid ${m.color || '#888'};
+          display: flex; align-items: center; justify-content: center;
+          font-size: 12px; font-weight: 800; color: ${m.color || '#888'};
+          flex-shrink: 0;
+        ">${m.nickname[0].toUpperCase()}</div>
+      `).join('');
+
+      const extraBadge = extra > 0 ? `
+        <div style="
+          width: 32px; height: 32px; border-radius: 50%;
+          background: rgba(255,255,255,0.06);
+          border: 2px solid rgba(255,255,255,0.18);
+          display: flex; align-items: center; justify-content: center;
+          font-size: 10px; font-weight: 800; color: var(--muted);
+        ">+${extra}</div>` : '';
 
       return `
-        <div class="card group-card" style="position: relative; padding-bottom: 50px;">
+        <div class="card group-card" style="position: relative; padding-bottom: 54px;">
           <a href="${url}" style="text-decoration: none; color: inherit; display: block;">
-            <div class="card-title">${g.name}</div>
-            <p style="font-size: 12px; color: var(--faint); margin-top: 8px;">
-              ${isCreator ? `👑 Criador (Cód: <strong style="color: var(--accent)">${g.invite_code}</strong>)` : 'Membro'}
+            <div style="
+              font-family: 'Newsreader', serif;
+              font-size: 26px; font-weight: 750;
+              letter-spacing: -0.02em; line-height: 1.1;
+              background: linear-gradient(90deg, #5d8bff, #57cdae);
+              -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+              background-clip: text; margin-bottom: 6px;
+            ">${g.name}</div>
+            <p style="font-size: 11px; color: var(--faint); margin-bottom: 12px;">
+              ${isCreator ? `👑 Criador · <span style="color:var(--accent)">${g.invite_code}</span>` : 'Membro'}
             </p>
+            <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+              ${memberAvatars}${extraBadge}
+            </div>
           </a>
           <div style="margin-top: 12px; display: flex; align-items: center; gap: 8px;">
             <button
               onclick="window.editMemberColor('${g.id}', '${memberColor}', this)"
-              style="width: 22px; height: 22px; border-radius: 50%; background: ${memberColor}; border: 2px solid rgba(255,255,255,0.25); cursor: pointer; flex-shrink: 0;"
+              style="width: 20px; height: 20px; border-radius: 50%; background: ${memberColor}; border: 2px solid rgba(255,255,255,0.25); cursor: pointer; flex-shrink: 0;"
               title="Editar minha cor no grupo"
             ></button>
             <span style="font-size: 11px; color: var(--faint);">Minha cor</span>
           </div>
           <div style="position: absolute; bottom: 15px; left: 20px; right: 15px; display: flex; justify-content: space-between; align-items: center;">
-             <a href="${url}" style="font-size: 11px; color: var(--accent); text-decoration: none;">Abrir acervo →</a>
+             <a href="${url}" style="font-size: 12px; font-weight: 700; color: var(--accent); text-decoration: none;">Abrir acervo →</a>
              ${isCreator ? `<button class="btn-manage-trigger" onclick="window.openManageModal('${g.id}', '${g.name}')">⚙️</button>` : ''}
           </div>
         </div>`;
