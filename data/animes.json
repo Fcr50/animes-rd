@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-07T13:28:27.791Z",
+  "updatedAt": "2026-05-08T01:46:44.952Z",
   "total": 194,
   "animes": [
     {
@@ -4389,11 +4389,15 @@
         {
           "name": "Eu vim ver o macaco",
           "url": "https://www.youtube.com/watch?v=0mZ2OXT52fQ"
+        },
+        {
+          "name": "Yugi meme 2",
+          "url": "https://www.youtube.com/shorts/rmSz2Wpht9c"
         }
       ],
       "updatedAt": {
-        "_seconds": 1777859388,
-        "_nanoseconds": 5000000
+        "_seconds": 1778171842,
+        "_nanoseconds": 166000000
       }
     },
     {
