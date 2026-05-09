@@ -61,10 +61,19 @@ export async function loadData() {
 
   // 4. Mapeamento final (muito mais leve)
   const processedAnimes = details.map(item => {
+    // Normaliza genres (Supabase TEXT[]) → generos como array sempre
+    const rawGenres = item.genres || item.generos;
+    const generos = Array.isArray(rawGenres)
+      ? rawGenres
+      : typeof rawGenres === 'string'
+        ? rawGenres.split(',').map(s => s.trim()).filter(Boolean)
+        : [];
+
     const animeObj = {
       ...item,
       id: item.mal_id,
-      nota: item.nota_media, // Já vem calculado da View
+      generos,
+      nota: item.nota_media,
       notaSort: Number(item.nota_media) || 0,
       qtdVotos: item.qtd_votos,
       controversia: item.controversia,
