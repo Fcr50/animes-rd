@@ -73,18 +73,18 @@
         box-shadow: 0 4px 12px rgba(var(--accent-rgb), 0.3) !important;
       }
 
-      /* ── Fontes e Escrita ── */
+      /* ── Fontes e Escrita (Standardized to Link Section style) ── */
       .suggest-form-card h2, .suggest-form-card .card-title {
         font-family: "Newsreader", serif;
         font-weight: 700;
-        font-size: 22px;
+        font-size: 18px !important;
         color: var(--paper);
-        margin-bottom: 15px;
+        margin-bottom: 12px;
       }
 
-      .form-group label {
+      .form-group label, .links-suggestion-area label {
         display: block;
-        font-size: 9px;
+        font-size: 10px !important;
         font-weight: 800;
         letter-spacing: 0.15em;
         text-transform: uppercase;
@@ -93,15 +93,15 @@
         font-family: inherit;
       }
 
-      /* ── Inputs com contorno aparente suave ── */
+      /* ── Inputs compactos ── */
       .suggest-form-card input[type="text"],
       .suggest-form-card input[type="number"],
       .suggest-form-card textarea,
-      #anime-name, #anime-genres, #my-score, #my-comment {
+      #anime-name, #anime-genres, #my-score, #my-comment, .link-input-row input {
         background: rgba(0, 0, 0, 0.3) !important;
         border: 1.5px solid rgba(196, 181, 253, 0.15) !important;
-        padding: 12px 14px !important;
-        font-size: 14px !important;
+        padding: 10px 12px !important;
+        font-size: 12px !important;
         border-radius: 10px !important;
         color: white !important;
       }
@@ -113,7 +113,7 @@
         border-radius: 12px !important;
         color: #1a1826 !important;
         font-weight: 800 !important;
-        font-size: 16px !important;
+        font-size: 14px !important;
         letter-spacing: 0.01em !important;
         padding: 14px !important;
         cursor: pointer;
@@ -131,7 +131,7 @@
         color: #1a1826 !important;
       }
 
-      /* ── Checkbox customizada verde (FIXED) ── */
+      /* ── Checkbox customizada verde ── */
       .checkbox-group {
         display: flex;
         align-items: center;
@@ -140,11 +140,11 @@
         cursor: pointer;
         color: white;
         font-weight: 600;
-        font-size: 14px;
+        font-size: 12px !important;
         user-select: none;
       }
       .checkbox-group input {
-        display: none !important; /* Esconde o nativo totalmente */
+        display: none !important;
       }
       .custom-checkbox {
         width: 20px;
@@ -204,6 +204,7 @@
         transition: all 0.2s ease !important;
         border-radius: 10px !important;
         font-weight: 700 !important;
+        font-size: 11px !important;
         cursor: pointer !important;
       }
       .suggest-form-card .btn:hover {
@@ -266,7 +267,7 @@
       }
       .import-item-info strong {
         display: block;
-        font-size: 12px;
+        font-size: 12px !important;
         color: white;
         margin-bottom: 3px;
         white-space: nowrap;
@@ -274,7 +275,7 @@
         text-overflow: ellipsis;
       }
       .import-item-info p {
-        font-size: 10px;
+        font-size: 10px !important;
         color: var(--faint);
         margin: 0;
       }
@@ -364,15 +365,11 @@
 
             <!-- SEÇÃO: LINKS -->
             <div class="links-suggestion-area" style="margin-top: 15px; padding-top: 15px;">
-              <label style="font-size: 9px; font-weight: 800; color: rgba(196, 181, 253, 0.8); text-transform: uppercase; margin-bottom: 8px; display: block;">Links Adicionais (Opcional)</label>
+              <label>Links Adicionais (Opcional)</label>
               <div id="links-container-rows">
-                <div class="link-input-row">
-                  <input type="text" placeholder="Nome (ex: Opening 1)" class="link-name-input">
-                  <input type="url" placeholder="https://..." class="link-url-input">
-                  <button type="button" class="btn-remove-link" onclick="this.parentElement.remove()">×</button>
-                </div>
+                <!-- Vazio por padrão -->
               </div>
-              <button type="button" class="btn" style="padding: 4px 10px; font-size: 10px; margin-top: 5px; background: rgba(255,255,255,0.05);" onclick="window.addNewLinkRow()">+ Adicionar outro link</button>
+              <button type="button" class="btn" style="padding: 4px 10px; font-size: 10px; margin-top: 5px; background: rgba(255,255,255,0.05);" onclick="window.addNewLinkRow()">+ Adicionar link</button>
             </div>
 
             <button id="submit-anime-button">Enviar Sugestão</button>
