@@ -45,7 +45,7 @@ export async function loadData() {
   if (membersError) throw membersError;
   _members = members;
 
-  // 2. Carregar tudo da VIEW (Aqui o banco já fez o Join e os Cálculos)
+  // 2. Carregar tudo da VIEW
   const { data: details, error: detailsError } = await supabase
     .from('anime_details')
     .select('*')
@@ -53,34 +53,46 @@ export async function loadData() {
 
   if (detailsError) throw detailsError;
 
-  // 3. Carregar votos brutos para montar a matriz de notas individuais (necessário para tabelas e cards)
+  // 3. Carregar votos brutos para montar a matriz de notas individuais
   const { data: rawVotes } = await supabase
     .from('votes')
     .select('mal_id, user_id, score, comment')
     .eq('group_id', groupId);
 
-  // 4. Mapeamento final (muito mais leve)
+  const votesByAnime = {};
+  (rawVotes || []).forEach(v => {
+    if (!votesByAnime[v.mal_id]) votesByAnime[v.mal_id] = [];
+    votesByAnime[v.mal_id].push(v);
+  });
+
+  // 4. Mapeamento final
   const processedAnimes = details.map(item => {
-    // Normaliza genres (Supabase TEXT[]) → generos como array sempre
-    const rawGenres = item.genres || item.generos;
-    const generos = Array.isArray(rawGenres)
-      ? rawGenres
-      : typeof rawGenres === 'string'
-        ? rawGenres.split(',').map(s => s.trim()).filter(Boolean)
-        : [];
+    const animeVotes = votesByAnime[item.mal_id] || [];
+    
+    // Calculamos quemAssistiu diretamente dos votos para máxima precisão
+    const quemAssistiu = animeVotes
+      .filter(v => v.score !== null)
+      .map(v => {
+        const m = _members.find(member => member.user_id === v.user_id);
+        return m ? m.nickname : null;
+      })
+      .filter(Boolean);
+
+    const rawGenres = item.genres || item.generos || [];
+    const genresArray = Array.isArray(rawGenres) ? rawGenres : [];
 
     const animeObj = {
       ...item,
       id: item.mal_id,
-      generos,
+      genres: genresArray,
+      generos: genresArray, // Compatibilidade duplicada
       nota: item.nota_media,
       notaSort: Number(item.nota_media) || 0,
       qtdVotos: item.qtd_votos,
       controversia: item.controversia,
-      quemAssistiu: item.quem_assistiu || [],
-      // Reconstruímos os comentários concatenados para o legado
-      comentarios: (rawVotes || [])
-        .filter(v => v.mal_id === item.mal_id && v.comment)
+      quemAssistiu: quemAssistiu,
+      comentarios: animeVotes
+        .filter(v => v.comment)
         .map(v => {
           const m = _members.find(member => member.user_id === v.user_id);
           return `${m ? m.nickname : 'Desconhecido'}: ${v.comment}`;
@@ -88,9 +100,9 @@ export async function loadData() {
         .join('\n')
     };
 
-    // Preenche as propriedades notaNickname (notaDudu, notaRafael, etc)
+    // Preenche as propriedades notaNickname
     _members.forEach(m => {
-      const v = (rawVotes || []).find(v => v.mal_id === item.mal_id && v.user_id === m.user_id);
+      const v = animeVotes.find(v => v.user_id === m.user_id);
       animeObj[`nota${m.nickname}`] = v ? v.score : null;
     });
 
