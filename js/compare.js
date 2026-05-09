@@ -1,6 +1,6 @@
 // js/compare.js
 import { animesOf, commonAnimes, countGenres, topGenres, cleanGenreLabel, getPersonNota, getPersonColor } from "./data.js";
-import { hexToRgba, shortText } from "./utils.js";
+import { hexToRgba, escapeHTML, shortText } from "./utils.js";
 
 Chart.defaults.color = "#94a3b8";
 Chart.defaults.font.family = "'Poppins', sans-serif";
@@ -10,31 +10,42 @@ let radarChart = null;
 let currentMembers = [];
 
 export function initCompare(animes, members) {
-  allAnimes = animes;
-  currentMembers = members;
+  allAnimes = animes || [];
+  currentMembers = members || [];
 
   const s1 = document.getElementById("person1");
   const s2 = document.getElementById("person2");
   if (!s1 || !s2) return;
 
-  // Popula os seletores dinamicamente
   s1.innerHTML = "";
   s2.innerHTML = "";
-  members.forEach((m, i) => {
-    s1.innerHTML += `<option value="${m.nickname}" ${i === 0 ? "selected" : ""}>${m.nickname}</option>`;
-    s2.innerHTML += `<option value="${m.nickname}" ${i === 1 ? "selected" : ""}>${m.nickname}</option>`;
+  currentMembers.forEach((m, i) => {
+    const opt1 = document.createElement("option");
+    opt1.value = m.nickname;
+    opt1.textContent = m.nickname;
+    if (i === 0) opt1.selected = true;
+    s1.appendChild(opt1);
+
+    const opt2 = document.createElement("option");
+    opt2.value = m.nickname;
+    opt2.textContent = m.nickname;
+    if (i === 1 || (currentMembers.length === 1 && i === 0)) opt2.selected = true;
+    s2.appendChild(opt2);
   });
 
-  s1.addEventListener("change", renderCompare);
-  s2.addEventListener("change", renderCompare);
+  const handleChange = () => renderCompare();
+  s1.onchange = handleChange;
+  s2.onchange = handleChange;
 
   renderVennAll();
   renderCompare();
 }
 
 function renderCompare() {
-  const p1 = document.getElementById("person1").value;
-  const p2 = document.getElementById("person2").value;
+  const p1 = document.getElementById("person1")?.value;
+  const p2 = document.getElementById("person2")?.value;
+
+  if (!p1 || !p2) return;
 
   renderVenn(p1, p2);
   renderRadar(p1, p2);
@@ -45,13 +56,20 @@ function renderVennAll() {
   const wrap = document.getElementById("venn4-container");
   if (!wrap) return;
 
+  if (!allAnimes.length) {
+    wrap.innerHTML = '<div class="empty-state"><p>O acervo do grupo está vazio.</p></div>';
+    return;
+  }
+
   const subsetCounts = new Map();
   for (const a of allAnimes) {
-    const key = currentMembers
-      .filter((m) => a.quemAssistiu.includes(m.nickname))
+    const watchers = currentMembers
+      .filter((m) => (a.quemAssistiu || []).includes(m.nickname))
       .map(m => m.nickname)
-      .join("+");
-    if (!key) continue;
+      .sort();
+    
+    if (watchers.length === 0) continue;
+    const key = watchers.join("+");
     subsetCounts.set(key, (subsetCounts.get(key) || 0) + 1);
   }
 
@@ -62,49 +80,21 @@ function renderVennAll() {
     .map(([key, count]) => ({ key, count, size: key.split("+").length }))
     .sort((a, b) => b.size - a.size || b.count - a.count);
 
-  const rowsHtml = intersections
-    .map(({ key, count }) => {
+  const rowsHtml = intersections.map(({ key, count }) => {
       const parts = key.split("+");
-      const badges = parts
-        .map((p) => {
+      const badges = parts.map((p) => {
           const m = currentMembers.find(member => member.nickname === p);
           const color = m?.color || "#888";
           return `<span class="nav-avatar" style="background: ${color}2e; color: ${color}; width: 20px; height: 20px; font-size: 10px; margin-right: 2px;">${p[0].toUpperCase()}</span>`;
-        })
-        .join(" ");
-      const label =
-        parts.length === currentMembers.length
-          ? "todos"
-          : parts.length === 1
-            ? `só ${parts[0]}`
-            : parts.join(" ∩ ");
+        }).join(" ");
       return `
       <li style="display:flex;align-items:center;justify-content:space-between;gap:18px;padding:6px 0;border-bottom:1px solid var(--border)">
-        <span style="display:flex;align-items:center;gap:8px">${badges}<span style="color:var(--muted);font-size:12px">${label}</span></span>
+        <span style="display:flex;align-items:center;gap:8px">${badges}<span style="color:var(--muted);font-size:12px">${parts.join(" ∩ ")}</span></span>
         <span style="font-weight:600;min-width:28px;text-align:right">${count}</span>
-      </li>
-    `;
-    })
-    .join("");
+      </li>`;
+    }).join("");
 
-  const legendHtml = currentMembers
-    .map((m) => {
-      const color = m.color || "#888";
-      return `<span style="color:${color}">● ${m.nickname}: ${totals[m.nickname]}</span>`;
-    })
-    .join("");
-
-  wrap.innerHTML = `
-    <div style="display:flex;flex-direction:column;align-items:center">
-      <div style="font-size:12px;color:var(--faint);margin-bottom:8px">Animes por grupo (${intersections.length} combinações)</div>
-      <ul class="compare-combo-list" style="list-style:none;padding:0 22px 0 0;margin:0;max-height:340px;overflow-y:auto; width: 100%;">
-        ${rowsHtml || '<li style="color:var(--faint)">Sem dados</li>'}
-      </ul>
-      <div style="display:flex;flex-wrap:wrap;gap:16px;margin-top:16px;font-size:12px;color:var(--muted);justify-content:center">
-          ${legendHtml}
-      </div>
-    </div>
-  `;
+  wrap.innerHTML = `<ul class="compare-combo-list" style="list-style:none;padding:0;margin:0;max-height:340px;overflow-y:auto; width: 100%;">${rowsHtml || '<li style="color:var(--faint)">Sem dados</li>'}</ul>`;
 }
 
 function renderVenn(p1, p2) {
@@ -115,36 +105,26 @@ function renderVenn(p1, p2) {
   const a2 = animesOf(allAnimes, p2);
   const common = commonAnimes(allAnimes, p1, p2);
 
-  const only1 = a1.length - common.length;
-  const only2 = a2.length - common.length;
-
   const c1 = getPersonColor(p1);
   const c2 = getPersonColor(p2);
 
   wrap.innerHTML = `
     <div style="display:flex;align-items:center;justify-content:center;gap:0;padding:8px 0">
-      <div style="width:130px;height:130px;border-radius:50%;background:${c1}33;border:2px solid ${c1};display:flex;flex-direction:column;align-items:center;justify-content:center;margin-right:-32px;z-index:1;">
-        <span style="font-size:30px;font-weight:700;color:${c1}">${only1}</span>
-        <span style="font-size:11px;color:${c1};margin-top:2px">só ${p1}</span>
+      <div style="width:120px;height:120px;border-radius:50%;background:${c1}22;border:2px solid ${c1};display:flex;flex-direction:column;align-items:center;justify-content:center;margin-right:-30px;z-index:1;">
+        <span style="font-size:24px;font-weight:700;color:${c1}">${a1.length - common.length}</span>
       </div>
-      <div style="width:110px;height:110px;border-radius:50%;background:rgba(160,80,200,0.35);border:2px solid #a855f7;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:2;">
-        <span style="font-size:26px;font-weight:700;color:#e9d5ff">${common.length}</span>
-        <span style="font-size:10px;color:#c4b5fd;margin-top:2px">em comum</span>
+      <div style="width:100px;height:100px;border-radius:50%;background:rgba(167,139,250,0.2);border:2px solid #a78bfa;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:2;">
+        <span style="font-size:22px;font-weight:700;color:#ddd">${common.length}</span>
       </div>
-      <div style="width:130px;height:130px;border-radius:50%;background:${c2}33;border:2px solid ${c2};display:flex;flex-direction:column;align-items:center;justify-content:center;margin-left:-32px;z-index:1;">
-        <span style="font-size:30px;font-weight:700;color:${c2}">${only2}</span>
-        <span style="font-size:11px;color:${c2};margin-top:2px">só ${p2}</span>
+      <div style="width:120px;height:120px;border-radius:50%;background:${c2}22;border:2px solid ${c2};display:flex;flex-direction:column;align-items:center;justify-content:center;margin-left:-30px;z-index:1;">
+        <span style="font-size:24px;font-weight:700;color:${c2}">${a2.length - common.length}</span>
       </div>
-    </div>
-    <p style="text-align:center;color:var(--faint);font-size:12px;margin-top:4px">
-      ${p1}: ${a1.length} animes &nbsp;·&nbsp; ${p2}: ${a2.length} animes
-    </p>
-  `;
+    </div>`;
 }
 
 function renderRadar(p1, p2) {
-  const ctx = document.getElementById("chartRadar");
-  if (!ctx) return;
+  const canvas = document.getElementById("chartRadar");
+  if (!canvas) return;
 
   const allTop = topGenres(allAnimes, 8).map(([g]) => g);
   const labels = allTop.map(cleanGenreLabel);
@@ -156,58 +136,24 @@ function renderRadar(p1, p2) {
     return allTop.map((g) => Math.round(((map[g] || 0) / total) * 100));
   }
 
-  const data1 = genreVec(p1);
-  const data2 = genreVec(p2);
-
   const c1 = getPersonColor(p1);
   const c2 = getPersonColor(p2);
-
   if (radarChart) radarChart.destroy();
 
-  radarChart = new Chart(ctx, {
+  radarChart = new Chart(canvas, {
     type: "radar",
     data: {
       labels,
       datasets: [
-        {
-          label: p1,
-          data: data1,
-          backgroundColor: hexToRgba(c1, 0.2),
-          borderColor: c1,
-          borderWidth: 2,
-          pointBackgroundColor: c1,
-          pointRadius: 4,
-        },
-        {
-          label: p2,
-          data: data2,
-          backgroundColor: hexToRgba(c2, 0.2),
-          borderColor: c2,
-          borderWidth: 2,
-          pointBackgroundColor: c2,
-          pointRadius: 4,
-        },
-      ],
+        { label: p1, data: genreVec(p1), backgroundColor: hexToRgba(c1, 0.2), borderColor: c1, borderWidth: 2 },
+        { label: p2, data: genreVec(p2), backgroundColor: hexToRgba(c2, 0.2), borderColor: c2, borderWidth: 2 }
+      ]
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      plugins: {
-        legend: { position: "top", labels: { boxWidth: 12, padding: 16 } },
-        tooltip: { callbacks: { label: (c) => ` ${c.dataset.label}: ${c.raw}%` } },
-      },
-      scales: {
-        r: {
-          beginAtZero: true,
-          max: 100,
-          ticks: { display: false },
-          grid: { color: "rgba(255,255,255,0.08)" },
-          angleLines: { color: "rgba(255,255,255,0.06)" },
-          pointLabels: { font: { size: 11 }, color: "#94a3b8" },
-        },
-      },
-      animation: { duration: 700 },
-    },
+      scales: { r: { beginAtZero: true, max: 100, ticks: { display: false } } }
+    }
   });
 }
 
@@ -215,11 +161,10 @@ function renderCommonTable(p1, p2) {
   const wrap = document.getElementById("common-table-wrap");
   if (!wrap) return;
 
-  // Filtra animes em comum usando a lógica do data.js
   const common = commonAnimes(allAnimes, p1, p2).sort((a, b) => (Number(b.nota) || 0) - (Number(a.nota) || 0));
 
   if (!common.length) {
-    wrap.innerHTML = `<div class="empty-state"><p>Nenhum anime em comum entre ${p1} e ${p2}.</p></div>`;
+    wrap.innerHTML = `<div class="empty-state" style="padding: 40px; text-align: center; color: var(--faint);">Nenhum anime em comum entre ${p1} e ${p2}.</div>`;
     return;
   }
 
@@ -228,33 +173,29 @@ function renderCommonTable(p1, p2) {
 
   wrap.innerHTML = `
     <div class="table-wrap">
-      <table>
+      <table style="width:100%; border-collapse: collapse;">
         <thead>
-          <tr>
-            <th>Anime</th>
+          <tr style="border-bottom: 2px solid var(--border);">
+            <th style="text-align:left; padding:12px;">Anime</th>
             <th style="color:${c1}">${p1}</th>
             <th style="color:${c2}">${p2}</th>
-            <th>Diferença</th>
+            <th>Diff</th>
           </tr>
         </thead>
         <tbody>
           ${common.map((a) => {
-              const n1 = getPersonNota(a, p1);
-              const n2 = getPersonNota(a, p2);
-              const diff = (n1 !== null && n2 !== null) ? Math.abs(n1 - n2) : null;
-              const diffStr = diff !== null ? diff.toFixed(1) : "—";
-              const rowClass = (diff !== null && diff >= 2) ? ' class="diff-highlight"' : "";
-              
-              return `
-              <tr${rowClass}>
-                <td><strong>${escapeHTML(a.name)}</strong></td>
-                <td style="color:${c1}; font-weight:700">${n1 !== null ? Number(n1).toFixed(1) : "—"}</td>
-                <td style="color:${c2}; font-weight:700">${n2 !== null ? Number(n2).toFixed(1) : "—"}</td>
-                <td style="font-weight:700">${diff !== null && diff >= 2 ? "⚡ " : ""}${diffStr}</td>
+            const n1 = getPersonNota(a, p1);
+            const n2 = getPersonNota(a, p2);
+            const diff = (n1 !== null && n2 !== null) ? Math.abs(n1 - n2) : 0;
+            return `
+              <tr style="border-bottom: 1px solid var(--border);">
+                <td style="padding:12px;"><strong>${escapeHTML(a.name)}</strong></td>
+                <td style="text-align:center; font-weight:bold; color:${c1}">${n1 !== null ? Number(n1).toFixed(1) : "—"}</td>
+                <td style="text-align:center; font-weight:bold; color:${c2}">${n2 !== null ? Number(n2).toFixed(1) : "—"}</td>
+                <td style="text-align:center; opacity:0.8;">${diff.toFixed(1)}</td>
               </tr>`;
-            }).join("")}
+          }).join("")}
         </tbody>
       </table>
-    </div>
-  `;
+    </div>`;
 }

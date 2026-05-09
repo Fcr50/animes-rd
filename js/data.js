@@ -74,7 +74,7 @@ export async function loadData() {
       .filter(v => v.score !== null)
       .map(v => {
         const m = _members.find(member => member.user_id === v.user_id);
-        return m ? m.nickname : null;
+        return m ? m.nickname.trim() : null;
       })
       .filter(Boolean);
 
@@ -209,9 +209,14 @@ export function topGenres(animes, topN = 10) {
 }
 
 export function commonAnimes(animes, p1, p2) {
-  return animes.filter(
-    (a) => (a.quemAssistiu || []).includes(p1) && (a.quemAssistiu || []).includes(p2)
-  );
+  if (!p1 || !p2) return [];
+  const nick1 = p1.trim().toLowerCase();
+  const nick2 = p2.trim().toLowerCase();
+  
+  return animes.filter((a) => {
+    const watchers = (a.quemAssistiu || []).map(w => w.toLowerCase());
+    return watchers.includes(nick1) && watchers.includes(nick2);
+  });
 }
 
 export function cleanGenreLabel(g) {
