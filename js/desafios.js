@@ -1,6 +1,6 @@
 // js/desafios.js
 import { animesOf, avgNota, favoriteGenre, formatNota, loadData, missedAnimes, getPersonColor } from "./data.js";
-import { escapeHTML, stripEmoji } from "./utils.js";
+import { escapeHTML, stripEmoji, getGroupId } from "./utils.js";
 import { initBatalha } from "./batalha.js";
 
 // ── Tabs ─────────────────────────────────────────────────────────────────────
@@ -113,7 +113,7 @@ function initPrevisao(data) {
     const missed = missedAnimes(data.animes, person).sort((a, b) => a.name.localeCompare(b.name));
     animeSel.innerHTML = missed
       .map((a) => `<option value="${a.id}">${escapeHTML(a.name)}</option>`)
-      .join("");
+      .join("") || '<option value="">Todos assistidos!</option>';
   }
 
   personSel.addEventListener("change", updateAnimes);
@@ -173,7 +173,12 @@ let mysteryDone = false;
 
 function loadMystery(animes, members) {
   const pool = animes.filter((a) => a.nota !== null && a.qtdVotos > 1);
-  if(!pool.length) return;
+  const clues = document.getElementById("misterio-clues");
+  
+  if(!pool.length) {
+    if(clues) clues.innerHTML = '<p style="padding:20px; color:var(--faint)">Aguardando mais discussões no grupo para liberar o Anime Misterioso.</p>';
+    return;
+  }
   
   mystery = pool[Math.floor(Math.random() * pool.length)];
   mysteryDone = false;
@@ -199,7 +204,6 @@ function loadMystery(animes, members) {
     )
     .join("");
 
-  const clues = document.getElementById("misterio-clues");
   if(clues) {
     clues.innerHTML = `
       <div class="mystery-board">
@@ -326,12 +330,35 @@ function initTimeline(data) {
 
 async function init() {
   const data = await loadData();
+  const animes = data.animes;
+  
+  const emptyState = `
+    <div class="card" style="grid-column: 1/-1; text-align: center; padding: 60px;">
+      <div style="font-size: 40px; margin-bottom: 20px;">🎮</div>
+      <h2>Sem dados por enquanto</h2>
+      <p style="color: var(--faint); margin-top: 10px;">Adicione animes ao acervo para desbloquear os desafios e recordes do grupo.</p>
+      <a href="suggest.html#g=${getGroupId()}" class="btn btn-primary" style="margin-top: 20px; display: inline-block;">Sugerir primeiro anime</a>
+    </div>
+  `;
+
+  if (!animes || animes.length === 0) {
+    // Injeta aviso em todos os painéis se estiver vazio
+    document.querySelectorAll(".tl-section, .mystery-board, .previsao-output").forEach(el => el.innerHTML = "");
+    const timeline = document.getElementById("timeline-content");
+    if(timeline) timeline.innerHTML = emptyState;
+    
+    const mysteryClues = document.getElementById("misterio-clues");
+    if(mysteryClues) mysteryClues.innerHTML = '<p style="padding:20px; color:var(--faint)">Acervo vazio.</p>';
+    
+    return;
+  }
+
   initPrevisao(data);
   initMisterio(data);
   initTimeline(data);
-  // Garante que o container da batalha existe antes de chamar
+  
   const batContainer = document.getElementById("batalha-container");
   if(batContainer) initBatalha(batContainer, data.animes);
 }
 
-init().catch(console.error);
+init().catch(() => {});

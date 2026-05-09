@@ -3,8 +3,6 @@ import { loadData, animesOf, avgNota, favoriteGenre, topGenres, exclusiveAnimes,
 import { escapeHTML, shortText } from './utils.js';
 
 async function init() {
-  console.log("Iniciando Profile. URL atual:", window.location.href);
-  
   const urlParams = new URLSearchParams(window.location.search);
   const hashParams = new URLSearchParams(window.location.hash.substring(1));
   const personNickname = urlParams.get('p') || hashParams.get('p');

@@ -18,7 +18,6 @@ async function init() {
   const inviteCode = urlParams.get('code') || hashParams.get('code');
 
   if (!inviteCode) {
-    console.error('Invite code missing in URL/Hash');
     alert('Nenhum código de convite fornecido.');
     window.location.href = 'index.html';
     return;
@@ -32,7 +31,6 @@ async function init() {
     .single();
 
   if (groupError || !group) {
-    console.error('Erro ao carregar grupo pelo convite:', groupError);
     alert('Convite inválido ou expirado.');
     window.location.href = 'index.html';
     return;

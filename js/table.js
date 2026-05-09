@@ -5,92 +5,13 @@ import { loadData, notaColor, formatNota, getPersonColor, invalidateCache } from
 
 let allAnimes = [];
 let filtered = [];
+let members = [];
+let currentUser = null;
+let currentModalIndex = null;
+
+// Ordenação inicial: Nota DESC
 let sortCol = "notaSort";
 let sortDir = -1;
-let currentModalIndex = null;
-let currentUser = null;
-let members = [];
-let imageQueueRunning = false;
-
-const imageCache = new Map();
-const queuedImageMalIds = new Set();
-
-const FALLBACK_IMAGE =
-  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Crect width='56' height='56' rx='8' fill='%2318171d'/%3E%3Cpath d='M16 36h24M18 18h20v20H18z' stroke='%237b7165' stroke-width='2' fill='none'/%3E%3Ccircle cx='23' cy='24' r='3' fill='%237b7165'/%3E%3Cpath d='M19 35l8-8 5 5 3-3 4 6' stroke='%237b7165' stroke-width='2' fill='none'/%3E%3C/svg%3E";
-
-const IMAGE_OVERRIDES = {
-  49730: "https://myanimelist.net/images/anime/1787/140239l.webp",
-};
-
-// ── Image cache ──────────────────────────────────────────────────────────────
-
-function getCachedImage(malId) {
-  if (!malId) return null;
-  if (IMAGE_OVERRIDES[malId]) return IMAGE_OVERRIDES[malId];
-  if (imageCache.has(malId)) return imageCache.get(malId);
-  const cached = localStorage.getItem(`jikan-image-v2-${malId}`);
-  if (cached) { imageCache.set(malId, cached); return cached; }
-  return null;
-}
-
-function setCachedImage(malId, imageUrl) {
-  if (!malId || !imageUrl) return;
-  imageCache.set(malId, imageUrl);
-  try { localStorage.setItem(`jikan-image-v2-${malId}`, imageUrl); } catch {}
-}
-
-function updateRenderedImages(malId, imageUrl) {
-  document.querySelectorAll(`img[data-mal-id="${CSS.escape(String(malId))}"]`).forEach(img => {
-    img.src = imageUrl;
-    img.classList.add("loaded");
-  });
-}
-
-function queueAnimeImage(malId) {
-  if (!malId || getCachedImage(malId) || queuedImageMalIds.has(malId)) return;
-  queuedImageMalIds.add(malId);
-  runImageQueue();
-}
-
-async function runImageQueue() {
-  if (imageQueueRunning) return;
-  imageQueueRunning = true;
-  while (queuedImageMalIds.size) {
-    const [malId] = queuedImageMalIds;
-    queuedImageMalIds.delete(malId);
-    try {
-      const res = await fetch(`https://api.jikan.moe/v4/anime/${encodeURIComponent(malId)}`);
-      if (res.ok) {
-        const payload = await res.json();
-        const imageUrl =
-          payload?.data?.images?.webp?.image_url ||
-          payload?.data?.images?.jpg?.image_url ||
-          payload?.data?.images?.webp?.small_image_url ||
-          payload?.data?.images?.jpg?.small_image_url;
-        if (imageUrl) { setCachedImage(malId, imageUrl); updateRenderedImages(malId, imageUrl); }
-      }
-    } catch {}
-    await new Promise(r => setTimeout(r, 450));
-  }
-  imageQueueRunning = false;
-}
-
-// ── Anime identity (image + name) ────────────────────────────────────────────
-
-function renderAnimeIdentity(anime) {
-  const malId = anime.mal_id;
-  const imageUrl = getCachedImage(malId) || FALLBACK_IMAGE;
-  const imgAttrs = malId ? `data-mal-id="${escapeHTML(String(malId))}" data-anime-img` : "";
-  return `
-    <span class="anime-identity">
-      <img class="anime-img" src="${escapeHTML(imageUrl)}" alt="" loading="lazy" ${imgAttrs} />
-      <span class="anime-name">${escapeHTML(anime.name)}</span>
-      ${anime.pt_dub ? `<span class="dub-badge" title="Disponível dublado em Português">🇧🇷 DUB</span>` : ""}
-    </span>
-  `;
-}
-
-// ── Init ─────────────────────────────────────────────────────────────────────
 
 export async function initTable() {
   const data = await loadData();
@@ -117,265 +38,222 @@ export async function initTable() {
     currentUser = session?.user || null;
     refreshModal();
   });
-
-  const { data: { session } } = await supabase.auth.getSession();
-  currentUser = session?.user || null;
 }
 
-// ── Filters ──────────────────────────────────────────────────────────────────
+function sortData() {
+  filtered.sort((a, b) => {
+    const valA = a[sortCol];
+    const valB = b[sortCol];
+
+    if (valA === null || valA === undefined) return 1;
+    if (valB === null || valB === undefined) return -1;
+
+    if (typeof valA === "string") {
+      return valA.localeCompare(valB) * sortDir;
+    }
+    return (valA - valB) * sortDir;
+  });
+}
 
 function renderFilters() {
-  const wrap = document.getElementById("filters");
-  if (!wrap) return;
-
-  const genreMap = new Map();
-  allAnimes.forEach(a => {
-    (a.generos || []).forEach(g => {
-      const clean = stripEmoji(g);
-      if (!genreMap.has(clean) || g.length > genreMap.get(clean).length)
-        genreMap.set(clean, g);
+  const genres = [...new Set(allAnimes.flatMap(a => a.genres || []))].sort();
+  const genreSelect = document.getElementById("filter-genre");
+  if (genreSelect) {
+    genreSelect.innerHTML = '<option value="">Todos os Gêneros</option>';
+    genres.forEach(g => {
+      const option = document.createElement("option");
+      option.value = g;
+      option.textContent = g;
+      genreSelect.appendChild(option);
     });
-  });
-  const genres = [...genreMap.values()].sort((a, b) => a.localeCompare(b));
+    genreSelect.addEventListener("change", applyFilters);
+  }
 
-  wrap.innerHTML = `
-    <input type="text" id="search" placeholder="🔍  Buscar anime..." />
-    <select id="filter-genre">
-      <option value="">Todos os gêneros</option>
-      ${genres.map(g => `<option value="${g}">${g}</option>`).join("")}
-    </select>
-    <select id="filter-person">
-      <option value="">Todos os usuários</option>
-      ${members.map(m => `<option value="${m.nickname}">${m.nickname}</option>`).join("")}
-    </select>
-    <select id="filter-status">
-      <option value="">Status (Qualquer)</option>
-      <option value="watched">Que eu assisti</option>
-      <option value="not-watched">Que eu NÃO assisti</option>
-    </select>
-    <select id="filter-votes">
-      <option value="">Qtd. votos</option>
-      ${Array.from({ length: members.length }, (_, i) => members.length - i)
-        .map(n => `<option value="${n}">${n} ${n === 1 ? 'voto' : 'votos'}${n === members.length ? ' (todos)' : ''}</option>`)
-        .join("")}
-    </select>
-  `;
+  const statusSelect = document.getElementById("filter-status");
+  if (statusSelect) {
+    statusSelect.addEventListener("change", applyFilters);
+  }
 
-  wrap.querySelectorAll("input, select").forEach(el => {
-    el.addEventListener("input", applyFilters);
-  });
+  const searchInput = document.getElementById("search-anime");
+  if (searchInput) {
+    searchInput.addEventListener("input", applyFilters);
+  }
 }
 
 function applyFilters() {
-  const search = document.getElementById("search")?.value.toLowerCase() || "";
-  const genreSelected = document.getElementById("filter-genre")?.value || "";
-  const person = document.getElementById("filter-person")?.value || "";
-  const status = document.getElementById("filter-status")?.value || "";
-  const votes = document.getElementById("filter-votes")?.value || "";
-
-  const cleanedGenre = genreSelected ? stripEmoji(genreSelected) : "";
+  const genre = document.getElementById("filter-genre")?.value;
+  const status = document.getElementById("filter-status")?.value;
+  const search = normalizeText(document.getElementById("search-anime")?.value || "");
 
   filtered = allAnimes.filter(a => {
-    if (search && !a.name.toLowerCase().includes(search)) return false;
-
-    if (cleanedGenre) {
-      const hasGenre = (a.generos || []).some(g => stripEmoji(g) === cleanedGenre);
-      if (!hasGenre) return false;
+    const matchesGenre = !genre || (a.genres || []).includes(genre);
+    const matchesSearch = !search || normalizeText(a.name).includes(search);
+    
+    let matchesStatus = true;
+    if (status === "watched" && currentUser) {
+      matchesStatus = a.quemAssistiu.includes(members.find(m => m.user_id === currentUser.id)?.nickname);
+    } else if (status === "not-watched" && currentUser) {
+      matchesStatus = !a.quemAssistiu.includes(members.find(m => m.user_id === currentUser.id)?.nickname);
     }
 
-    if (person && !a.quemAssistiu.includes(person)) return false;
-
-    if (status && currentUser) {
-      const myMember = members.find(m => m.user_id === currentUser.id);
-      if (myMember) {
-        const watched = a.quemAssistiu.includes(myMember.nickname);
-        if (status === "watched" && !watched) return false;
-        if (status === "not-watched" && watched) return false;
-      }
-    }
-
-    if (votes && String(a.qtdVotos) !== votes) return false;
-
-    return true;
+    return matchesGenre && matchesSearch && matchesStatus;
   });
 
   sortData();
   renderTable();
 }
 
-// ── Sort ─────────────────────────────────────────────────────────────────────
-
-function sortData() {
-  filtered.sort((a, b) => {
-    let va = a[sortCol];
-    let vb = b[sortCol];
-    if (va == null) va = -Infinity;
-    if (vb == null) vb = -Infinity;
-    if (typeof va === "string") return sortDir * va.localeCompare(vb);
-    return sortDir * (va - vb);
-  });
-}
-
-// ── Table ────────────────────────────────────────────────────────────────────
-
 function renderTable() {
-  const tbody = document.getElementById("anime-tbody");
+  const tbody = document.getElementById("anime-table-body");
   if (!tbody) return;
 
-  if (!filtered.length) {
-    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--faint)">Nenhum anime encontrado</td></tr>`;
+  if (filtered.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="10" class="empty-msg">Nenhum anime encontrado com esses filtros.</td></tr>';
     return;
   }
 
-  tbody.innerHTML = filtered.map(a => {
-    const nota = a.nota !== null ? Number(a.nota).toFixed(2) : "—";
-    const notaCls = notaColor(a.nota);
-    const genres = (a.generos || [])
-      .slice(0, 2)
-      .map(g => `<span class="badge badge-genre">${g}</span>`)
-      .join("");
-    const moreGenres = (a.generos || []).length > 2
-      ? `<span class="badge badge-genre">+${a.generos.length - 2}</span>`
-      : "";
-    const viewers = a.quemAssistiu
-      .map(p => {
-        const color = getPersonColor(p);
-        return `<span class="badge" style="background:${color}22;color:${color}">${p}</span>`;
-      })
-      .join("");
-    const contr = a.controversia !== null ? Number(a.controversia).toFixed(1) : "—";
-    const contrCls = a.controversia > 1.5 ? "controversia-hot" : "controversia";
+  tbody.innerHTML = filtered.map((anime, index) => {
+    const originalIndex = allAnimes.indexOf(anime);
+    const scoresHtml = members.map(m => {
+      const nota = anime[`nota${m.nickname}`];
+      return `<td class="col-score ${notaColor(nota)}">${formatNota(nota)}</td>`;
+    }).join("");
+
+    const dubBadge = anime.links?.dublado ? '<span class="dub-tag" title="Dublado PT-BR">D</span>' : '';
 
     return `
-      <tr data-idx="${allAnimes.findIndex(x => x.id === a.id)}" onclick="window.openModal(${allAnimes.findIndex(x => x.id === a.id)})">
-        <td>${renderAnimeIdentity(a)}</td>
-        <td>${genres}${moreGenres}</td>
-        <td>${viewers}</td>
-        <td style="text-align:center"><span class="nota ${notaCls}">${nota}</span></td>
-        <td style="text-align:center">${a.qtdVotos ?? "—"}</td>
-        <td style="text-align:center"><span class="${contrCls}">${Number(contr) > 0 ? "🌶️ " + contr : contr}</span></td>
+      <tr onclick="window.openModal(${originalIndex})">
+        <td class="col-anime">
+          <div class="anime-identity">
+            <img src="${anime.image_url}" class="anime-thumb" loading="lazy">
+            <div class="anime-info">
+              <span class="anime-name">${escapeHTML(anime.name)} ${dubBadge}</span>
+              <span class="anime-genres">${(anime.genres || []).slice(0, 3).join(", ")}</span>
+            </div>
+          </div>
+        </td>
+        <td class="col-avg ${notaColor(anime.notaSort)}">${formatNota(anime.notaSort)}</td>
+        ${scoresHtml}
       </tr>
     `;
   }).join("");
-
-  filtered.forEach(anime => queueAnimeImage(anime.mal_id));
 }
 
-// ── Modal ────────────────────────────────────────────────────────────────────
+// ── Modal Logic ──────────────────────────────────────────────────────────────
 
 function renderModal() {
-  if (document.getElementById("modal-overlay")) return;
-  const div = document.createElement("div");
-  div.id = "modal-overlay";
-  div.className = "modal-overlay";
-  div.innerHTML = `
-    <div class="modal" id="modal-content">
-      <div class="modal-header">
-        <h2 class="modal-title" id="modal-title"></h2>
-        <button class="modal-close" onclick="window.closeModal()">✕</button>
-      </div>
-      <div id="modal-genres" class="modal-genres"></div>
-      <div class="notes-grid" id="modal-notes"></div>
-      <div id="modal-meta" class="modal-meta"></div>
-      <div id="modal-links"></div>
-      <div id="modal-comment"></div>
-      <div id="modal-edit"></div>
+  const modal = document.createElement("div");
+  modal.id = "anime-modal";
+  modal.className = "modal";
+  modal.innerHTML = `
+    <div class="modal-backdrop" onclick="window.closeModal()"></div>
+    <div class="modal-content">
+      <button class="modal-close" onclick="window.closeModal()">×</button>
+      <div id="modal-body"></div>
     </div>
   `;
-  div.addEventListener("click", e => { if (e.target === div) window.closeModal(); });
-  document.body.appendChild(div);
+  document.body.appendChild(modal);
 }
 
-window.openModal = function(idx) {
-  const a = allAnimes[idx];
-  if (!a) return;
-  currentModalIndex = idx;
+window.openModal = (index) => {
+  currentModalIndex = index;
+  const anime = allAnimes[index];
+  const modal = document.getElementById("anime-modal");
+  const body = document.getElementById("modal-body");
+  if (!modal || !body || !anime) return;
 
-  document.getElementById("modal-title").textContent = a.name;
+  const dubStatus = anime.links?.dublado ? 'Sim ✅' : 'Não ❌';
 
-  document.getElementById("modal-genres").innerHTML = (a.generos || [])
-    .map(g => `<span class="badge badge-genre">${g}</span>`)
-    .join(" ");
-
-  document.getElementById("modal-notes").innerHTML = members.map(m => {
-    const nota = a[`nota${m.nickname}`];
-    const color = getPersonColor(m.nickname);
-    return `
-      <div class="note-box" style="--note-color:${color}">
-        <div class="person" style="color:${color}">${m.nickname}</div>
-        <div class="score ${nota === null ? "empty" : notaColor(nota)}">
-          ${nota !== null ? Number(nota).toFixed(1) : "—"}
+  body.innerHTML = `
+    <div class="anime-detail-header">
+      <img src="${anime.image_url}" class="detail-poster">
+      <div class="detail-main">
+        <h1>${escapeHTML(anime.name)}</h1>
+        <div class="detail-tags">
+          ${(anime.genres || []).map(g => `<span class="genre-tag">${g}</span>`).join("")}
+          <span class="genre-tag dub-badge">Dublado: ${dubStatus}</span>
+        </div>
+        <div class="detail-stats">
+          <div class="stat-item">
+            <span class="stat-label">Média</span>
+            <span class="stat-value ${notaColor(anime.notaSort)}">${formatNota(anime.notaSort)}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Votos</span>
+            <span class="stat-value">${anime.qtdVotos}</span>
+          </div>
         </div>
       </div>
-    `;
-  }).join("");
+    </div>
 
-  const metaItems = [];
-  if (a.nota !== null) metaItems.push(`Média: <span>${Number(a.nota).toFixed(2)}</span>`);
-  if (a.controversia !== null) {
-    const hot = a.controversia > 1.5 ? "🌶️ " : "";
-    metaItems.push(`Controvérsia: <span>${hot}${Number(a.controversia).toFixed(1)}</span>`);
-  }
-  if (a.qtdVotos != null) metaItems.push(`Votos: <span>${a.qtdVotos}</span>`);
-  document.getElementById("modal-meta").innerHTML = metaItems
-    .map(m => `<span class="meta-item">${m}</span>`)
-    .join("");
+    <div class="detail-grid">
+      <div class="detail-column">
+        <h3>Notas do Grupo</h3>
+        <div class="scores-list">
+          ${members.map(m => {
+            const nota = anime[`nota${m.nickname}`];
+            const comment = anime.comentarios.split('\n')
+              .find(c => c.startsWith(`${m.nickname}:`))
+              ?.replace(`${m.nickname}:`, "").trim();
 
-  // Links
-  renderModalLinks(a);
-  document.getElementById("modal-links").dataset.animeId = a.id;
-
-  // Comentários
-  const comments = (a.comentarios || "").split("\n").filter(Boolean);
-  document.getElementById("modal-comment").innerHTML = comments.length ? `
-    <section class="modal-comments"><h3>Comentários</h3>
-      <div class="comment-list">
-        ${comments.map(line => {
-          const [nick, ...rest] = line.split(": ");
-          const color = getPersonColor(nick.trim());
-          return `<article class="comment-item">
-            <strong style="color:${color}">${escapeHTML(nick.trim())}</strong>
-            <p>${escapeHTML(rest.join(": ").trim())}</p>
-          </article>`;
-        }).join("")}
+            return `
+              <div class="score-card">
+                <div class="score-card-header">
+                  <span class="member-name" style="color:${m.color}">${m.nickname}</span>
+                  <span class="member-score ${notaColor(nota)}">${formatNota(nota)}</span>
+                </div>
+                ${comment ? `<p class="member-comment">"${escapeHTML(comment)}"</p>` : ""}
+              </div>
+            `;
+          }).join("")}
+        </div>
       </div>
-    </section>
-  ` : "";
 
-  // Edição de nota
-  document.getElementById("modal-edit").innerHTML = renderEditPanel(a);
+      <div class="detail-column">
+        <h3>Links e Mídia</h3>
+        <div id="links-container" class="links-grid">
+          ${renderLinks(anime.links)}
+        </div>
+        
+        <div id="user-vote-section" class="user-vote-area">
+          <!-- Preenchido via refreshModal() -->
+        </div>
+      </div>
+    </div>
+  `;
 
-  document.getElementById("modal-overlay").classList.add("open");
-  document.body.style.overflow = "hidden";
+  modal.classList.add("open");
+  refreshModal();
 };
 
-function renderEditPanel(anime) {
+window.closeModal = () => {
+  document.getElementById("anime-modal")?.classList.remove("open");
+  currentModalIndex = null;
+};
+
+function refreshModal() {
+  if (currentModalIndex === null) return;
+  const anime = allAnimes[currentModalIndex];
+  const container = document.getElementById("user-vote-section");
+  if (!container) return;
+
   if (!currentUser) {
-    return `
-      <section class="anime-edit-panel">
-        <h3>Seu registro</h3>
-        <p>Faça login para editar sua nota e comentário.</p>
-        <button class="edit-button" type="button" onclick="window.supabaseLogin()">Login com Google</button>
-      </section>
-    `;
+    container.innerHTML = `<button class="btn btn-primary" onclick="window.supabaseLogin()">Logar para votar</button>`;
+    return;
   }
 
   const myMember = members.find(m => m.user_id === currentUser.id);
-  if (!myMember) return "";
+  const nick = myMember?.nickname || "Membro";
+  const color = myMember?.color || "var(--accent)";
+  const score = anime[`nota${nick}`] || "";
+  const hasScore = score !== "";
+  
+  const currentComment = anime.comentarios.split('\n')
+    .find(c => c.startsWith(`${nick}:`))
+    ?.replace(`${nick}:`, "").trim() || "";
 
-  const nick = myMember.nickname;
-  const color = getPersonColor(nick);
-  const currentScore = anime[`nota${nick}`];
-  const hasScore = currentScore !== null && currentScore !== undefined;
-  const score = hasScore ? Number(currentScore).toFixed(1) : "5.0";
-  const currentComment = (() => {
-    const lines = (anime.comentarios || "").split("\n");
-    const line = lines.find(l => l.startsWith(`${nick}: `));
-    return line ? line.slice(nick.length + 2) : "";
-  })();
-
-  return `
-    <details class="anime-edit-panel anime-edit-collapsible">
+  container.innerHTML = `
+    <details class="anime-edit-details">
       <summary class="anime-edit-summary">
         <div>
           <h3>Seu registro</h3>
@@ -393,7 +271,7 @@ function renderEditPanel(anime) {
           <textarea id="anime-edit-comment" maxlength="600" placeholder="Escreva seu comentário...">${escapeHTML(currentComment)}</textarea>
         </label>
         <div class="anime-edit-actions">
-          <button class="edit-button" type="button" data-save-anime-edit data-anime-id="${anime.id}">${hasScore || currentComment ? "Salvar alterações" : "Enviar nota"}</button>
+          <button class="edit-button" type="button" data-save-anime-edit data-anime-id="${anime.mal_id}">${hasScore || currentComment ? "Salvar" : "Enviar"}</button>
           <span id="anime-edit-status" class="edit-status"></span>
         </div>
       </div>
@@ -419,7 +297,7 @@ document.addEventListener("click", async (e) => {
   const comment = commentEl?.value.trim() || "";
 
   if (score !== null && (isNaN(score) || score < 0 || score > 10)) {
-    if (statusEl) statusEl.textContent = "Use uma nota entre 0 e 10.";
+    if (statusEl) statusEl.textContent = "Nota inválida.";
     return;
   }
 
@@ -428,31 +306,18 @@ document.addEventListener("click", async (e) => {
 
   try {
     const groupId = getGroupId();
-    const { error } = await supabase
-      .from('votes')
-      .upsert({ 
-        group_id: groupId,
-        mal_id: parseInt(animeId), 
-        user_id: currentUser.id, 
-        score, 
-        comment 
-      }, { onConflict: 'group_id, mal_id, user_id' });
+    await supabase.from('votes').upsert({ group_id: groupId, mal_id: parseInt(animeId), user_id: currentUser.id, score, comment }, { onConflict: 'group_id, mal_id, user_id' });
 
-    if (error) throw error;
     if (statusEl) statusEl.textContent = "Salvo!";
     setTimeout(() => { if (statusEl) statusEl.textContent = ""; }, 2000);
 
-    // Invalida cache e recarrega dados
     invalidateCache();
     const data = await loadData();
     allAnimes = data.animes;
     members = data.members;
-    filtered = [...allAnimes];
-    sortData();
-    renderTable();
-    if (currentModalIndex !== null) window.openModal(currentModalIndex);
+    applyFilters(); // Re-filtra e re-renderiza
+    refreshModal();
   } catch (err) {
-    console.error(err);
     if (statusEl) statusEl.textContent = "Erro ao salvar.";
     saveBtn.disabled = false;
   }
@@ -460,178 +325,16 @@ document.addEventListener("click", async (e) => {
 
 // ── Link management ───────────────────────────────────────────────────────────
 
-// Normaliza links para sempre ser array [{name, url}]
-function normalizeLinks(raw) {
-  if (!raw) return [];
-  if (Array.isArray(raw)) return raw.filter(l => l && l.url);
-  if (typeof raw === 'object') return Object.entries(raw).filter(([,v]) => v).map(([name, url]) => ({ name, url }));
-  return [];
+function renderLinks(links) {
+  const list = Object.entries(links || {}).filter(([k, v]) => v && k !== 'dublado');
+  if (list.length === 0) return '<p class="empty-msg">Nenhum link disponível.</p>';
+  
+  return list.map(([name, url]) => `
+    <a href="${url}" target="_blank" class="media-link">
+      <span>${escapeHTML(name)}</span>
+      <span class="link-icon">↗</span>
+    </a>
+  `).join("");
 }
 
-function renderModalLinks(anime) {
-  const canEdit = !!currentUser;
-  const links = normalizeLinks(anime.links);
-  const malLink = anime.mal_id
-    ? `<a class="modal-link-chip modal-link-mal" href="https://myanimelist.net/anime/${encodeURIComponent(anime.mal_id)}" target="_blank" rel="noopener">MyAnimeList</a>`
-    : "";
-  const openingSearch = `<a class="modal-link-chip modal-link-opening" href="https://www.youtube.com/results?search_query=${encodeURIComponent(anime.name + ' anime opening')}" target="_blank" rel="noopener">Buscar opening</a>`;
-
-  const linkChips = links.map((link, idx) => {
-    const editDelete = canEdit ? `
-      <div class="modal-link-chip-actions">
-        <button class="modal-link-chip-action-btn" onclick="window.startEditLink('${escapeHTML(anime.id)}',${idx})" title="Editar">✎</button>
-        <button class="modal-link-chip-action-btn modal-link-delete-btn" onclick="window.deleteAnimeLink('${escapeHTML(anime.id)}',${idx})" title="Excluir">×</button>
-      </div>` : "";
-    return `<div class="modal-link-chip-wrap">
-      <a class="modal-link-chip modal-link-custom" href="${escapeHTML(link.url)}" target="_blank" rel="noopener">${escapeHTML(link.name)}</a>
-      ${editDelete}
-    </div>`;
-  }).join("");
-
-  const addBtn = canEdit ? `<button class="modal-link-add-btn" onclick="window.toggleAddLinkForm('${escapeHTML(anime.id)}')" title="Adicionar link">+</button>` : "";
-
-  document.getElementById("modal-links").innerHTML = `
-    <section class="modal-links">
-      <h3>Links úteis</h3>
-      <div class="modal-link-list">
-        ${malLink}
-        ${linkChips || (!canEdit ? openingSearch : "")}
-        ${addBtn}
-      </div>
-      <div id="add-link-form-${escapeHTML(anime.id)}" class="add-link-form" hidden>
-        <input id="add-link-name-${escapeHTML(anime.id)}" class="add-link-input" type="text" placeholder="Nome do link" maxlength="60" />
-        <input id="add-link-url-${escapeHTML(anime.id)}" class="add-link-input" type="url" placeholder="https://..." maxlength="500" />
-        <div class="add-link-actions">
-          <button class="edit-button" onclick="window.saveCustomLink('${escapeHTML(anime.id)}')">Salvar</button>
-          <button class="edit-link-button" onclick="window.toggleAddLinkForm('${escapeHTML(anime.id)}')">Cancelar</button>
-          <span id="add-link-status-${escapeHTML(anime.id)}" class="edit-status"></span>
-        </div>
-      </div>
-      <div id="edit-link-form-${escapeHTML(anime.id)}" class="add-link-form" hidden>
-        <input id="edit-link-name-${escapeHTML(anime.id)}" class="add-link-input" type="text" placeholder="Nome do link" maxlength="60" />
-        <input id="edit-link-url-${escapeHTML(anime.id)}" class="add-link-input" type="url" placeholder="https://..." maxlength="500" />
-        <div class="add-link-actions">
-          <button class="edit-button" onclick="window.saveEditLink('${escapeHTML(anime.id)}')">Salvar</button>
-          <button class="edit-link-button" onclick="window.cancelEditLink('${escapeHTML(anime.id)}')">Cancelar</button>
-          <span id="edit-link-status-${escapeHTML(anime.id)}" class="edit-status"></span>
-        </div>
-      </div>
-    </section>
-  `;
-}
-
-async function updateAnimeLinks(malId, newLinks) {
-  const groupId = getGroupId();
-  const { data: updated, error } = await supabase
-    .from('group_animes')
-    .update({ links: newLinks })
-    .eq('mal_id', malId)
-    .eq('group_id', groupId)
-    .select('mal_id, links');
-
-  if (error) throw error;
-
-  // Atualiza estado local
-  const update = a => a.mal_id === malId ? { ...a, links: newLinks } : a;
-  allAnimes = allAnimes.map(update);
-  filtered = filtered.map(update);
-
-  renderTable();
-  if (currentModalIndex !== null) window.openModal(currentModalIndex);
-}
-
-window.toggleAddLinkForm = (animeId) => {
-  const form = document.getElementById(`add-link-form-${animeId}`);
-  if (!form) return;
-  form.hidden = !form.hidden;
-  if (!form.hidden) document.getElementById(`add-link-name-${animeId}`)?.focus();
-};
-
-window.saveCustomLink = async (animeId) => {
-  const nameEl = document.getElementById(`add-link-name-${animeId}`);
-  const urlEl = document.getElementById(`add-link-url-${animeId}`);
-  const statusEl = document.getElementById(`add-link-status-${animeId}`);
-  const name = nameEl?.value.trim();
-  const url = urlEl?.value.trim();
-  if (!name || !url) { if (statusEl) statusEl.textContent = "Preencha nome e URL."; return; }
-  try { new URL(url); } catch { if (statusEl) statusEl.textContent = "URL inválida."; return; }
-  try {
-    const anime = allAnimes.find(a => a.id === animeId);
-    const newLinks = [...normalizeLinks(anime?.links), { name, url }];
-    await updateAnimeLinks(animeId, newLinks);
-  } catch (e) { if (statusEl) statusEl.textContent = "Erro ao salvar."; console.error(e); }
-};
-
-let _editingLinkIdx = null;
-window.startEditLink = (animeId, idx) => {
-  _editingLinkIdx = idx;
-  const anime = allAnimes.find(a => a.id === animeId);
-  const link = normalizeLinks(anime?.links)[idx] || {};
-  document.getElementById(`add-link-form-${animeId}`).hidden = true;
-  const form = document.getElementById(`edit-link-form-${animeId}`);
-  const nameEl = document.getElementById(`edit-link-name-${animeId}`);
-  const urlEl = document.getElementById(`edit-link-url-${animeId}`);
-  if (nameEl) nameEl.value = link.name || "";
-  if (urlEl) urlEl.value = link.url || "";
-  if (form) { form.hidden = false; nameEl?.focus(); }
-};
-
-window.cancelEditLink = (animeId) => {
-  _editingLinkIdx = null;
-  const form = document.getElementById(`edit-link-form-${animeId}`);
-  if (form) form.hidden = true;
-};
-
-window.saveEditLink = async (animeId) => {
-  const nameEl = document.getElementById(`edit-link-name-${animeId}`);
-  const urlEl = document.getElementById(`edit-link-url-${animeId}`);
-  const statusEl = document.getElementById(`edit-link-status-${animeId}`);
-  const newName = nameEl?.value.trim();
-  const newUrl = urlEl?.value.trim();
-  if (!newName || !newUrl) { if (statusEl) statusEl.textContent = "Preencha nome e URL."; return; }
-  try { new URL(newUrl); } catch { if (statusEl) statusEl.textContent = "URL inválida."; return; }
-  try {
-    const anime = allAnimes.find(a => a.id === animeId);
-    const newLinks = normalizeLinks(anime?.links).map((l, i) =>
-      i === _editingLinkIdx ? { name: newName, url: newUrl } : l
-    );
-    _editingLinkIdx = null;
-    await updateAnimeLinks(animeId, newLinks);
-  } catch (e) { if (statusEl) statusEl.textContent = "Erro ao salvar."; console.error(e); }
-};
-
-window.deleteAnimeLink = async (animeId, idx) => {
-  const anime = allAnimes.find(a => a.id === animeId);
-  const link = normalizeLinks(anime?.links)[idx];
-  if (!confirm(`Remover "${link?.name}"?`)) return;
-  try {
-    const newLinks = normalizeLinks(anime?.links).filter((_, i) => i !== idx);
-    await updateAnimeLinks(animeId, newLinks);
-  } catch (e) { alert("Erro ao remover link."); console.error(e); }
-};
-
-window.closeModal = function() {
-  document.getElementById("modal-overlay")?.classList.remove("open");
-  document.body.style.overflow = "";
-  currentModalIndex = null;
-};
-
-function refreshModal() {
-  if (currentModalIndex !== null) window.openModal(currentModalIndex);
-}
-
-// ── Column sort ──────────────────────────────────────────────────────────────
-
-document.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll("thead th[data-col]").forEach(th => {
-    th.addEventListener("click", () => {
-      const col = th.dataset.col;
-      if (sortCol === col) { sortDir *= -1; }
-      else { sortCol = col; sortDir = -1; }
-      document.querySelectorAll("thead th").forEach(h => h.classList.remove("sorted"));
-      th.classList.add("sorted");
-      sortData();
-      renderTable();
-    });
-  });
-});
+initTable();

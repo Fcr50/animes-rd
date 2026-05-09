@@ -18,7 +18,6 @@ export async function signInWithGoogle() {
   
   // Forçamos o retorno para a index.html da pasta atual
   const targetRedirect = window.location.origin + path + 'index.html';
-  console.log('Solicitando login Google. Redirect planejado:', targetRedirect);
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'google',

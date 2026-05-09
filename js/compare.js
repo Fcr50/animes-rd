@@ -45,6 +45,11 @@ function renderVennAll() {
   const wrap = document.getElementById("venn4-container");
   if (!wrap) return;
 
+  if (!allAnimes || allAnimes.length === 0) {
+    wrap.innerHTML = '<div class="empty-state"><p>O acervo do grupo está vazio.</p></div>';
+    return;
+  }
+
   const subsetCounts = new Map();
   for (const a of allAnimes) {
     const key = currentMembers
