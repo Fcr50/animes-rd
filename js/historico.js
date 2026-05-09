@@ -29,16 +29,17 @@ async function init() {
 }
 
 async function loadHistory() {
-  // CORREÇÃO: Agora buscamos de group_animes para conseguir o relacionamento com votes
+  // Busca apenas animes que o usuário votou E que ainda estão pendentes
   const { data: votedItems, error } = await supabase
     .from('group_animes')
     .select(`
       status,
       mal_id,
-      animes (name, genres, image_url),
-      votes!inner(user_id, score, comment)
+      animes!inner (name, genres, image_url),
+      votes!inner (user_id, score, comment)
     `)
     .eq('group_id', currentGroupId)
+    .eq('status', 'pending') // Filtro restaurado: some do histórico quando aprovado
     .eq('votes.user_id', currentUser.id)
     .order('created_at', { ascending: false });
 
@@ -104,11 +105,17 @@ function renderList(animes, allVotes) {
               <h3 style="margin:0">${escapeHTML(anime.name)}</h3>
               <div style="display:flex">${dots}</div>
             </div>
-            <div style="margin-top:15px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:14px">
+            
+            <div style="margin-top:15px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:14px; position:relative;">
               <div style="font-weight:800; color:var(--accent); font-size:14px; margin-bottom:8px">
                 ✓ Meu voto: ${myVote?.score !== null ? Number(myVote?.score).toFixed(1) : "Não assisti"}
               </div>
               ${myVote?.comment ? `<div style="font-style:italic; font-size:13px; color:var(--muted)">"${escapeHTML(myVote.comment)}"</div>` : ""}
+              
+              <button onclick="window.editQueueVote('${anime.mal_id}', '${escapeHTML(anime.name)}', ${myVote?.score})" 
+                      style="position:absolute; top:12px; right:12px; background:none; border:none; color:var(--accent); cursor:pointer; font-size:11px; font-weight:bold; text-decoration:underline;">
+                Editar
+              </button>
             </div>
           </div>
         `;
@@ -116,5 +123,37 @@ function renderList(animes, allVotes) {
     </div>
   `;
 }
+
+// Lógica Global de Edição na Fila
+window.editQueueVote = async function(malId, name, currentScore) {
+  const newScore = prompt(`Nova nota para "${name}"? (0 a 10 ou deixe vazio para 'Não Assisti')`, currentScore ?? "");
+  if (newScore === null) return;
+
+  const score = newScore.trim() === "" ? null : parseFloat(newScore);
+  if (score !== null && (isNaN(score) || score < 0 || score > 10)) {
+    return alert("Nota inválida.");
+  }
+
+  const newComment = prompt("Novo comentário?");
+  if (newComment === null) return;
+
+  try {
+    const { error } = await supabase
+      .from('votes')
+      .upsert({ 
+        group_id: currentGroupId,
+        mal_id: parseInt(malId), 
+        user_id: currentUser.id, 
+        score, 
+        comment: newComment || null
+      }, { onConflict: 'group_id, mal_id, user_id' });
+
+    if (error) throw error;
+    alert("Voto corrigido!");
+    loadHistory(); // Recarrega a lista
+  } catch (err) {
+    alert("Erro ao editar: " + err.message);
+  }
+};
 
 init();

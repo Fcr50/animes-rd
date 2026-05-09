@@ -273,18 +273,64 @@ window.toggleSelectImport = (malId, checked) => {
 
 async function handleImport() {
   if (selectedToImport.size === 0) return;
+  
   importBtn.disabled = true;
+  importBtn.textContent = "Importando...";
+
   const ids = Array.from(selectedToImport);
+  let successCount = 0;
+  let errors = [];
+
   for (const malId of ids) {
     const historical = userLibrary.find(l => l.mal_id === malId);
+    if (!historical) continue;
+
+    console.log(`[Import] Processando anime ID: ${malId}`);
+
     try {
-      const { error } = await supabase.from('group_animes').insert([{ group_id: currentGroupId, mal_id: malId, added_by: currentUser.id, status: 'pending' }]);
-      if (!error) {
-        await supabase.from('votes').insert([{ group_id: currentGroupId, mal_id: malId, user_id: currentUser.id, score: historical.last_score, comment: historical.last_comment }]);
+      // 1. Criar Instância no Grupo
+      const { error: groupError } = await supabase
+        .from('group_animes')
+        .insert([{ 
+          group_id: currentGroupId, 
+          mal_id: malId, 
+          added_by: currentUser.id, 
+          status: 'pending' 
+        }]);
+
+      if (groupError) {
+        if (groupError.code === '23505') {
+          console.warn(`Anime ${malId} já existe no grupo.`);
+        } else {
+          throw groupError;
+        }
+      } else {
+        // 2. Inserir o Voto histórico (apenas se a inserção do anime funcionou)
+        const { error: voteError } = await supabase
+          .from('votes')
+          .insert([{ 
+            group_id: currentGroupId, 
+            mal_id: malId, 
+            user_id: currentUser.id, 
+            score: historical.last_score, 
+            comment: historical.last_comment || "Importado do meu histórico." 
+          }]);
+        
+        if (voteError) console.error("Erro ao importar voto:", voteError);
+        successCount++;
       }
-    } catch (err) { console.error(err); }
+    } catch (err) {
+      console.error(`Erro ao importar ${malId}:`, err);
+      errors.push(`${historical.animes?.name || malId}: ${err.message}`);
+    }
   }
-  alert("Importado com sucesso!");
+
+  if (errors.length > 0) {
+    alert(`Importação concluída com avisos:\n${successCount} sucesso(s)\n${errors.length} erro(s). Verifique o console.`);
+  } else {
+    alert(`${successCount} animes importados com sucesso para a fila de aprovação!`);
+  }
+  
   window.location.href = `pending.html#g=${currentGroupId}`;
 }
 

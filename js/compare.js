@@ -215,6 +215,7 @@ function renderCommonTable(p1, p2) {
   const wrap = document.getElementById("common-table-wrap");
   if (!wrap) return;
 
+  // Filtra animes em comum usando a lógica do data.js
   const common = commonAnimes(allAnimes, p1, p2).sort((a, b) => (Number(b.nota) || 0) - (Number(a.nota) || 0));
 
   if (!common.length) {
@@ -229,26 +230,29 @@ function renderCommonTable(p1, p2) {
     <div class="table-wrap">
       <table>
         <thead>
-          <tr><th>Anime</th><th style="color:${c1}">${p1}</th><th style="color:${c2}">${p2}</th><th>Diferença</th></tr>
+          <tr>
+            <th>Anime</th>
+            <th style="color:${c1}">${p1}</th>
+            <th style="color:${c2}">${p2}</th>
+            <th>Diferença</th>
+          </tr>
         </thead>
         <tbody>
-          ${common
-            .map((a) => {
+          ${common.map((a) => {
               const n1 = getPersonNota(a, p1);
               const n2 = getPersonNota(a, p2);
-              const diff = n1 !== null && n2 !== null ? Math.abs(n1 - n2) : null;
+              const diff = (n1 !== null && n2 !== null) ? Math.abs(n1 - n2) : null;
               const diffStr = diff !== null ? diff.toFixed(1) : "—";
-              const rowClass = diff !== null && diff >= 2 ? ' class="diff-highlight"' : "";
+              const rowClass = (diff !== null && diff >= 2) ? ' class="diff-highlight"' : "";
+              
               return `
               <tr${rowClass}>
-                <td>${escapeHTML(a.name)}</td>
-                <td style="color:${c1};font-weight:600">${n1 !== null ? Number(n1).toFixed(1) : "—"}</td>
-                <td style="color:${c2};font-weight:600">${n2 !== null ? Number(n2).toFixed(1) : "—"}</td>
-                <td>${diff !== null && diff >= 2 ? "⚡ " : ""}${diffStr}</td>
-              </tr>
-            `;
-            })
-            .join("")}
+                <td><strong>${escapeHTML(a.name)}</strong></td>
+                <td style="color:${c1}; font-weight:700">${n1 !== null ? Number(n1).toFixed(1) : "—"}</td>
+                <td style="color:${c2}; font-weight:700">${n2 !== null ? Number(n2).toFixed(1) : "—"}</td>
+                <td style="font-weight:700">${diff !== null && diff >= 2 ? "⚡ " : ""}${diffStr}</td>
+              </tr>`;
+            }).join("")}
         </tbody>
       </table>
     </div>

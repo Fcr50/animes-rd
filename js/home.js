@@ -231,7 +231,22 @@ function renderMemberPosts(animes, members) {
 function renderPulse(animes) {
   const h = [...animes].filter(a => a.controversia > 0 && a.qtdVotos > 1).sort((a,b) => b.controversia - a.controversia).slice(0,5);
   const el = document.getElementById("pulse-card");
-  if(el) el.innerHTML = `<span class="eyebrow">Mais controversos</span><h2>Onde a conversa esquenta</h2><div class="hot-list">${h.map(a => `<a href="acervo.html#g=${getGroupId()}"><span>${shortText(a.name, 30)}</span><strong>${formatNota(a.controversia)}</strong></a>`).join("")}</div>`;
+  if(el) {
+    const groupId = getGroupId();
+    el.innerHTML = `
+      <span class="eyebrow">Mais controversos</span>
+      <h2>Onde a conversa esquenta</h2>
+      <div class="hot-list">
+        ${h.map(a => {
+          const href = `acervo.html#g=${groupId}&open=${a.mal_id}`;
+          return `
+            <a href="${href}" title="${a.name}">
+              <span>${shortText(a.name, 30)}</span>
+              <strong>${formatNota(a.controversia)}</strong>
+            </a>`;
+        }).join("")}
+      </div>`;
+  }
 }
 
 async function init() {

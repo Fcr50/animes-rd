@@ -427,9 +427,16 @@ document.addEventListener("click", async (e) => {
   if (statusEl) statusEl.textContent = "Salvando...";
 
   try {
+    const groupId = getGroupId();
     const { error } = await supabase
       .from('votes')
-      .upsert({ anime_id: animeId, user_id: currentUser.id, score, comment }, { onConflict: 'anime_id,user_id' });
+      .upsert({ 
+        group_id: groupId,
+        mal_id: parseInt(animeId), 
+        user_id: currentUser.id, 
+        score, 
+        comment 
+      }, { onConflict: 'group_id, mal_id, user_id' });
 
     if (error) throw error;
     if (statusEl) statusEl.textContent = "Salvo!";
