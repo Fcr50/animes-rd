@@ -15,7 +15,8 @@ let sortDir = -1;
 
 export async function initTable() {
   const data = await loadData();
-  allAnimes = data.animes;
+  // No acervo, só mostramos os que já foram aprovados
+  allAnimes = (data.animes || []).filter(a => a.status === 'approved');
   members = data.members;
   filtered = [...allAnimes];
 

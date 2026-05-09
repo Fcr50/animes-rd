@@ -171,8 +171,17 @@ select {
 }
 
 /* Oculta itens que exigem um grupo selecionado */
-.group-only {
-  display: none !important;
+/* Dashboard Group Cards Fix */
+.group-card {
+  min-height: 120px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  padding: 20px !important;
+}
+
+.group-card .card-title {
+  margin-bottom: 0 !important;
 }
 
 .nav a {
