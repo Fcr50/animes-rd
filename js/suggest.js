@@ -384,12 +384,21 @@ window.selectAllImport = () => {
 
 function updateImportButton() {
   if (importBtn) {
-    importBtn.disabled = selectedToImport.size === 0;
+    const hasSelection = selectedToImport.size > 0;
+    importBtn.disabled = !hasSelection;
     importBtn.textContent = `Importar Selecionados (${selectedToImport.size})`;
-    importBtn.style.background = selectedToImport.size > 0 
-      ? 'linear-gradient(90deg, #f9a8d4 0%, #c4b5fd 50%, #86efac 100%)' 
-      : 'rgba(255,255,255,0.05)';
-    importBtn.style.color = selectedToImport.size > 0 ? '#1a1826' : 'var(--faint)';
+    
+    if (hasSelection) {
+      importBtn.style.background = 'rgba(139, 92, 246, 0.2)';
+      importBtn.style.borderColor = 'var(--accent)';
+      importBtn.style.color = 'white';
+      importBtn.style.boxShadow = '0 0 20px rgba(139, 92, 246, 0.2)';
+    } else {
+      importBtn.style.background = 'rgba(255, 255, 255, 0.05)';
+      importBtn.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+      importBtn.style.color = 'var(--muted)';
+      importBtn.style.boxShadow = 'none';
+    }
   }
 }
 

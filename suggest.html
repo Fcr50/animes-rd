@@ -194,6 +194,24 @@
         justify-content: center;
       }
 
+      /* Estilo para botões secundários (ex: Selecionar Todos) */
+      .suggest-form-card .btn {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: var(--muted);
+        transition: all 0.2s ease;
+        border-radius: 10px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .suggest-form-card .btn:hover {
+        background: rgba(255, 255, 255, 0.12);
+        border-color: rgba(196, 181, 253, 0.4);
+        color: white;
+        box-shadow: 0 0 15px rgba(196, 181, 253, 0.15);
+        transform: translateY(-1px);
+      }
+
       .suggest-panel { display: none; }
       .suggest-panel.active { display: block; }
 
@@ -370,7 +388,7 @@
             <p>Carregando seu histórico...</p>
           </div>
           
-          <button id="import-selected-button">Importar Selecionados (0)</button>
+          <button id="import-selected-button" class="btn" style="width: 100%; padding: 16px; margin-top: 10px; font-size: 15px;">Importar Selecionados (0)</button>
         </div>
       </div>
     </main>
