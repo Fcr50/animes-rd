@@ -305,7 +305,7 @@ async function loadLibraryAndGroup() {
       .from('user_library')
       .select('*, animes(*)')
       .eq('user_id', currentUser.id)
-      .order('created_at', { ascending: false });
+      .order('last_score', { ascending: false, nullsFirst: false });
 
     if (error) throw error;
     userLibrary = library;
@@ -372,13 +372,26 @@ window.toggleSelectImport = (malId, checked) => {
 
 window.selectAllImport = () => {
   const genre = genreFilterImport?.value;
-  userLibrary.forEach(item => {
-    if (!groupAnimeIds.has(item.mal_id)) {
-      if (!genre || (item.animes?.genres || []).includes(genre)) {
-        selectedToImport.add(item.mal_id);
-      }
-    }
+  // Itens que podem ser selecionados (não existem no grupo e batem com o gênero)
+  const availableItems = userLibrary.filter(item => {
+    const exists = groupAnimeIds.has(item.mal_id);
+    const matchesGenre = !genre || (item.animes?.genres || []).includes(genre);
+    return !exists && matchesGenre;
   });
+
+  if (availableItems.length === 0) return;
+
+  // Verifica se TODOS os itens disponíveis já estão na lista de selecionados
+  const allAlreadySelected = availableItems.every(item => selectedToImport.has(item.mal_id));
+
+  if (allAlreadySelected) {
+    // Se todos já estavam, desmarca todos os disponíveis
+    availableItems.forEach(item => selectedToImport.delete(item.mal_id));
+  } else {
+    // Se faltava algum, marca todos os disponíveis
+    availableItems.forEach(item => selectedToImport.add(item.mal_id));
+  }
+  
   renderImportList();
 };
 
