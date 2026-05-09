@@ -76,6 +76,7 @@ function renderList(list) {
     const myVote = votes.find(v => v.user_id === currentUser?.id);
     const hasVoted = !!myVote;
     const submitterName = item.added_by ? getSubmitterName(item.added_by) : null;
+    const submitterColor = submitterName ? (members.find(m => m.nickname === submitterName)?.color || '#86efac') : '#86efac';
     const genres = (anime.genres || []);
     const links = normalizeLinks(item.links);
 
@@ -108,7 +109,7 @@ function renderList(list) {
               <div style="display:flex; flex-shrink:0">${dots}</div>
             </div>
             <div class="pending-genres">${genreChips}</div>
-            ${submitterName ? `<p class="vote-card-submitter">Sugerido por <strong style="color:#86efac">${escapeHTML(submitterName)}</strong></p>` : ''}
+            ${submitterName ? `<p class="vote-card-submitter">Sugerido por <strong style="color:${submitterColor}">${escapeHTML(submitterName)}</strong></p>` : ''}
             ${linkChips ? `<div class="vote-card-links">${linkChips}</div>` : ''}
             <div class="vote-card-actions">${voteStatus}</div>
           </div>
