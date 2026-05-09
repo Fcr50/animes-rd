@@ -37,13 +37,11 @@ async function loadPendingAnimes() {
       status,
       mal_id,
       links,
-      submitted_by,
       animes (name, genres, image_url),
       votes (user_id, score, comment)
     `)
     .eq('group_id', currentGroupId)
-    .eq('status', 'pending')
-    .order('created_at', { ascending: false });
+    .eq('status', 'pending');
 
   if (error) { console.error(error); return; }
   renderList(list || []);
@@ -71,7 +69,7 @@ function renderList(list) {
     const votes = item.votes || [];
     const myVote = votes.find(v => v.user_id === currentUser?.id);
     const hasVoted = !!myVote;
-    const submitterName = item.submitted_by ? getSubmitterName(item.submitted_by) : null;
+    const submitterName = null; // campo não disponível no schema atual
     const genres = (anime.genres || []);
     const links = normalizeLinks(item.links);
 
