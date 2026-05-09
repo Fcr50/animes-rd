@@ -62,7 +62,6 @@ function buildRounds(animes, p1, p2) {
   const s1 = new Set(animesOf(animes, p1).map((a) => a.id));
   const s2 = new Set(animesOf(animes, p2).map((a) => a.id));
   const common = animes.filter((a) => s1.has(a.id) && s2.has(a.id) && a.nota !== null);
-  console.log(`[Batalha] Animes em comum entre ${p1} e ${p2}:`, common.length);
   if (common.length < ROUNDS_TOTAL * 2) return null;
   const pool = shuffle(common).slice(0, ROUNDS_TOTAL * 2);
   return Array.from({ length: ROUNDS_TOTAL }, (_, i) => ({
@@ -74,7 +73,6 @@ function buildRounds(animes, p1, p2) {
 // ── Firebase ops ──────────────────────────────────────────────────────────────
 
 async function createSession(animes, p1, p2) {
-  console.log(`[Batalha] Criando sessão: ${p1} vs ${p2}`);
   const rounds = buildRounds(animes, p1, p2);
   if (!rounds) throw new Error(`Animes em comum insuficientes (mínimo ${ROUNDS_TOTAL * 2})`);
 
@@ -91,7 +89,6 @@ async function createSession(animes, p1, p2) {
     created_at: serverTimestamp(),
     updated_at: serverTimestamp(),
   });
-  console.log(`[Batalha] Sessão criada: ${ref.id}`);
   return ref.id;
 }
 
@@ -101,12 +98,10 @@ async function joinSession(sessionId) {
     status: "active",
     updated_at: serverTimestamp(),
   });
-  console.log(`[Batalha] Sessão ativada: ${sessionId}`);
 }
 
 async function cancelSession(sessionId) {
   await deleteDoc(doc(db, SESSIONS_COL, sessionId));
-  console.log(`[Batalha] Sessão cancelada: ${sessionId}`);
 }
 
 async function castVote(sessionId, round, playerName, animeId) {
@@ -140,7 +135,6 @@ async function castVote(sessionId, round, playerName, animeId) {
     });
   });
 
-  console.log(`[Batalha] Voto: ${playerName} → anime ${animeId} (rodada ${round})`);
   await tryResolve(sessionId, round);
 }
 
@@ -150,7 +144,6 @@ async function tryResolve(sessionId, round) {
   );
   const votesSnap = { docs: allVotesSnap.docs.filter((d) => d.data().round === round), size: 0 };
   votesSnap.size = votesSnap.docs.length;
-  console.log(`[Batalha] Votos na rodada ${round}:`, votesSnap.size);
   if (votesSnap.size < 2) return;
 
   const sessionRef = doc(db, SESSIONS_COL, sessionId);
@@ -171,10 +164,8 @@ async function tryResolve(sessionId, round) {
   const update = { round_results: newResults, updated_at: serverTimestamp() };
   if (isLast) {
     update.status = "finished";
-    console.log(`[Batalha] FIM! Revelando escolhas.`);
   } else {
     update.current_round = round + 1;
-    console.log(`[Batalha] Avançando para rodada ${round + 1}`);
   }
 
   await updateDoc(sessionRef, update);
@@ -187,8 +178,6 @@ let myName = localStorage.getItem(MY_KEY) || null;
 let fireUser = null;
 
 export function initBatalha(container, animes) {
-  console.log("[Batalha] Init. PEOPLE:", PEOPLE);
-
   onAuthStateChanged(auth, (user) => {
     fireUser = user;
     if (!user) {
@@ -239,19 +228,12 @@ function renderRoot(container, animes) {
     (snap) => {
       const all = snap.docs.map((d) => ({ ...d.data(), id: d.id }));
       const sessions = all.filter((s) => ["waiting", "active", "finished"].includes(s.status));
-      console.log(
-        "[Batalha] Sessões:",
-        sessions.map((s) => `${s.id.slice(0, 6)} ${s.status}`),
-      );
 
       const mySession = myName
         ? sessions.find((s) => s.player1_name === myName || s.player2_name === myName)
         : null;
 
       if (mySession) {
-        console.log(
-          `[Batalha] Minha sessão: ${mySession.id} status=${mySession.status} round=${mySession.current_round}`,
-        );
         if (mySession.status === "finished") renderFinished(container, mySession);
         else if (mySession.status === "waiting") renderWaiting(container, mySession, animes);
         else renderActive(container, mySession, animes);
@@ -350,7 +332,6 @@ function renderLobby(container, animes, activeSessions) {
     if (!btn) return;
     myName = btn.dataset.name;
     localStorage.setItem(MY_KEY, myName);
-    console.log(`[Batalha] Eu sou: ${myName}`);
     renderLobby(container, animes, activeSessions);
   });
 
@@ -378,7 +359,6 @@ function renderLobby(container, animes, activeSessions) {
       return;
     }
 
-    console.log(`[Batalha] Tentando criar: ${myName} vs ${opp}`);
     btn.disabled = true;
     loadEl.classList.remove("hidden");
 
@@ -485,12 +465,10 @@ async function renderActive(container, session, animes) {
   const votes = {};
   votesSnap.docs.forEach((v) => {
     const d = v.data();
-    votes[d.player_name] = d.anime_id;
+    voteMap[d.player_name] = d.anime_id;
   });
   const myVote = myName ? votes[myName] : null;
   const votedNames = Object.keys(votes);
-
-  console.log(`[Batalha] Rodada ${round} votos:`, votes, "Meu voto:", myVote);
 
   container.innerHTML = `
     <div class="bt-active">
@@ -616,7 +594,6 @@ async function renderActive(container, session, animes) {
       try {
         await castVote(session.id, round, myName, btn.dataset.id);
         // NÃO chama renderActive aqui — o onSnapshot vai atualizar quando o round avançar
-        console.log("[Batalha] Voto registrado, aguardando onSnapshot...");
       } catch (e) {
         console.error("[Batalha] Erro ao votar:", e);
         if (e.message !== "Você já votou nesta rodada") {

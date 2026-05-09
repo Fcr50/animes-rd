@@ -25,8 +25,6 @@ function styleCardTitles() {
 document.addEventListener('DOMContentLoaded', styleCardTitles);
 
 async function init() {
-  console.log('Dashboard: Inicializando...');
-  
   const dashboardContent = document.getElementById('dashboard-content');
   const authCheck = document.getElementById('auth-check');
   const authLoading = document.getElementById('auth-loading');
@@ -38,12 +36,10 @@ async function init() {
   const handleAuthState = async (user) => {
     currentUser = user;
     if (user) {
-      console.log('Dashboard: Usuário logado:', user.email);
       dashboardContent.style.display = 'block';
       authCheck.style.display = 'none';
       await loadGroups();
     } else {
-      console.log('Dashboard: Nenhum usuário.');
       dashboardContent.style.display = 'none';
       authCheck.style.display = 'block';
       if (authLoading) authLoading.style.display = 'none';
@@ -51,25 +47,20 @@ async function init() {
     }
   };
 
-  // Atribui login antes de tudo
   if (btnLoginDashboard) btnLoginDashboard.onclick = signInWithGoogle;
 
-  // 1. Tenta pegar usuário inicial
   try {
     const user = await getCurrentUser();
     await handleAuthState(user);
   } catch (err) {
-    console.error('Erro na inicialização:', err);
     if (authLoading) authLoading.style.display = 'none';
     if (authLoginBox) authLoginBox.style.display = 'block';
   }
 
-  // 2. Escuta mudanças
   onAuthStateChange((event, sessionUser) => {
     handleAuthState(sessionUser);
   });
 
-  // Eventos de Formulário
   document.getElementById('create-group-form')?.addEventListener('submit', async (e) => {
     e.preventDefault();
     await createGroup(document.getElementById('group-name').value);
@@ -95,7 +86,6 @@ async function loadGroups() {
       .select('group_id, color, nickname, groups(id, name, creator_id, invite_code)')
       .eq('user_id', currentUser.id);
 
-    // Busca membros de cada grupo
     const groupIds = (data || []).map(d => d.group_id);
     let membersMap = {};
     if (groupIds.length > 0) {
@@ -151,8 +141,6 @@ async function loadGroups() {
 
       return `
         <div class="card group-card" style="display:flex; flex-direction:column; gap:0; padding: 22px;">
-
-          <!-- Nome -->
           <div style="
             font-family: 'Newsreader', serif;
             font-size: 28px; font-weight: 750;
@@ -162,20 +150,16 @@ async function loadGroups() {
             background-clip: text; margin-bottom: 4px;
           ">${g.name}</div>
 
-          <!-- Role -->
           <p style="font-size: 11px; color: var(--faint); margin: 0 0 16px 0;">
             ${isCreator ? `👑 Criador · <span style="color:var(--accent)">${g.invite_code}</span>` : 'Membro'}
           </p>
 
-          <!-- Membros -->
           <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-bottom: 16px;">
             ${memberAvatars}${extraBadge}
           </div>
 
-          <!-- Divisor -->
           <div style="border-top: 1px solid var(--border); margin-bottom: 14px;"></div>
 
-          <!-- Minha cor + Abrir -->
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <div style="display:flex; align-items:center; gap:8px;">
               <button
@@ -190,18 +174,17 @@ async function loadGroups() {
               ${isCreator ? `<button class="btn-manage-trigger" onclick="window.openManageModal('${g.id}', '${g.name}')">⚙️</button>` : ''}
             </div>
           </div>
-
         </div>`;
     }).join('');
   } catch (err) {
-    groupsList.innerHTML = `<p style="color:red">Erro: ${err.message}</p>`;
+    groupsList.innerHTML = `<p style="color:red">Erro ao carregar dados.</p>`;
   }
 }
 
-// Modais e Gestão
 window.openManageModal = (gid, name) => {
   currentManagingGroupId = gid;
-  document.getElementById('edit-group-name').value = name;
+  const input = document.getElementById('edit-group-name');
+  if (input) input.value = name;
   document.getElementById('modal-manage-group').classList.add('open');
   loadManageMembers(gid);
 };
@@ -213,7 +196,7 @@ async function loadManageMembers(gid) {
     document.getElementById('manage-members-list').innerHTML = data.map(m => `
       <div style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid var(--border);">
         <span>${m.nickname}</span>
-        ${m.role !== 'admin' ? `<button onclick="removeMember('${m.user_id}')" style="color:var(--danger); background:none; border:none;">Remover</button>` : '<span>Admin</span>'}
+        ${m.role !== 'admin' ? `<button onclick="removeMember('${m.user_id}')" style="color:var(--danger); background:none; border:none; cursor:pointer;">Remover</button>` : '<span>Admin</span>'}
       </div>`).join('');
   }
 }
@@ -246,25 +229,22 @@ async function createGroup(name) {
 }
 
 window.editMemberColor = (groupId, currentColor, btn) => {
-  // Remove popover anterior se existir
   document.getElementById('color-popover')?.remove();
 
   const popover = document.createElement('div');
   popover.id = 'color-popover';
   popover.style.cssText = `
     position: fixed; z-index: 9999; padding: 12px; border-radius: 12px;
-    background: var(--card, #1a1825); border: 1px solid var(--border, rgba(255,255,255,0.15));
-    box-shadow: 0 8px 32px rgba(0,0,0,0.4); display: flex; flex-direction: column; gap: 10px;
+    background: #1c1c24; border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4); display: flex; flex-direction: column; gap: 12px;
   `;
 
-  // Posiciona próximo à bolinha
   const rect = btn.getBoundingClientRect();
   const top = rect.bottom + 8;
   const left = Math.min(rect.left, window.innerWidth - 200);
   popover.style.top = `${top}px`;
   popover.style.left = `${left}px`;
 
-  // Cores predefinidas
   const presets = ['#7c3aed','#ec4899','#eab308','#06b6d4','#f97316','#10b981','#ef4444','#3b82f6','#a855f7','#f43f5e'];
   const swatches = presets.map(c => `
     <button onclick="window.applyMemberColor('${groupId}','${c}')"
@@ -274,24 +254,27 @@ window.editMemberColor = (groupId, currentColor, btn) => {
 
   popover.innerHTML = `
     <div style="display:flex;flex-wrap:wrap;gap:6px;max-width:168px">${swatches}</div>
-    <div style="display:flex;align-items:center;gap:8px;">
+    <div style="display:flex;align-items:center;gap:10px;border-top:1px solid rgba(255,255,255,0.1);padding-top:8px;">
       <input id="color-custom-input" type="color" value="${currentColor}"
-        style="width:32px;height:32px;border:none;background:none;cursor:pointer;padding:0;border-radius:6px;"
-        oninput="window.applyMemberColor('${groupId}',this.value)" />
-      <span style="font-size:11px;color:var(--muted);">Cor personalizada</span>
+        style="width:30px;height:30px;border:none;background:none;cursor:pointer;padding:0;border-radius:6px;"
+        onchange="window.applyMemberColor('${groupId}',this.value)" />
+      <span style="font-size:12px;color:var(--faint);font-weight:600;">Cor personalizada</span>
     </div>
   `;
 
   document.body.appendChild(popover);
 
-  // Fecha ao clicar fora
+  // Evita que cliques no popover fechem ele mesmo
+  popover.onclick = (e) => e.stopPropagation();
+
   setTimeout(() => {
-    document.addEventListener('click', function handler(e) {
+    const handler = (e) => {
       if (!popover.contains(e.target) && e.target !== btn) {
         popover.remove();
         document.removeEventListener('click', handler);
       }
-    });
+    };
+    document.addEventListener('click', handler);
   }, 0);
 };
 
@@ -302,29 +285,14 @@ window.applyMemberColor = async (groupId, color) => {
     .update({ color })
     .eq('group_id', groupId)
     .eq('user_id', currentUser.id);
-  if (!error) loadGroups();
-  else alert('Erro ao salvar cor.');
+  if (!error) await loadGroups();
 };
 
 async function joinGroup(code) {
   const cleanCode = code.trim().toUpperCase();
-  console.log('Buscando grupo com código:', cleanCode);
-
-  const { data, error } = await supabase
-    .from('groups')
-    .select('id')
-    .ilike('invite_code', cleanCode)
-    .single();
-
-  if (error) {
-    console.error('Erro na busca do grupo:', error);
-    alert('Código inválido ou não encontrado.');
-    return;
-  }
-
-  if (data) {
-    window.location.href = `./join.html#code=${cleanCode}`;
-  }
+  const { data, error } = await supabase.from('groups').select('id').ilike('invite_code', cleanCode).single();
+  if (error) alert('Código inválido ou não encontrado.');
+  else if (data) window.location.href = `./join.html#code=${cleanCode}`;
 }
 
 init();

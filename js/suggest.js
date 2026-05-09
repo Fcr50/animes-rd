@@ -285,8 +285,6 @@ async function handleImport() {
     const historical = userLibrary.find(l => l.mal_id === malId);
     if (!historical) continue;
 
-    console.log(`[Import] Processando anime ID: ${malId}`);
-
     try {
       // 1. Criar Instância no Grupo
       const { error: groupError } = await supabase

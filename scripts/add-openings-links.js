@@ -1,49 +1,56 @@
-const admin = require("firebase-admin");
-const serviceAccount = require("./serviceAccountKey.json");
+/**
+ * scripts/add-openings-links.js
+ * 
+ * Padroniza os links de opening para uma busca no YouTube: "Nome do Anime opening 1"
+ */
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
-});
+const { createClient } = require("@supabase/supabase-js");
+require("dotenv").config({ path: ".env.migration" });
 
-const db = admin.firestore();
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
+  process.exit(1);
+}
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
 async function updateOpeningsToStandardSearch() {
-  console.log("Iniciando padronização dos links de opening para: Nome + Opening 1...");
-  const snapshot = await db.collection("animes").get();
-  
-  let count = 0;
-  const batch = db.batch();
+  try {
+    const { data: animes, error } = await supabase
+      .from('animes')
+      .select('id, name, links');
 
-  snapshot.forEach(doc => {
-    const data = doc.data();
-    const files = data.files || [];
+    if (error) throw error;
 
-    // Filtra os arquivos que NÃO são openings para preservar outros links (se houver)
-    const otherFiles = files.filter(file => !/opening|op\b/i.test(file.name || ""));
+    let count = 0;
+    for (const anime of animes) {
+      const currentLinks = anime.links || {};
+      
+      // Se já tem link de opening, pulamos (ou sobrescrevemos se preferir)
+      // Aqui vamos garantir que o campo 'Opening' exista
+      const searchQuery = encodeURIComponent(`${anime.name} opening 1`);
+      const youtubeLink = `https://www.youtube.com/results?search_query=${searchQuery}`;
 
-    // Cria o novo link padrão de busca
-    const searchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(data.nome + " opening 1")}`;
+      const newLinks = {
+        ...currentLinks,
+        "Opening 1": youtubeLink
+      };
 
-    const newFiles = [
-      ...otherFiles,
-      {
-        name: "Opening 1",
-        url: searchUrl
+      const { error: updateError } = await supabase
+        .from('animes')
+        .update({ links: newLinks })
+        .eq('id', anime.id);
+
+      if (updateError) {
+        continue;
       }
-    ];
+      count++;
+    }
 
-    // Adiciona ao batch para atualização
-    batch.update(doc.ref, { files: newFiles });
-    count++;
-
-    // O Firestore limita batches em 500 operações. Como temos ~170 animes, um único batch resolve.
-  });
-
-  if (count > 0) {
-    await batch.commit();
-    console.log(`\nSucesso! ${count} animes foram atualizados com o link de busca padrão.`);
-  } else {
-    console.log("Nenhum anime encontrado para atualizar.");
+  } catch (err) {
+    console.error("Erro fatal:", err);
   }
 }
 

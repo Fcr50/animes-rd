@@ -3,8 +3,6 @@ import { supabase } from './supabase-client.js';
 import { signInWithGoogle, signOut, onAuthStateChange } from './auth.js';
 import { loadData } from './data.js';
 
-console.log('js/utils.js execution started.');
-
 /**
  * Escapa caracteres HTML para evitar XSS.
  */
@@ -83,12 +81,8 @@ export function getGroupId() {
 
   if (gid) {
     localStorage.setItem("active_group_id", gid);
-    console.log(`%c [Group Active] ${gid} (from URL/Hash) `, "background: #8b5cf6; color: white; font-weight: bold;");
   } else {
     gid = localStorage.getItem("active_group_id");
-    if (gid) {
-      console.log(`%c [Group Active] ${gid} (from Storage Fallback) `, "background: #10b981; color: white; font-weight: bold;");
-    }
   }
   return gid;
 }

@@ -5,7 +5,7 @@
  */
 
 const { createClient } = require("@supabase/supabase-js");
-require("dotenv").config({ path: ".env" });
+require("dotenv").config({ path: ".env.migration" });
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 
 const SUPABASE_URL = process.env.SUPABASE_URL;
@@ -19,8 +19,6 @@ if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
 async function enrich() {
-  console.log("🖼️ Iniciando busca de imagens para o acervo...");
-
   try {
     // 1. Pegar animes sem imagem
     const { data: animes, error } = await supabase
@@ -32,26 +30,19 @@ async function enrich() {
     if (error) throw error;
 
     if (!animes || animes.length === 0) {
-      console.log("✅ Todos os animes já possuem imagem!");
       return;
     }
 
-    console.log(`📦 Encontrados ${animes.length} animes para atualizar.`);
-
     for (const anime of animes) {
-      console.log(`\n🔍 Buscando imagem para: ${anime.name} (ID: ${anime.mal_id})`);
-
       try {
         const res = await fetch(`https://api.jikan.moe/v4/anime/${anime.mal_id}`);
         
         if (res.status === 429) {
-          console.warn("⚠️ Rate limit atingido. Aguardando 5 segundos...");
           await new Promise(r => setTimeout(r, 5000));
           continue; 
         }
 
         if (!res.ok) {
-          console.error(`❌ Erro API Jikan para ${anime.name}: ${res.status}`);
           continue;
         }
 
@@ -65,9 +56,6 @@ async function enrich() {
             .eq('mal_id', anime.mal_id);
 
           if (updateError) console.error(`   ❌ Erro ao salvar no banco:`, updateError.message);
-          else console.log(`   ✅ Imagem salva: ${imageUrl.substring(0, 40)}...`);
-        } else {
-          console.log(`   ⚠️ Nenhuma imagem encontrada para este ID.`);
         }
 
         // Aguarda 1 segundo entre as chamadas para respeitar o Jikan (3 req/sec)
@@ -77,8 +65,6 @@ async function enrich() {
         console.error(`   💥 Erro no processamento de ${anime.name}:`, err.message);
       }
     }
-
-    console.log("\n✨ Processo de imagens concluído!");
 
   } catch (err) {
     console.error("💥 Erro catastrófico:", err);
