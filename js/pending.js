@@ -37,6 +37,7 @@ async function loadPendingAnimes() {
       status,
       mal_id,
       links,
+      added_by,
       animes (name, genres, image_url),
       votes (user_id, score, comment)
     `)
@@ -69,7 +70,7 @@ function renderList(list) {
     const votes = item.votes || [];
     const myVote = votes.find(v => v.user_id === currentUser?.id);
     const hasVoted = !!myVote;
-    const submitterName = null; // campo não disponível no schema atual
+    const submitterName = item.added_by ? getSubmitterName(item.added_by) : null;
     const genres = (anime.genres || []);
     const links = normalizeLinks(item.links);
 
