@@ -234,7 +234,7 @@ async function loadLibraryAndGroup() {
     if (error) throw error;
     userLibrary = library;
     renderImportList();
-  } catch (err) { }
+  } catch (err) { console.error(err); }
 }
 
 function renderImportList() {
@@ -285,6 +285,8 @@ async function handleImport() {
     const historical = userLibrary.find(l => l.mal_id === malId);
     if (!historical) continue;
 
+    console.log(`[Import] Processando anime ID: ${malId}`);
+
     try {
       // 1. Criar Instância no Grupo
       const { error: groupError } = await supabase
@@ -297,7 +299,9 @@ async function handleImport() {
         }]);
 
       if (groupError) {
-        if (groupError.code !== '23505') {
+        if (groupError.code === '23505') {
+          console.warn(`Anime ${malId} já existe no grupo.`);
+        } else {
           throw groupError;
         }
       } else {
@@ -312,9 +316,11 @@ async function handleImport() {
             comment: historical.last_comment || "Importado do meu histórico." 
           }]);
         
+        if (voteError) console.error("Erro ao importar voto:", voteError);
         successCount++;
       }
     } catch (err) {
+      console.error(`Erro ao importar ${malId}:`, err);
       errors.push(`${historical.animes?.name || malId}: ${err.message}`);
     }
   }

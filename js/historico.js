@@ -39,12 +39,13 @@ async function loadHistory() {
       votes!inner (user_id, score, comment)
     `)
     .eq('group_id', currentGroupId)
-    .eq('status', 'pending')
+    .eq('status', 'pending') // Filtro restaurado: some do histórico quando aprovado
     .eq('votes.user_id', currentUser.id)
     .order('created_at', { ascending: false });
 
   if (error) {
-    container.innerHTML = `<p>Erro ao carregar histórico.</p>`;
+    console.error("Erro no histórico:", error);
+    container.innerHTML = `<p>Erro ao carregar histórico: ${error.message}</p>`;
     return;
   }
 
@@ -57,19 +58,13 @@ async function loadHistory() {
   }));
 
   const animeIds = processedAnimes.map(a => a.mal_id);
-  
-  if (animeIds.length === 0) {
-    renderList([], []);
-    return;
-  }
-
   const { data: allVotes } = await supabase
     .from('votes')
     .select('mal_id, user_id, score, comment')
     .eq('group_id', currentGroupId)
     .in('mal_id', animeIds);
 
-  renderList(processedAnimes, allVotes || []);
+  renderList(processedAnimes, allVotes);
 }
 
 function renderList(animes, allVotes) {
@@ -77,7 +72,7 @@ function renderList(animes, allVotes) {
     container.innerHTML = `
       <div style="text-align:center; padding:60px; color:var(--muted)">
         <div style="font-size:48px; margin-bottom:16px">📭</div>
-        <p style="font-size:16px; font-weight:700; color:var(--paper)">Nenhum voto pendente</p>
+        <p style="font-size:16px; font-weight:700; color:var(--paper)">Nenhum voto ainda</p>
         <a href="pending.html#g=${currentGroupId}" style="color:var(--accent); font-weight:800; margin-top:16px; display:inline-block">← Ir para a fila</a>
       </div>`;
     return;
@@ -87,7 +82,7 @@ function renderList(animes, allVotes) {
 
   container.innerHTML = `
     <div style="margin-bottom:20px; color:var(--muted); font-size:14px">
-      ${animes.length} animes aguardando aprovação com seu voto
+      ${animes.length} animes votados por <strong style="color:${myMember?.color}">${myMember?.nickname}</strong>
     </div>
     <div id="pending-animes-container">
       ${animes.map(anime => {
@@ -155,9 +150,9 @@ window.editQueueVote = async function(malId, name, currentScore) {
 
     if (error) throw error;
     alert("Voto corrigido!");
-    loadHistory();
+    loadHistory(); // Recarrega a lista
   } catch (err) {
-    alert("Erro ao editar.");
+    alert("Erro ao editar: " + err.message);
   }
 };
 

@@ -17,7 +17,6 @@ let heroInfoTimer = null;
 // --- 🖼️ DESTAQUES ---
 
 function featuredAnimeForNow(animes) {
-  if (!animes || animes.length === 0) return null;
   const candidates = animes.filter((anime) => Number(anime.nota) >= 9.0);
   if (!candidates.length) return animes.sort((a, b) => (Number(b.nota) || 0) - (Number(a.nota) || 0))[0];
   const block = Math.floor(Date.now() / (FEATURED_ROTATION_MINUTES * 60 * 1000));
@@ -29,14 +28,14 @@ function renderHeroInfoRotator(data, featuredAnime) {
   if (!rotator) return;
   if (heroInfoTimer) clearInterval(heroInfoTimer);
 
-  const subtitle = `${data.total} animes catalogados. Um blog para transformar nota, treta e recomendação em leitura.`;
-  const featuredTitle = featuredAnime?.name || "o próximo anime";
+  const subtitle = `${data.total} animes catalogados, atualizado em ${new Date().toLocaleDateString("pt-BR")}. Um blog para transformar nota, treta e recomendação em leitura.`;
+  const featuredTitle = featuredAnime?.name || "o proximo anime";
 
   const slides = [
     { tone: "blog", eyebrow: `Blog <span class="brand-gradient">Animes RD</span>`, title: "Críticas, rankings e guias para decidir o próximo anime.", text: subtitle, visuals: [] },
     { tone: "playlists", eyebrow: "Playlists do grupo", title: "Openings para deixar tocando enquanto escolhe.", text: "Duas playlists pra entrar no clima: YouTube e Spotify, com a vibe do Animes RD.", visuals: [{ label: "YouTube", src: "https://cdn.simpleicons.org/youtube/FF0033", href: YOUTUBE_PLAYLIST_URL }, { label: "Spotify", src: "https://cdn.simpleicons.org/spotify/1ED760", href: SPOTIFY_PLAYLIST_URL }] },
     { tone: "news", eyebrow: "Notícias", title: "Radar MyAnimeList para novidades da temporada.", text: "Um atalho para acompanhar anúncios, trailers, estreias e movimentações do mundo dos animes.", visuals: [{ label: "MAL", src: "https://cdn.simpleicons.org/myanimelist/2E51A2", href: MAL_NEWS_URL }] },
-    { tone: "featured", eyebrow: "Dica em destaque", title: `Hoje o acervo está puxando: ${featuredTitle}.`, text: featuredAnime ? `Nota geral ${formatNota(featuredAnime.nota)} com ${featuredAnime.qtdVotos} votos no grupo.` : "Aguardando recomendações.", visuals: [] }
+    { tone: "featured", eyebrow: "Dica em destaque", title: `Hoje o acervo esta puxando: ${featuredTitle}.`, text: featuredAnime ? `Nota geral ${formatNota(featuredAnime.nota)} com ${featuredAnime.qtdVotos} votos no grupo.` : "Aguardando recomendações.", visuals: [] }
   ];
 
   rotator.innerHTML = slides.map((s, i) => `
@@ -83,27 +82,17 @@ async function renderHero(data) {
   const top = featuredAnimeForNow(data.animes);
   renderHeroInfoRotator(data, top);
   const heroPanel = document.getElementById("hero-panel");
-  if (!heroPanel) return;
-
-  if (top && top.image_url) {
+  
+  if (top && top.image_url && heroPanel) {
     heroPanel.style.setProperty("--hero-anime-bg", `url("${top.image_url}")`);
     heroPanel.classList.add("has-bg");
+    // O link agora inclui o parâmetro open para abrir o modal automaticamente
     const href = `acervo.html#g=${getGroupId()}&open=${top.mal_id}`;
     heroPanel.innerHTML = `
       <span class="post-kicker">Destaque do acervo</span>
       <h2>${top.name}</h2>
       <p>Nota ${formatNota(top.nota)} no grupo.</p>
       <a href="${href}">Ler no acervo</a>
-    `;
-  } else {
-    // Estado vazio para grupos novos
-    heroPanel.classList.remove("has-bg");
-    heroPanel.style.removeProperty("--hero-anime-bg");
-    heroPanel.innerHTML = `
-      <span class="post-kicker">Bem-vindo!</span>
-      <h2>O acervo está vazio</h2>
-      <p>Sugira o primeiro anime para começar o seu catálogo.</p>
-      <a href="suggest.html#g=${getGroupId()}">Sugerir anime</a>
     `;
   }
 }
@@ -115,7 +104,8 @@ function renderFeaturedPost(animes) {
   if(!wall) return;
   wall.innerHTML = `<h2 class="featured-comment-title">Comentários</h2><div class="featured-comment-wall" id="featured-comments"></div>`;
 
-  const allComments = (animes || []).flatMap(a => {
+  // Extrai comentários de todos os animes incluindo o mal_id
+  const allComments = animes.flatMap(a => {
     if(!a.comentarios) return [];
     return a.comentarios.split('\n').map(line => {
       const parts = line.split(': ');
@@ -123,25 +113,20 @@ function renderFeaturedPost(animes) {
         person: parts[0], 
         text: parts[1] || "", 
         anime: a.name,
-        malId: a.mal_id
+        malId: a.mal_id // Guardamos o ID para o link
       };
     });
   }).filter(c => c.text.length > 5);
 
-  const container = document.getElementById("featured-comments");
-  if (!container) return;
-
-  if (allComments.length === 0) {
-    container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--faint); padding: 40px;">Ninguém comentou nada ainda. Seja o primeiro!</p>`;
-    return;
-  }
-
   const shuffled = shuffleItems(allComments);
+  const container = document.getElementById("featured-comments");
+
   const rotate = () => {
     const batch = shuffled.slice(0, 8);
     const groupId = getGroupId();
-    container.innerHTML = batch.map((c, i) => {
+    if(container) container.innerHTML = batch.map((c, i) => {
       const color = _members.find(m => m.nickname === c.person)?.color || "#a78bfa";
+      // O link agora leva para o acervo com a instrução de abrir o modal
       const href = `acervo.html#g=${groupId}&open=${c.malId}`;
       return `
         <a href="${href}" class="comment-balloon comment-balloon-${i+1}" style="--balloon-color:${color}" title="Ver ${c.anime} no acervo">
@@ -151,7 +136,7 @@ function renderFeaturedPost(animes) {
     }).join("");
   };
   rotate();
-  if (shuffled.length > 8) setInterval(rotate, 12000);
+  setInterval(rotate, 12000);
 }
 
 // --- 🎶 OPENINGS ---
@@ -160,6 +145,7 @@ function renderOpeningChips(member) {
   const ops = member.openings || [];
   const canEdit = _currentUser?.id === member.user_id;
   
+  // SEMPRE garante uma lista de 3 slots (preenchidos ou vazios)
   const fullList = [
     ops[0] || { name: "Adicionar Abertura 1", url: "" },
     ops[1] || { name: "Adicionar Abertura 2", url: "" },
@@ -167,6 +153,8 @@ function renderOpeningChips(member) {
   ];
 
   return fullList.map((op, i) => {
+    const isPlaceholder = !op.url && op.name.includes("Adicionar");
+    
     let content;
     if (op.url) {
       content = `<a class="opening-chip" href="${escapeHTML(op.url)}" target="_blank" rel="noopener noreferrer"><b>${i+1}</b>${escapeHTML(op.name)}</a>`;
@@ -193,8 +181,6 @@ window.editOpening = (uid, i) => {
 window.saveOp = async (uid, i) => {
   const name = document.getElementById(`op-n-${i}`).value.trim();
   const url = document.getElementById(`op-u-${i}`).value.trim();
-  if (!name) return alert("Dê um nome!");
-
   const m = _members.find(m => m.user_id === uid);
   const ops = [...(m.openings || [{name:"",url:""},{name:"",url:""},{name:"",url:""}])];
   ops[i] = { name, url };
@@ -232,7 +218,7 @@ function renderMemberPosts(animes, members) {
       <article class="post-card" style="${inlineBg} --member-color:${memberColor}; --member-color-rgb:${rgb}">
         <h3 style="color: white !important;"><span>Top 3</span>${m.nickname}</h3>
         <p>${watched.length} animes vistos, média ${formatNota(avg)} e gênero favorito: ${fav}.</p>
-        <ol>${top.map(a => `<li><span>${shortText(a.name, 32)}</span><strong>${formatNota(getPersonNota(a, m.nickname))}</strong></li>`).join("") || "<li>Sem notas</li>"}</ol>
+        <ol>${top.map(a => `<li><span>${shortText(a.name, 32)}</span><strong>${formatNota(getPersonNota(a, m.nickname))}</strong></li>`).join("")}</ol>
         <div class="post-tags post-openings" id="openings-container-${m.user_id}">
           <strong>Top 3 openings</strong>
           <div class="opening-list" id="openings-${m.user_id}">${renderOpeningChips(m)}</div>
@@ -247,10 +233,6 @@ function renderPulse(animes) {
   const el = document.getElementById("pulse-card");
   if(el) {
     const groupId = getGroupId();
-    if (h.length === 0) {
-      el.innerHTML = `<span class="eyebrow">Pulso</span><h2>Faltam discussões</h2><p style="font-size: 12px; color: var(--faint); margin-top: 15px;">Vote nos animes do grupo para gerar as estatísticas de controvérsia.</p>`;
-      return;
-    }
     el.innerHTML = `
       <span class="eyebrow">Mais controversos</span>
       <h2>Onde a conversa esquenta</h2>
@@ -279,12 +261,12 @@ async function init() {
   const days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
   fetch(`https://api.jikan.moe/v4/schedules?filter=${days[new Date().getDay()]}&limit=6`).then(r => r.json()).then(d => {
     const el = document.getElementById("calendar-card");
-    if(el) el.innerHTML = `<span class="eyebrow">MAL</span><h2>No ar hoje</h2><div class="calendar-list">${(d.data || []).map(a => `<a class="calendar-item" href="https://myanimelist.net/anime/${a.mal_id}" target="_blank"><span class="calendar-dot"></span><span class="calendar-title">${shortText(a.title, 25)}</span></a>`).join("") || '<p style="font-size:12px;color:var(--faint)">Nenhum anime hoje.</p>'}</div>`;
+    if(el) el.innerHTML = `<span class="eyebrow">MAL</span><h2>No ar hoje</h2><div class="calendar-list">${d.data.map(a => `<a class="calendar-item" href="https://myanimelist.net/anime/${a.mal_id}" target="_blank"><span class="calendar-dot"></span><span class="calendar-title">${shortText(a.title, 25)}</span></a>`).join("")}</div>`;
   });
   const rss = encodeURIComponent("https://news.google.com/rss/search?q=anime&hl=pt-BR&gl=BR");
   fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rss}`).then(r => r.json()).then(d => {
     const el = document.getElementById("news-grid");
-    if(el) el.innerHTML = (d.items || []).slice(0,3).map(i => `<article class="news-card"><span class="news-source">${i.author || "News"}</span><h3>${i.title.split(' - ')[0]}</h3><p>${shortText(i.description.replace(/<[^>]*>/g, ""), 120)}</p><a href="${i.link}" target="_blank">Ler mais</a></article>`).join("") || '<p>Sem notícias no momento.</p>';
+    if(el) el.innerHTML = d.items.slice(0,3).map(i => `<article class="news-card"><span class="news-source">${i.author || "News"}</span><h3>${i.title.split(' - ')[0]}</h3><p>${shortText(i.description.replace(/<[^>]*>/g, ""), 120)}</p><a href="${i.link}" target="_blank">Ler mais</a></article>`).join("");
   });
 }
 
@@ -293,4 +275,4 @@ window.scrollMemberGrid = (dir) => {
   const c = g?.querySelector(".post-card");
   if(g && c) g.scrollBy({ left: dir * (c.offsetWidth + 18), behavior: "smooth" });
 };
-init().catch(() => {});
+init().catch(console.error);

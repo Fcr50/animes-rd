@@ -45,6 +45,7 @@ async function loadPendingAnimes() {
     .eq('status', 'pending');
 
   if (error) {
+    console.error(error);
     return;
   }
 

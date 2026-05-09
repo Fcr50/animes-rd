@@ -62,6 +62,7 @@ function buildRounds(animes, p1, p2) {
   const s1 = new Set(animesOf(animes, p1).map((a) => a.id));
   const s2 = new Set(animesOf(animes, p2).map((a) => a.id));
   const common = animes.filter((a) => s1.has(a.id) && s2.has(a.id) && a.nota !== null);
+  console.log(`[Batalha] Animes em comum entre ${p1} e ${p2}:`, common.length);
   if (common.length < ROUNDS_TOTAL * 2) return null;
   const pool = shuffle(common).slice(0, ROUNDS_TOTAL * 2);
   return Array.from({ length: ROUNDS_TOTAL }, (_, i) => ({
@@ -73,6 +74,7 @@ function buildRounds(animes, p1, p2) {
 // ── Firebase ops ──────────────────────────────────────────────────────────────
 
 async function createSession(animes, p1, p2) {
+  console.log(`[Batalha] Criando sessão: ${p1} vs ${p2}`);
   const rounds = buildRounds(animes, p1, p2);
   if (!rounds) throw new Error(`Animes em comum insuficientes (mínimo ${ROUNDS_TOTAL * 2})`);
 
@@ -89,6 +91,7 @@ async function createSession(animes, p1, p2) {
     created_at: serverTimestamp(),
     updated_at: serverTimestamp(),
   });
+  console.log(`[Batalha] Sessão criada: ${ref.id}`);
   return ref.id;
 }
 
@@ -98,13 +101,16 @@ async function joinSession(sessionId) {
     status: "active",
     updated_at: serverTimestamp(),
   });
+  console.log(`[Batalha] Sessão ativada: ${sessionId}`);
 }
 
 async function cancelSession(sessionId) {
   await deleteDoc(doc(db, SESSIONS_COL, sessionId));
+  console.log(`[Batalha] Sessão cancelada: ${sessionId}`);
 }
 
 async function castVote(sessionId, round, playerName, animeId) {
+  // Verifica duplicata — query simples por session_id, filtra client-side
   const dupSnap = await getDocs(
     query(collection(db, VOTES_COL), where("session_id", "==", sessionId)),
   );
@@ -134,6 +140,7 @@ async function castVote(sessionId, round, playerName, animeId) {
     });
   });
 
+  console.log(`[Batalha] Voto: ${playerName} → anime ${animeId} (rodada ${round})`);
   await tryResolve(sessionId, round);
 }
 
@@ -143,6 +150,7 @@ async function tryResolve(sessionId, round) {
   );
   const votesSnap = { docs: allVotesSnap.docs.filter((d) => d.data().round === round), size: 0 };
   votesSnap.size = votesSnap.docs.length;
+  console.log(`[Batalha] Votos na rodada ${round}:`, votesSnap.size);
   if (votesSnap.size < 2) return;
 
   const sessionRef = doc(db, SESSIONS_COL, sessionId);
@@ -163,8 +171,10 @@ async function tryResolve(sessionId, round) {
   const update = { round_results: newResults, updated_at: serverTimestamp() };
   if (isLast) {
     update.status = "finished";
+    console.log(`[Batalha] FIM! Revelando escolhas.`);
   } else {
     update.current_round = round + 1;
+    console.log(`[Batalha] Avançando para rodada ${round + 1}`);
   }
 
   await updateDoc(sessionRef, update);
@@ -177,11 +187,14 @@ let myName = localStorage.getItem(MY_KEY) || null;
 let fireUser = null;
 
 export function initBatalha(container, animes) {
+  console.log("[Batalha] Init. PEOPLE:", PEOPLE);
+
   onAuthStateChanged(auth, (user) => {
     fireUser = user;
     if (!user) {
       renderAuthGate(container, animes);
     } else {
+      // Recupera nome ligado a este uid (mesmo sistema do suggest.js)
       const linked = localStorage.getItem(`user-${user.uid}-personName`);
       if (linked && !myName) myName = linked;
       renderRoot(container, animes);
@@ -201,8 +214,9 @@ function renderAuthGate(container, animes) {
   document.getElementById("bt-login-btn")?.addEventListener("click", async () => {
     try {
       await signInWithPopup(auth, new GoogleAuthProvider());
+      // onAuthStateChanged vai reagir automaticamente
     } catch (e) {
-      alert("Erro no login.");
+      alert("Erro no login: " + e.message);
     }
   });
 }
@@ -213,8 +227,11 @@ function renderRoot(container, animes) {
     unsub = null;
   }
 
+  // Mostra loading
   container.innerHTML = `<div class="bt-loading">Carregando...</div>`;
 
+  // Escuta sessões ativas que envolvem qualquer membro
+  // Query simples sem filtro composto — filtra client-side
   const q = collection(db, SESSIONS_COL);
 
   unsub = onSnapshot(
@@ -222,12 +239,19 @@ function renderRoot(container, animes) {
     (snap) => {
       const all = snap.docs.map((d) => ({ ...d.data(), id: d.id }));
       const sessions = all.filter((s) => ["waiting", "active", "finished"].includes(s.status));
+      console.log(
+        "[Batalha] Sessões:",
+        sessions.map((s) => `${s.id.slice(0, 6)} ${s.status}`),
+      );
 
       const mySession = myName
         ? sessions.find((s) => s.player1_name === myName || s.player2_name === myName)
         : null;
 
       if (mySession) {
+        console.log(
+          `[Batalha] Minha sessão: ${mySession.id} status=${mySession.status} round=${mySession.current_round}`,
+        );
         if (mySession.status === "finished") renderFinished(container, mySession);
         else if (mySession.status === "waiting") renderWaiting(container, mySession, animes);
         else renderActive(container, mySession, animes);
@@ -240,11 +264,14 @@ function renderRoot(container, animes) {
       }
     },
     (err) => {
+      console.error("[Batalha] Erro no listener:", err.code, err.message);
+      // Mostra lobby mesmo sem conexão ao Firestore
       renderLobby(container, animes, []);
+      // Banner de aviso não-bloqueante
       const warn = document.createElement("div");
       warn.style.cssText =
         "background:rgba(253,230,138,0.08);border:1px solid rgba(253,230,138,0.2);border-radius:12px;color:rgba(253,230,138,0.7);font-size:12px;font-weight:700;margin-top:16px;padding:10px 14px;";
-      warn.textContent = `⚠️ Sem sincronização em tempo real. A batalha pode não funcionar corretamente.`;
+      warn.textContent = `⚠️ Sem sincronização em tempo real (${err.code || "erro"}). A batalha pode não funcionar corretamente.`;
       container.appendChild(warn);
     },
   );
@@ -317,14 +344,17 @@ function renderLobby(container, animes, activeSessions) {
     </div>
   `;
 
+  // Selecionar quem sou
   document.getElementById("bt-who").addEventListener("click", (e) => {
     const btn = e.target.closest("[data-name]");
     if (!btn) return;
     myName = btn.dataset.name;
     localStorage.setItem(MY_KEY, myName);
+    console.log(`[Batalha] Eu sou: ${myName}`);
     renderLobby(container, animes, activeSessions);
   });
 
+  // Criar batalha
   document.getElementById("bt-create-btn")?.addEventListener("click", async () => {
     const opp = document.getElementById("bt-opponent").value;
     const errEl = document.getElementById("bt-create-error");
@@ -348,12 +378,15 @@ function renderLobby(container, animes, activeSessions) {
       return;
     }
 
+    console.log(`[Batalha] Tentando criar: ${myName} vs ${opp}`);
     btn.disabled = true;
     loadEl.classList.remove("hidden");
 
     try {
       await createSession(animes, myName, opp);
+      // onSnapshot vai reagir automaticamente
     } catch (e) {
+      console.error("[Batalha] Erro ao criar:", e);
       errEl.textContent = e.message;
       errEl.classList.remove("hidden");
       btn.disabled = false;
@@ -361,6 +394,7 @@ function renderLobby(container, animes, activeSessions) {
     }
   });
 
+  // Entrar em sessão
   window.__btJoin = async (sessionId) => {
     try {
       await joinSession(sessionId);
@@ -416,6 +450,7 @@ function renderWaiting(container, session, animes) {
   `;
 
   document.getElementById("bt-join-btn")?.addEventListener("click", async () => {
+    // Qualquer pessoa pode entrar como p2 se não tiver nome selecionado
     if (!myName || myName === session.player2_name) {
       myName = session.player2_name;
       localStorage.setItem(MY_KEY, myName);
@@ -442,6 +477,7 @@ async function renderActive(container, session, animes) {
   const c1 = PERSON_LIGHTS[session.player1_name] || "#a78bfa";
   const c2 = PERSON_LIGHTS[session.player2_name] || "#f9a8d4";
 
+  // Pega votos desta rodada (filtra client-side para evitar índices compostos)
   const allVotesSnap = await getDocs(
     query(collection(db, VOTES_COL), where("session_id", "==", session.id)),
   );
@@ -453,6 +489,8 @@ async function renderActive(container, session, animes) {
   });
   const myVote = myName ? votes[myName] : null;
   const votedNames = Object.keys(votes);
+
+  console.log(`[Batalha] Rodada ${round} votos:`, votes, "Meu voto:", myVote);
 
   container.innerHTML = `
     <div class="bt-active">
@@ -555,6 +593,7 @@ async function renderActive(container, session, animes) {
     </div>
   `;
 
+  // Vote buttons — bloqueia tudo imediatamente, deixa onSnapshot atualizar a UI
   document.querySelectorAll(".bvote2:not([disabled])").forEach((btn) => {
     btn.addEventListener("click", async () => {
       if (!myName) {
@@ -562,19 +601,24 @@ async function renderActive(container, session, animes) {
         return;
       }
 
+      // Bloqueia todos os botões na hora para evitar duplo clique
       document.querySelectorAll(".bvote2").forEach((b) => {
         b.disabled = true;
         b.classList.add("bvote2-done");
         b.textContent = b === btn ? "✓ Seu voto" : "—";
       });
 
+      // Atualiza status otimisticamente (sem re-render completo)
       const statusEl = document.querySelector(".bt-vote-status");
       if (statusEl)
         statusEl.innerHTML = `<div class="bt-voted-msg">✓ Voto registrado! Aguardando o outro jogador...</div>`;
 
       try {
         await castVote(session.id, round, myName, btn.dataset.id);
+        // NÃO chama renderActive aqui — o onSnapshot vai atualizar quando o round avançar
+        console.log("[Batalha] Voto registrado, aguardando onSnapshot...");
       } catch (e) {
+        console.error("[Batalha] Erro ao votar:", e);
         if (e.message !== "Você já votou nesta rodada") {
           alert(e.message);
         }
@@ -590,6 +634,7 @@ async function renderActive(container, session, animes) {
     }
   });
 
+  // Verifica se a sessão está finished (pode ter mudado entre o listener e o render)
   if (session.status === "finished") {
     renderFinished(container, session);
   }
@@ -683,5 +728,6 @@ function renderFinished(container, session) {
     await cancelSession(session.id).catch(() => {});
     myName = null;
     localStorage.removeItem(MY_KEY);
+    // O listener vai detectar que a sessão sumiu e mostrar o lobby
   });
 }

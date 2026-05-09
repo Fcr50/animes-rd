@@ -3,6 +3,8 @@ import { supabase } from './supabase-client.js';
 import { signInWithGoogle, signOut, onAuthStateChange } from './auth.js';
 import { loadData } from './data.js';
 
+console.log('js/utils.js execution started.');
+
 /**
  * Escapa caracteres HTML para evitar XSS.
  */
@@ -81,8 +83,12 @@ export function getGroupId() {
 
   if (gid) {
     localStorage.setItem("active_group_id", gid);
+    console.log(`%c [Group Active] ${gid} (from URL/Hash) `, "background: #8b5cf6; color: white; font-weight: bold;");
   } else {
     gid = localStorage.getItem("active_group_id");
+    if (gid) {
+      console.log(`%c [Group Active] ${gid} (from Storage Fallback) `, "background: #10b981; color: white; font-weight: bold;");
+    }
   }
   return gid;
 }
@@ -123,6 +129,7 @@ async function updatePendingBadge(user, groupId) {
   if (!user || !groupId) return;
 
   try {
+    // 1. Busca animes pendentes no grupo
     const { data: pendingAnimes } = await supabase
       .from('group_animes')
       .select('mal_id')
@@ -131,6 +138,7 @@ async function updatePendingBadge(user, groupId) {
 
     if (!pendingAnimes || pendingAnimes.length === 0) return;
 
+    // 2. Busca em quais o usuário já votou
     const { data: userVotes } = await supabase
       .from('votes')
       .select('mal_id')
@@ -141,6 +149,7 @@ async function updatePendingBadge(user, groupId) {
     const votedIds = new Set(userVotes?.map(v => v.mal_id));
     const pendingCount = pendingAnimes.filter(a => !votedIds.has(a.mal_id)).length;
 
+    // 3. Atualiza a UI (Desktop e Mobile)
     const links = document.querySelectorAll('a[href^="pending.html"]');
     links.forEach(link => {
       let badge = link.querySelector('.nav-badge');
@@ -155,7 +164,9 @@ async function updatePendingBadge(user, groupId) {
         badge.remove();
       }
     });
-  } catch (err) {}
+  } catch (err) {
+    console.error("Erro ao atualizar badge:", err);
+  }
 }
 
 /**
@@ -194,7 +205,9 @@ async function updateNavbarState(user) {
       }).join("");
       if (desktopContainer) desktopContainer.innerHTML = membersHtml;
       if (mobileContainer) mobileContainer.innerHTML = membersHtml;
-    } catch (err) {}
+    } catch (err) {
+      console.error("Erro ao carregar membros:", err);
+    }
   } else {
     // Caso contrário, garante que tudo do grupo suma
     nav.querySelectorAll("a.nav-link, .nav-person, .mobile-drawer-section").forEach(el => {
@@ -218,6 +231,7 @@ async function updateNavbarState(user) {
       const isSamePath = linkPath === currentPath || (linkPath === "index.html" && currentPath === "");
       let isActive = isSamePath;
 
+      // Refinamento para perfis: checa o parâmetro 'p' (nickname)
       if (currentPath === "profile.html") {
         const linkParams = new URLSearchParams(url.hash.substring(1) || url.search);
         const currentParams = new URLSearchParams(window.location.hash.substring(1) || window.location.search);
@@ -268,7 +282,9 @@ export async function loadNavbar() {
 
     document.dispatchEvent(new CustomEvent("navbar-loaded"));
 
-  } catch (error) {}
+  } catch (error) {
+    console.error("Erro ao carregar a navbar:", error);
+  }
 }
 
 if (document.readyState === "loading") {

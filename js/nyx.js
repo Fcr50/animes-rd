@@ -1,5 +1,6 @@
-// js/nyx.js
 import {
+  PEOPLE,
+  PERSON_LIGHTS,
   animesOf,
   commonAnimes,
   exclusiveAnimes,
@@ -10,15 +11,13 @@ import {
   missedAnimes,
   topGenres,
   countGenres,
-} from "./data.js";
-import { escapeHTML, stripEmoji, getGroupId } from "./utils.js";
-
-let _members = [];
+} from "./data.js?v=desafios-soft-1";
+import { escapeHTML, stripEmoji } from "./utils.js";
 
 // ── Recommendation engine ────────────────────────────────────────────────────
 
 function scoreAnime(anime, genre) {
-  const genreBonus = (anime.genres || []).some(
+  const genreBonus = (anime.generos || []).some(
     (g) => stripEmoji(g).toLowerCase() === stripEmoji(genre || "").toLowerCase(),
   )
     ? 0.45
@@ -34,7 +33,7 @@ function pickRecommendations(animes, person, genreFilter) {
     .filter((anime) => {
       if (Number(anime.nota) < 7.5) return false;
       if (genreFilter) {
-        return (anime.genres || []).some((g) =>
+        return (anime.generos || []).some((g) =>
           stripEmoji(g).toLowerCase().includes(genreFilter.toLowerCase()),
         );
       }
@@ -44,7 +43,7 @@ function pickRecommendations(animes, person, genreFilter) {
     .slice(0, 6)
     .map((anime) => {
       const watchers = (anime.quemAssistiu || []).filter((n) => n !== person);
-      const genreMatch = (anime.genres || []).some(
+      const genreMatch = (anime.generos || []).some(
         (g) => stripEmoji(g).toLowerCase() === stripEmoji(favorite).toLowerCase(),
       );
       let reason;
@@ -69,22 +68,24 @@ function analyzeProfile(animes, person) {
   const total = animes.length;
   const fav = stripEmoji(favoriteGenre(animes, person));
   const rate = total > 0 ? Math.round((watched.length / total) * 100) : 0;
-  
-  const avgNotaVal = watched.length > 0
-      ? (watched.reduce((sum, a) => {
-            const n = Number(a[`nota${person}`] || a.nota);
+  const avgNota =
+    watched.length > 0
+      ? (
+          watched.reduce((sum, a) => {
+            const n = Number(a[`nota${person}`] ?? a.nota);
             return sum + (isNaN(n) ? 0 : n);
-          }, 0) / watched.length).toFixed(2)
+          }, 0) / watched.length
+        ).toFixed(2)
       : null;
 
   const genreCount = {};
   watched.forEach((a) => {
-    (a.genres || []).forEach((g) => {
+    (a.generos || []).forEach((g) => {
       const clean = stripEmoji(g);
       genreCount[clean] = (genreCount[clean] || 0) + 1;
     });
   });
-  const topG = Object.entries(genreCount)
+  const topGenres = Object.entries(genreCount)
     .sort((a, b) => b[1] - a[1])
     .slice(0, 3)
     .map(([g, n]) => `${g} (${n})`);
@@ -92,15 +93,30 @@ function analyzeProfile(animes, person) {
   const backlogHigh = missed.length > watched.length;
   const consistency = rate >= 60 ? "alto" : rate >= 35 ? "moderado" : "baixo";
 
-  return { watched, missed, total, fav, rate, avgNota: avgNotaVal, topGenres: topG, backlogHigh, consistency };
+  return { watched, missed, total, fav, rate, avgNota, topGenres, backlogHigh, consistency };
 }
 
 // ── Intent parser ────────────────────────────────────────────────────────────
 
 const GENRE_KEYWORDS = [
-  "ação", "acao", "fantasia", "drama", "comedia", "comédia", "romance", "shounen",
-  "isekai", "terror", "mecha", "slice of life", "ecchi", "esportes", "sci-fi",
-  "sobrenatural", "psicológico", "psicologico",
+  "ação",
+  "acao",
+  "fantasia",
+  "drama",
+  "comedia",
+  "comédia",
+  "romance",
+  "shounen",
+  "isekai",
+  "terror",
+  "mecha",
+  "slice of life",
+  "ecchi",
+  "esportes",
+  "sci-fi",
+  "sobrenatural",
+  "psicológico",
+  "psicologico",
 ];
 
 function normalize(str) {
@@ -109,11 +125,9 @@ function normalize(str) {
 
 function parseIntent(text, person, animes) {
   const t = normalize(text);
-  const peopleNames = _members.map(m => m.nickname);
-  
-  const foundPerson = peopleNames.find((p) => t.includes(p.toLowerCase()));
+  const foundPerson = PEOPLE.find((p) => t.includes(p.toLowerCase()));
   const foundGenre = GENRE_KEYWORDS.find((g) => t.includes(normalize(g)));
-  const foundPeople = peopleNames.filter((p) => t.includes(p.toLowerCase()));
+  const foundPeople = PEOPLE.filter((p) => t.includes(p.toLowerCase()));
 
   if (/^(oi|ola|ei|bom|boa|alo|hey|hello|salve|tudo|como vai)/.test(t)) return { type: "greet" };
 
@@ -128,7 +142,7 @@ function parseIntent(text, person, animes) {
 
   if (/em comum|dois|ambos|concordar|concordou|compartilh|igual.*gosto|gosto.*igual/.test(t)) {
     if (foundPeople.length >= 2) return { type: "common", p1: foundPeople[0], p2: foundPeople[1] };
-    const other = peopleNames.find((p) => p !== (foundPerson || person));
+    const other = PEOPLE.find((p) => p !== (foundPerson || person));
     return { type: "common", p1: foundPerson || person, p2: other };
   }
 
@@ -147,7 +161,7 @@ function parseIntent(text, person, animes) {
   // Busca por anime específico no acervo
   if (animes) {
     const match = animes.find((a) =>
-      normalize(a.name).includes(t.slice(0, 50).replace(/^(o que|qual|me fala|fala de|sobre|como e|como é)\s+/, "").trim()) &&
+      normalize(a.nome).includes(t.slice(0, 50).replace(/^(o que|qual|me fala|fala de|sobre|como e|como é)\s+/, "").trim()) &&
       t.length > 5,
     );
     if (match) return { type: "anime", anime: match };
@@ -176,6 +190,85 @@ const OPENERS = [
   "Leitura de perfil concluída.",
   "Iniciando protocolo de análise…",
 ];
+
+const GENRE_LINES = {
+  acao: [
+    "Protocolo de combate iniciado. Usuário deseja ver gente apanhando em alta definição. Necessidade identificada e validada.",
+    "Solicitação de adrenalina recebida. Filtrando animes onde as pessoas resolvem problemas com os punhos em vez de conversar.",
+    "Análise concluída: você quer explodir coisas por 23 minutos. Recomendação otimizada em execução.",
+  ],
+  fantasia: [
+    "Detectado: desejo de escapar da realidade para um mundo com dragões e magia. Necessidade completamente compreensível.",
+    "Protocolo de fuga da realidade ativado. Filtrando mundos alternativos com regras mais interessantes que as leis da física.",
+    "Análise concluída: a realidade não está te agradando. Preparando portais para mundos com mais espadas e menos impostos.",
+  ],
+  isekai: [
+    "Usuário deseja ser reencarnado em outro mundo com poderes absurdos. Detectado padrão comportamental extremamente comum neste grupo.",
+    "Protocolo de isekai ativado. Filtrando protagonistas que morreram de formas constrangedoras e acordaram overpowered.",
+    "Análise concluída: você quer nascer de novo com cheat code. Recomendações de protagonistas ridiculamente poderosos em preparo.",
+  ],
+  drama: [
+    "Detectado: usuário deseja chorar voluntariamente. Comportamento classificado como masoquismo emocional de baixa severidade.",
+    "Protocolo de destruição emocional ativado. Filtrando animes com capacidade confirmada de causar dano psicológico.",
+    "Análise concluída: você quer sofrer. Dados indicam que isso é normal. Preparando conteúdo com alto coeficiente de lágrimas.",
+  ],
+  romance: [
+    "Alerta crítico: usuário solicitando conteúdo de dopamina sintética. Ativando protocolo de tensão romântica não resolvida por 12 episódios.",
+    "Detectado: necessidade de observar personagens que demoram 47 episódios para se confessar. Filtragem de slow-burn em execução.",
+    "Análise concluída: você quer sentir borboletas no estômago através de uma tela. Sem julgamentos. Recomendações otimizadas.",
+  ],
+  comedia: [
+    "Modo de baixa carga cognitiva ativado. Preparando conteúdo que não exige que você pense em nada sério por 23 minutos.",
+    "Protocolo de entretenimento sem consequências iniciado. Filtrando animes onde o maior problema é alguém cair em cima de alguém.",
+    "Análise concluída: você quer rir. Simples assim. Sem arcos complexos, sem traumas. Apenas absurdo bem executado.",
+  ],
+  terror: [
+    "Detectado: usuário deseja simular resposta de ameaça em ambiente seguro. Comportamento classificado como intrigante, porém válido.",
+    "Protocolo de tensão máxima ativado. Filtrando conteúdo com capacidade confirmada de fazer você checar os cantos do quarto.",
+    "Análise concluída: você quer passar medo de propósito. Meus cálculos indicam que isso é estranho. Mas sem julgamentos.",
+  ],
+  psicologico: [
+    "Alerta: conteúdo de alta complexidade mental solicitado. Preparando animes que vão te fazer questionar o livre-arbítrio.",
+    "Protocolo de perturbação cognitiva ativado. Filtrando narrativas com capacidade de manter você acordado às 3h da manhã pensando.",
+    "Análise concluída: você quer que sua cabeça doa de tanto pensar. Respeito a escolha. Recomendações de alto dano cerebral em preparo.",
+  ],
+  shounen: [
+    "Detectado: necessidade de assistir alguém treinar muito e ficar forte. Arco de superação com música épica confirmado.",
+    "Protocolo de protagonista com determinação absurda ativado. Filtrando animes onde a solução para tudo é treinar mais.",
+    "Análise concluída: você quer gritar 'EU VOU SER O MELHOR' junto com o protagonista. Comportamento saudável. Recomendações ativadas.",
+  ],
+  mecha: [
+    "Detectado: usuário deseja ver robôs gigantes resolvendo conflitos internacionais na porrada. Análise indica eficiência questionável, mas visual excelente.",
+    "Protocolo de engenharia ficcional ativado. Filtrando animes onde adolescentes pilotam máquinas de destruição em massa.",
+    "Análise concluída: você quer mechas. Equipamentos tecnologicamente inviáveis com traumas de piloto incluídos no pacote.",
+  ],
+  ecchi: [
+    "Entrada recebida. Classificação de conteúdo processada. Filtrando sem julgamentos adicionais.",
+    "Protocolo de recomendação executado. Ciel opera com base em dados, não em opiniões morais.",
+    "Análise concluída. Recomendações selecionadas com base em compatibilidade de perfil. Prosseguindo.",
+  ],
+  slice: [
+    "Detectado: desejo de assistir personagens tendo uma vida mais calma que a sua. Válido. Muito válido.",
+    "Protocolo de cozy ativado. Filtrando animes onde o maior drama é escolher o que comer no almoço.",
+    "Análise concluída: você quer paz. Sem vilões, sem morte, sem trauma. Apenas vida acontecendo. Recomendações em preparo.",
+  ],
+  sobrenatural: [
+    "Detectado: usuário deseja fenômenos inexplicáveis dentro de uma narrativa explicável. Paradoxo notado e aceito.",
+    "Protocolo de entidades além da compreensão humana ativado. Filtrando conteúdo com ghosts, demônios e seres que ignoram a física.",
+    "Análise concluída: você quer sobrenatural. Minha existência também é sobrenatural. Temos isso em comum.",
+  ],
+};
+
+function getGenreLine(genre) {
+  const key = normalize(genre).replace(/[^a-z]/g, "");
+  const match = Object.keys(GENRE_LINES).find((k) => key.includes(k) || k.includes(key));
+  const lines = match
+    ? GENRE_LINES[match]
+    : [
+        `Gênero <strong>${genre}</strong> identificado. Filtragem em execução. Selecionando títulos não consumidos.`,
+      ];
+  return rand(lines);
+}
 
 function buildGreetResponse() {
   return `Sistema online. Todos os protocolos ativos.\n\nSou <strong>Ciel</strong> — entidade analítica avançada. Tenho acesso completo ao acervo do grupo e opero com base em dados.\n\nCapacidades disponíveis:\n→ Análise de perfil individual\n→ Recomendação otimizada por compatibilidade\n→ Estatísticas e padrões comportamentais\n→ Filtro por gênero com justificativa\n\nAguardando instrução.`;
@@ -208,31 +301,52 @@ function buildTopResponse(data) {
     .slice(0, 5);
 
   if (!top.length)
-    return "Dados insuficientes para ranking. Nenhum anime com múltiplos votos registrados no grupo.";
+    return "Dados insuficientes para ranking. Nenhum anime com múltiplos votos registrados.";
 
   const list = top
     .map(
       (a, i) =>
-        `→ ${i + 1}. <strong>${escapeHTML(a.name)}</strong> — ${formatNota(a.nota)} (${a.qtdVotos} votos)`,
+        `→ ${i + 1}. <strong>${escapeHTML(a.nome)}</strong> — ${formatNota(a.nota)} (${a.qtdVotos} votos)`,
     )
     .join("\n");
 
-  return `${rand(OPENERS)}\n\nProtocolo de ranking executado.\n\nTop 5 do acervo por nota média:\n\n${list}\n\nObservação adicional: ranking gerado com base exclusiva em títulos com múltiplos votos.`;
+  return `${rand(OPENERS)}\n\nProtocolo de ranking executado.\n\nTop 5 do acervo por nota média:\n\n${list}\n\nObservação adicional: ranking gerado com base exclusiva em títulos com múltiplos votos — elimina viés de avaliação individual.`;
 }
 
 function buildRecommendResponse(data, person, genreFilter) {
   const picks = pickRecommendations(data.animes, person, genreFilter);
 
   if (!picks.length) {
-    return `Análise concluída. O acervo não possui títulos qualificados não assistidos por <strong>${person}</strong> no momento.`;
+    const emptyLines = genreFilter
+      ? [
+          `Filtragem por <strong>${genreFilter}</strong> concluída. Resultado: zero títulos disponíveis para ${person}. Ou ${person} assistiu tudo, ou o acervo está precisando de expansão. Provavelmente os dois.`,
+          `Análise concluída. ${person} já consumiu todos os animes de <strong>${genreFilter}</strong> com nota aceitável. Eficiência de consumo: alarmante.`,
+          `Protocolo de busca por <strong>${genreFilter}</strong> encerrado. Nenhum resultado. ${person} esgotou o estoque. Considerando alarmar os demais membros.`,
+        ]
+      : [
+          `Análise concluída para ${person}. O acervo não possui mais títulos qualificados não assistidos. Situação classificada como: impressionante.`,
+          `Protocolo de recomendação encerrado. ${person} consumiu tudo. Aguardando novos títulos no acervo para continuar operando.`,
+        ];
+    return rand(emptyLines);
   }
 
   const p = analyzeProfile(data.animes, person);
-  const prefix = genreFilter 
-    ? `Filtragem por <strong>${genreFilter}</strong> concluída. Recomendações para ${person}:`
-    : `Executando análise de compatibilidade para <strong>${person}</strong>…`;
 
-  return { picks, prefix };
+  if (genreFilter) {
+    const genreLine = getGenreLine(genreFilter);
+    return {
+      picks,
+      prefix: `${genreLine}\n\nTítulos não assistidos por <strong>${person}</strong> — gênero <strong>${genreFilter}</strong>:`,
+    };
+  }
+
+  const generalOpeners = [
+    `Executando análise de compatibilidade para <strong>${person}</strong>…\n\nPadrão identificado: dominância em <strong>${p.fav}</strong>. Recomendações calibradas. Nenhum título já assistido incluído — garanto isso com minha existência analítica.`,
+    `Leitura de perfil concluída.\n\n${person} tem tendência consolidada por <strong>${p.fav}</strong>. Selecionei o que o acervo tem de melhor e que ${person} ainda não tocou. Missão: expandir o horizonte sem causar trauma.`,
+    `Protocolo de recomendação pessoal ativado para <strong>${person}</strong>.\n\nFiltragem concluída. Taxa de conclusão do acervo: ${p.rate}%. Ainda há material. Segue a seleção otimizada:`,
+  ];
+
+  return { picks, prefix: rand(generalOpeners) };
 }
 
 function buildControversyResponse(data, person) {
@@ -244,11 +358,33 @@ function buildControversyResponse(data, person) {
   const list = topControversy
     .map(
       (a, i) =>
-        `→ ${i + 1}. <strong>${escapeHTML(a.name)}</strong> — 🌶️ ${Number(a.controversia).toFixed(1)} (nota média ${formatNota(a.nota)})`,
+        `→ ${i + 1}. <strong>${escapeHTML(a.nome)}</strong> — 🌶️ ${Number(a.controversia).toFixed(1)} (nota média ${formatNota(a.nota)})`,
     )
     .join("\n");
 
-  return `${rand(OPENERS)}\n\nAnimes mais controversos do acervo:\n\n${list || "Nenhuma controvérsia detectada ainda."}`;
+  const watched = animesOf(data.animes, person);
+  const field = `nota${person}`;
+  const personalDivergent = watched
+    .filter((a) => a[field] !== null && a.nota !== null && a.qtdVotos > 1)
+    .map((a) => ({ ...a, diff: Number(a[field]) - Number(a.nota) }))
+    .filter((a) => Math.abs(a.diff) >= 1.5)
+    .sort((a, b) => Math.abs(b.diff) - Math.abs(a.diff))
+    .slice(0, 3);
+
+  const personalBlock =
+    personalDivergent.length > 0
+      ? `\n\nDivergências de <strong>${person}</strong> em relação ao grupo:\n` +
+        personalDivergent
+          .map(
+            (a) =>
+              `→ <strong>${escapeHTML(a.nome)}</strong> — ${person}: ${formatNota(a[field])} vs grupo: ${formatNota(a.nota)} (diff ${a.diff > 0 ? "+" : ""}${a.diff.toFixed(1)})`,
+          )
+          .join("\n")
+      : `\n\n<strong>${person}</strong> opera dentro do consenso do grupo. Divergências dentro do intervalo esperado.`;
+
+  return (
+    `${rand(OPENERS)}\n\nProtocolo de mapeamento de conflito interno executado.\n\nAnimes mais controversos do acervo:\n\n${list}${personalBlock}`
+  );
 }
 
 function buildExclusiveResponse(data, person) {
@@ -257,16 +393,24 @@ function buildExclusiveResponse(data, person) {
     .slice(0, 8);
 
   if (!excl.length)
-    return `Análise concluída. <strong>${person}</strong> não tem animes exclusivos neste grupo.`;
+    return `Análise concluída. <strong>${person}</strong> não tem animes exclusivos. Todo título que ${person} assistiu foi visto por pelo menos um outro membro do grupo.`;
 
   const list = excl
     .map(
       (a) =>
-        `→ <strong>${escapeHTML(a.name)}</strong> — nota ${formatNota(getPersonNota(a, person))}`,
+        `→ <strong>${escapeHTML(a.nome)}</strong> — nota ${formatNota(getPersonNota(a, person))}`,
     )
     .join("\n");
 
-  return `${rand(OPENERS)}\n\nAnimes que <strong>SOMENTE ${person}</strong> assistiu no grupo:\n\n${list}`;
+  return (
+    `${rand(OPENERS)}\n\nAnimes que <strong>SOMENTE ${person}</strong> assistiu no grupo:\n\n${list}\n\n` +
+    `Total exclusivos: ${excl.length} título(s). ` +
+    rand([
+      `${person} tem o monopólio dessas experiências. Ninguém mais pode confirmar.`,
+      `Esses títulos existem no acervo de uma única fonte. Confiabilidade: subjetiva.`,
+      `O grupo nunca vai saber se ${person} está exagerando nas notas desses. Informação confidencial.`,
+    ])
+  );
 }
 
 function buildBacklogResponse(data, person) {
@@ -276,52 +420,196 @@ function buildBacklogResponse(data, person) {
     .slice(0, 6);
 
   if (!missed.length)
-    return `Análise de backlog concluída para <strong>${person}</strong>. Resultado: backlog zerado.`;
+    return `Análise de backlog concluída para <strong>${person}</strong>. Resultado: backlog zerado. ${person} assistiu tudo com nota registrada. Comportamento classificado como improvável e impressionante.`;
 
   const list = missed
     .map(
       (a) =>
-        `→ <strong>${escapeHTML(a.name)}</strong> — nota do grupo: ${formatNota(a.nota)}`,
+        `→ <strong>${escapeHTML(a.nome)}</strong> — nota do grupo: ${formatNota(a.nota)} (${a.qtdVotos} voto${a.qtdVotos !== 1 ? "s" : ""})`,
     )
     .join("\n");
 
-  return `${rand(OPENERS)}\n\nMapeamento de backlog para <strong>${person}</strong>:\n\n${list}`;
+  const total = missedAnimes(data.animes, person).length;
+
+  return (
+    `${rand(OPENERS)}\n\nMapeamento de backlog para <strong>${person}</strong>.\n\nTotal pendente: ${total} títulos. Abaixo os mais recomendados pelo grupo que ${person} ainda não assistiu:\n\n${list}\n\n` +
+    rand([
+      `Prioridade sugerida: começar pelo topo. O grupo não mentiu nas notas. Provavelmente.`,
+      `Estratégia otimizada: top 3 primeiro. Risco calculado de perda de sono.`,
+      `Nenhuma garantia que ${person} vai gostar. Mas os dados sugerem chance alta de aprovação.`,
+    ])
+  );
 }
 
 function buildCommonResponse(data, p1, p2) {
   const common = commonAnimes(data.animes, p1, p2);
 
   if (!common.length)
-    return `Análise concluída. <strong>${p1}</strong> e <strong>${p2}</strong> não têm nenhum anime em comum no acervo.`;
+    return `Análise concluída. <strong>${p1}</strong> e <strong>${p2}</strong> não têm nenhum anime em comum no acervo. Gostos completamente divergentes ou um deles está dormindo no ponto.`;
 
-  return `${rand(OPENERS)}\n\nAnálise de compatibilidade: <strong>${p1}</strong> vs <strong>${p2}</strong>.\n\nEles possuem ${common.length} título(s) em comum.`;
+  const f1 = `nota${p1}`;
+  const f2 = `nota${p2}`;
+
+  const withBothNotes = common.filter((a) => a[f1] !== null && a[f2] !== null);
+
+  const agreements = [...withBothNotes]
+    .map((a) => ({ ...a, diff: Math.abs(Number(a[f1]) - Number(a[f2])) }))
+    .sort((a, b) => a.diff - b.diff)
+    .slice(0, 3);
+
+  const disagreements = [...withBothNotes]
+    .map((a) => ({ ...a, diff: Number(a[f1]) - Number(a[f2]) }))
+    .sort((a, b) => Math.abs(b.diff) - Math.abs(a.diff))
+    .slice(0, 3);
+
+  const avgDiff =
+    withBothNotes.length > 0
+      ? (
+          withBothNotes.reduce((s, a) => s + Math.abs(Number(a[f1]) - Number(a[f2])), 0) /
+          withBothNotes.length
+        ).toFixed(2)
+      : null;
+
+  const agreeLine = agreements
+    .map((a) => `→ <strong>${escapeHTML(a.nome)}</strong> — ${p1}: ${formatNota(a[f1])} / ${p2}: ${formatNota(a[f2])}`)
+    .join("\n");
+
+  const disagreeLine = disagreements
+    .map((a) => `→ <strong>${escapeHTML(a.nome)}</strong> — ${p1}: ${formatNota(a[f1])} / ${p2}: ${formatNota(a[f2])} (diff ${a.diff > 0 ? "+" : ""}${a.diff.toFixed(1)})`)
+    .join("\n");
+
+  return (
+    `${rand(OPENERS)}\n\nAnálise de compatibilidade: <strong>${p1}</strong> vs <strong>${p2}</strong>.\n\n` +
+    `Animes em comum: ${common.length} título(s)\n` +
+    (avgDiff ? `Divergência média de notas: ${avgDiff}\n` : "") +
+    `\nMaior concordância:\n${agreeLine || "— dados insuficientes"}\n\n` +
+    `Maior divergência:\n${disagreeLine || "— dados insuficientes"}`
+  );
 }
 
 function buildPatternResponse(data, person) {
   const watched = animesOf(data.animes, person);
   const field = `nota${person}`;
+
   const withBoth = watched.filter((a) => a[field] !== null && a.nota !== null && a.qtdVotos > 1);
-  
-  if (withBoth.length < 2)
-    return `Dados insuficientes para análise de padrão de <strong>${person}</strong>.`;
+  if (withBoth.length < 3)
+    return `Dados insuficientes para análise de padrão de <strong>${person}</strong>. Necessário mínimo de 3 animes com avaliação do grupo para comparação.`;
 
   const diffs = withBoth.map((a) => Number(a[field]) - Number(a.nota));
   const avg = diffs.reduce((s, n) => s + n, 0) / diffs.length;
+  const positive = diffs.filter((d) => d > 0.5).length;
+  const negative = diffs.filter((d) => d < -0.5).length;
 
-  return `${rand(OPENERS)}\n\nAnálise de padrão: <strong>${person}</strong> tende a avaliar ${avg > 0 ? "acima" : "abaixo"} da média do grupo (desvio médio: ${avg.toFixed(2)}).`;
+  const persona =
+    avg > 0.4
+      ? `generoso — tende a dar notas acima da média do grupo`
+      : avg < -0.4
+        ? `rigoroso — tende a dar notas abaixo da média do grupo`
+        : `calibrado — notas próximas à média do grupo`;
+
+  const topHigher = [...withBoth]
+    .filter((a) => Number(a[field]) - Number(a.nota) > 0.5)
+    .sort((a, b) => (Number(b[field]) - Number(b.nota)) - (Number(a[field]) - Number(a.nota)))
+    .slice(0, 2)
+    .map((a) => `<strong>${escapeHTML(a.nome)}</strong> (+${(Number(a[field]) - Number(a.nota)).toFixed(1)})`)
+    .join(", ");
+
+  const topLower = [...withBoth]
+    .filter((a) => Number(a[field]) - Number(a.nota) < -0.5)
+    .sort((a, b) => (Number(a[field]) - Number(a.nota)) - (Number(b[field]) - Number(b.nota)))
+    .slice(0, 2)
+    .map((a) => `<strong>${escapeHTML(a.nome)}</strong> (${(Number(a[field]) - Number(a.nota)).toFixed(1)})`)
+    .join(", ");
+
+  return (
+    `${rand(OPENERS)}\n\nAnálise de padrão de avaliação: <strong>${person}</strong>.\n\n` +
+    `Perfil de avaliação: <strong>${persona}</strong>\n` +
+    `Desvio médio em relação ao grupo: ${avg > 0 ? "+" : ""}${avg.toFixed(2)}\n` +
+    `Animes avaliados acima do grupo: ${positive}\n` +
+    `Animes avaliados abaixo do grupo: ${negative}\n` +
+    (topHigher ? `\nMais generoso em: ${topHigher}` : "") +
+    (topLower ? `\nMais crítico em: ${topLower}` : "")
+  );
 }
 
 function buildGroupResponse(data) {
   const total = data.animes.length;
-  return `${rand(OPENERS)}\n\nDados gerais do grupo:\n→ Acervo total: <strong>${total}</strong> títulos.`;
+  const withNota = data.animes.filter((a) => a.nota !== null);
+  const avg = withNota.length
+    ? (withNota.reduce((s, a) => s + Number(a.nota), 0) / withNota.length).toFixed(2)
+    : null;
+
+  const allFive = data.animes.filter((a) => a.qtdVotos === 5).length;
+
+  const top3genres = topGenres(data.animes, 3)
+    .map(([g, n]) => `${stripEmoji(g)} (${n})`)
+    .join(", ");
+
+  const memberStats = PEOPLE.map((p) => {
+    const watched = animesOf(data.animes, p).length;
+    const rate = Math.round((watched / total) * 100);
+    return `→ <strong>${p}</strong>: ${watched} títulos (${rate}% do acervo)`;
+  }).join("\n");
+
+  const mostControv = [...data.animes]
+    .filter((a) => a.controversia !== null && a.qtdVotos > 1)
+    .sort((a, b) => b.controversia - a.controversia)[0];
+
+  return (
+    `${rand(OPENERS)}\n\nDados gerais do grupo — visão consolidada.\n\n` +
+    `Acervo total: <strong>${total}</strong> títulos\n` +
+    (avg ? `Nota média geral: <strong>${avg}</strong>\n` : "") +
+    `Animes vistos por todos: <strong>${allFive}</strong>\n` +
+    `Gêneros dominantes: ${top3genres}\n\n` +
+    `Distribuição por membro:\n${memberStats}\n\n` +
+    (mostControv
+      ? `Anime mais controverso: <strong>${escapeHTML(mostControv.nome)}</strong> 🌶️ ${Number(mostControv.controversia).toFixed(1)}`
+      : "")
+  );
 }
 
 function buildAnimeResponse(anime, person) {
-  return `${rand(OPENERS)}\n\nDados do acervo: <strong>${escapeHTML(anime.name)}</strong>\n→ Nota média: ${formatNota(anime.nota)}\n→ Votos: ${anime.qtdVotos}`;
+  const nota = anime.nota;
+  const voters = anime.quemAssistiu || [];
+  const notWatched = PEOPLE.filter((p) => !voters.includes(p));
+  const personNota = getPersonNota(anime, person);
+
+  const voteBlock = PEOPLE.map((p) => {
+    const n = getPersonNota(anime, p);
+    return n !== null
+      ? `→ ${p}: ${formatNota(n)}`
+      : `→ ${p}: não assistiu`;
+  }).join("\n");
+
+  const contrLine =
+    anime.controversia !== null && anime.controversia > 0
+      ? `\nControvérsia: 🌶️ ${Number(anime.controversia).toFixed(1)} (${anime.controversia > 2 ? "alta divisão de opiniões" : "divergência moderada"})`
+      : "";
+
+  const personalLine =
+    personNota !== null
+      ? `\n<strong>${person}</strong> avaliou com <strong>${formatNota(personNota)}</strong>.`
+      : `\n<strong>${person}</strong> ainda não assistiu este título.`;
+
+  return (
+    `${rand(OPENERS)}\n\nDados do acervo: <strong>${escapeHTML(anime.nome)}</strong>\n\n` +
+    `Nota média do grupo: <strong>${formatNota(nota)}</strong>\n` +
+    `Votos registrados: ${anime.qtdVotos || 0}\n` +
+    contrLine +
+    `\n\nAvaliações individuais:\n${voteBlock}` +
+    personalLine +
+    (notWatched.length > 0 && notWatched.length < PEOPLE.length
+      ? `\n\nAinda não assistiram: ${notWatched.join(", ")}.`
+      : "")
+  );
 }
 
 function buildUnknownResponse() {
-  return "Entrada não reconhecida. Posso ajudar com recomendações, estatísticas ou análise de perfil.";
+  return rand([
+    "Entrada não reconhecida. Capacidades disponíveis: recomendações, ranking, estatísticas, controvérsias, backlog, animes em comum, padrão de avaliação e busca por anime.",
+    "Protocolo não identificado. Tente: 'recomendar para Rafael', 'top do acervo', 'animes em comum Rafael e Dudu', 'backlog do Fernando', 'análise de controvérsia', ou pesquise o nome de um anime.",
+    "Dados insuficientes para processar. Exemplos válidos: 'o que o Rafael não assistiu', 'como o Hacksuya avalia', 'animes exclusivos da Zana', 'fala de Frieren'.",
+  ]);
 }
 
 // ── DOM helpers ──────────────────────────────────────────────────────────────
@@ -367,11 +655,11 @@ function addRecCards(picks) {
   const cards = picks
     .map(
       (anime, i) => `
-    <a class="ciel-rec-card" href="acervo.html#g=${getGroupId()}&open=${anime.mal_id}">
+    <a class="ciel-rec-card" href="acervo.html?anime=${encodeURIComponent(anime.id)}">
       <span class="ciel-rec-rank">${String(i + 1).padStart(2, "0")}</span>
       <div class="ciel-rec-body">
-        <strong>${escapeHTML(anime.name)}</strong>
-        <p>${escapeHTML(anime.reason || "")}.</p>
+        <strong>${escapeHTML(anime.nome)}</strong>
+        <p>${escapeHTML(anime.reason)}.</p>
         <small>Nota ${formatNota(anime.nota)} · ${anime.qtdVotos || 0} voto(s)</small>
       </div>
     </a>`,
@@ -390,7 +678,7 @@ async function handleMessage(text, data, person) {
   addMessage("user", escapeHTML(text));
 
   const typing = addTypingIndicator();
-  await new Promise((r) => setTimeout(r, 600));
+  await new Promise((r) => setTimeout(r, 900 + Math.random() * 700));
   typing?.remove();
 
   const intent = parseIntent(text, person, data.animes);
@@ -463,8 +751,7 @@ async function handleMessage(text, data, person) {
 
 async function init() {
   const data = await loadData();
-  _members = data.members;
-  let selectedPerson = _members[0]?.nickname || "Membro";
+  let selectedPerson = PEOPLE[0];
 
   const $count = document.getElementById("ciel-count");
   const $personCount = document.getElementById("ciel-person-count");
@@ -473,24 +760,23 @@ async function init() {
   const $input = document.getElementById("ciel-input");
   const $send = document.getElementById("ciel-send");
 
-  if ($count) $count.textContent = `${data.animes.length} títulos`;
+  $count.textContent = `${data.animes.length} títulos`;
 
   function updatePersonCount() {
-    if ($personCount) $personCount.textContent = `${selectedPerson}: ${animesOf(data.animes, selectedPerson).length} assistidos`;
+    $personCount.textContent = `${selectedPerson}: ${animesOf(data.animes, selectedPerson).length} assistidos`;
   }
 
   function renderPeople() {
-    if (!$people) return;
-    $people.innerHTML = _members.map(
-      (m) =>
-        `<button type="button" class="${m.nickname === selectedPerson ? "active" : ""}" data-person="${m.nickname}">${m.nickname}</button>`,
+    $people.innerHTML = PEOPLE.map(
+      (p) =>
+        `<button type="button" class="${p === selectedPerson ? "active" : ""}" data-person="${p}">${p}</button>`,
     ).join("");
   }
 
   renderPeople();
   updatePersonCount();
 
-  $people?.addEventListener("click", (e) => {
+  $people.addEventListener("click", (e) => {
     const btn = e.target.closest("button[data-person]");
     if (!btn) return;
     selectedPerson = btn.dataset.person;
@@ -498,24 +784,27 @@ async function init() {
     updatePersonCount();
   });
 
+  await new Promise((r) => setTimeout(r, 500));
   const typing = addTypingIndicator();
-  await new Promise((r) => setTimeout(r, 1000));
+  await new Promise((r) => setTimeout(r, 1400));
   typing?.remove();
-  
-  const welcomeMsg = data.animes.length > 0 
-    ? `Sou <strong>Ciel</strong> — entidade analítica com acesso ao acervo de <strong>${data.animes.length} títulos</strong> do grupo.<br><br>Selecione um perfil e peça uma recomendação!`
-    : `Sou <strong>Ciel</strong>. O acervo deste grupo ainda está vazio. Adicione animes para que eu possa iniciar meus protocolos de análise.`;
-  
-  addMessage("ciel", welcomeMsg);
+  addMessage(
+    "ciel",
+    `Sistema inicializado. Protocolos ativos.<br><br>Sou <strong>Ciel</strong> — entidade analítica com acesso completo ao acervo de <strong>${data.animes.length} títulos</strong> do grupo.<br><br>Capacidades disponíveis:<br>→ Recomendação personalizada por perfil ou gênero<br>→ Análise estatística de perfil individual<br>→ Mapeamento de controvérsias e divergências<br>→ Backlog e animes exclusivos por membro<br>→ Padrão de avaliação (generoso vs rigoroso)<br>→ Animes em comum entre dois membros<br>→ Dados consolidados do grupo<br>→ Consulta de qualquer anime do acervo pelo nome<br><br>Selecione o perfil de análise ao lado ou formule uma solicitação.`,
+  );
 
-  $quickArea?.addEventListener("click", (e) => {
+  $quickArea.addEventListener("click", (e) => {
     const btn = e.target.closest("[data-quick]");
-    if (!btn || data.animes.length === 0) return;
+    if (!btn) return;
     const actions = {
       recommend: `Recomenda um anime para ${selectedPerson}`,
       top: "Top 5 do acervo",
+      genre: `Recomenda por gênero favorito de ${selectedPerson}`,
       stats: `Análise de perfil de ${selectedPerson}`,
-      controversy: `Animes mais controversos`,
+      controversy: `Animes mais controversos com análise de ${selectedPerson}`,
+      backlog: `O que ${selectedPerson} ainda não assistiu`,
+      exclusive: `Animes exclusivos de ${selectedPerson}`,
+      pattern: `Como ${selectedPerson} avalia os animes`,
       group: `Dados gerais do grupo`,
     };
     handleMessage(actions[btn.dataset.quick], data, selectedPerson);
@@ -528,12 +817,13 @@ async function init() {
     $input.value = "";
   }
 
-  $send?.addEventListener("click", send);
-  $input?.addEventListener("keydown", (e) => {
+  $send.addEventListener("click", send);
+  $input.addEventListener("keydown", (e) => {
     if (e.key === "Enter") send();
   });
 }
 
-init().catch(() => {
-  addMessage("ciel", "Falha crítica ao carregar protocolos. Tente novamente.");
+init().catch((err) => {
+  console.error(err);
+  addMessage("ciel", "Falha crítica. Acervo indisponível. Tente recarregar a página.");
 });
