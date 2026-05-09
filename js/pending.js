@@ -152,12 +152,17 @@ window.toggleVotePanel = (malId) => {
 };
 
 window.castVoteInline = async (malId) => {
+  const btn = document.querySelector(`#controls-${malId} button`);
+  if (btn) { btn.disabled = true; btn.textContent = 'Salvando...'; }
+
   const watchStatus = document.querySelector(`input[name="watch-${malId}"]:checked`)?.value;
   const score = watchStatus === 'watched' ? parseFloat(document.getElementById(`score-${malId}`)?.value) : null;
   const comment = watchStatus === 'watched' ? (document.getElementById(`comment-${malId}`)?.value || '') : '';
 
   if (watchStatus === 'watched' && (isNaN(score) || score < 0 || score > 10)) {
-    alert("Nota inválida."); return;
+    alert("Nota inválida.");
+    if (btn) { btn.disabled = false; btn.textContent = 'Confirmar Voto'; }
+    return;
   }
 
   try {
@@ -176,8 +181,19 @@ window.castVoteInline = async (malId) => {
       last_score: score,
       last_comment: comment || null
     }]);
+
+    // Atualiza o card imediatamente sem esperar o realtime
+    const actionsEl = document.querySelector(`#card-${malId} .vote-card-actions`);
+    const controlsEl = document.getElementById(`controls-${malId}`);
+    const voteNowBtn = document.querySelector(`#card-${malId} .vote-now-btn`);
+    const label = score !== null ? Number(score).toFixed(1) : 'Não assisti';
+    if (actionsEl) actionsEl.innerHTML = `<div class="vote-done-badge">✓ Votado: ${label}</div>`;
+    if (controlsEl) controlsEl.style.display = 'none';
+    if (voteNowBtn) voteNowBtn.remove();
+
   } catch (err) {
     alert("Erro ao votar: " + err.message);
+    if (btn) { btn.disabled = false; btn.textContent = 'Confirmar Voto'; }
   }
 };
 
