@@ -67,11 +67,11 @@ function getSubmitterName(userId) {
 function renderList(list) {
   if (!list.length) {
     pendingAnimesContainer.innerHTML = `
-      <div style="text-align:center; padding:80px 20px;">
-        <div style="font-size:48px; margin-bottom:16px">✅</div>
-        <p style="font-size:18px; font-weight:800; color:#86efac; margin:0">Você votou em todos!</p>
-        <p style="color:rgba(134,239,172,0.55); font-size:14px; margin-top:8px">Nenhum anime aguardando votação.</p>
-        <a href="historico.html" class="pending-history-btn" style="margin-top:20px; display:inline-block;">Ver histórico →</a>
+      <div style="grid-column: 1 / -1; text-align: center; padding: 80px 20px;">
+        <div style="font-size: 48px; margin-bottom: 16px">✅</div>
+        <p style="font-size: 18px; font-weight: 800; color: #86efac; margin: 0">Você votou em todos!</p>
+        <p style="color: rgba(134,239,172, 0.55); font-size: 14px; margin-top: 8px">Nenhum anime aguardando votação.</p>
+        <a href="historico.html" class="pending-history-btn" style="margin-top: 20px; display: inline-block;">Ver histórico →</a>
       </div>`;
     return;
   }
