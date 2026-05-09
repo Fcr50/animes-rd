@@ -6,36 +6,151 @@
     <title>Animes Pendentes | Animes RD</title>
     <link rel="stylesheet" href="css/style.css?v=artslum-1" />
     <style>
-      .vote-card {
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 20px;
-        margin-bottom: 20px;
-        background-color: var(--card-bg);
+      /* ── Grid de cards ── */
+      #pending-animes-container {
+        display: grid;
+        gap: 16px;
+        grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
       }
-      .vote-controls input[type="range"] {
-        width: 100%;
+
+      /* ── Card principal ── */
+      .vote-card {
+        background:
+          linear-gradient(145deg, rgba(5,30,20,0.98), rgba(3,14,10,1) 55%, rgba(8,35,22,0.99)) padding-box,
+          linear-gradient(135deg, #2a9db4, #2a7a52) border-box;
+        border: 2.5px solid transparent;
+        border-radius: 22px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        transition: transform 0.18s ease, box-shadow 0.18s ease;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      }
+      .vote-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 44px rgba(0,0,0,0.4), 0 0 28px rgba(26,107,120,0.12);
+      }
+
+      /* ── Header do card (imagem + info) ── */
+      .vote-card-header {
+        display: flex;
+        gap: 16px;
+        align-items: flex-start;
+      }
+      .vote-card-img {
+        width: 72px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 10px;
+        flex-shrink: 0;
+        border: 1px solid rgba(42,157,180,0.3);
+      }
+      .vote-card-info {
+        flex: 1;
+        min-width: 0;
+      }
+      .vote-card-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 8px;
+        margin-bottom: 6px;
+      }
+      .vote-card h3 {
+        color: #e0f7fa;
+        font-family: "Newsreader", serif;
+        font-size: 17px;
+        font-weight: 700;
+        line-height: 1.2;
+        margin: 0;
+      }
+      .vote-card-submitter {
+        font-size: 11px;
+        color: rgba(134,239,172,0.6);
+        margin: 6px 0 0;
+      }
+      .vote-card-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        margin-top: 8px;
+      }
+      .vote-card-actions {
+        margin-top: 12px;
+      }
+
+      /* ── Botão "Votar Agora" ── */
+      .vote-now-btn {
+        background: linear-gradient(rgba(10,16,12,0.9), rgba(10,16,12,0.9)) padding-box,
+          linear-gradient(135deg, rgba(134,239,172,0.55), rgba(253,230,138,0.38)) border-box;
+        border: 1.5px solid transparent;
+        border-radius: 999px;
+        color: #86efac;
+        font-size: 12px;
+        font-weight: 800;
+        padding: 7px 18px;
         cursor: pointer;
+        transition: all 0.18s ease;
+      }
+      .vote-now-btn:hover {
+        box-shadow: 0 0 14px rgba(134,239,172,0.2);
+        color: #f0fdf4;
+      }
+
+      /* ── Badge "já votou" ── */
+      .vote-done-badge {
+        color: #86efac;
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      /* ── Controles de voto inline ── */
+      .vote-controls {
+        margin-top: 16px;
+        background: rgba(26,107,120,0.06);
+        border: 1px solid rgba(26,107,120,0.18);
+        border-radius: 16px;
+        padding: 16px;
       }
       .vote-controls button {
-        padding: 10px;
-        background-color: var(--accent);
-        color: white;
-        border: none;
-        border-radius: 6px;
+        background: linear-gradient(135deg, #1a6b78, #1a4a32 50%, #2a7a52);
+        border: 1px solid rgba(125,211,222,0.25);
+        border-radius: 999px;
+        color: #e0f7fa;
+        font-size: 13px;
+        font-weight: 900;
+        padding: 10px 20px;
         cursor: pointer;
-        font-weight: bold;
         width: 100%;
+        transition: opacity 0.15s ease, transform 0.15s ease;
+        box-shadow: 0 4px 18px rgba(26,107,120,0.3);
       }
       .vote-controls button:hover {
-        filter: brightness(1.1);
+        opacity: 0.88;
+        transform: translateY(-1px);
       }
-      .person-dot {
-        display: inline-block;
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        margin-right: 4px;
+
+      /* ── Chips de gênero ── */
+      .pending-genres {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        margin-top: 6px;
+      }
+      .pending-genre-chip {
+        background: rgba(255,255,255,0.07);
+        border: 1px solid rgba(255,255,255,0.12);
+        border-radius: 999px;
+        color: rgba(255,255,255,0.85);
+        font-size: 10px;
+        font-weight: 700;
+        padding: 3px 9px;
+      }
+
+      @media (max-width: 768px) {
+        #pending-animes-container { grid-template-columns: 1fr; gap: 12px; }
+        .vote-card { border-radius: 16px; padding: 14px; }
       }
     </style>
     <script type="module" src="./js/theme.js?v=platform-v7"></script>
