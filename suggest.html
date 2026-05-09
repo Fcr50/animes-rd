@@ -185,6 +185,77 @@
       .suggest-panel { display: none; }
       .suggest-panel.active { display: block; }
 
+      /* ── Painel de Importação Otimizado ── */
+      .import-controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        gap: 15px;
+        flex-wrap: wrap;
+      }
+      .import-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 16px;
+        max-height: 480px;
+        overflow-y: auto;
+        padding-right: 8px;
+        margin-bottom: 25px;
+      }
+      .import-item {
+        display: flex;
+        flex-direction: column;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.06);
+        border-radius: 16px;
+        overflow: hidden;
+        cursor: pointer;
+        transition: all 0.2s;
+        position: relative;
+      }
+      .import-item:hover {
+        background: rgba(255,255,255,0.06);
+        border-color: rgba(196,181,253,0.3);
+      }
+      .import-item.exists {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+      .import-item img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+      }
+      .import-item-info {
+        padding: 12px;
+        flex: 1;
+      }
+      .import-item-info strong {
+        display: block;
+        font-size: 13px;
+        color: white;
+        margin-bottom: 4px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .import-item-info p {
+        font-size: 11px;
+        color: var(--faint);
+        margin: 0;
+      }
+      .import-item input {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        width: 22px;
+        height: 22px;
+        z-index: 2;
+        cursor: pointer;
+      }
+
       /* Dropdown de busca */
       .search-container { position: relative; width: 100%; }
       .search-dropdown {
@@ -275,11 +346,16 @@
 
         <!-- Aba: Importar Histórico -->
         <div id="panel-import" class="suggest-panel">
-          <p style="color: var(--faint); margin-bottom: 20px; font-size: 14px;">Selecione os animes que você já assistiu em outros grupos para sugerir aqui.</p>
+          <div class="import-controls">
+            <button class="btn" style="padding: 8px 16px; font-size: 12px; background: rgba(255,255,255,0.05);" onclick="window.selectAllImport()">Selecionar Todos</button>
+            <select id="filter-genre-import" style="padding: 8px 16px; border-radius: 10px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); color: white; font-size: 12px; outline: none;"></select>
+          </div>
+          
           <div id="import-list-container" class="import-list">
             <p>Carregando seu histórico...</p>
           </div>
-          <button id="import-selected-button" class="btn btn-primary" style="width: 100%; margin-top: 20px;" disabled>Importar Selecionados (0)</button>
+          
+          <button id="import-selected-button">Importar Selecionados (0)</button>
         </div>
       </div>
     </main>

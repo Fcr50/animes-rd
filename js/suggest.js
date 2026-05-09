@@ -13,6 +13,7 @@ const ratingFields = document.getElementById("rating-fields");
 
 const importContainer = document.getElementById("import-list-container");
 const importBtn = document.getElementById("import-selected-button");
+const genreFilterImport = document.getElementById("filter-genre-import");
 
 let currentAnimeData = null; 
 let currentUser = null;
@@ -59,6 +60,9 @@ async function init() {
   notWatchedCheck?.addEventListener("change", (e) => {
     if (ratingFields) ratingFields.style.display = e.target.checked ? "none" : "grid";
   });
+
+  // Filtro de gênero na importação
+  genreFilterImport?.addEventListener("change", () => renderImportList());
 }
 
 function setupTabs() {
@@ -165,7 +169,6 @@ function selectAnime(anime) {
     detailsSection.classList.remove("hidden");
   }
 
-  // Desativa botão de envio se já existir
   const submitBtn = document.getElementById("submit-anime-button");
   if (submitBtn) submitBtn.disabled = existsInGroup;
 }
@@ -182,7 +185,6 @@ async function handleSubmit() {
   const score = isNotWatched ? null : parseFloat(document.getElementById("my-score")?.value || 5);
   const comment = document.getElementById("my-comment")?.value.trim() || (isNotWatched ? "Ainda não assisti." : "Sugerido por mim.");
 
-  // Coletar Links
   const links = {};
   document.querySelectorAll(".link-input-row").forEach(row => {
     const nameInput = row.querySelector(".link-name-input");
@@ -252,6 +254,18 @@ async function loadLibraryAndGroup() {
 
     if (error) throw error;
     userLibrary = library;
+
+    // Popula dropdown de gêneros
+    const genres = new Set();
+    userLibrary.forEach(item => {
+      (item.animes?.genres || []).forEach(g => genres.add(g));
+    });
+    
+    if (genreFilterImport) {
+      genreFilterImport.innerHTML = '<option value="">Todos os Gêneros</option>' + 
+        Array.from(genres).sort().map(g => `<option value="${g}">${g}</option>`).join("");
+    }
+
     renderImportList();
   } catch (err) { }
 }
@@ -262,32 +276,67 @@ function renderImportList() {
     importContainer.innerHTML = "<p style='padding:20px; color:var(--faint)'>Histórico vazio.</p>";
     return;
   }
-  importContainer.innerHTML = userLibrary.map(item => {
+
+  const genre = genreFilterImport?.value;
+  const filtered = userLibrary.filter(item => {
+    if (!genre) return true;
+    return (item.animes?.genres || []).includes(genre);
+  });
+
+  importContainer.innerHTML = filtered.map(item => {
     const anime = item.animes;
+    if (!anime) return "";
     const exists = groupAnimeIds.has(anime.mal_id);
     const thumb = anime.image_url || 'assets/placeholder.png';
+    const isChecked = selectedToImport.has(anime.mal_id);
     
     return `
       <label class="import-item ${exists ? 'exists' : ''}">
-        <input type="checkbox" ${exists ? 'disabled' : ''} onchange="window.toggleSelectImport('${anime.mal_id}', this.checked)">
+        <input type="checkbox" 
+               ${exists ? 'disabled' : ''} 
+               ${isChecked ? 'checked' : ''}
+               onchange="window.toggleSelectImport('${anime.mal_id}', this.checked)">
         <img src="${thumb}" onerror="this.src='assets/placeholder.png'">
         <div class="import-item-info">
           <strong>${escapeHTML(anime.name)}</strong>
-          <p style="font-size:11px; color:var(--faint)">Sua nota: ${item.last_score || '—'}</p>
+          <p style="font-size:11px; color:var(--faint)">Sua nota: ${item.last_score !== null ? Number(item.last_score).toFixed(1) : '—'}</p>
         </div>
-        ${exists ? '<span style="font-size:10px; color:var(--accent); font-weight:bold;">NO ACERVO</span>' : ''}
+        ${exists ? '<div style="position:absolute; bottom:8px; right:12px; font-size:9px; color:var(--accent); font-weight:800; background:rgba(0,0,0,0.4); padding:2px 6px; border-radius:4px;">NO ACERVO</div>' : ''}
       </label>`;
   }).join("");
+
+  updateImportButton();
 }
 
 window.toggleSelectImport = (malId, checked) => {
-  if (checked) selectedToImport.add(parseInt(malId));
-  else selectedToImport.delete(parseInt(malId));
+  const id = parseInt(malId);
+  if (checked) selectedToImport.add(id);
+  else selectedToImport.delete(id);
+  updateImportButton();
+};
+
+window.selectAllImport = () => {
+  const genre = genreFilterImport?.value;
+  userLibrary.forEach(item => {
+    if (!groupAnimeIds.has(item.mal_id)) {
+      if (!genre || (item.animes?.genres || []).includes(genre)) {
+        selectedToImport.add(item.mal_id);
+      }
+    }
+  });
+  renderImportList();
+};
+
+function updateImportButton() {
   if (importBtn) {
     importBtn.disabled = selectedToImport.size === 0;
     importBtn.textContent = `Importar Selecionados (${selectedToImport.size})`;
+    importBtn.style.background = selectedToImport.size > 0 
+      ? 'linear-gradient(90deg, #f9a8d4 0%, #c4b5fd 50%, #86efac 100%)' 
+      : 'rgba(255,255,255,0.05)';
+    importBtn.style.color = selectedToImport.size > 0 ? '#1a1826' : 'var(--faint)';
   }
-};
+}
 
 async function handleImport() {
   if (selectedToImport.size === 0) return;
@@ -316,13 +365,16 @@ async function handleImport() {
       if (groupError) {
         if (groupError.code !== '23505') throw groupError;
       } else {
-        await supabase.from('votes').insert([{ 
-          group_id: currentGroupId, 
-          mal_id: malId, 
-          user_id: currentUser.id, 
-          score: historical.last_score, 
-          comment: historical.last_comment || "Importado do meu histórico." 
-        }]);
+        const { error: voteError } = await supabase
+          .from('votes')
+          .insert([{ 
+            group_id: currentGroupId, 
+            mal_id: malId, 
+            user_id: currentUser.id, 
+            score: historical.last_score, 
+            comment: historical.last_comment || "Importado do meu histórico." 
+          }]);
+        
         successCount++;
       }
     } catch (err) {
