@@ -773,9 +773,6 @@ body.suggest-page .card.suggest-form-card {
     0 26px 80px rgba(0, 0, 0, 0.34),
     0 0 0 1px rgba(255, 255, 255, 0.035) inset;
   margin: 0 auto;
-  max-width: 760px;
-  min-height: 430px;
-  padding: 34px;
 }
 
 body.suggest-page .suggest-form-card .form-group {
