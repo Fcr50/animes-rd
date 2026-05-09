@@ -38,18 +38,24 @@ async function loadPendingAnimes() {
     .select(`
       status,
       mal_id,
-      animes (name, genres, image_url),
+      animes!inner (name, genres, image_url),
       votes (user_id, score, comment)
     `)
     .eq('group_id', currentGroupId)
     .eq('status', 'pending');
 
   if (error) {
-    console.error(error);
     return;
   }
 
-  renderList(list);
+  // FILTRO: Remove da fila os animes que o usuário atual já votou
+  const stillPendingForMe = list.filter(item => {
+    const userVotes = item.votes || [];
+    return !userVotes.some(v => v.user_id === currentUser.id);
+  });
+
+  renderList(stillPendingForMe);
+}
 }
 
 function renderList(list) {

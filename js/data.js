@@ -112,7 +112,7 @@ export async function loadData() {
   _data = {
     groupId,
     updatedAt: new Date().toISOString(),
-    total: processedAnimes.length,
+    total: processedAnimes.filter(a => a.status === 'approved').length,
     animes: processedAnimes,
     members: _members
   };
