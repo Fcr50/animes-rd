@@ -208,7 +208,7 @@ async function loadManageMembers(gid) {
       
       return `
       <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 0; ${borderStyle}">
-        <span style="font-weight: 600; color: ${m.role === 'admin' ? 'var(--accent)' : 'var(--paper)'}">${m.nickname}${m.role === 'admin' ? ' (Dono)' : ''}</span>
+        <span style="font-weight: 600; color: var(--paper)">${m.role === 'admin' ? '👑 ' : ''}${m.nickname}</span>
         ${m.role !== 'admin' ? `<button onclick="window.removeMember('${m.user_id}')" style="color:var(--danger); background:none; border:none; cursor:pointer; font-size:12px; font-weight:700;">Remover</button>` : '<span style="font-size:10px; color:var(--faint); font-weight:800; text-transform:uppercase;">Admin</span>'}
       </div>`;
     }).join('');

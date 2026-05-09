@@ -285,17 +285,24 @@ async function init() {
         <h2>No ar hoje</h2>
         <div class="calendar-list">
           ${d.data.map(a => {
-            const time = a.broadcast?.time || "N/A";
+            let timeDisplay = "N/A";
+            if (a.broadcast?.time) {
+              const [h, m] = a.broadcast.time.split(':').map(Number);
+              // JST (UTC+9) para BRT (UTC-3) é -12h
+              let brH = h - 12;
+              if (brH < 0) brH += 24;
+              timeDisplay = `${String(brH).padStart(2, '0')}:${String(m).padStart(2, '0')} BR`;
+            }
             const score = a.score ? a.score.toFixed(1) : "—";
             return `
-              <a class="calendar-item" href="https://myanimelist.net/anime/${a.mal_id}" target="_blank" style="display:flex; justify-content:space-between; align-items:center; width:100%;">
-                <div style="display:flex; align-items:center; gap:8px; overflow:hidden;">
+              <a class="calendar-item" href="https://myanimelist.net/anime/${a.mal_id}" target="_blank" style="display:flex; justify-content:space-between; align-items:center; width:100%; gap:10px;">
+                <div style="display:flex; align-items:center; gap:8px; overflow:hidden; flex:1;">
                   <span class="calendar-dot"></span>
-                  <span class="calendar-title" style="font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${shortText(a.title, 25)}</span>
+                  <span class="calendar-title" style="font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${shortText(a.title, 22)}</span>
                 </div>
-                <div style="display:flex; align-items:center; gap:10px; flex-shrink:0; margin-left:10px;">
-                  <span style="font-size:10px; color:var(--hacksuya-light); font-weight:800; background:rgba(6,182,212,0.1); padding:1px 5px; border-radius:4px; letter-spacing:0.5px;">${time}</span>
-                  <span style="font-size:10px; color:var(--warning); font-weight:800; display:flex; align-items:center; gap:2px;">★ ${score}</span>
+                <div style="display:flex; align-items:center; gap:8px; flex-shrink:0;">
+                  <span style="font-size:9px; color:var(--hacksuya-light); font-weight:800; background:rgba(6,182,212,0.1); padding:2px 6px; border-radius:4px; letter-spacing:0.5px; min-width:55px; text-align:center;">${timeDisplay}</span>
+                  <span style="font-size:10px; color:var(--warning); font-weight:800; display:flex; align-items:center; gap:3px; min-width:35px; justify-content:flex-end;">★ ${score}</span>
                 </div>
               </a>`;
           }).join("")}
