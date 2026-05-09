@@ -6,6 +6,90 @@
     <title>Sugerir Anime | Animes RD</title>
     <link rel="stylesheet" href="css/style.css?v=platform-v8" />
     <style>
+      /* ── Título da página ── */
+      body.suggest-page .page-header h1 {
+        background: linear-gradient(90deg, #f9a8d4 0%, #c4b5fd 50%, #86efac 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-size: clamp(32px, 5vw, 56px);
+      }
+
+      /* ── Card principal ── */
+      .suggest-form-card {
+        max-width: 680px;
+        margin: 0 auto;
+        padding: 32px !important;
+      }
+
+      /* ── Labels dos campos ── */
+      .form-group label,
+      .suggest-form-card label {
+        display: block;
+        font-size: 11px;
+        font-weight: 900;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--faint);
+        margin-bottom: 8px;
+      }
+
+      /* ── Inputs e textareas ── */
+      .suggest-form-card input[type="text"],
+      .suggest-form-card input[type="number"],
+      .suggest-form-card textarea,
+      #anime-name, #anime-genres, #my-score, #my-comment {
+        width: 100%;
+        padding: 12px 14px;
+        background: rgba(0, 0, 0, 0.25);
+        border: 1.5px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        color: var(--text);
+        font-size: 14px;
+        font-family: inherit;
+        transition: border-color 0.18s ease;
+        outline: none;
+      }
+      .suggest-form-card input[type="text"]:focus,
+      .suggest-form-card input[type="number"]:focus,
+      #anime-name:focus, #my-score:focus, #my-comment:focus {
+        border-color: rgba(196, 181, 253, 0.5);
+      }
+
+      /* ── Botão principal ── */
+      #submit-anime-button,
+      #import-selected-button {
+        background: linear-gradient(90deg, #f9a8d4 0%, #c4b5fd 50%, #86efac 100%) !important;
+        border: none !important;
+        border-radius: 12px !important;
+        color: #1a1826 !important;
+        font-weight: 900 !important;
+        font-size: 15px !important;
+        letter-spacing: 0.02em;
+        padding: 14px !important;
+        cursor: pointer;
+        transition: opacity 0.2s ease, transform 0.15s ease !important;
+        box-shadow: 0 4px 20px rgba(196, 181, 253, 0.25);
+      }
+      #submit-anime-button:hover:not(:disabled),
+      #import-selected-button:hover:not(:disabled) {
+        opacity: 0.9;
+        transform: translateY(-1px);
+      }
+      #submit-anime-button:disabled,
+      #import-selected-button:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+
+      /* ── Seção de detalhes do anime selecionado ── */
+      #anime-details-section {
+        border-left-color: rgba(196, 181, 253, 0.6) !important;
+        background: rgba(196, 181, 253, 0.06) !important;
+        border-radius: 12px !important;
+      }
+
+      /* ── Separador entre tabs e conteúdo ── */
       .suggest-tabs {
         display: flex;
         gap: 10px;
@@ -139,7 +223,7 @@
 
     <main class="page">
       <div class="page-header">
-        <h1>✨ Sugerir Anime</h1>
+        <h1>✨ Sugira um Novo Anime</h1>
         <p>Adicione novos títulos ao acervo do grupo.</p>
       </div>
 
