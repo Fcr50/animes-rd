@@ -53,10 +53,6 @@ function getSubmitterName(userId) {
   return m ? m.nickname : null;
 }
 
-function getUserColor() {
-  const me = members.find(m => m.user_id === currentUser?.id);
-  return me?.color || '#2a9db4';
-}
 
 function renderList(list) {
   if (!list.length) {
@@ -136,7 +132,7 @@ function renderList(list) {
             <textarea id="comment-${item.mal_id}" placeholder="Comentário (opcional)"
               style="width:100%; background:rgba(0,0,0,0.4); border:1px solid rgba(26,107,120,0.3); border-radius:12px; color:#e0f7fa; font-size:13px; padding:10px 14px; resize:vertical; min-height:70px; font-family:inherit; outline:none;"></textarea>
           </div>
-          <button onclick="window.castVoteInline('${item.mal_id}')" style="margin-top:14px; width:100%; background: linear-gradient(135deg, ${getUserColor()}cc, ${getUserColor()}66) !important; border-color: ${getUserColor()}44 !important; box-shadow: 0 4px 18px ${getUserColor()}33 !important;">Confirmar Voto</button>
+          <button onclick="window.castVoteInline('${item.mal_id}')" style="margin-top:14px; width:100%;">Confirmar Voto</button>
         </div>
       </div>`;
   }).join('');
