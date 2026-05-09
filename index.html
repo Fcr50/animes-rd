@@ -74,8 +74,8 @@
   <div id="modal-manage-group" class="modal-overlay">
     <div class="modal" style="max-width: 500px;">
       <div class="modal-header">
-        <h2>Gerenciar Grupo</h2>
-        <button onclick="closeManageModal()">✕</button>
+        <h2 class="modal-title" style="font-size: 24px;">Gerenciar Grupo</h2>
+        <button class="modal-close" onclick="closeManageModal()">✕</button>
       </div>
       <div class="modal-body">
         <form id="edit-group-form">
@@ -83,21 +83,22 @@
             <label>Nome do Grupo</label>
             <input type="text" id="edit-group-name" required style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid var(--border); background: rgba(0,0,0,0.2); color: white;">
           </div>
-          <button type="submit" class="btn btn-primary" style="margin-top: 10px; width: 100%;">Salvar Alterações</button>
-        </form>
 
-        <div style="margin-top: 30px;">
-          <h3>Membros do Grupo</h3>
-          <div id="manage-members-list" style="margin-top: 10px;">
-            <!-- Lista de membros com botão de remover -->
+          <div style="margin-top: 30px;">
+            <h3 style="font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 800;">Membros do Grupo</h3>
+            <div id="manage-members-list" style="margin-top: 10px;">
+              <!-- Lista de membros com botão de remover -->
+            </div>
           </div>
-        </div>
 
-        <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255,0,0,0.2);">
-          <h3 style="color: var(--danger);">Zona de Perigo</h3>
-          <p style="font-size: 12px; color: var(--faint); margin-bottom: 10px;">A exclusão de um grupo é permanente e apaga todos os animes e votos vinculados.</p>
-          <button id="btn-delete-group" class="btn btn-danger" style="width: 100%;">Excluir Grupo Permanentemente</button>
-        </div>
+          <div style="margin-top: 40px; padding: 20px; border-radius: 12px; background: rgba(251, 113, 133, 0.03); border: 1px solid rgba(251, 113, 133, 0.1); margin-bottom: 30px;">
+            <h3 style="color: var(--danger); font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 800; margin-bottom: 8px;">Zona de Perigo</h3>
+            <p style="font-size: 12px; color: var(--faint); margin-bottom: 15px;">A exclusão de um grupo é permanente e apaga todos os animes e votos vinculados.</p>
+            <button type="button" id="btn-delete-group" class="btn btn-danger" style="width: 100%; padding: 12px; font-size: 13px;">Excluir Grupo Permanentemente</button>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 16px; font-size: 15px; font-weight: 800;">Salvar Alterações</button>
+        </form>
       </div>
     </div>
   </div>

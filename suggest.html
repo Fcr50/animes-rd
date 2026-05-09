@@ -17,7 +17,7 @@
 
       /* ── Card principal com bordas temáticas ── */
       .suggest-form-card {
-        max-width: 720px;
+        max-width: 1000px;
         margin: 0 auto;
         padding: 40px !important;
         border-radius: 28px !important;
@@ -26,6 +26,17 @@
           linear-gradient(var(--card), var(--card)) padding-box,
           linear-gradient(90deg, rgba(249, 168, 212, 0.4), rgba(196, 181, 253, 0.4), rgba(134, 239, 172, 0.4)) border-box !important;
         box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+      }
+
+      /* Grid layout para campos */
+      .form-grid-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+        margin-bottom: 20px;
+      }
+      @media (max-width: 768px) {
+        .form-grid-row { grid-template-columns: 1fr; }
       }
 
       /* ── Tabs com o importar à direita ── */
@@ -293,30 +304,32 @@
 
         <!-- Aba: Novo Anime -->
         <div id="panel-new" class="suggest-panel active">
-          <div class="form-group">
-            <label for="anime-name">Nome do Anime</label>
-            <div class="search-container">
-              <input type="text" id="anime-name" placeholder="Digite o nome para buscar no MAL..." autocomplete="off">
-              <ul id="search-results-list" class="search-dropdown hidden"></ul>
+          <div class="form-grid-row">
+            <div class="form-group">
+              <label for="anime-name">Nome do Anime</label>
+              <div class="search-container">
+                <input type="text" id="anime-name" placeholder="Digite o nome para buscar no MAL..." autocomplete="off">
+                <ul id="search-results-list" class="search-dropdown hidden"></ul>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="anime-genres">Gêneros (Automático)</label>
+              <input type="text" id="anime-genres" placeholder="Ação, Aventura..." readonly style="opacity: 0.7; cursor: not-allowed;">
             </div>
           </div>
 
-          <div id="anime-details-section" class="hidden" style="margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.03); border-radius: 12px; border-left: 4px solid var(--accent);">
+          <div id="anime-details-section" class="hidden" style="margin-top: 10px; padding: 15px; background: rgba(255,255,255,0.03); border-radius: 12px; border-left: 4px solid var(--accent); margin-bottom: 20px;">
              <!-- Preenchido via JS -->
           </div>
 
           <div id="manual-fields" class="hidden">
-            <div class="form-group" style="margin-top: 20px;">
-              <label for="anime-genres">Gêneros (Automático)</label>
-              <input type="text" id="anime-genres" placeholder="Ação, Aventura..." readonly style="opacity: 0.7; cursor: not-allowed;">
-            </div>
-
             <label class="checkbox-group">
               <input type="checkbox" id="not-watched-check">
               <span>Eu ainda <strong>não assisti</strong> este anime</span>
             </label>
 
-            <div id="rating-fields" style="margin-top: 20px; display: grid; grid-template-columns: 100px 1fr; gap: 20px;">
+            <div id="rating-fields" class="form-grid-row" style="margin-top: 20px;">
               <div class="form-group">
                 <label for="my-score">Minha Nota</label>
                 <input type="number" id="my-score" value="5.0" min="0" max="10" step="0.1">

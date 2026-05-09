@@ -438,7 +438,15 @@ document.addEventListener("click", async (e) => {
         comment 
       }, { onConflict: 'group_id, mal_id, user_id' });
 
-    if (error) throw error;
+    if (score !== null) {
+      await supabase.from('user_library').upsert({
+        user_id: currentUser.id,
+        mal_id: parseInt(animeId),
+        last_score: score,
+        last_comment: comment
+      });
+    }
+
     if (statusEl) statusEl.textContent = "Salvo!";
     setTimeout(() => { if (statusEl) statusEl.textContent = ""; }, 2000);
 

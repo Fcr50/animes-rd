@@ -109,15 +109,37 @@ function renderVenn(p1, p2) {
   const c2 = getPersonColor(p2);
 
   wrap.innerHTML = `
-    <div style="display:flex;align-items:center;justify-content:center;gap:0;padding:8px 0">
-      <div style="width:120px;height:120px;border-radius:50%;background:${c1}22;border:2px solid ${c1};display:flex;flex-direction:column;align-items:center;justify-content:center;margin-right:-30px;z-index:1;">
-        <span style="font-size:24px;font-weight:700;color:${c1}">${a1.length - common.length}</span>
-      </div>
-      <div style="width:100px;height:100px;border-radius:50%;background:rgba(167,139,250,0.2);border:2px solid #a78bfa;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:2;">
-        <span style="font-size:22px;font-weight:700;color:#ddd">${common.length}</span>
-      </div>
-      <div style="width:120px;height:120px;border-radius:50%;background:${c2}22;border:2px solid ${c2};display:flex;flex-direction:column;align-items:center;justify-content:center;margin-left:-30px;z-index:1;">
-        <span style="font-size:24px;font-weight:700;color:${c2}">${a2.length - common.length}</span>
+    <div style="display:flex; flex-direction:column; align-items:center; gap:20px; padding:20px 0;">
+      <div style="display:flex; align-items:center; justify-content:center; gap:0;">
+        <!-- Pessoa 1 -->
+        <div style="display:flex; flex-direction:column; align-items:center; gap:10px;">
+          <div style="width:130px; height:130px; border-radius:50%; background:${c1}22; border:2.5px solid ${c1}; display:flex; flex-direction:column; align-items:center; justify-content:center; margin-right:-35px; z-index:1; box-shadow: 0 0 20px ${c1}15;">
+            <span style="font-size:28px; font-weight:900; color:${c1}">${a1.length - common.length}</span>
+          </div>
+          <div style="margin-right:-35px; text-align:center; z-index:3;">
+            <div style="font-size:12px; font-weight:800; color:${c1}; text-transform:uppercase; letter-spacing:0.05em;">${p1}</div>
+            <div style="font-size:10px; color:var(--faint); font-weight:600;">${a1.length} assistidos</div>
+          </div>
+        </div>
+
+        <!-- Intersecção -->
+        <div style="display:flex; flex-direction:column; align-items:center; gap:10px; z-index:2;">
+          <div style="width:110px; height:110px; border-radius:50%; background:rgba(255,255,255,0.05); border:2.5px solid rgba(255,255,255,0.2); display:flex; flex-direction:column; align-items:center; justify-content:center; backdrop-filter: blur(4px);">
+            <span style="font-size:24px; font-weight:900; color:white">${common.length}</span>
+          </div>
+          <div style="font-size:11px; font-weight:800; color:var(--faint); text-transform:uppercase;">Em Comum</div>
+        </div>
+
+        <!-- Pessoa 2 -->
+        <div style="display:flex; flex-direction:column; align-items:center; gap:10px;">
+          <div style="width:130px; height:130px; border-radius:50%; background:${c2}22; border:2.5px solid ${c2}; display:flex; flex-direction:column; align-items:center; justify-content:center; margin-left:-35px; z-index:1; box-shadow: 0 0 20px ${c2}15;">
+            <span style="font-size:28px; font-weight:900; color:${c2}">${a2.length - common.length}</span>
+          </div>
+          <div style="margin-left:-35px; text-align:center; z-index:3;">
+            <div style="font-size:12px; font-weight:800; color:${c2}; text-transform:uppercase; letter-spacing:0.05em;">${p2}</div>
+            <div style="font-size:10px; color:var(--faint); font-weight:600;">${a2.length} assistidos</div>
+          </div>
+        </div>
       </div>
     </div>`;
 }

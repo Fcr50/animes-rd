@@ -29,25 +29,27 @@ function horizGrad(context, colorStart, colorEnd) {
 }
 
 export function renderAllCharts(animes, members) {
-  renderTopGenresChart(animes);
-  renderGenreByPersonChart(animes, members);
-  renderScatterChart(animes);
-  renderVotesRankingChart(animes);
-  renderVotesPieChart(animes, members);
+  const approved = animes.filter(a => a.status === "approved");
+  renderTopGenresChart(approved);
+  renderGenreByPersonChart(approved, members);
+  renderScatterChart(approved);
+  renderVotesRankingChart(approved);
+  renderVotesPieChart(approved, members);
 }
 
 export function renderChartsStats(animes, members) {
   const el = document.getElementById("charts-stats");
   if (!el) return;
-  const total = animes.length;
-  const genres = new Set(animes.flatMap((a) => a.genres || [])).size;
-  const rated = animes.filter((a) => a.nota !== null);
+  const approved = animes.filter(a => a.status === "approved");
+  const total = approved.length;
+  const genres = new Set(approved.flatMap((a) => a.genres || [])).size;
+  const rated = approved.filter((a) => a.nota !== null);
   const avg = rated.length
     ? (rated.reduce((s, a) => s + Number(a.nota), 0) / rated.length).toFixed(1)
     : "—";
   
   // Visto por todos (dinâmico com base no tamanho do grupo)
-  const topVoted = animes.filter((a) => a.qtdVotos >= members.length).length;
+  const topVoted = approved.filter((a) => a.qtdVotos >= members.length).length;
 
   const pills = [
     { val: total, desc: "animes no acervo", icon: "📺" },

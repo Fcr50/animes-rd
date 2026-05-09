@@ -140,15 +140,24 @@ async function loadGroups() {
         ">+${extra}</div>` : '';
 
       return `
-        <div class="card group-card" style="display:flex; flex-direction:column; gap:0; padding: 22px;">
-          <div style="
-            font-family: 'Newsreader', serif;
-            font-size: 28px; font-weight: 750;
-            letter-spacing: -0.02em; line-height: 1.1;
-            background: linear-gradient(90deg, #5d8bff, #57cdae);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            background-clip: text; margin-bottom: 4px;
-          ">${g.name}</div>
+        <div class="card group-card" style="display:flex; flex-direction:column; gap:0; padding: 22px; position: relative;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px;">
+            <div style="
+              font-family: 'Newsreader', serif;
+              font-size: 28px; font-weight: 750;
+              letter-spacing: -0.02em; line-height: 1.1;
+              background: linear-gradient(90deg, #5d8bff, #57cdae);
+              -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+              background-clip: text;
+            ">${g.name}</div>
+            
+            ${isCreator ? `
+              <button class="btn-manage-trigger" onclick="window.openManageModal('${g.id}', '${g.name}')" 
+                style="background: rgba(255,255,255,0.05); border: 1px solid rgba(243, 239, 230, 0.1); border-radius: 10px; color: var(--muted); cursor: pointer; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; font-size: 16px; transition: all 0.2s; padding: 0;"
+                onmouseover="this.style.background='rgba(255,255,255,0.1)'; this.style.borderColor='rgba(243, 239, 230, 0.2)';"
+                onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.borderColor='rgba(243, 239, 230, 0.1)';"
+              >⚙️</button>` : ''}
+          </div>
 
           <p style="font-size: 11px; color: var(--faint); margin: 0 0 16px 0;">
             ${isCreator ? `👑 Criador · <span style="color:var(--accent)">${g.invite_code}</span>` : 'Membro'}
@@ -169,10 +178,7 @@ async function loadGroups() {
               ></button>
               <span style="font-size:11px; color:var(--faint);">Minha cor</span>
             </div>
-            <div style="display:flex; align-items:center; gap:8px;">
-              <a href="${url}" style="font-size:12px; font-weight:700; color:var(--accent); text-decoration:none;">Abrir acervo →</a>
-              ${isCreator ? `<button class="btn-manage-trigger" onclick="window.openManageModal('${g.id}', '${g.name}')">⚙️</button>` : ''}
-            </div>
+            <a href="${url}" style="font-size:12px; font-weight:700; color:var(--accent); text-decoration:none;">Abrir acervo →</a>
           </div>
         </div>`;
     }).join('');
@@ -193,18 +199,26 @@ window.closeManageModal = () => document.getElementById('modal-manage-group').cl
 async function loadManageMembers(gid) {
   const { data } = await supabase.from('group_members').select('user_id, nickname, role').eq('group_id', gid);
   if (data) {
-    document.getElementById('manage-members-list').innerHTML = data.map(m => `
-      <div style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid var(--border);">
-        <span>${m.nickname}</span>
-        ${m.role !== 'admin' ? `<button onclick="removeMember('${m.user_id}')" style="color:var(--danger); background:none; border:none; cursor:pointer;">Remover</button>` : '<span>Admin</span>'}
-      </div>`).join('');
+    // Admin sempre no topo
+    data.sort((a, b) => (b.role === 'admin' ? 1 : (a.role === 'admin' ? -1 : 0)));
+
+    document.getElementById('manage-members-list').innerHTML = data.map((m, idx) => {
+      const isLast = idx === data.length - 1;
+      const borderStyle = isLast ? '' : 'border-bottom: 1px solid var(--border);';
+      
+      return `
+      <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 0; ${borderStyle}">
+        <span style="font-weight: 600; color: ${m.role === 'admin' ? 'var(--accent)' : 'var(--paper)'}">${m.nickname}${m.role === 'admin' ? ' (Dono)' : ''}</span>
+        ${m.role !== 'admin' ? `<button onclick="window.removeMember('${m.user_id}')" style="color:var(--danger); background:none; border:none; cursor:pointer; font-size:12px; font-weight:700;">Remover</button>` : '<span style="font-size:10px; color:var(--faint); font-weight:800; text-transform:uppercase;">Admin</span>'}
+      </div>`;
+    }).join('');
   }
 }
 
 window.removeMember = async (uid) => {
-  if (confirm('Remover?')) {
-    await supabase.from('group_members').delete().eq('group_id', currentManagingGroupId).eq('user_id', uid);
-    loadManageMembers(currentManagingGroupId);
+  if (confirm('Deseja remover este membro do grupo?')) {
+    const { error } = await supabase.from('group_members').delete().eq('group_id', currentManagingGroupId).eq('user_id', uid);
+    if (!error) loadManageMembers(currentManagingGroupId);
   }
 };
 

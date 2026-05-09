@@ -110,15 +110,64 @@ function setupSearch() {
 async function fetchJikan(query) {
   try {
     const res = await fetch(`https://api.jikan.moe/v4/anime?q=${encodeURIComponent(query)}&limit=5`);
+    if (!res.ok) throw new Error("Jikan offline");
     const { data } = await res.json();
-    renderResults(data || []);
-  } catch (err) { }
+    renderResults(data || [], false);
+  } catch (err) {
+    // Fallback para banco local (cache global)
+    fetchLocalSearch(query);
+  }
 }
 
-function renderResults(list) {
+async function fetchLocalSearch(query) {
+  try {
+    const { data, error } = await supabase
+      .from('animes')
+      .select('*')
+      .ilike('name', `%${query}%`)
+      .limit(5);
+
+    if (error) throw error;
+    
+    // Converte formato local para o esperado pelo renderResults (parcialmente)
+    const formatted = (data || []).map(a => ({
+      mal_id: a.mal_id,
+      title: a.name,
+      images: { jpg: { image_url: a.image_url, large_image_url: a.image_url } },
+      genres: (a.genres || []).map(g => ({ name: g })),
+      local: true
+    }));
+
+    renderResults(formatted, true);
+  } catch (err) {
+    renderResults([], true, true);
+  }
+}
+
+function renderResults(list, isLocal = false, isError = false) {
   if (!resultsDropdown) return;
   resultsDropdown.innerHTML = "";
   resultsDropdown.classList.remove("hidden");
+
+  if (isError) {
+    resultsDropdown.innerHTML = `<li style="padding:15px; color:#f87171; font-size:12px; text-align:center;">
+      <strong>⚠️ Erro de Conexão</strong><br>
+      O MyAnimeList está instável no momento. Tente novamente mais tarde.
+    </li>`;
+    return;
+  }
+
+  if (isLocal && list.length > 0) {
+    const notice = document.createElement("li");
+    notice.style = "padding:8px 12px; background:rgba(251,191,36,0.1); color:#fbbf24; font-size:10px; font-weight:800; text-transform:uppercase; border-bottom:1px solid rgba(251,191,36,0.2);";
+    notice.innerHTML = "⚠️ MyAnimeList Offline - Mostrando resultados do banco local";
+    resultsDropdown.appendChild(notice);
+  } else if (isLocal && list.length === 0) {
+     resultsDropdown.innerHTML = `<li style="padding:15px; color:var(--faint); font-size:12px; text-align:center;">
+      Nenhum anime encontrado no banco local e o MyAnimeList está fora do ar.
+    </li>`;
+     return;
+  }
 
   list.forEach(anime => {
     const li = document.createElement("li");
@@ -127,7 +176,7 @@ function renderResults(list) {
       <img src="${anime.images.jpg.image_url}">
       <div>
         <strong>${anime.title}</strong>
-        <small>${anime.year || 'N/A'} · ${anime.type}</small>
+        <small>${anime.year || (anime.local ? 'Banco Local' : 'N/A')} · ${anime.type || 'Anime'}</small>
       </div>
     `;
     li.onclick = () => selectAnime(anime);
@@ -136,7 +185,11 @@ function renderResults(list) {
 }
 
 function selectAnime(anime) {
-  const prettyGenresList = translateGenres(anime.genres.map(g => g.name));
+  // Se for local, os gêneros já estão traduzidos
+  const prettyGenresList = anime.local 
+    ? anime.genres.map(g => g.name)
+    : translateGenres(anime.genres.map(g => g.name));
+
   const existsInGroup = groupAnimeIds.has(anime.mal_id);
 
   currentAnimeData = {
@@ -204,12 +257,14 @@ async function handleSubmit() {
       image_url: currentAnimeData.imageUrl 
     }]);
 
-    await supabase.from('user_library').upsert([{ 
-      user_id: currentUser.id, 
-      mal_id: currentAnimeData.malId, 
-      last_score: score, 
-      last_comment: comment 
-    }]);
+    if (score !== null) {
+      await supabase.from('user_library').upsert([{ 
+        user_id: currentUser.id, 
+        mal_id: currentAnimeData.malId, 
+        last_score: score, 
+        last_comment: comment 
+      }]);
+    }
 
     const { error } = await supabase.from('group_animes').insert([{ 
       group_id: currentGroupId, 
@@ -365,16 +420,15 @@ async function handleImport() {
       if (groupError) {
         if (groupError.code !== '23505') throw groupError;
       } else {
-        const { error: voteError } = await supabase
-          .from('votes')
-          .insert([{ 
+        if (historical.last_score !== null) {
+          await supabase.from('votes').insert([{ 
             group_id: currentGroupId, 
             mal_id: malId, 
             user_id: currentUser.id, 
             score: historical.last_score, 
             comment: historical.last_comment || "Importado do meu histórico." 
           }]);
-        
+        }
         successCount++;
       }
     } catch (err) {

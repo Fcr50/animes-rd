@@ -121,22 +121,40 @@ function renderFeaturedPost(animes) {
   const shuffled = shuffleItems(allComments);
   const container = document.getElementById("featured-comments");
 
+  let startIndex = 0;
   const rotate = () => {
-    const batch = shuffled.slice(0, 8);
+    if (shuffled.length === 0) return;
+    
+    // Pega 8 comentários em sequência, voltando ao início se necessário
+    const batch = [];
+    for (let i = 0; i < 8; i++) {
+      batch.push(shuffled[(startIndex + i) % shuffled.length]);
+    }
+
     const groupId = getGroupId();
-    if(container) container.innerHTML = batch.map((c, i) => {
-      const color = _members.find(m => m.nickname === c.person)?.color || "#a78bfa";
-      // O link agora leva para o acervo com a instrução de abrir o modal
-      const href = `acervo.html#g=${groupId}&open=${c.malId}`;
-      return `
-        <a href="${href}" class="comment-balloon comment-balloon-${i+1}" style="--balloon-color:${color}" title="Ver ${c.anime} no acervo">
-          <strong>${c.person}</strong>
-          <p>${shortText(c.text, 100)}</p>
-        </a>`;
-    }).join("");
+    if(container) {
+      // Adiciona uma pequena transição de fade ao trocar
+      container.style.opacity = "0";
+      setTimeout(() => {
+        container.innerHTML = batch.map((c, i) => {
+          const color = _members.find(m => m.nickname === c.person)?.color || "#a78bfa";
+          const href = `acervo.html#g=${groupId}&open=${c.malId}`;
+          return `
+            <a href="${href}" class="comment-balloon comment-balloon-${i+1}" style="--balloon-color:${color}" title="Ver ${c.anime} no acervo">
+              <strong>${c.person}</strong>
+              <p>${shortText(c.text, 100)}</p>
+            </a>`;
+        }).join("");
+        container.style.opacity = "1";
+      }, 500);
+    }
+    
+    startIndex = (startIndex + 8) % shuffled.length;
   };
+
   rotate();
-  setInterval(rotate, 12000);
+  if (featuredCommentTimer) clearInterval(featuredCommentTimer);
+  featuredCommentTimer = setInterval(rotate, 30000); // 30 segundos conforme solicitado
 }
 
 // --- 🎶 OPENINGS ---
@@ -261,7 +279,28 @@ async function init() {
   const days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
   fetch(`https://api.jikan.moe/v4/schedules?filter=${days[new Date().getDay()]}&limit=6`).then(r => r.json()).then(d => {
     const el = document.getElementById("calendar-card");
-    if(el) el.innerHTML = `<span class="eyebrow">MAL</span><h2>No ar hoje</h2><div class="calendar-list">${d.data.map(a => `<a class="calendar-item" href="https://myanimelist.net/anime/${a.mal_id}" target="_blank"><span class="calendar-dot"></span><span class="calendar-title">${shortText(a.title, 25)}</span></a>`).join("")}</div>`;
+    if(el) {
+      el.innerHTML = `
+        <span class="eyebrow">MAL</span>
+        <h2>No ar hoje</h2>
+        <div class="calendar-list">
+          ${d.data.map(a => {
+            const time = a.broadcast?.time || "N/A";
+            const score = a.score ? a.score.toFixed(1) : "—";
+            return `
+              <a class="calendar-item" href="https://myanimelist.net/anime/${a.mal_id}" target="_blank" style="display:flex; justify-content:space-between; align-items:center; width:100%;">
+                <div style="display:flex; align-items:center; gap:8px; overflow:hidden;">
+                  <span class="calendar-dot"></span>
+                  <span class="calendar-title" style="font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${shortText(a.title, 25)}</span>
+                </div>
+                <div style="display:flex; align-items:center; gap:10px; flex-shrink:0; margin-left:10px;">
+                  <span style="font-size:10px; color:var(--hacksuya-light); font-weight:800; background:rgba(6,182,212,0.1); padding:1px 5px; border-radius:4px; letter-spacing:0.5px;">${time}</span>
+                  <span style="font-size:10px; color:var(--warning); font-weight:800; display:flex; align-items:center; gap:2px;">★ ${score}</span>
+                </div>
+              </a>`;
+          }).join("")}
+        </div>`;
+    }
   });
   const rss = encodeURIComponent("https://news.google.com/rss/search?q=anime&hl=pt-BR&gl=BR");
   fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rss}`).then(r => r.json()).then(d => {

@@ -185,12 +185,14 @@ window.castVoteInline = async (malId) => {
     }]);
     if (error) throw error;
 
-    await supabase.from('user_library').upsert([{
-      user_id: currentUser.id,
-      mal_id: parseInt(malId),
-      last_score: score,
-      last_comment: comment || null
-    }]);
+    if (score !== null) {
+      await supabase.from('user_library').upsert([{
+        user_id: currentUser.id,
+        mal_id: parseInt(malId),
+        last_score: score,
+        last_comment: comment || null
+      }]);
+    }
 
     // Atualiza o card imediatamente sem esperar o realtime
     const actionsEl = document.querySelector(`#card-${malId} .vote-card-actions`);
