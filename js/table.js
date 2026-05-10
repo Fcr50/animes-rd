@@ -393,7 +393,7 @@ function renderEditPanel(anime) {
           <textarea id="anime-edit-comment" maxlength="600" placeholder="Escreva seu comentário...">${escapeHTML(currentComment)}</textarea>
         </label>
         <div class="anime-edit-actions">
-          <button class="edit-button" type="button" data-save-anime-edit data-anime-id="${anime.id}">${hasScore || currentComment ? "Salvar alterações" : "Enviar nota"}</button>
+          <button class="edit-button" type="button" data-save-anime-edit data-anime-id="${anime.id}" data-mal-id="${anime.mal_id}">${hasScore || currentComment ? "Salvar alterações" : "Enviar nota"}</button>
           <span id="anime-edit-status" class="edit-status"></span>
         </div>
       </div>
@@ -409,7 +409,7 @@ document.addEventListener("click", async (e) => {
   const saveBtn = e.target.closest("[data-save-anime-edit]");
   if (!saveBtn || !currentUser) return;
 
-  const animeId = saveBtn.dataset.animeId;
+  const malId = parseInt(saveBtn.dataset.malId);
   const scoreEl = document.getElementById("anime-edit-score");
   const commentEl = document.getElementById("anime-edit-comment");
   const statusEl = document.getElementById("anime-edit-status");
@@ -432,16 +432,18 @@ document.addEventListener("click", async (e) => {
       .from('votes')
       .upsert({ 
         group_id: groupId,
-        mal_id: parseInt(animeId), 
+        mal_id: malId, 
         user_id: currentUser.id, 
         score, 
         comment 
       }, { onConflict: 'group_id, mal_id, user_id' });
 
+    if (error) throw error;
+
     if (score !== null) {
       await supabase.from('user_library').upsert({
         user_id: currentUser.id,
-        mal_id: parseInt(animeId),
+        mal_id: malId,
         last_score: score,
         last_comment: comment
       });
