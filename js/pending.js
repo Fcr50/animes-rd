@@ -158,16 +158,39 @@ window.castVoteInline = async (malId) => {
   const comment = watchStatus === 'watched' ? (document.getElementById(`comment-${malId}`)?.value || '') : '';
   
   try {
-    const { error } = await supabase.from('votes').insert([{
+    const { error: voteError } = await supabase.from('votes').insert([{
       group_id: currentGroupId,
       mal_id: parseInt(malId),
       user_id: currentUser.id,
       score,
       comment: comment || null
     }]);
-    if (error) throw error;
+    if (voteError) throw voteError;
+
+    // Apenas atualiza a user_library se o usuário assistiu e deu nota
+    if (score !== null) {
+      await supabase.from('user_library').upsert([{ 
+        user_id: currentUser.id, 
+        mal_id: parseInt(malId), 
+        last_score: score, 
+        last_comment: comment || null 
+      }]);
+    }
     
-    // Sucesso, o card vai sumir com o realtime, não precisa fazer mais nada aqui.
+    // Feedback visual imediato
+    const cardElement = document.getElementById(`card-${malId}`);
+    if (cardElement) {
+      cardElement.style.transition = 'opacity 0.4s ease, transform 0.4s ease, height 0.4s ease';
+      cardElement.style.opacity = '0';
+      cardElement.style.transform = 'scale(0.95)';
+      setTimeout(() => {
+        cardElement.remove();
+        // Se o container ficar vazio, renderiza a mensagem de "tudo votado"
+        if (pendingAnimesContainer.children.length === 0) {
+            renderList([]);
+        }
+      }, 400);
+    }
     
   } catch (err) {
     alert("Erro ao votar: " + err.message);
