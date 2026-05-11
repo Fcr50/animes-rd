@@ -133,40 +133,48 @@ function renderList(animes, allVotes) {
           }).join(" ");
 
         return `
-          <div class="history-card" style="background:#12141a; border:1px solid rgba(134,239,172,0.08); border-radius:20px; padding:24px; position:relative; overflow:hidden;">
+          <div class="history-card" style="background:#12141a; border:1px solid rgba(134,239,172,0.08); border-radius:20px; padding:24px; position:relative; overflow:hidden; display:grid; grid-template-rows: auto auto auto 80px 1fr auto; gap: 0;">
             <!-- Subtle Background Image -->
             <div style="position:absolute; top:0; right:0; width:100%; height:100%; background:linear-gradient(to bottom, rgba(18,20,26,0.60) 0%, rgba(18,20,26,0.95) 80%, #12141a 100%), url('${anime.image_url}'); background-size:cover; background-position:center; z-index:0; opacity:0.30;"></div>
             
-            <div style="position:relative; z-index:1;">
-              <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
-                <h3 style="margin:0; font-family:'Newsreader', serif; font-size:22px; color:#fff;">${escapeHTML(anime.name)}</h3>
-                <div style="display:flex">${dots}</div>
+            <div style="position:relative; z-index:1; display:contents;">
+              <!-- Row 1: Title & Dots -->
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px; min-height:60px;">
+                <h3 style="margin:0; font-family:'Newsreader', serif; font-size:20px; color:#fff; line-height:1.2; padding-right:10px;">${escapeHTML(anime.name)}</h3>
+                <div style="display:flex; flex-shrink:0;">${dots}</div>
               </div>
 
-              <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:16px;">
+              <!-- Row 2: Genres -->
+              <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px; min-height:28px;">
                 ${(anime.genres || []).map(g => `<span class="pending-genre-chip" style="font-size:10px; padding:3px 10px;">${escapeHTML(g)}</span>`).join("")}
               </div>
 
-              <p style="font-size:12px; color:var(--muted); margin-bottom:18px;">Sugerido por <strong style="color:${subColor}">${escapeHTML(subName)}</strong></p>
+              <!-- Row 3: Submitter -->
+              <p style="font-size:12px; color:var(--muted); margin: 0 0 16px 0;">Sugerido por <strong style="color:${subColor}">${escapeHTML(subName)}</strong></p>
 
-              <div style="margin-bottom:20px;">
+              <!-- Row 4: Links (Fixed height for alignment) -->
+              <div style="margin-bottom:20px; height:80px; overflow:hidden;">
                 <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:rgba(255,255,255,0.3); margin-bottom:8px; font-weight:700;">Links</div>
                 <div style="display:flex; flex-wrap:wrap; gap:8px;" id="links-list-${item.mal_id}">
                   ${links.map(l => `<a href="${escapeHTML(l.url)}" target="_blank" class="pending-link-chip" style="font-size:11px;">${escapeHTML(l.name)}</a>`).join("")}
                   <button onclick="window.toggleAddLink('${item.mal_id}')" class="pending-link-chip" style="background:none; border:1px dashed var(--accent); color:var(--accent); cursor:pointer;">+ Link</button>
                 </div>
-                <div id="add-link-panel-${item.mal_id}" style="display:none; margin-top:12px; padding:12px; background:rgba(0,0,0,0.2); border-radius:10px; border:1px solid rgba(255,255,255,0.05);">
+                <div id="add-link-panel-${item.mal_id}" style="display:none; position:absolute; bottom:80px; left:24px; right:24px; z-index:10; padding:12px; background:#1c1e26; border-radius:10px; border:1px solid var(--accent); box-shadow:0 10px 30px rgba(0,0,0,0.5);">
                   <input type="text" id="new-link-name-${item.mal_id}" placeholder="Nome (ex: Dublado)" style="width:100%; margin-bottom:8px; font-size:11px; padding:6px; background:rgba(0,0,0,0.3); border:1px solid var(--border); border-radius:6px; color:white;">
                   <input type="url" id="new-link-url-${item.mal_id}" placeholder="https://..." style="width:100%; margin-bottom:8px; font-size:11px; padding:6px; background:rgba(0,0,0,0.3); border:1px solid var(--border); border-radius:6px; color:white;">
-                  <button onclick="window.saveNewLink('${item.mal_id}')" class="btn btn-primary" style="width:100%; padding:6px; font-size:11px;">Adicionar</button>
+                  <div style="display:flex; gap:8px;">
+                    <button onclick="window.saveNewLink('${item.mal_id}')" class="btn btn-primary" style="flex:1; padding:6px; font-size:11px;">Salvar</button>
+                    <button onclick="window.toggleAddLink('${item.mal_id}')" class="btn" style="padding:6px; font-size:11px; background:rgba(255,255,255,0.05);">Cancelar</button>
+                  </div>
                 </div>
               </div>
 
-              <div style="background:rgba(134,239,172,0.03); border:1px solid rgba(134,239,172,0.1); border-radius:16px; padding:16px; margin-bottom:16px; position:relative;">
+              <!-- Row 5: My Vote -->
+              <div style="background:rgba(134,239,172,0.03); border:1px solid rgba(134,239,172,0.1); border-radius:16px; padding:16px; margin-bottom:16px; position:relative; align-self: start;">
                 <div style="font-weight:800; color:#86efac; font-size:15px; margin-bottom:8px; display:flex; align-items:center; gap:8px;">
                   <span style="font-size:18px;">✓</span> Meu voto: ${myVote?.score !== null ? Number(myVote?.score).toFixed(1) : "Não assisti"}
                 </div>
-                ${myVote?.comment ? `<div style="font-style:italic; font-size:13px; color:rgba(134,239,172,0.7); line-height:1.4;">"${escapeHTML(myVote.comment)}"</div>` : ""}
+                ${myVote?.comment ? `<div style="font-style:italic; font-size:13px; color:rgba(134,239,172,0.7); line-height:1.4; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">"${escapeHTML(myVote.comment)}"</div>` : ""}
                 
                 <button onclick="window.toggleEditPanel('${item.mal_id}')" 
                         style="position:absolute; top:12px; right:12px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; color:#fff; cursor:pointer; font-size:11px; font-weight:700; padding:6px 12px;">
@@ -196,7 +204,8 @@ function renderList(animes, allVotes) {
                 </div>
               </div>
 
-              <div style="display:flex; flex-wrap:wrap; gap:8px;">
+              <!-- Row 6: Other Votes (Always at bottom) -->
+              <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:auto;">
                 ${otherVotes}
               </div>
             </div>
