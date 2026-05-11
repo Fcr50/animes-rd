@@ -135,7 +135,7 @@ function renderList(animes, allVotes) {
         return `
           <div class="history-card" style="background:#12141a; border:1px solid rgba(134,239,172,0.08); border-radius:20px; padding:24px; position:relative; overflow:hidden;">
             <!-- Subtle Background Image -->
-            <div style="position:absolute; top:0; right:0; width:100%; height:100%; background:linear-gradient(to bottom, rgba(18,20,26,0.65) 0%, rgba(18,20,26,0.95) 80%, #12141a 100%), url('${anime.image_url}'); background-size:cover; background-position:center; z-index:0; opacity:0.25;"></div>
+            <div style="position:absolute; top:0; right:0; width:100%; height:100%; background:linear-gradient(to bottom, rgba(18,20,26,0.60) 0%, rgba(18,20,26,0.95) 80%, #12141a 100%), url('${anime.image_url}'); background-size:cover; background-position:center; z-index:0; opacity:0.30;"></div>
             
             <div style="position:relative; z-index:1;">
               <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
