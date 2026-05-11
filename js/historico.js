@@ -3,7 +3,6 @@ import { supabase } from './supabase-client.js';
 import { getGroupId, escapeHTML } from './utils.js';
 
 const container = document.getElementById("historico-container");
-
 let currentUser = null;
 let currentGroupId = null;
 let members = [];
@@ -19,58 +18,29 @@ async function init() {
   }
   currentUser = user;
 
-  const { data: m } = await supabase
-    .from('group_members')
-    .select('*')
-    .eq('group_id', currentGroupId);
+  const { data: m } = await supabase.from('group_members').select('*').eq('group_id', currentGroupId);
   members = m || [];
 
   await loadHistory();
-
-  // Escuta mudanças para atualizar em tempo real
-  supabase
-    .channel('realtime-history')
+  supabase.channel('realtime-history')
     .on('postgres_changes', { event: '*', schema: 'public', table: 'votes', filter: `group_id=eq.${currentGroupId}` }, loadHistory)
     .on('postgres_changes', { event: '*', schema: 'public', table: 'group_animes', filter: `group_id=eq.${currentGroupId}` }, loadHistory)
     .subscribe();
 }
 
 async function loadHistory() {
-  // Busca animes que o usuário votou E que ainda estão pendentes
   const { data: votedItems, error } = await supabase
     .from('group_animes')
-    .select(`
-      status,
-      mal_id,
-      links,
-      added_by,
-      created_at,
-      animes!inner (name, genres, image_url),
-      votes!inner (user_id, score, comment)
-    `)
-    .eq('group_id', currentGroupId)
-    .eq('status', 'pending')
-    .eq('votes.user_id', currentUser.id)
+    .select(`status, mal_id, links, added_by, created_at, animes!inner(name, genres, image_url), votes!inner(user_id, score, comment)`)
+    .eq('group_id', currentGroupId).eq('status', 'pending').eq('votes.user_id', currentUser.id)
     .order('created_at', { ascending: false });
 
-  if (error) {
-    container.innerHTML = `<p>Erro ao carregar histórico.</p>`;
-    return;
-  }
+  if (error) { container.innerHTML = `<p>Erro ao carregar histórico.</p>`; return; }
 
   const animeIds = votedItems.map(a => a.mal_id);
-  
-  if (animeIds.length === 0) {
-    renderList([], []);
-    return;
-  }
+  if (animeIds.length === 0) { renderList([], []); return; }
 
-  const { data: allVotes } = await supabase
-    .from('votes')
-    .select('mal_id, user_id, score, comment')
-    .eq('group_id', currentGroupId)
-    .in('mal_id', animeIds);
-
+  const { data: allVotes } = await supabase.from('votes').select('mal_id, user_id, score, comment').eq('group_id', currentGroupId).in('mal_id', animeIds);
   renderList(votedItems, allVotes || []);
 }
 
@@ -80,140 +50,102 @@ function getSubmitterName(userId) {
 }
 
 function renderList(animes, allVotes) {
-  if (!animes.length) {
+    if (!animes.length) {
+        container.innerHTML = `<div class="empty-state">
+            <div class="empty-icon">📭</div>
+            <p class="empty-title">Nenhum voto pendente</p>
+            <p class="empty-subtitle">Os animes que você votou aparecem aqui enquanto aguardam os outros membros.</p>
+            <a href="pending.html#g=${currentGroupId}" class="pending-history-btn">← Ir para a fila</a>
+        </div>`;
+        return;
+    }
+
+    const myMember = members.find(m => m.user_id === currentUser.id);
+
     container.innerHTML = `
-      <div style="text-align:center; padding:100px 20px; grid-column: 1/-1;">
-        <div style="font-size:48px; margin-bottom:16px">📭</div>
-        <p style="font-size:18px; font-weight:700; color:var(--paper)">Nenhum voto pendente</p>
-        <p style="color:var(--faint); font-size:14px; margin-top:8px">Os animes que você votou aparecem aqui enquanto aguardam os outros membros.</p>
-        <a href="pending.html#g=${currentGroupId}" class="pending-history-btn" style="margin-top:24px; display:inline-block">← Ir para a fila</a>
-      </div>`;
-    return;
-  }
-
-  const myMember = members.find(m => m.user_id === currentUser.id);
-
-  // Injetamos um estilo específico para o Histórico para bater com a imagem
-  const gridStyle = `
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-    gap: 24px;
-    margin-top: 20px;
-  `;
-
-  container.innerHTML = `
-    <div style="margin-bottom:24px; color:var(--muted); font-size:14px">
+    <div class="list-header">
       ${animes.length} animes votados por <strong style="color:${myMember?.color}">${myMember?.nickname}</strong>
     </div>
-    <div style="${gridStyle}">
-      ${animes.map(item => {
-        const anime = item.animes;
-        const animeVotes = allVotes.filter(v => v.mal_id === item.mal_id);
-        const myVote = animeVotes.find(v => v.user_id === currentUser.id);
-        const subName = getSubmitterName(item.added_by);
-        const subColor = members.find(m => m.nickname === subName)?.color || "#86efac";
-        const links = normalizeLinks(item.links);
-        
-        const dots = members.map(m => {
-          const hasVoted = animeVotes.some(v => v.user_id === m.user_id);
-          const c = m.color || "#ccc";
-          return `<span title="${m.nickname}"
-            style="display:inline-flex;width:20px;height:20px;border-radius:50%;
-                   align-items:center;justify-content:center;font-size:9px;font-weight:bold;
-                   margin-left:4px;border:1.5px solid ${hasVoted ? c : "rgba(255,255,255,0.15)"};
-                   background:${hasVoted ? c + '22' : "transparent"};color:${hasVoted ? c : "rgba(255,255,255,0.2)"}">${m.nickname[0].toUpperCase()}</span>`;
-        }).join("");
+    ${animes.map(item => {
+      const anime = item.animes;
+      const animeVotes = allVotes.filter(v => v.mal_id === item.mal_id);
+      const myVote = animeVotes.find(v => v.user_id === currentUser.id);
+      const subName = getSubmitterName(item.added_by);
+      const subColor = members.find(m => m.nickname === subName)?.color || "#86efac";
+      const links = normalizeLinks(item.links);
+      
+      const dots = members.map(m => {
+        const hasVoted = animeVotes.some(v => v.user_id === m.user_id);
+        const c = m.color || "#ccc";
+        return `<span title="${m.nickname}" class="member-dot" style="border-color:${hasVoted ? c : 'rgba(255,255,255,0.15)'}; background:${hasVoted ? c + '22' : 'transparent'}; color:${hasVoted ? c : 'rgba(255,255,255,0.2)'}">${m.nickname[0].toUpperCase()}</span>`;
+      }).join("");
 
-        const otherVotes = animeVotes
-          .filter(v => v.user_id !== currentUser.id)
-          .map(v => {
-            const m = members.find(mem => mem.user_id === v.user_id);
-            const scoreLabel = v.score !== null ? Number(v.score).toFixed(1) : "Não assisti";
-            return `<span style="font-size:11px; background:rgba(255,255,255,0.04); padding:4px 10px; border-radius:12px; color:var(--faint)">${m?.nickname || '??'}: <strong style="color:${m?.color || '#eee'}">${scoreLabel}</strong></span>`;
-          }).join(" ");
+      const otherVotes = animeVotes.filter(v => v.user_id !== currentUser.id).map(v => {
+        const m = members.find(mem => mem.user_id === v.user_id);
+        const scoreLabel = v.score !== null ? Number(v.score).toFixed(1) : "Não assisti";
+        return `<span class="other-vote-chip">${m?.nickname || '??'}: <strong style="color:${m?.color||'#eee'}">${scoreLabel}</strong></span>`;
+      }).join(" ");
 
-        return `
-          <div class="history-card" style="background:#12141a; border:1px solid rgba(134,239,172,0.08); border-radius:20px; padding:24px; position:relative; overflow:hidden; display:grid; grid-template-rows: auto auto auto 80px 1fr auto; gap: 0;">
-            <!-- Subtle Background Image -->
-            <div style="position:absolute; top:0; right:0; width:100%; height:100%; background:linear-gradient(to bottom, rgba(18,20,26,0.60) 0%, rgba(18,20,26,0.95) 80%, #12141a 100%), url('${anime.image_url}'); background-size:cover; background-position:center; z-index:0; opacity:0.30;"></div>
+      return `
+        <div class="history-card">
+          <div class="history-card-bg" style="background-image: linear-gradient(to bottom, rgba(18,20,26,0.60) 0%, rgba(18,20,26,0.95) 80%, #12141a 100%), url('${anime.image_url}');"></div>
+          <div class="history-card-content">
             
-            <div style="position:relative; z-index:1; display:contents;">
-              <!-- Row 1: Title & Dots -->
-              <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px; min-height:60px;">
-                <h3 style="margin:0; font-family:'Newsreader', serif; font-size:20px; color:#fff; line-height:1.2; padding-right:10px;">${escapeHTML(anime.name)}</h3>
-                <div style="display:flex; flex-shrink:0;">${dots}</div>
+            <div class="card-section-top">
+              <div class="card-header">
+                <h3>${escapeHTML(anime.name)}</h3>
+                <div class="dots-container">${dots}</div>
               </div>
-
-              <!-- Row 2: Genres -->
-              <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px; min-height:28px;">
-                ${(anime.genres || []).map(g => `<span class="pending-genre-chip" style="font-size:10px; padding:3px 10px;">${escapeHTML(g)}</span>`).join("")}
+              <div class="card-genres">
+                ${(anime.genres || []).map(g => `<span class="pending-genre-chip">${escapeHTML(g)}</span>`).join("")}
               </div>
+              <p class="card-submitter">Sugerido por <strong style="color:${subColor}">${escapeHTML(subName)}</strong></p>
+            </div>
 
-              <!-- Row 3: Submitter -->
-              <p style="font-size:12px; color:var(--muted); margin: 0 0 16px 0;">Sugerido por <strong style="color:${subColor}">${escapeHTML(subName)}</strong></p>
-
-              <!-- Row 4: Links (Fixed height for alignment) -->
-              <div style="margin-bottom:20px; height:80px; overflow:hidden;">
-                <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:rgba(255,255,255,0.3); margin-bottom:8px; font-weight:700;">Links</div>
-                <div style="display:flex; flex-wrap:wrap; gap:8px;" id="links-list-${item.mal_id}">
-                  ${links.map(l => `<a href="${escapeHTML(l.url)}" target="_blank" class="pending-link-chip" style="font-size:11px;">${escapeHTML(l.name)}</a>`).join("")}
-                  <button onclick="window.toggleAddLink('${item.mal_id}')" class="pending-link-chip" style="background:none; border:1px dashed var(--accent); color:var(--accent); cursor:pointer;">+ Link</button>
+            <div class="card-section-middle">
+              <div class="card-links">
+                <div class="links-label">Links</div>
+                <div class="links-list" id="links-list-${item.mal_id}">
+                  ${links.map(l => `<a href="${escapeHTML(l.url)}" target="_blank" class="pending-link-chip">${escapeHTML(l.name)}</a>`).join("")}
+                  <button onclick="window.toggleAddLink(event, '${item.mal_id}')" class="pending-link-chip btn-add-link">+ Link</button>
                 </div>
-                <div id="add-link-panel-${item.mal_id}" style="display:none; position:absolute; bottom:80px; left:24px; right:24px; z-index:10; padding:12px; background:#1c1e26; border-radius:10px; border:1px solid var(--accent); box-shadow:0 10px 30px rgba(0,0,0,0.5);">
-                  <input type="text" id="new-link-name-${item.mal_id}" placeholder="Nome (ex: Dublado)" style="width:100%; margin-bottom:8px; font-size:11px; padding:6px; background:rgba(0,0,0,0.3); border:1px solid var(--border); border-radius:6px; color:white;">
-                  <input type="url" id="new-link-url-${item.mal_id}" placeholder="https://..." style="width:100%; margin-bottom:8px; font-size:11px; padding:6px; background:rgba(0,0,0,0.3); border:1px solid var(--border); border-radius:6px; color:white;">
-                  <div style="display:flex; gap:8px;">
-                    <button onclick="window.saveNewLink('${item.mal_id}')" class="btn btn-primary" style="flex:1; padding:6px; font-size:11px;">Salvar</button>
-                    <button onclick="window.toggleAddLink('${item.mal_id}')" class="btn" style="padding:6px; font-size:11px; background:rgba(255,255,255,0.05);">Cancelar</button>
+                <div id="add-link-panel-${item.mal_id}" class="add-link-panel">
+                   <input type="text" id="new-link-name-${item.mal_id}" placeholder="Nome (ex: Dublado)">
+                   <input type="url" id="new-link-url-${item.mal_id}" placeholder="https://...">
+                   <div class="panel-actions">
+                     <button onclick="window.saveNewLink('${item.mal_id}')" class="btn btn-primary">Salvar</button>
+                     <button type="button" onclick="window.toggleAddLink(event, '${item.mal_id}')" class="btn">Cancelar</button>
+                   </div>
+                </div>
+              </div>
+
+              <div class="card-my-vote">
+                <div class="my-vote-header">
+                  <span class="my-vote-text">✓ Meu voto: ${myVote?.score !== null ? Number(myVote?.score).toFixed(1) : "Não assisti"}</span>
+                  <button onclick="window.toggleEditPanel('${item.mal_id}')" class="edit-vote-btn">Editar</button>
+                </div>
+                ${myVote?.comment ? `<div class="my-vote-comment">"${escapeHTML(myVote.comment)}"</div>` : ""}
+                <div id="edit-panel-${item.mal_id}" class="edit-vote-panel">
+                  <div class="radio-group">
+                    <label><input type="radio" name="edit-watch-${item.mal_id}" value="watched" ${myVote?.score !== null ? 'checked' : ''} onchange="document.getElementById('edit-score-wrap-${item.mal_id}').style.display='block'">Assisti</label>
+                    <label><input type="radio" name="edit-watch-${item.mal_id}" value="not-watched" ${myVote?.score === null ? 'checked' : ''} onchange="document.getElementById('edit-score-wrap-${item.mal_id}').style.display='none'">Não assisti</label>
                   </div>
+                  <div id="edit-score-wrap-${item.mal_id}" style="${myVote?.score !== null ? '' : 'display:none;'}">
+                    <label class="input-label">Nota</label>
+                    <input type="number" id="edit-score-${item.mal_id}" min="0" max="10" step="0.1" value="${myVote?.score||'5.0'}">
+                  </div>
+                  <label class="input-label">Comentário</label>
+                  <textarea id="edit-comment-${item.mal_id}" placeholder="Comentário...">${escapeHTML(myVote?.comment||'')}</textarea>
+                  <button onclick="window.saveVoteEdit('${item.mal_id}')" class="btn btn-primary">Salvar Alterações</button>
                 </div>
-              </div>
-
-              <!-- Row 5: My Vote -->
-              <div style="background:rgba(134,239,172,0.03); border:1px solid rgba(134,239,172,0.1); border-radius:16px; padding:16px; margin-bottom:16px; position:relative; align-self: start;">
-                <div style="font-weight:800; color:#86efac; font-size:15px; margin-bottom:8px; display:flex; align-items:center; gap:8px;">
-                  <span style="font-size:18px;">✓</span> Meu voto: ${myVote?.score !== null ? Number(myVote?.score).toFixed(1) : "Não assisti"}
-                </div>
-                ${myVote?.comment ? `<div style="font-style:italic; font-size:13px; color:rgba(134,239,172,0.7); line-height:1.4; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">"${escapeHTML(myVote.comment)}"</div>` : ""}
-                
-                <button onclick="window.toggleEditPanel('${item.mal_id}')" 
-                        style="position:absolute; top:12px; right:12px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; color:#fff; cursor:pointer; font-size:11px; font-weight:700; padding:6px 12px;">
-                  Editar
-                </button>
-
-                <!-- Edit Panel Inline -->
-                <div id="edit-panel-${item.mal_id}" style="display:none; margin-top:15px; padding-top:15px; border-top:1px solid rgba(134,239,172,0.1);">
-                   <div style="display:flex; gap:15px; margin-bottom:12px;">
-                      <label style="display:flex; align-items:center; gap:6px; font-size:12px; color:#fff; cursor:pointer;">
-                        <input type="radio" name="edit-watch-${item.mal_id}" value="watched" ${myVote?.score !== null ? 'checked' : ''} onchange="document.getElementById('edit-score-wrap-${item.mal_id}').style.display='block'"> Assisti
-                      </label>
-                      <label style="display:flex; align-items:center; gap:6px; font-size:12px; color:#fff; cursor:pointer;">
-                        <input type="radio" name="edit-watch-${item.mal_id}" value="not-watched" ${myVote?.score === null ? 'checked' : ''} onchange="document.getElementById('edit-score-wrap-${item.mal_id}').style.display='none'"> Não assisti
-                      </label>
-                   </div>
-                   <div id="edit-score-wrap-${item.mal_id}" style="${myVote?.score !== null ? '' : 'display:none;'}">
-                      <div style="display:flex; justify-content:space-between; font-size:11px; color:#86efac; margin-bottom:5px;">
-                        <span>Nota</span><span id="edit-val-${item.mal_id}">${myVote?.score || '5.0'}</span>
-                      </div>
-                      <input type="range" id="edit-score-${item.mal_id}" min="0" max="10" step="0.1" value="${myVote?.score || '5.0'}" 
-                             oninput="document.getElementById('edit-val-${item.mal_id}').textContent=parseFloat(this.value).toFixed(1)"
-                             style="width:100%; margin-bottom:12px; accent-color:#86efac;">
-                   </div>
-                   <textarea id="edit-comment-${item.mal_id}" style="width:100%; background:rgba(0,0,0,0.4); border:1px solid rgba(134,239,172,0.2); border-radius:10px; color:#fff; font-size:12px; padding:10px; resize:vertical; min-height:60px; outline:none;" placeholder="Comentário...">${escapeHTML(myVote?.comment || '')}</textarea>
-                   <button onclick="window.saveVoteEdit('${item.mal_id}')" class="btn btn-primary" style="width:100%; margin-top:12px; padding:8px; font-size:12px; background:#86efac; color:#12141a; font-weight:800;">Salvar Alterações</button>
-                </div>
-              </div>
-
-              <!-- Row 6: Other Votes (Always at bottom) -->
-              <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:auto;">
-                ${otherVotes}
               </div>
             </div>
+            
+            <div class="card-footer">${otherVotes}</div>
           </div>
-        `;
-      }).join('')}
-    </div>
-  `;
+        </div>
+      `;
+    }).join('')}`;
 }
 
 function normalizeLinks(raw) {
@@ -223,58 +155,34 @@ function normalizeLinks(raw) {
   return [];
 }
 
-// ── Funções de Ação Global ───────────────────────────────────────────────────
-
-window.toggleEditPanel = (malId) => {
-  const p = document.getElementById(`edit-panel-${malId}`);
-  if(p) p.style.display = p.style.display === 'none' ? 'block' : 'none';
-};
-
-window.toggleAddLink = (malId) => {
-  const p = document.getElementById(`add-link-panel-${malId}`);
-  if(p) p.style.display = p.style.display === 'none' ? 'block' : 'none';
+window.toggleEditPanel = (malId) => document.getElementById(`edit-panel-${malId}`).classList.toggle('open');
+window.toggleAddLink = (e, malId) => {
+  e.stopPropagation();
+  document.getElementById(`add-link-panel-${malId}`).classList.toggle('open');
 };
 
 window.saveNewLink = async (malId) => {
   const name = document.getElementById(`new-link-name-${malId}`).value.trim();
   const url = document.getElementById(`new-link-url-${malId}`).value.trim();
   if(!name || !url) return alert("Preencha nome e URL.");
-
   try {
     const { data: item } = await supabase.from('group_animes').select('links').eq('group_id', currentGroupId).eq('mal_id', malId).single();
-    const currentLinks = normalizeLinks(item.links);
-    const newLinks = [...currentLinks, { name, url }];
-    
-    // Converte de volta para objeto se necessário ou mantém array
+    const newLinks = [...normalizeLinks(item.links), { name, url }];
     const { error } = await supabase.from('group_animes').update({ links: newLinks }).eq('group_id', currentGroupId).eq('mal_id', malId);
     if(error) throw error;
     loadHistory();
-  } catch (err) {
-    alert("Erro ao adicionar link.");
-  }
+  } catch (err) { alert("Erro ao adicionar link."); }
 };
 
 window.saveVoteEdit = async (malId) => {
   const watchStatus = document.querySelector(`input[name="edit-watch-${malId}"]:checked`)?.value;
   const score = watchStatus === 'watched' ? parseFloat(document.getElementById(`edit-score-${malId}`).value) : null;
   const comment = document.getElementById(`edit-comment-${malId}`).value.trim();
-
   try {
-    const { error } = await supabase
-      .from('votes')
-      .upsert({ 
-        group_id: currentGroupId,
-        mal_id: parseInt(malId), 
-        user_id: currentUser.id, 
-        score, 
-        comment: comment || null
-      }, { onConflict: 'group_id, mal_id, user_id' });
-
+    const { error } = await supabase.from('votes').upsert({ group_id: currentGroupId, mal_id: parseInt(malId), user_id: currentUser.id, score, comment: comment || null }, { onConflict: 'group_id, mal_id, user_id' });
     if (error) throw error;
     loadHistory();
-  } catch (err) {
-    alert("Erro ao salvar voto.");
-  }
+  } catch (err) { alert("Erro ao salvar voto."); }
 };
 
 init();
