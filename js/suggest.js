@@ -93,6 +93,18 @@ function setupSearch() {
   animeNameInput.addEventListener("input", () => {
     clearTimeout(timeout);
     const query = animeNameInput.value.trim();
+
+    // Se o campo for limpo, reseta toda a UI de sugestão
+    if (query.length === 0) {
+      resultsDropdown?.classList.add("hidden");
+      detailsSection?.classList.add("hidden");
+      manualFields?.classList.add("hidden");
+      currentAnimeData = null;
+      const submitBtn = document.getElementById("submit-anime-button");
+      if (submitBtn) submitBtn.disabled = true; // Desativa até nova seleção
+      return;
+    }
+
     if (query.length < 3) {
       resultsDropdown?.classList.add("hidden");
       return;
