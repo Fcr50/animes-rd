@@ -9213,3 +9213,338 @@ body.ciel-page:not(.dark-theme) #ciel-input:focus {
 body.ciel-page:not(.dark-theme) #ciel-input::placeholder {
   color: rgba(180, 83, 9, 0.3);
 }
+
+/* Acervo anime details modal */
+body.acervo-page .modal-overlay {
+  background:
+    radial-gradient(circle at 24% 12%, rgba(93, 139, 255, 0.18), transparent 340px),
+    radial-gradient(circle at 82% 84%, rgba(87, 205, 174, 0.14), transparent 360px),
+    rgba(5, 7, 12, 0.78);
+  backdrop-filter: blur(10px);
+}
+
+body.acervo-page .modal {
+  background:
+    linear-gradient(180deg, rgba(6, 8, 12, 0.78) 0%, rgba(6, 8, 12, 0.94) 46%, rgba(6, 8, 12, 0.99) 100%),
+    linear-gradient(150deg, rgba(255, 255, 255, 0.03), transparent 30%),
+    var(--modal-anime-bg, none),
+    radial-gradient(circle at 12% 0%, rgba(255, 159, 199, 0.07), transparent 280px),
+    radial-gradient(circle at 92% 100%, rgba(87, 205, 174, 0.07), transparent 320px),
+    #12151d;
+  border: 1px solid rgba(209, 218, 235, 0.22);
+  border-radius: 28px;
+  background-position: center, center, center top, center, center;
+  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+  background-size: auto, auto, cover, auto, auto;
+  box-shadow:
+    0 28px 90px rgba(0, 0, 0, 0.48),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  max-width: 650px;
+  padding: 28px;
+  scrollbar-color: rgba(167, 205, 211, 0.65) rgba(255, 255, 255, 0.04);
+}
+
+body.acervo-page .modal-header {
+  align-items: flex-start;
+  gap: 18px;
+  margin-bottom: 16px;
+}
+
+body.acervo-page .modal-title {
+  color: #fff7ef;
+  font-size: clamp(30px, 4vw, 42px);
+  letter-spacing: -0.025em;
+  line-height: 1.04;
+  max-width: 620px;
+  text-wrap: balance;
+}
+
+body.acervo-page .modal-close {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(209, 218, 235, 0.13);
+  border-radius: 999px;
+  color: rgba(232, 238, 248, 0.58);
+  display: inline-flex;
+  flex: 0 0 auto;
+  font-size: 20px;
+  height: 38px;
+  justify-content: center;
+  margin-top: 2px;
+  padding: 0;
+  width: 38px;
+}
+
+body.acervo-page .modal-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 159, 199, 0.36);
+  color: #fff7ef;
+  transform: translateY(-1px);
+}
+
+body.acervo-page .modal-genres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+body.acervo-page .modal-genres .badge-genre {
+  background: rgba(255, 255, 255, 0.075);
+  border: 1px solid rgba(255, 255, 255, 0.095);
+  border-radius: 999px;
+  color: rgba(247, 246, 239, 0.84);
+  font-size: 11px;
+  padding: 7px 12px;
+}
+
+body.acervo-page .notes-grid {
+  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
+  margin-bottom: 14px;
+}
+
+body.acervo-page .note-box {
+  background:
+    linear-gradient(150deg, color-mix(in srgb, var(--note-color, #b7c9ff) 20%, transparent), transparent 62%),
+    rgba(255, 255, 255, 0.055);
+  border: 1px solid color-mix(in srgb, var(--note-color, #b7c9ff) 48%, rgba(255, 255, 255, 0.14));
+  border-radius: 18px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.055);
+  min-height: 76px;
+  padding: 14px 12px;
+}
+
+body.acervo-page .note-box .person {
+  letter-spacing: 0;
+  margin-bottom: 8px;
+}
+
+body.acervo-page .note-box .score {
+  font-size: 32px;
+}
+
+body.acervo-page .modal-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0 20px;
+}
+
+body.acervo-page .modal-meta .meta-item {
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(255, 255, 255, 0.085);
+  border-radius: 999px;
+  color: rgba(232, 238, 248, 0.62);
+  font-size: 12px;
+  font-weight: 800;
+  padding: 7px 10px;
+}
+
+body.acervo-page .modal-meta .meta-item span {
+  color: #f5ede0;
+}
+
+body.acervo-page .modal-links,
+body.acervo-page .modal-comments,
+body.acervo-page .anime-edit-panel {
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.025)),
+    rgba(13, 17, 25, 0.64);
+  border: 1px solid rgba(209, 218, 235, 0.16);
+  border-radius: 22px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  margin-top: 18px;
+  padding: 18px;
+}
+
+body.acervo-page .modal-links h3,
+body.acervo-page .modal-comments h3 {
+  color: rgba(255, 247, 239, 0.64);
+  letter-spacing: 0.16em;
+  margin-bottom: 12px;
+}
+
+body.acervo-page .modal-link-list {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+body.acervo-page .modal-link-chip,
+body.acervo-page .modal-link-add-btn {
+  background: rgba(255, 255, 255, 0.075);
+  border: 1px solid rgba(162, 204, 255, 0.28);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  color: #fff7ef;
+}
+
+body.acervo-page .modal-link-chip {
+  align-items: center;
+  display: inline-flex;
+  min-height: 38px;
+  padding: 9px 13px;
+}
+
+body.acervo-page .modal-link-add-btn {
+  height: 38px;
+  line-height: 38px;
+  width: 38px;
+}
+
+body.acervo-page .modal-link-chip:hover,
+body.acervo-page .modal-link-add-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(180, 216, 255, 0.42);
+}
+
+body.acervo-page .comment-list {
+  gap: 10px;
+}
+
+body.acervo-page .comment-item {
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid color-mix(in srgb, var(--comment-accent, rgba(209, 218, 235, 0.22)) 22%, rgba(209, 218, 235, 0.08));
+  border-radius: 18px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035);
+  padding: 16px;
+}
+
+body.acervo-page .comment-item strong {
+  margin-bottom: 8px;
+}
+
+body.acervo-page .comment-item p {
+  color: rgba(255, 247, 239, 0.88);
+}
+
+body.acervo-page .anime-edit-panel h3 {
+  color: #fff7ef;
+  font-size: 26px;
+}
+
+body.acervo-page .anime-edit-panel p {
+  color: rgba(232, 238, 248, 0.64);
+}
+
+body.acervo-page .edit-expand-button,
+body.acervo-page .edit-button {
+  background: rgba(255, 255, 255, 0.075);
+  border: 1px solid rgba(162, 204, 255, 0.28);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  color: #fff7ef;
+}
+
+body.acervo-page .edit-expand-button:hover,
+body.acervo-page .edit-button:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(180, 216, 255, 0.42);
+  transform: translateY(-1px);
+}
+
+body.acervo-page .add-link-input,
+body.acervo-page .edit-field input,
+body.acervo-page .edit-field textarea {
+  background: rgba(255, 255, 255, 0.065);
+  border-color: rgba(209, 218, 235, 0.18);
+  color: #fff7ef;
+}
+
+body.acervo-page .add-link-input:focus,
+body.acervo-page .edit-field input:focus,
+body.acervo-page .edit-field textarea:focus {
+  border-color: rgba(191, 234, 255, 0.58);
+  box-shadow: 0 0 0 4px rgba(191, 234, 255, 0.1);
+}
+
+body.acervo-page:not(.dark-theme) .modal-overlay {
+  background:
+    radial-gradient(circle at 18% 8%, rgba(93, 139, 255, 0.22), transparent 340px),
+    radial-gradient(circle at 82% 88%, rgba(87, 205, 174, 0.16), transparent 360px),
+    rgba(44, 36, 32, 0.42);
+}
+
+body.acervo-page:not(.dark-theme) .modal {
+  background:
+    linear-gradient(180deg, rgba(255, 250, 244, 0.62) 0%, rgba(255, 250, 244, 0.93) 46%, rgba(255, 250, 244, 0.985) 100%),
+    var(--modal-anime-bg, none),
+    radial-gradient(circle at 12% 0%, rgba(255, 159, 199, 0.08), transparent 280px),
+    radial-gradient(circle at 94% 100%, rgba(87, 205, 174, 0.08), transparent 320px),
+    #fffaf4;
+  border-color: rgba(60, 40, 20, 0.13);
+  color: #2c2420;
+  background-position: center, center top, center, center, center;
+  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+  background-size: auto, cover, auto, auto, auto;
+}
+
+body.acervo-page:not(.dark-theme) .modal-title,
+body.acervo-page:not(.dark-theme) .anime-edit-panel h3 {
+  color: #2c2420;
+}
+
+body.acervo-page:not(.dark-theme) .modal-close {
+  background: rgba(44, 36, 32, 0.055);
+  border-color: rgba(44, 36, 32, 0.11);
+  color: rgba(44, 36, 32, 0.54);
+}
+
+body.acervo-page:not(.dark-theme) .modal-genres .badge-genre,
+body.acervo-page:not(.dark-theme) .modal-meta .meta-item,
+body.acervo-page:not(.dark-theme) .modal-links,
+body.acervo-page:not(.dark-theme) .modal-comments,
+body.acervo-page:not(.dark-theme) .anime-edit-panel,
+body.acervo-page:not(.dark-theme) .comment-item {
+  background: rgba(255, 255, 255, 0.58);
+  color: #2c2420;
+}
+
+body.acervo-page:not(.dark-theme) .comment-item {
+  border-color: color-mix(in srgb, var(--comment-accent, rgba(60, 40, 20, 0.18)) 18%, rgba(60, 40, 20, 0.1));
+}
+
+body.acervo-page:not(.dark-theme) .modal-meta .meta-item,
+body.acervo-page:not(.dark-theme) .modal-links h3,
+body.acervo-page:not(.dark-theme) .modal-comments h3,
+body.acervo-page:not(.dark-theme) .anime-edit-panel p {
+  color: rgba(44, 36, 32, 0.58);
+}
+
+body.acervo-page:not(.dark-theme) .modal-meta .meta-item span,
+body.acervo-page:not(.dark-theme) .comment-item p {
+  color: #2c2420;
+}
+
+body.acervo-page:not(.dark-theme) .modal-link-chip,
+body.acervo-page:not(.dark-theme) .modal-link-add-btn,
+body.acervo-page:not(.dark-theme) .edit-expand-button,
+body.acervo-page:not(.dark-theme) .edit-button,
+body.acervo-page:not(.dark-theme) .add-link-input,
+body.acervo-page:not(.dark-theme) .edit-field input,
+body.acervo-page:not(.dark-theme) .edit-field textarea {
+  background: rgba(255, 255, 255, 0.72);
+  border-color: rgba(133, 182, 240, 0.32);
+  color: #2c2420;
+}
+
+@media (max-width: 720px) {
+  body.acervo-page .modal-overlay {
+    align-items: flex-end;
+    padding: 10px;
+  }
+
+  body.acervo-page .modal {
+    border-radius: 24px 24px 18px 18px;
+    max-height: 92vh;
+    padding: 22px;
+  }
+
+  body.acervo-page .modal-title {
+    font-size: clamp(26px, 8vw, 34px);
+  }
+
+  body.acervo-page .notes-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

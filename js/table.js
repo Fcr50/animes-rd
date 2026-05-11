@@ -44,10 +44,17 @@ function updateRenderedImages(malId, imageUrl) {
     img.src = imageUrl;
     img.classList.add("loaded");
   });
+
+  const modal = document.getElementById("modal-content");
+  if (modal?.dataset.malId === String(malId)) {
+    modal.style.setProperty("--modal-anime-bg", `url("${imageUrl.replace(/"/g, '\\"')}")`);
+  }
 }
 
-function queueAnimeImage(malId) {
-  if (!malId || getCachedImage(malId) || queuedImageMalIds.has(malId)) return;
+function queueAnimeImage(malId, options = {}) {
+  const { force = false } = options;
+  if (!malId || queuedImageMalIds.has(malId)) return;
+  if (!force && getCachedImage(malId)) return;
   queuedImageMalIds.add(malId);
   runImageQueue();
 }
@@ -63,6 +70,8 @@ async function runImageQueue() {
       if (res.ok) {
         const payload = await res.json();
         const imageUrl =
+          payload?.data?.images?.webp?.large_image_url ||
+          payload?.data?.images?.jpg?.large_image_url ||
           payload?.data?.images?.webp?.image_url ||
           payload?.data?.images?.jpg?.image_url ||
           payload?.data?.images?.webp?.small_image_url ||
@@ -290,6 +299,15 @@ window.openModal = function(idx) {
   const a = allAnimes[idx];
   if (!a) return;
   currentModalIndex = idx;
+  const modal = document.getElementById("modal-content");
+  const imageUrl = getCachedImage(a.mal_id) || FALLBACK_IMAGE;
+
+  if (modal) {
+    modal.dataset.malId = String(a.mal_id || "");
+    modal.style.setProperty("--modal-anime-bg", `url("${imageUrl.replace(/"/g, '\\"')}")`);
+  }
+
+  queueAnimeImage(a.mal_id, { force: true });
 
   document.getElementById("modal-title").textContent = a.name;
 
@@ -333,7 +351,7 @@ window.openModal = function(idx) {
         ${comments.map(line => {
           const [nick, ...rest] = line.split(": ");
           const color = getPersonColor(nick.trim());
-          return `<article class="comment-item">
+          return `<article class="comment-item" style="--comment-accent:${color}">
             <strong style="color:${color}">${escapeHTML(nick.trim())}</strong>
             <p>${escapeHTML(rest.join(": ").trim())}</p>
           </article>`;
