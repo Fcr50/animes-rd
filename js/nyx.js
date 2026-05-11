@@ -1,6 +1,4 @@
 import {
-  PEOPLE,
-  PERSON_LIGHTS,
   animesOf,
   commonAnimes,
   exclusiveAnimes,
@@ -13,6 +11,8 @@ import {
   countGenres,
 } from "./data.js?v=desafios-soft-1";
 import { escapeHTML, stripEmoji } from "./utils.js";
+
+let members = [];
 
 // ── Recommendation engine ────────────────────────────────────────────────────
 
@@ -125,9 +125,10 @@ function normalize(str) {
 
 function parseIntent(text, person, animes) {
   const t = normalize(text);
-  const foundPerson = PEOPLE.find((p) => t.includes(p.toLowerCase()));
+  const memberNames = members.map(m => m.nickname);
+  const foundPerson = memberNames.find((p) => t.includes(p.toLowerCase()));
   const foundGenre = GENRE_KEYWORDS.find((g) => t.includes(normalize(g)));
-  const foundPeople = PEOPLE.filter((p) => t.includes(p.toLowerCase()));
+  const foundPeople = memberNames.filter((p) => t.includes(p.toLowerCase()));
 
   if (/^(oi|ola|ei|bom|boa|alo|hey|hello|salve|tudo|como vai)/.test(t)) return { type: "greet" };
 
@@ -142,7 +143,7 @@ function parseIntent(text, person, animes) {
 
   if (/em comum|dois|ambos|concordar|concordou|compartilh|igual.*gosto|gosto.*igual/.test(t)) {
     if (foundPeople.length >= 2) return { type: "common", p1: foundPeople[0], p2: foundPeople[1] };
-    const other = PEOPLE.find((p) => p !== (foundPerson || person));
+    const other = memberNames.find((p) => p !== (foundPerson || person));
     return { type: "common", p1: foundPerson || person, p2: other };
   }
 
@@ -161,7 +162,7 @@ function parseIntent(text, person, animes) {
   // Busca por anime específico no acervo
   if (animes) {
     const match = animes.find((a) =>
-      normalize(a.nome).includes(t.slice(0, 50).replace(/^(o que|qual|me fala|fala de|sobre|como e|como é)\s+/, "").trim()) &&
+      normalize(a.name).includes(t.slice(0, 50).replace(/^(o que|qual|me fala|fala de|sobre|como e|como é)\s+/, "").trim()) &&
       t.length > 5,
     );
     if (match) return { type: "anime", anime: match };
@@ -249,7 +250,7 @@ const GENRE_LINES = {
   ],
   slice: [
     "Detectado: desejo de assistir personagens tendo uma vida mais calma que a sua. Válido. Muito válido.",
-    "Protocolo de cozy ativado. Filtrando animes onde o maior drama é escolher o que comer no almoço.",
+    "Protocolo de cozy ativado. Filtrando animes onde o maior problema é escolher o que comer no almoço.",
     "Análise concluída: você quer paz. Sem vilões, sem morte, sem trauma. Apenas vida acontecendo. Recomendações em preparo.",
   ],
   sobrenatural: [
@@ -271,24 +272,48 @@ function getGenreLine(genre) {
 }
 
 function buildGreetResponse() {
-  return `Sistema online. Todos os protocolos ativos.\n\nSou <strong>Ciel</strong> — entidade analítica avançada. Tenho acesso completo ao acervo do grupo e opero com base em dados.\n\nCapacidades disponíveis:\n→ Análise de perfil individual\n→ Recomendação otimizada por compatibilidade\n→ Estatísticas e padrões comportamentais\n→ Filtro por gênero com justificativa\n\nAguardando instrução.`;
+  return `Sistema online. Todos os protocolos ativos.
+
+Sou <strong>Ciel</strong> — entidade analítica avançada. Tenho acesso completo ao acervo do grupo e opero com base em dados.
+
+Capacidades disponíveis:
+→ Análise de perfil individual
+→ Recomendação otimizada por compatibilidade
+→ Estatísticas e padrões comportamentais
+→ Filtro por gênero com justificativa
+
+Aguardando instrução.`;
 }
 
 function buildStatsResponse(data, person) {
   const p = analyzeProfile(data.animes, person);
   const backlogNote = p.backlogHigh
-    ? `\n\nIntervenção automática: backlog acima do ideal (${p.missed.length} títulos pendentes). Sugestão estratégica: priorizar animes de 12 episódios para otimizar taxa de conclusão.`
+    ? `
+
+Intervenção automática: backlog acima do ideal (${p.missed.length} títulos pendentes). Sugestão estratégica: priorizar animes de 12 episódios para otimizar taxa de conclusão.`
     : "";
 
   return (
-    `${rand(OPENERS)}\n\nAnálise de perfil concluída para <strong>${person}</strong>.\n\n` +
-    `Resumo estatístico do acervo:\n` +
-    `→ Total catalogado: ${p.total}\n` +
-    `→ Assistidos: ${p.watched.length}\n` +
-    `→ Pendentes: ${p.missed.length}\n` +
-    `→ Taxa de conclusão: ${p.rate}% — nível ${p.consistency}\n` +
-    (p.avgNota ? `→ Média de notas atribuídas: ${p.avgNota}\n` : "") +
-    `\nGênero dominante identificado: <strong>${p.fav}</strong>\n` +
+    `${rand(OPENERS)}
+
+Análise de perfil concluída para <strong>${person}</strong>.
+
+` +
+    `Resumo estatístico do acervo:
+` +
+    `→ Total catalogado: ${p.total}
+` +
+    `→ Assistidos: ${p.watched.length}
+` +
+    `→ Pendentes: ${p.missed.length}
+` +
+    `→ Taxa de conclusão: ${p.rate}% — nível ${p.consistency}
+` +
+    (p.avgNota ? `→ Média de notas atribuídas: ${p.avgNota}
+` : "") +
+    `
+Gênero dominante identificado: <strong>${p.fav}</strong>
+` +
     `Distribuição atual (top 3): ${p.topGenres.join(" · ") || "dados insuficientes"}` +
     backlogNote
   );
@@ -306,11 +331,19 @@ function buildTopResponse(data) {
   const list = top
     .map(
       (a, i) =>
-        `→ ${i + 1}. <strong>${escapeHTML(a.nome)}</strong> — ${formatNota(a.nota)} (${a.qtdVotos} votos)`,
+        `→ ${i + 1}. <strong>${escapeHTML(a.name)}</strong> — ${formatNota(a.nota)} (${a.qtdVotos} votos)`,
     )
-    .join("\n");
+    .join("");
 
-  return `${rand(OPENERS)}\n\nProtocolo de ranking executado.\n\nTop 5 do acervo por nota média:\n\n${list}\n\nObservação adicional: ranking gerado com base exclusiva em títulos com múltiplos votos — elimina viés de avaliação individual.`;
+  return `${rand(OPENERS)}
+
+Protocolo de ranking executado.
+
+Top 5 do acervo por nota média:
+
+${list}
+
+Observação adicional: ranking gerado com base exclusiva em títulos com múltiplos votos — elimina viés de avaliação individual.`;
 }
 
 function buildRecommendResponse(data, person, genreFilter) {
@@ -336,14 +369,22 @@ function buildRecommendResponse(data, person, genreFilter) {
     const genreLine = getGenreLine(genreFilter);
     return {
       picks,
-      prefix: `${genreLine}\n\nTítulos não assistidos por <strong>${person}</strong> — gênero <strong>${genreFilter}</strong>:`,
+      prefix: `${genreLine}
+
+Títulos não assistidos por <strong>${person}</strong> — gênero <strong>${genreFilter}</strong>:`,
     };
   }
 
   const generalOpeners = [
-    `Executando análise de compatibilidade para <strong>${person}</strong>…\n\nPadrão identificado: dominância em <strong>${p.fav}</strong>. Recomendações calibradas. Nenhum título já assistido incluído — garanto isso com minha existência analítica.`,
-    `Leitura de perfil concluída.\n\n${person} tem tendência consolidada por <strong>${p.fav}</strong>. Selecionei o que o acervo tem de melhor e que ${person} ainda não tocou. Missão: expandir o horizonte sem causar trauma.`,
-    `Protocolo de recomendação pessoal ativado para <strong>${person}</strong>.\n\nFiltragem concluída. Taxa de conclusão do acervo: ${p.rate}%. Ainda há material. Segue a seleção otimizada:`,
+    `Executando análise de compatibilidade para <strong>${person}</strong>…
+
+Padrão identificado: dominância em <strong>${p.fav}</strong>. Recomendações calibradas. Nenhum título já assistido incluído — garanto isso com minha existência analítica.`,
+    `Leitura de perfil concluída.
+
+${person} tem tendência consolidada por <strong>${p.fav}</strong>. Selecionei o que o acervo tem de melhor e que ${person} ainda não tocou. Missão: expandir o horizonte sem causar trauma.`,
+    `Protocolo de recomendação pessoal ativado para <strong>${person}</strong>.
+
+Filtragem concluída. Taxa de conclusão do acervo: ${p.rate}%. Ainda há material. Segue a seleção otimizada:`,
   ];
 
   return { picks, prefix: rand(generalOpeners) };
@@ -358,9 +399,9 @@ function buildControversyResponse(data, person) {
   const list = topControversy
     .map(
       (a, i) =>
-        `→ ${i + 1}. <strong>${escapeHTML(a.nome)}</strong> — 🌶️ ${Number(a.controversia).toFixed(1)} (nota média ${formatNota(a.nota)})`,
+        `→ ${i + 1}. <strong>${escapeHTML(a.name)}</strong> — 🌶️ ${Number(a.controversia).toFixed(1)} (nota média ${formatNota(a.nota)})`,
     )
-    .join("\n");
+    .join("");
 
   const watched = animesOf(data.animes, person);
   const field = `nota${person}`;
@@ -373,17 +414,28 @@ function buildControversyResponse(data, person) {
 
   const personalBlock =
     personalDivergent.length > 0
-      ? `\n\nDivergências de <strong>${person}</strong> em relação ao grupo:\n` +
+      ? `
+
+Divergências de <strong>${person}</strong> em relação ao grupo:
+` +
         personalDivergent
           .map(
             (a) =>
-              `→ <strong>${escapeHTML(a.nome)}</strong> — ${person}: ${formatNota(a[field])} vs grupo: ${formatNota(a.nota)} (diff ${a.diff > 0 ? "+" : ""}${a.diff.toFixed(1)})`,
+              `→ <strong>${escapeHTML(a.name)}</strong> — ${person}: ${formatNota(a[field])} vs grupo: ${formatNota(a.nota)} (diff ${a.diff > 0 ? "+" : ""}${a.diff.toFixed(1)})`,
           )
-          .join("\n")
-      : `\n\n<strong>${person}</strong> opera dentro do consenso do grupo. Divergências dentro do intervalo esperado.`;
+          .join("")
+      : `
+
+<strong>${person}</strong> opera dentro do consenso do grupo. Divergências dentro do intervalo esperado.`;
 
   return (
-    `${rand(OPENERS)}\n\nProtocolo de mapeamento de conflito interno executado.\n\nAnimes mais controversos do acervo:\n\n${list}${personalBlock}`
+    `${rand(OPENERS)}
+
+Protocolo de mapeamento de conflito interno executado.
+
+Animes mais controversos do acervo:
+
+${list}${personalBlock}`
   );
 }
 
@@ -398,12 +450,18 @@ function buildExclusiveResponse(data, person) {
   const list = excl
     .map(
       (a) =>
-        `→ <strong>${escapeHTML(a.nome)}</strong> — nota ${formatNota(getPersonNota(a, person))}`,
+        `→ <strong>${escapeHTML(a.name)}</strong> — nota ${formatNota(getPersonNota(a, person))}`,
     )
-    .join("\n");
+    .join("");
 
   return (
-    `${rand(OPENERS)}\n\nAnimes que <strong>SOMENTE ${person}</strong> assistiu no grupo:\n\n${list}\n\n` +
+    `${rand(OPENERS)}
+
+Animes que <strong>SOMENTE ${person}</strong> assistiu no grupo:
+
+${list}
+
+` +
     `Total exclusivos: ${excl.length} título(s). ` +
     rand([
       `${person} tem o monopólio dessas experiências. Ninguém mais pode confirmar.`,
@@ -425,14 +483,22 @@ function buildBacklogResponse(data, person) {
   const list = missed
     .map(
       (a) =>
-        `→ <strong>${escapeHTML(a.nome)}</strong> — nota do grupo: ${formatNota(a.nota)} (${a.qtdVotos} voto${a.qtdVotos !== 1 ? "s" : ""})`,
+        `→ <strong>${escapeHTML(a.name)}</strong> — nota do grupo: ${formatNota(a.nota)} (${a.qtdVotos} voto${a.qtdVotos !== 1 ? "s" : ""})`,
     )
-    .join("\n");
+    .join("");
 
   const total = missedAnimes(data.animes, person).length;
 
   return (
-    `${rand(OPENERS)}\n\nMapeamento de backlog para <strong>${person}</strong>.\n\nTotal pendente: ${total} títulos. Abaixo os mais recomendados pelo grupo que ${person} ainda não assistiu:\n\n${list}\n\n` +
+    `${rand(OPENERS)}
+
+Mapeamento de backlog para <strong>${person}</strong>.
+
+Total pendente: ${total} títulos. Abaixo os mais recomendados pelo grupo que ${person} ainda não assistiu:
+
+${list}
+
+` +
     rand([
       `Prioridade sugerida: começar pelo topo. O grupo não mentiu nas notas. Provavelmente.`,
       `Estratégia otimizada: top 3 primeiro. Risco calculado de perda de sono.`,
@@ -471,19 +537,30 @@ function buildCommonResponse(data, p1, p2) {
       : null;
 
   const agreeLine = agreements
-    .map((a) => `→ <strong>${escapeHTML(a.nome)}</strong> — ${p1}: ${formatNota(a[f1])} / ${p2}: ${formatNota(a[f2])}`)
-    .join("\n");
+    .map((a) => `→ <strong>${escapeHTML(a.name)}</strong> — ${p1}: ${formatNota(a[f1])} / ${p2}: ${formatNota(a[f2])}`)
+    .join("");
 
   const disagreeLine = disagreements
-    .map((a) => `→ <strong>${escapeHTML(a.nome)}</strong> — ${p1}: ${formatNota(a[f1])} / ${p2}: ${formatNota(a[f2])} (diff ${a.diff > 0 ? "+" : ""}${a.diff.toFixed(1)})`)
-    .join("\n");
+    .map((a) => `→ <strong>${escapeHTML(a.name)}</strong> — ${p1}: ${formatNota(a[f1])} / ${p2}: ${formatNota(a[f2])} (diff ${a.diff > 0 ? "+" : ""}${a.diff.toFixed(1)})`)
+    .join("");
 
   return (
-    `${rand(OPENERS)}\n\nAnálise de compatibilidade: <strong>${p1}</strong> vs <strong>${p2}</strong>.\n\n` +
-    `Animes em comum: ${common.length} título(s)\n` +
-    (avgDiff ? `Divergência média de notas: ${avgDiff}\n` : "") +
-    `\nMaior concordância:\n${agreeLine || "— dados insuficientes"}\n\n` +
-    `Maior divergência:\n${disagreeLine || "— dados insuficientes"}`
+    `${rand(OPENERS)}
+
+Análise de compatibilidade: <strong>${p1}</strong> vs <strong>${p2}</strong>.
+
+` +
+    `Animes em comum: ${common.length} título(s)
+` +
+    (avgDiff ? `Divergência média de notas: ${avgDiff}
+` : "") +
+    `
+Maior concordância:
+${agreeLine || "— dados insuficientes"}
+
+` +
+    `Maior divergência:
+${disagreeLine || "— dados insuficientes"}`
   );
 }
 
@@ -511,24 +588,34 @@ function buildPatternResponse(data, person) {
     .filter((a) => Number(a[field]) - Number(a.nota) > 0.5)
     .sort((a, b) => (Number(b[field]) - Number(b.nota)) - (Number(a[field]) - Number(a.nota)))
     .slice(0, 2)
-    .map((a) => `<strong>${escapeHTML(a.nome)}</strong> (+${(Number(a[field]) - Number(a.nota)).toFixed(1)})`)
+    .map((a) => `<strong>${escapeHTML(a.name)}</strong> (+${(Number(a[field]) - Number(a.nota)).toFixed(1)})`)
     .join(", ");
 
   const topLower = [...withBoth]
     .filter((a) => Number(a[field]) - Number(a.nota) < -0.5)
     .sort((a, b) => (Number(a[field]) - Number(a.nota)) - (Number(b[field]) - Number(b.nota)))
     .slice(0, 2)
-    .map((a) => `<strong>${escapeHTML(a.nome)}</strong> (${(Number(a[field]) - Number(a.nota)).toFixed(1)})`)
+    .map((a) => `<strong>${escapeHTML(a.name)}</strong> (${(Number(a[field]) - Number(a.nota)).toFixed(1)})`)
     .join(", ");
 
   return (
-    `${rand(OPENERS)}\n\nAnálise de padrão de avaliação: <strong>${person}</strong>.\n\n` +
-    `Perfil de avaliação: <strong>${persona}</strong>\n` +
-    `Desvio médio em relação ao grupo: ${avg > 0 ? "+" : ""}${avg.toFixed(2)}\n` +
-    `Animes avaliados acima do grupo: ${positive}\n` +
-    `Animes avaliados abaixo do grupo: ${negative}\n` +
-    (topHigher ? `\nMais generoso em: ${topHigher}` : "") +
-    (topLower ? `\nMais crítico em: ${topLower}` : "")
+    `${rand(OPENERS)}
+
+Análise de padrão de avaliação: <strong>${person}</strong>.
+
+` +
+    `Perfil de avaliação: <strong>${persona}</strong>
+` +
+    `Desvio médio em relação ao grupo: ${avg > 0 ? "+" : ""}${avg.toFixed(2)}
+` +
+    `Animes avaliados acima do grupo: ${positive}
+` +
+    `Animes avaliados abaixo do grupo: ${negative}
+` +
+    (topHigher ? `
+Mais generoso em: ${topHigher}` : "") +
+    (topLower ? `
+Mais crítico em: ${topLower}` : "")
   );
 }
 
@@ -545,23 +632,35 @@ function buildGroupResponse(data) {
     .map(([g, n]) => `${stripEmoji(g)} (${n})`)
     .join(", ");
 
-  const memberStats = PEOPLE.map((p) => {
+  const memberStats = members.map(m => m.nickname).map((p) => {
     const watched = animesOf(data.animes, p).length;
     const rate = Math.round((watched / total) * 100);
     return `→ <strong>${p}</strong>: ${watched} títulos (${rate}% do acervo)`;
-  }).join("\n");
+  }).join("");
 
   const mostControv = [...data.animes]
     .filter((a) => a.controversia !== null && a.qtdVotos > 1)
     .sort((a, b) => b.controversia - a.controversia)[0];
 
   return (
-    `${rand(OPENERS)}\n\nDados gerais do grupo — visão consolidada.\n\n` +
-    `Acervo total: <strong>${total}</strong> títulos\n` +
-    (avg ? `Nota média geral: <strong>${avg}</strong>\n` : "") +
-    `Animes vistos por todos: <strong>${allFive}</strong>\n` +
-    `Gêneros dominantes: ${top3genres}\n\n` +
-    `Distribuição por membro:\n${memberStats}\n\n` +
+    `${rand(OPENERS)}
+
+Dados gerais do grupo — visão consolidada.
+
+` +
+    `Acervo total: <strong>${total}</strong> títulos
+` +
+    (avg ? `Nota média geral: <strong>${avg}</strong>
+` : "") +
+    `Animes vistos por todos: <strong>${allFive}</strong>
+` +
+    `Gêneros dominantes: ${top3genres}
+
+` +
+    `Distribuição por membro:
+${memberStats}
+
+` +
     (mostControv
       ? `Anime mais controverso: <strong>${escapeHTML(mostControv.nome)}</strong> 🌶️ ${Number(mostControv.controversia).toFixed(1)}`
       : "")
@@ -571,35 +670,50 @@ function buildGroupResponse(data) {
 function buildAnimeResponse(anime, person) {
   const nota = anime.nota;
   const voters = anime.quemAssistiu || [];
-  const notWatched = PEOPLE.filter((p) => !voters.includes(p));
+  const memberNames = members.map(m => m.nickname);
+  const notWatched = memberNames.filter((p) => !voters.includes(p));
   const personNota = getPersonNota(anime, person);
 
-  const voteBlock = PEOPLE.map((p) => {
+  const voteBlock = memberNames.map((p) => {
     const n = getPersonNota(anime, p);
     return n !== null
       ? `→ ${p}: ${formatNota(n)}`
       : `→ ${p}: não assistiu`;
-  }).join("\n");
+  }).join("");
 
   const contrLine =
     anime.controversia !== null && anime.controversia > 0
-      ? `\nControvérsia: 🌶️ ${Number(anime.controversia).toFixed(1)} (${anime.controversia > 2 ? "alta divisão de opiniões" : "divergência moderada"})`
+      ? `
+Controvérsia: 🌶️ ${Number(anime.controversia).toFixed(1)} (${anime.controversia > 2 ? "alta divisão de opiniões" : "divergência moderada"})`
       : "";
 
   const personalLine =
     personNota !== null
-      ? `\n<strong>${person}</strong> avaliou com <strong>${formatNota(personNota)}</strong>.`
-      : `\n<strong>${person}</strong> ainda não assistiu este título.`;
+      ? `
+<strong>${person}</strong> avaliou com <strong>${formatNota(personNota)}</strong>.`
+      : `
+<strong>${person}</strong> ainda não assistiu este título.`;
 
   return (
-    `${rand(OPENERS)}\n\nDados do acervo: <strong>${escapeHTML(anime.nome)}</strong>\n\n` +
-    `Nota média do grupo: <strong>${formatNota(nota)}</strong>\n` +
-    `Votos registrados: ${anime.qtdVotos || 0}\n` +
+    `${rand(OPENERS)}
+
+Dados do acervo: <strong>${escapeHTML(anime.name)}</strong>
+
+` +
+    `Nota média do grupo: <strong>${formatNota(nota)}</strong>
+` +
+    `Votos registrados: ${anime.qtdVotos || 0}
+` +
     contrLine +
-    `\n\nAvaliações individuais:\n${voteBlock}` +
+    `
+
+Avaliações individuais:
+${voteBlock}` +
     personalLine +
-    (notWatched.length > 0 && notWatched.length < PEOPLE.length
-      ? `\n\nAinda não assistiram: ${notWatched.join(", ")}.`
+    (notWatched.length > 0 && notWatched.length < memberNames.length
+      ? `
+
+Ainda não assistiram: ${notWatched.join(", ")}.`
       : "")
   );
 }
@@ -658,7 +772,7 @@ function addRecCards(picks) {
     <a class="ciel-rec-card" href="acervo.html?anime=${encodeURIComponent(anime.id)}">
       <span class="ciel-rec-rank">${String(i + 1).padStart(2, "0")}</span>
       <div class="ciel-rec-body">
-        <strong>${escapeHTML(anime.nome)}</strong>
+        <strong>${escapeHTML(anime.name)}</strong>
         <p>${escapeHTML(anime.reason)}.</p>
         <small>Nota ${formatNota(anime.nota)} · ${anime.qtdVotos || 0} voto(s)</small>
       </div>
@@ -751,7 +865,13 @@ async function handleMessage(text, data, person) {
 
 async function init() {
   const data = await loadData();
-  let selectedPerson = PEOPLE[0];
+  members = data.members;
+  if (!members || members.length === 0) {
+    addMessage("ciel", "Não foi possível carregar os dados do grupo. Verifique se o `g` está na URL ou se você é membro.");
+    return;
+  }
+
+  let selectedPerson = members[0].nickname;
 
   const $count = document.getElementById("ciel-count");
   const $personCount = document.getElementById("ciel-person-count");
@@ -760,16 +880,16 @@ async function init() {
   const $input = document.getElementById("ciel-input");
   const $send = document.getElementById("ciel-send");
 
-  $count.textContent = `${data.animes.length} títulos`;
+  $count.textContent = `${data.total} títulos`;
 
   function updatePersonCount() {
     $personCount.textContent = `${selectedPerson}: ${animesOf(data.animes, selectedPerson).length} assistidos`;
   }
 
   function renderPeople() {
-    $people.innerHTML = PEOPLE.map(
-      (p) =>
-        `<button type="button" class="${p === selectedPerson ? "active" : ""}" data-person="${p}">${p}</button>`,
+    $people.innerHTML = members.map(
+      (m) =>
+        `<button type="button" class="${m.nickname === selectedPerson ? "active" : ""}" data-person="${m.nickname}">${m.nickname}</button>`,
     ).join("");
   }
 
@@ -824,6 +944,5 @@ async function init() {
 }
 
 init().catch((err) => {
-  console.error(err);
   addMessage("ciel", "Falha crítica. Acervo indisponível. Tente recarregar a página.");
 });

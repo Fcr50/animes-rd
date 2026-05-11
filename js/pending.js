@@ -48,7 +48,6 @@ async function loadPendingAnimes() {
     return;
   }
 
-  // FILTRO: Remove da fila os animes que o usuário atual já votou
   const stillPendingForMe = list.filter(item => {
     const userVotes = item.votes || [];
     return !userVotes.some(v => v.user_id === currentUser.id);
@@ -79,49 +78,29 @@ function renderList(list) {
   pendingAnimesContainer.innerHTML = list.map(item => {
     const anime = item.animes || {};
     const votes = item.votes || [];
-    const myVote = votes.find(v => v.user_id === currentUser?.id);
-    const hasVoted = !!myVote;
-    const submitterName = item.added_by ? getSubmitterName(item.added_by) : null;
-    const submitterColor = submitterName ? (members.find(m => m.nickname === submitterName)?.color || '#86efac') : '#86efac';
-    const genres = (anime.genres || []);
-    const links = normalizeLinks(item.links);
-
-    const dots = members.map(m => {
-      const voted = votes.some(v => v.user_id === m.user_id);
-      const color = m.color || "#888";
-      return `<span title="${m.nickname}: ${voted ? 'Votou' : 'Pendente'}"
-        style="display:inline-flex;width:24px;height:24px;border-radius:50%;align-items:center;justify-content:center;font-size:10px;font-weight:bold;margin-right:4px;border:2px solid ${voted ? color : 'rgba(255,255,255,0.1)'};background:${voted ? color + '22' : 'transparent'};color:${voted ? color : 'rgba(255,255,255,0.2)'}"
-      >${m.nickname[0].toUpperCase()}</span>`;
-    }).join("");
-
-    const genreChips = genres.map(g => `<span class="pending-genre-chip">${escapeHTML(g)}</span>`).join("");
-
-    const linkChips = links.map((l, i) => `
-      <div class="pending-link-chip-wrap">
-        <a href="${escapeHTML(l.url)}" target="_blank" rel="noopener" class="pending-link-chip">${escapeHTML(l.name)}</a>
-      </div>`).join("");
-
-    const voteStatus = hasVoted
-      ? `<div class="vote-done-badge">✓ Votado: ${myVote.score !== null ? Number(myVote.score).toFixed(1) : 'Não assisti'}</div>`
-      : `<button class="vote-now-btn" onclick="window.toggleVotePanel('${item.mal_id}')">Votar Agora</button>`;
+    
+    const voteStatusHTML = `
+      <button class="vote-now-btn" onclick="window.toggleVotePanel('${item.mal_id}', this)">Votar Agora</button>
+    `;
 
     return `
       <div class="vote-card" id="card-${item.mal_id}">
+        <!-- ... (cabeçalho do card, igual ao anterior) ... -->
         <div class="vote-card-header">
-          <img src="${escapeHTML(anime.image_url || '')}" class="vote-card-img" alt="${escapeHTML(anime.name || '')}" onerror="this.style.display='none'">
-          <div class="vote-card-info">
-            <div class="vote-card-top">
-              <h3>${escapeHTML(anime.name || '')}</h3>
-              <div style="display:flex; flex-shrink:0">${dots}</div>
+            <img src="${escapeHTML(anime.image_url || '')}" class="vote-card-img" alt="${escapeHTML(anime.name || '')}" onerror="this.style.display='none'">
+            <div class="vote-card-info">
+              <div class="vote-card-top">
+                <h3>${escapeHTML(anime.name || '')}</h3>
+              </div>
+              <div class="vote-card-actions">${voteStatusHTML}</div>
             </div>
-            <div class="pending-genres">${genreChips}</div>
-            ${submitterName ? `<p class="vote-card-submitter">Sugerido por <strong style="color:${submitterColor}">${escapeHTML(submitterName)}</strong></p>` : ''}
-            ${linkChips ? `<div class="vote-card-links">${linkChips}</div>` : ''}
-            <div class="vote-card-actions">${voteStatus}</div>
-          </div>
         </div>
 
         <div class="vote-controls" id="controls-${item.mal_id}" style="display:none;">
+          <div class="modal-header" style="margin-bottom:20px; padding:0; border:0;">
+             <h2 style="font-size:18px; margin:0; font-family:'Newsreader',serif;">Seu voto para ${escapeHTML(anime.name || '')}</h2>
+             <button class="modal-close" id="close-vote-panel-${item.mal_id}" onclick="window.toggleVotePanel('${item.mal_id}')">✕</button>
+          </div>
           <div style="display:flex; gap:20px; margin-bottom:14px;">
             <label style="display:flex; align-items:center; gap:6px; cursor:pointer; font-size:13px; color:rgba(224,247,250,0.8);">
               <input type="radio" name="watch-${item.mal_id}" value="watched" checked
@@ -148,33 +127,36 @@ function renderList(list) {
   }).join('');
 }
 
-function normalizeLinks(raw) {
-  if (!raw) return [];
-  if (Array.isArray(raw)) return raw.filter(l => l && l.url);
-  if (typeof raw === 'object') return Object.entries(raw).filter(([, v]) => v).map(([name, url]) => ({ name, url }));
-  return [];
-}
 
-window.toggleVotePanel = (malId) => {
+window.toggleVotePanel = (malId, voteBtn) => {
   const panel = document.getElementById(`controls-${malId}`);
   if (!panel) return;
-  panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+
+  const isOpen = panel.style.display === 'block';
+  panel.style.display = isOpen ? 'none' : 'block';
+
+  // Trava o modal ao abrir
+  if (!isOpen) {
+    if (voteBtn) voteBtn.style.display = 'none'; // Esconde o "Votar Agora"
+    const closeBtn = document.getElementById(`close-vote-panel-${malId}`);
+    if (closeBtn) closeBtn.style.display = 'none'; // Esconde o "X"
+  } else {
+    // Garante que o botão "Votar agora" reapareça se o usuário fechar de alguma forma
+     const cardActions = document.querySelector(`#card-${malId} .vote-card-actions`);
+     if (cardActions && !cardActions.querySelector('.vote-now-btn')) {
+       cardActions.innerHTML = `<button class="vote-now-btn" onclick="window.toggleVotePanel('${malId}', this)">Votar Agora</button>`;
+     }
+  }
 };
 
 window.castVoteInline = async (malId) => {
-  const btn = document.querySelector(`#controls-${malId} button`);
+  const btn = document.querySelector(`#controls-${malId} button[onclick*="castVoteInline"]`);
   if (btn) { btn.disabled = true; btn.textContent = 'Salvando...'; }
 
   const watchStatus = document.querySelector(`input[name="watch-${malId}"]:checked`)?.value;
   const score = watchStatus === 'watched' ? parseFloat(document.getElementById(`score-${malId}`)?.value) : null;
   const comment = watchStatus === 'watched' ? (document.getElementById(`comment-${malId}`)?.value || '') : '';
-
-  if (watchStatus === 'watched' && (isNaN(score) || score < 0 || score > 10)) {
-    alert("Nota inválida.");
-    if (btn) { btn.disabled = false; btn.textContent = 'Confirmar Voto'; }
-    return;
-  }
-
+  
   try {
     const { error } = await supabase.from('votes').insert([{
       group_id: currentGroupId,
@@ -184,28 +166,16 @@ window.castVoteInline = async (malId) => {
       comment: comment || null
     }]);
     if (error) throw error;
-
-    if (score !== null) {
-      await supabase.from('user_library').upsert([{
-        user_id: currentUser.id,
-        mal_id: parseInt(malId),
-        last_score: score,
-        last_comment: comment || null
-      }]);
-    }
-
-    // Atualiza o card imediatamente sem esperar o realtime
-    const actionsEl = document.querySelector(`#card-${malId} .vote-card-actions`);
-    const controlsEl = document.getElementById(`controls-${malId}`);
-    const voteNowBtn = document.querySelector(`#card-${malId} .vote-now-btn`);
-    const label = score !== null ? Number(score).toFixed(1) : 'Não assisti';
-    if (actionsEl) actionsEl.innerHTML = `<div class="vote-done-badge">✓ Votado: ${label}</div>`;
-    if (controlsEl) controlsEl.style.display = 'none';
-    if (voteNowBtn) voteNowBtn.remove();
-
+    
+    // Sucesso, o card vai sumir com o realtime, não precisa fazer mais nada aqui.
+    
   } catch (err) {
     alert("Erro ao votar: " + err.message);
     if (btn) { btn.disabled = false; btn.textContent = 'Confirmar Voto'; }
+    
+    // Libera o botão de fechar em caso de erro
+    const closeBtn = document.getElementById(`close-vote-panel-${malId}`);
+    if (closeBtn) closeBtn.style.display = 'block';
   }
 };
 
