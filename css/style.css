@@ -2043,8 +2043,8 @@ body.profile-page .page.profile-dashboard-page {
   display: flex;
   flex-direction: column;
   gap: 22px;
-  max-width: 1640px;
-  padding-top: 28px;
+  max-width: 1240px;
+  padding: 34px 24px 72px;
 }
 
 .profile-hero-card,
@@ -2092,7 +2092,7 @@ body.profile-page .page.profile-dashboard-page {
 }
 
 .profile-hero-card {
-  padding: 28px 34px;
+  padding: 24px 28px;
 }
 
 .profile-hero-shell {
@@ -2123,7 +2123,7 @@ body.profile-page .page.profile-dashboard-page {
 
 .profile-name-row h1 {
   margin: 0;
-  font-size: clamp(46px, 6vw, 68px);
+  font-size: clamp(34px, 4.4vw, 52px);
   line-height: 0.92;
   color: #f7f8fb;
 }
@@ -2164,21 +2164,21 @@ body.profile-page .page.profile-dashboard-page {
 .profile-tagline {
   margin: 0;
   color: rgba(236, 240, 255, 0.92);
-  font-size: 27px;
+  font-size: 20px;
   font-family: "Newsreader", serif;
 }
 
 .profile-meta-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
+  gap: 12px;
   margin-top: 8px;
-  max-width: 780px;
+  max-width: 620px;
 }
 
 .profile-meta-chip {
-  min-height: 102px;
-  padding: 18px 20px;
+  min-height: 86px;
+  padding: 14px 16px;
   border-radius: 20px;
   border: 1px solid rgba(132, 113, 255, 0.18);
   background: rgba(10, 14, 28, 0.76);
@@ -2198,8 +2198,8 @@ body.profile-page .page.profile-dashboard-page {
 
 .profile-meta-chip strong {
   display: block;
-  margin-top: 10px;
-  font-size: 34px;
+  margin-top: 8px;
+  font-size: 28px;
   line-height: 1;
   color: #f7f8fb;
   font-family: "Newsreader", serif;
@@ -2223,8 +2223,8 @@ body.profile-page .page.profile-dashboard-page {
 .profile-highlight-card {
   position: relative;
   overflow: hidden;
-  min-height: 170px;
-  padding: 20px 24px;
+  min-height: 148px;
+  padding: 18px 20px;
   border-radius: 22px;
   border: 1px solid color-mix(in srgb, var(--highlight-accent) 46%, rgba(255, 255, 255, 0.08));
   background:
@@ -2253,18 +2253,18 @@ body.profile-page .page.profile-dashboard-page {
 .profile-highlight-title {
   display: block;
   max-width: 15ch;
-  margin-top: 18px;
+  margin-top: 14px;
   color: #f8f9ff;
   font-family: "Newsreader", serif;
-  font-size: clamp(28px, 2.2vw, 40px);
+  font-size: clamp(22px, 1.9vw, 32px);
   line-height: 0.98;
 }
 
 .profile-highlight-value {
   display: inline-flex;
-  margin-top: 14px;
+  margin-top: 10px;
   color: var(--highlight-accent);
-  font-size: clamp(26px, 2vw, 42px);
+  font-size: clamp(22px, 1.8vw, 34px);
   font-weight: 800;
   letter-spacing: -0.01em;
 }
@@ -2282,7 +2282,7 @@ body.profile-page .page.profile-dashboard-page {
 }
 
 .profile-surface-card {
-  padding: 20px;
+  padding: 18px;
 }
 
 .profile-card-title {
@@ -2299,36 +2299,36 @@ body.profile-page .page.profile-dashboard-page {
   grid-template-columns: 54px 52px minmax(0, 1fr) auto;
   gap: 14px;
   align-items: center;
-  padding: 12px 14px;
+  padding: 10px 12px;
   border-radius: 18px;
   background: rgba(8, 13, 24, 0.58);
   border: 1px solid rgba(123, 107, 214, 0.12);
 }
 
 .rank-thumb {
-  width: 52px;
-  height: 72px;
+  width: 46px;
+  height: 64px;
   object-fit: cover;
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .rank-number {
-  font-size: 34px;
+  font-size: 28px;
   line-height: 1;
   font-family: "Newsreader", serif;
 }
 
 .rank-name {
   color: #f7f8ff;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
 }
 
 .rank-genres {
   margin-top: 6px;
   color: rgba(188, 197, 226, 0.74);
-  font-size: 13px;
+  font-size: 12px;
   line-height: 1.4;
 }
 
@@ -2337,7 +2337,7 @@ body.profile-page .page.profile-dashboard-page {
   text-align: right;
   padding: 0;
   background: none;
-  font-size: 33px;
+  font-size: 28px;
   line-height: 1;
 }
 
@@ -2350,8 +2350,8 @@ body.profile-page .page.profile-dashboard-page {
 .profile-summary-card {
   position: relative;
   overflow: hidden;
-  min-height: 164px;
-  padding: 20px;
+  min-height: 146px;
+  padding: 18px;
   border-radius: 20px;
   border: 1px solid rgba(136, 108, 243, 0.16);
   background: linear-gradient(160deg, rgba(10, 13, 27, 0.92), rgba(8, 12, 20, 0.78));
@@ -2363,10 +2363,10 @@ body.profile-page .page.profile-dashboard-page {
 
 .profile-summary-value {
   display: block;
-  margin-top: 14px;
+  margin-top: 10px;
   color: #fbfbfe;
   font-family: "Newsreader", serif;
-  font-size: 48px;
+  font-size: 38px;
   line-height: 1;
 }
 
@@ -2428,7 +2428,7 @@ body.profile-page .page.profile-dashboard-page {
   gap: 14px;
   margin-bottom: 8px;
   color: #edf0fd;
-  font-size: 15px;
+  font-size: 14px;
 }
 
 .genre-bar-info small {
@@ -2562,8 +2562,8 @@ body.compare-page .page.compare-dashboard-page {
   display: flex;
   flex-direction: column;
   gap: 18px;
-  max-width: 1680px;
-  padding-top: 24px;
+  max-width: 1240px;
+  padding: 34px 24px 72px;
 }
 
 .compare-hero {
@@ -2575,7 +2575,7 @@ body.compare-page .page.compare-dashboard-page {
 
 .compare-hero-copy h1 {
   margin: 0;
-  font-size: clamp(54px, 7vw, 78px);
+  font-size: clamp(42px, 5.2vw, 62px);
   line-height: 0.92;
   background: linear-gradient(90deg, #ffd6e8 0%, #d8b4fe 40%, #93c5fd 100%);
   background-clip: text;
@@ -2587,7 +2587,7 @@ body.compare-page .page.compare-dashboard-page {
 .compare-hero-copy p {
   margin: 12px 0 0;
   color: rgba(235, 239, 255, 0.92);
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .compare-tip-card,
@@ -2617,7 +2617,7 @@ body.compare-page .page.compare-dashboard-page {
 
 .compare-tip-card {
   min-width: 340px;
-  padding: 18px 22px;
+  padding: 16px 20px;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -2651,7 +2651,7 @@ body.compare-page .page.compare-dashboard-page {
 
 body.compare-page .compare-selector-bar select {
   min-width: 220px;
-  height: 54px;
+  height: 50px;
   padding: 0 52px 0 18px;
   border-radius: 999px;
   border: 1px solid rgba(138, 123, 224, 0.28);
@@ -2686,7 +2686,7 @@ body.compare-page .compare-selector-bar select:focus {
 }
 
 .compare-surface-card {
-  padding: 20px;
+  padding: 18px;
 }
 
 .compare-venn4-card,
@@ -2744,7 +2744,7 @@ body.compare-page .compare-selector-bar select:focus {
 
 .compare-summary-card {
   --summary-accent: #8b5cf6;
-  padding: 16px 18px;
+  padding: 14px 16px;
   border-radius: 22px;
   border: 1px solid color-mix(in srgb, var(--summary-accent) 38%, rgba(255, 255, 255, 0.1));
   background: linear-gradient(145deg, rgba(18, 20, 38, 0.84), rgba(10, 13, 23, 0.9));
@@ -2755,21 +2755,21 @@ body.compare-page .compare-selector-bar select:focus {
 
 .compare-summary-card-inner {
   display: grid;
-  grid-template-columns: 56px minmax(0, 1fr);
-  gap: 14px;
+  grid-template-columns: 48px minmax(0, 1fr);
+  gap: 12px;
   align-items: center;
 }
 
 .compare-summary-icon {
-  width: 56px;
-  height: 56px;
+  width: 48px;
+  height: 48px;
   display: grid;
   place-items: center;
   border-radius: 18px;
   background: color-mix(in srgb, var(--summary-accent) 16%, rgba(255, 255, 255, 0.04));
   border: 1px solid color-mix(in srgb, var(--summary-accent) 28%, rgba(255, 255, 255, 0.08));
   color: color-mix(in srgb, var(--summary-accent) 88%, #ffffff);
-  font-size: 26px;
+  font-size: 22px;
   line-height: 1;
 }
 
@@ -2794,9 +2794,9 @@ body.compare-page .compare-selector-bar select:focus {
 
 .compare-summary-value {
   display: block;
-  margin-top: 10px;
+  margin-top: 8px;
   color: #f8faff;
-  font-size: 44px;
+  font-size: 36px;
   line-height: 1;
   font-family: "Newsreader", serif;
   font-weight: 750;
@@ -2843,13 +2843,13 @@ body.compare-page .compare-selector-bar select:focus {
 .compare-affinity-hero {
   display: grid;
   grid-template-columns: minmax(220px, 0.7fr) minmax(0, 1.3fr);
-  gap: 16px;
+  gap: 14px;
 }
 
 .compare-affinity-score,
 .compare-affinity-mini-card,
 .compare-affinity-panel {
-  padding: 18px;
+  padding: 16px;
   border-radius: 28px;
   border: 1px solid rgba(168, 143, 255, 0.26);
   background:
@@ -2865,15 +2865,15 @@ body.compare-page .compare-selector-bar select:focus {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-height: 176px;
+  min-height: 150px;
   overflow: hidden;
 }
 
 .compare-affinity-score-value {
   display: block;
-  margin-top: 12px;
+  margin-top: 10px;
   color: #f8faff;
-  font-size: 58px;
+  font-size: 48px;
   line-height: 0.9;
   font-family: "Newsreader", serif;
   font-weight: 750;
@@ -2906,20 +2906,20 @@ body.compare-page .compare-selector-bar select:focus {
 .compare-affinity-strip {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
+  gap: 12px;
 }
 
 .compare-affinity-mini-card {
   --mini-accent: #8b5cf6;
   border-color: color-mix(in srgb, var(--mini-accent) 34%, rgba(255, 255, 255, 0.1));
-  min-height: 176px;
+  min-height: 150px;
 }
 
 .compare-affinity-mini-card strong {
   display: block;
-  margin-top: 10px;
+  margin-top: 8px;
   color: color-mix(in srgb, var(--mini-accent) 80%, #ffffff);
-  font-size: 34px;
+  font-size: 28px;
   line-height: 1;
   font-family: "Newsreader", serif;
   font-weight: 750;
@@ -2937,7 +2937,7 @@ body.compare-page .compare-selector-bar select:focus {
 }
 
 .compare-affinity-band {
-  padding: 14px 16px;
+  padding: 12px 14px;
   border-radius: 22px;
   border: 1px solid rgba(160, 141, 240, 0.24);
   background: linear-gradient(145deg, rgba(17, 20, 36, 0.84), rgba(11, 15, 28, 0.82));
@@ -2947,7 +2947,7 @@ body.compare-page .compare-selector-bar select:focus {
 .compare-affinity-band strong {
   display: block;
   color: #f8faff;
-  font-size: 30px;
+  font-size: 24px;
   line-height: 1;
   font-family: "Newsreader", serif;
   font-weight: 750;
@@ -3025,9 +3025,9 @@ body.compare-page .compare-selector-bar select:focus {
 
 .compare-affinity-title {
   display: block;
-  margin-top: 10px;
+  margin-top: 8px;
   color: #f7f9ff;
-  font-size: 24px;
+  font-size: 21px;
   line-height: 1.08;
   font-family: "Newsreader", serif;
   font-weight: 700;
@@ -3036,7 +3036,7 @@ body.compare-page .compare-selector-bar select:focus {
 .compare-affinity-panel p {
   margin: 10px 0 0;
   color: rgba(220, 226, 246, 0.88);
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.55;
 }
 
@@ -3055,14 +3055,14 @@ body.compare-page .compare-selector-bar select:focus {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 11px 14px;
+  padding: 9px 12px;
   border-radius: 999px;
   border: 1px solid rgba(167, 139, 250, 0.28);
   background:
     linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.03)),
     radial-gradient(circle at top left, rgba(217, 70, 239, 0.08), transparent 35%);
   color: #eef2ff;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
 }
 
@@ -3082,7 +3082,7 @@ body.compare-page .compare-selector-bar select:focus {
 
 .compare-dual-venn {
   position: relative;
-  min-height: 300px;
+  min-height: 270px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3090,8 +3090,8 @@ body.compare-page .compare-selector-bar select:focus {
 
 .compare-venn-circle {
   --venn-accent: #8b5cf6;
-  width: 240px;
-  height: 240px;
+  width: 210px;
+  height: 210px;
   border-radius: 999px;
   display: flex;
   flex-direction: column;
@@ -3133,8 +3133,8 @@ body.compare-page .compare-selector-bar select:focus {
 .compare-venn-overlap {
   position: relative;
   z-index: 2;
-  width: 180px;
-  height: 180px;
+  width: 156px;
+  height: 156px;
   border-radius: 999px;
   display: flex;
   flex-direction: column;
@@ -3152,7 +3152,7 @@ body.compare-page .compare-selector-bar select:focus {
 .compare-radar-wrap {
   position: relative;
   z-index: 1;
-  height: 320px;
+  height: 290px;
 }
 
 .compare-table-card {
