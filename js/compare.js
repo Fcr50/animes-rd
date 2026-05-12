@@ -80,12 +80,12 @@ function renderSummary(p1, p2) {
     <div class="compare-summary-grid">
       <article class="compare-summary-card is-shared">
         <div class="compare-summary-card-inner">
-          <span class="compare-summary-icon">◌</span>
+          <span class="compare-summary-icon">◉</span>
           <div class="compare-summary-copy">
-            <span class="compare-summary-label">Total em comum</span>
             <strong class="compare-summary-value">${common.length}</strong>
             <span class="compare-summary-note">itens compartilhados</span>
           </div>
+          <span class="compare-summary-label">Total em comum</span>
         </div>
       </article>
 
@@ -93,32 +93,32 @@ function renderSummary(p1, p2) {
         <div class="compare-summary-card-inner">
           <span class="compare-summary-icon">◎</span>
           <div class="compare-summary-copy">
-            <span class="compare-summary-label">Só ${escapeHTML(p1)}</span>
             <strong class="compare-summary-value">${only1}</strong>
             <span class="compare-summary-note">itens exclusivos</span>
           </div>
+          <span class="compare-summary-label">Só ${escapeHTML(p1)}</span>
         </div>
       </article>
 
       <article class="compare-summary-card" style="--summary-accent:${c2}">
         <div class="compare-summary-card-inner">
-          <span class="compare-summary-icon">◔</span>
+          <span class="compare-summary-icon">☆</span>
           <div class="compare-summary-copy">
-            <span class="compare-summary-label">Só ${escapeHTML(p2)}</span>
             <strong class="compare-summary-value">${only2}</strong>
             <span class="compare-summary-note">${only2 === 1 ? "item exclusivo" : "itens exclusivos"}</span>
           </div>
+          <span class="compare-summary-label">Só ${escapeHTML(p2)}</span>
         </div>
       </article>
 
       <article class="compare-summary-card is-total">
         <div class="compare-summary-card-inner">
-          <span class="compare-summary-icon">▣</span>
+          <span class="compare-summary-icon">▱</span>
           <div class="compare-summary-copy">
-            <span class="compare-summary-label">Total único</span>
             <strong class="compare-summary-value">${only1 + common.length + only2}</strong>
             <span class="compare-summary-note">soma dos conjuntos</span>
           </div>
+          <span class="compare-summary-label">Total único</span>
         </div>
       </article>
     </div>
@@ -170,27 +170,30 @@ function renderAffinityPanel(p1, p2) {
     <div class="compare-affinity-shell">
       <section class="compare-affinity-hero">
         <div class="compare-affinity-score">
-          <span class="compare-side-kpi-label">Compatibilidade</span>
-          <strong class="compare-affinity-score-value">${compatibility}<small>%</small></strong>
-          <span class="compare-side-kpi-note">Ótimas ligações e bons parecidos</span>
-          <div class="compare-affinity-meter">
-            <span class="compare-affinity-meter-fill" style="width:${compatibility}%"></span>
+          <div class="compare-affinity-match-card">
+            <span class="compare-side-kpi-label">Compatibilidade</span>
+            <strong class="compare-affinity-score-value">${compatibility}<small>%</small></strong>
+            <div class="compare-affinity-meter">
+              <span class="compare-affinity-meter-fill" style="width:${compatibility}%"></span>
+            </div>
+            <span class="compare-side-kpi-note"><i>✧</i> Match forte</span>
+            <p>Alto nível de compatibilidade entre as notas analisadas.</p>
           </div>
         </div>
 
         <div class="compare-affinity-strip">
           <article class="compare-affinity-mini-card" style="--mini-accent:${c1}">
-            <span class="compare-side-kpi-label">${escapeHTML(p1)}</span>
+            <span class="compare-affinity-mini-icon">♚</span>
             <strong>${formatCompactScore(avg1)}</strong>
             <span class="compare-side-kpi-note">média das notas em comum</span>
           </article>
           <article class="compare-affinity-mini-card" style="--mini-accent:${c2}">
-            <span class="compare-side-kpi-label">${escapeHTML(p2)}</span>
+            <span class="compare-affinity-mini-icon">▤</span>
             <strong>${formatCompactScore(avg2)}</strong>
             <span class="compare-side-kpi-note">média dos títulos em comum</span>
           </article>
           <article class="compare-affinity-mini-card is-neutral">
-            <span class="compare-side-kpi-label">Gap médio</span>
+            <span class="compare-affinity-mini-icon">⌖</span>
             <strong>${avgDiff.toFixed(2)}</strong>
             <span class="compare-side-kpi-note">distância entre as notas</span>
           </article>
@@ -199,31 +202,31 @@ function renderAffinityPanel(p1, p2) {
 
       <section class="compare-affinity-bands">
         <article class="compare-affinity-band is-match">
-          <span class="compare-affinity-band-label">Notas iguais</span>
+          <span class="compare-affinity-band-icon">✓</span>
           <div class="compare-affinity-band-row">
             <strong>${exactMatches}</strong>
-            <span class="compare-affinity-band-icon">✓</span>
+            <span class="compare-affinity-band-label">Notas iguais</span>
           </div>
         </article>
         <article class="compare-affinity-band is-close">
-          <span class="compare-affinity-band-label">Quase iguais</span>
+          <span class="compare-affinity-band-icon">∿</span>
           <div class="compare-affinity-band-row">
             <strong>${closeMatches}</strong>
-            <span class="compare-affinity-band-icon">∿</span>
+            <span class="compare-affinity-band-label">Quase iguais</span>
           </div>
         </article>
         <article class="compare-affinity-band is-mid">
-          <span class="compare-affinity-band-label">Diferença de 1 estrela</span>
+          <span class="compare-affinity-band-icon">☆</span>
           <div class="compare-affinity-band-row">
             <strong>${oneStarDiff}</strong>
-            <span class="compare-affinity-band-icon">☆</span>
+            <span class="compare-affinity-band-label">Diferença de 1 estrela</span>
           </div>
         </article>
         <article class="compare-affinity-band is-hot">
-          <span class="compare-affinity-band-label">Notas opostas</span>
+          <span class="compare-affinity-band-icon">✦</span>
           <div class="compare-affinity-band-row">
             <strong>${hotTakes}</strong>
-            <span class="compare-affinity-band-icon">⚡</span>
+            <span class="compare-affinity-band-label">Notas opostas</span>
           </div>
         </article>
       </section>
@@ -241,7 +244,7 @@ function renderAffinityPanel(p1, p2) {
           )}</p>
         </article>
 
-        <article class="compare-affinity-panel is-hot">
+        <article class="compare-affinity-panel">
           <span class="compare-side-block-title">Maior divergência</span>
           <strong class="compare-affinity-title">${escapeHTML(
             strongestDisagreement ? shortText(strongestDisagreement.anime.name, 32) : "Sem registro"
@@ -269,13 +272,25 @@ function renderAffinityPanel(p1, p2) {
           </div>
         </article>
 
-        <article class="compare-affinity-panel">
+        <article class="compare-affinity-panel compare-gap-panel" style="--gap-a:${c1}; --gap-b:${c2}">
           <span class="compare-side-block-title">Destaque do gap</span>
-          <p class="compare-affinity-reading">
-            ${escapeHTML(stricter)} tende a dar notas mais rigorosas nesse recorte, enquanto ${escapeHTML(
+          <div class="compare-gap-panel-body">
+            <p class="compare-affinity-reading">
+              ${escapeHTML(stricter)} tende a dar notas mais rigorosas nesse recorte, enquanto ${escapeHTML(
     softer
   )} costuma avaliar mais na média. A distância média entre eles aqui ficou em ${avgDiff.toFixed(2)}.
-          </p>
+            </p>
+            <div class="compare-gap-mini-chart" aria-hidden="true">
+              <svg viewBox="0 0 190 92" focusable="false">
+                <path class="is-first" d="M4 78 C 28 78, 34 22, 58 24 S 92 78, 116 58 S 140 20, 184 10" />
+                <path class="is-second" d="M4 78 C 30 82, 46 60, 68 42 S 100 26, 118 62 S 146 84, 184 40" />
+              </svg>
+              <div class="compare-gap-legend">
+                <span><i></i>${escapeHTML(p1)}</span>
+                <span><i></i>${escapeHTML(p2)}</span>
+              </div>
+            </div>
+          </div>
         </article>
       </div>
     </div>
