@@ -22,11 +22,6 @@ const PROFILE_TAGLINES = {
   default: "Catalogando historias que valem memoria.",
 };
 
-const PROFILE_STATUS = {
-  Rafael: "online",
-  default: "ativo",
-};
-
 async function init() {
   const urlParams = new URLSearchParams(window.location.search);
   const hashParams = new URLSearchParams(window.location.hash.substring(1));
@@ -97,7 +92,6 @@ function renderHeader(member, context) {
   const accent = member.color || "#8b5cf6";
   const watchedCount = context.watched.length;
   const level = Math.max(1, Math.round(watchedCount / 6));
-  const status = PROFILE_STATUS[member.nickname] || PROFILE_STATUS.default;
   const favoriteGenreText = escapeHTML(context.favoriteGenreLabel || "Sem genero dominante");
 
   header.innerHTML = `
@@ -106,11 +100,7 @@ function renderHeader(member, context) {
         <div class="profile-hero-text">
           <div class="profile-name-row">
             <h1>${escapeHTML(member.nickname)}</h1>
-            <span class="profile-status-pill">${escapeHTML(status)}</span>
           </div>
-          <p class="profile-role-kicker">${
-            member.role === "admin" ? "Membro do grupo" : "Membro do grupo"
-          }</p>
           <p class="profile-tagline">${escapeHTML(
             PROFILE_TAGLINES[member.nickname] || PROFILE_TAGLINES.default
           )}</p>
