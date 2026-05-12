@@ -4,9 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Comparar | Animes RD</title>
-    <link rel="stylesheet" href="css/style.css?v=platform-v10" />
-    <script type="module" src="./js/theme.js?v=platform-v10"></script>
-    <script type="module" src="./js/utils.js?v=platform-v10"></script>
+    <link rel="stylesheet" href="css/style.css?v=platform-v11" />
+    <script type="module" src="./js/theme.js?v=platform-v11"></script>
+    <script type="module" src="./js/utils.js?v=platform-v11"></script>
   </head>
   <body class="compare-page">
     <nav class="nav"></nav>
@@ -61,8 +61,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
     <script type="module">
-      import { loadData } from "./js/data.js?v=platform-v10";
-      import { initCompare } from "./js/compare.js?v=platform-v10";
+      import { loadData } from "./js/data.js?v=platform-v11";
+      import { initCompare } from "./js/compare.js?v=platform-v11";
 
       async function init() {
         const { animes, members } = await loadData();
@@ -71,6 +71,6 @@
 
       init().catch(() => {});
     </script>
-    <script type="module" src="js/nyx-widget.js?v=platform-v10"></script>
+    <script type="module" src="js/nyx-widget.js?v=platform-v11"></script>
   </body>
 </html>
