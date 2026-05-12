@@ -277,14 +277,20 @@ async function init() {
   renderMemberPosts(data.animes, data.members);
   renderPulse(data.animes);
   const days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
-  fetch(`https://api.jikan.moe/v4/schedules?filter=${days[new Date().getDay()]}&limit=6`).then(r => r.json()).then(d => {
+  fetch(`https://api.jikan.moe/v4/schedules?filter=${days[new Date().getDay()]}`).then(r => r.json()).then(d => {
     const el = document.getElementById("calendar-card");
     if(el) {
+      // Filtra e ordena os animes antes de renderizar
+      const filteredData = d.data
+        .filter(a => a.score && a.score > 6.5 && a.members && a.members > 20000)
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 6);
+
       el.innerHTML = `
         <span class="eyebrow">MAL</span>
         <h2>No ar hoje</h2>
         <div class="calendar-list">
-          ${d.data.map(a => {
+          ${filteredData.map(a => {
             let timeDisplay = "N/A";
             if (a.broadcast?.time) {
               const [h, m] = a.broadcast.time.split(':').map(Number);
