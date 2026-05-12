@@ -91,8 +91,7 @@ function renderHeader(member, context) {
   const header = document.getElementById("profile-header");
   const accent = member.color || "#8b5cf6";
   const watchedCount = context.watched.length;
-  const level = Math.max(1, Math.round(watchedCount / 6));
-  const favoriteGenreText = escapeHTML(context.favoriteGenreLabel || "Sem genero dominante");
+  const level = Math.max(1, Math.floor(watchedCount / 10));
 
   header.innerHTML = `
     <div class="profile-hero-shell">
@@ -127,14 +126,6 @@ function renderHeader(member, context) {
               </div>
             </article>
           </div>
-        </div>
-      </div>
-
-      <div class="profile-hero-visual">
-        <div class="profile-hero-visual-panel">
-          <span class="profile-visual-kicker">Genero favorito</span>
-          <strong>${favoriteGenreText}</strong>
-          <p>${watchedCount} titulos assistidos com media ${formatNota(context.average)}.</p>
         </div>
       </div>
     </div>
