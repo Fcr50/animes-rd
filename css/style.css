@@ -10495,32 +10495,41 @@ body.ciel-page:not(.dark-theme) #ciel-input::placeholder {
 
 /* Acervo anime details modal */
 body.acervo-page .modal-overlay {
-  background:
-    radial-gradient(circle at 24% 12%, rgba(93, 139, 255, 0.18), transparent 340px),
-    radial-gradient(circle at 82% 84%, rgba(87, 205, 174, 0.14), transparent 360px),
-    rgba(5, 7, 12, 0.78);
-  backdrop-filter: blur(10px);
+  background: rgba(5, 7, 12, 0.88); /* Cor sólida escura para máxima performance */
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 body.acervo-page .modal {
-  background:
-    linear-gradient(180deg, rgba(6, 8, 12, 0.78) 0%, rgba(6, 8, 12, 0.94) 46%, rgba(6, 8, 12, 0.99) 100%),
-    linear-gradient(150deg, rgba(255, 255, 255, 0.03), transparent 30%),
-    var(--modal-anime-bg, none),
-    radial-gradient(circle at 12% 0%, rgba(255, 159, 199, 0.07), transparent 280px),
-    radial-gradient(circle at 92% 100%, rgba(87, 205, 174, 0.07), transparent 320px),
-    #12151d;
-  border: 1px solid rgba(209, 218, 235, 0.22);
+  border: 1px solid rgba(209, 218, 235, 0.15);
   border-radius: 28px;
-  background-position: center, center, center top, center, center;
-  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
-  background-size: auto, auto, cover, auto, auto;
-  box-shadow:
-    0 28px 90px rgba(0, 0, 0, 0.48),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5); /* Sombra mais simples */
   max-width: 650px;
   padding: 28px;
   scrollbar-color: rgba(167, 205, 211, 0.65) rgba(255, 255, 255, 0.04);
+  /* Performance optimizations */
+  transform: translateZ(0);
+  position: relative;
+  overflow-y: auto;
+  background: #12151d;
+  contain: content; /* Isola o conteúdo para o navegador otimizar o render */
+}
+
+body.acervo-page .modal::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(180deg, rgba(6, 8, 12, 0.85) 0%, rgba(6, 8, 12, 0.98) 100%),
+    var(--modal-anime-bg, none);
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: cover;
+  pointer-events: none;
+  border-radius: inherit;
+  background-attachment: scroll; /* Fundo estático enquanto o conteúdo rola */
+  opacity: 0.6; /* Deixa o fundo mais sutil e rápido de renderizar */
 }
 
 body.acervo-page .modal-header {
@@ -10738,24 +10747,37 @@ body.acervo-page .edit-field textarea:focus {
 }
 
 body.acervo-page:not(.dark-theme) .modal-overlay {
-  background:
-    radial-gradient(circle at 18% 8%, rgba(93, 139, 255, 0.22), transparent 340px),
-    radial-gradient(circle at 82% 88%, rgba(87, 205, 174, 0.16), transparent 360px),
-    rgba(44, 36, 32, 0.42);
+  background: rgba(16, 16, 16, 0.65);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 body.acervo-page:not(.dark-theme) .modal {
-  background:
-    linear-gradient(180deg, rgba(255, 250, 244, 0.62) 0%, rgba(255, 250, 244, 0.93) 46%, rgba(255, 250, 244, 0.985) 100%),
-    var(--modal-anime-bg, none),
-    radial-gradient(circle at 12% 0%, rgba(255, 159, 199, 0.08), transparent 280px),
-    radial-gradient(circle at 94% 100%, rgba(87, 205, 174, 0.08), transparent 320px),
-    #fffaf4;
   border-color: rgba(60, 40, 20, 0.13);
   color: #2c2420;
-  background-position: center, center top, center, center, center;
-  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
-  background-size: auto, cover, auto, auto, auto;
+  /* Performance optimizations */
+  transform: translateZ(0);
+  position: relative;
+  overflow-y: auto;
+  background: #fffaf4;
+  contain: content;
+}
+
+body.acervo-page:not(.dark-theme) .modal::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(180deg, rgba(255, 250, 244, 0.75) 0%, rgba(255, 250, 244, 0.98) 100%),
+    var(--modal-anime-bg, none);
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: cover;
+  pointer-events: none;
+  border-radius: inherit;
+  background-attachment: scroll;
+  opacity: 0.5;
 }
 
 body.acervo-page:not(.dark-theme) .modal-title,

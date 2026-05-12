@@ -304,10 +304,17 @@ window.openModal = function(idx) {
 
   if (modal) {
     modal.dataset.malId = String(a.mal_id || "");
-    modal.style.setProperty("--modal-anime-bg", `url("${imageUrl.replace(/"/g, '\\"')}")`);
+    // Limpa o fundo anterior para evitar flash de imagem antiga
+    modal.style.setProperty("--modal-anime-bg", "none");
+    
+    // Aplica o novo fundo se já estiver no cache
+    if (imageUrl && imageUrl !== FALLBACK_IMAGE) {
+      modal.style.setProperty("--modal-anime-bg", `url("${imageUrl.replace(/"/g, '\\"')}")`);
+    }
   }
 
-  queueAnimeImage(a.mal_id, { force: true });
+  // Não força o download se já tiver a imagem, para evitar processamento extra ao abrir o modal
+  queueAnimeImage(a.mal_id, { force: false });
 
   document.getElementById("modal-title").textContent = a.name;
 
