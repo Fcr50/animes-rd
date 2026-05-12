@@ -25,43 +25,43 @@ let userLibrary = [];
 let groupAnimeIds = new Set();
 
 const GENRE_MAP = {
-  Action: "Acao",
+  Action: "Ação",
   Adventure: "Aventura",
-  Comedy: "Comedia",
+  Comedy: "Comédia",
   Drama: "Drama",
   Fantasy: "Fantasia",
   Horror: "Terror",
-  Mystery: "Misterio",
+  Mystery: "Mistério",
   Romance: "Romance",
-  "Sci-Fi": "Ficcao Cientifica",
+  "Sci-Fi": "Ficção Científica",
   Suspense: "Suspense",
   "Slice of Life": "Slice of Life",
   Sports: "Esportes",
   Supernatural: "Sobrenatural",
-  Psychological: "Psicologico",
+  Psychological: "Psicológico",
   Ecchi: "Ecchi",
   Mecha: "Mecha",
-  Music: "Musica",
+  Music: "Música",
   "Award Winning": "Premiado",
-  Gourmet: "Culinaria",
+  Gourmet: "Culinária",
   "Boys Love": "BL",
   "Girls Love": "GL",
   Hentai: "Hentai",
   "Super Power": "Superpoderes",
   Erotica: "Hentai",
-  Historical: "Historico",
+  Historical: "Histórico",
   Military: "Militar",
   Magia: "Magia",
   "Martial Arts": "Artes Marciais",
   Vampiro: "Vampiro",
-  Demons: "Demonios",
+  Demons: "Demônios",
   School: "Escola",
-  Space: "Espaco",
+  Space: "Espaço",
   Samurai: "Samurai",
   Police: "Policial",
-  Harem: "Harem",
+  Harem: "Harém",
   Game: "Jogo",
-  Parody: "Parodia",
+  Parody: "Paródia",
   Isekai: "Isekai",
   Seinen: "Seinen",
   Shounen: "Shounen",
@@ -78,7 +78,7 @@ async function init() {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    alert("Voce precisa estar logado para sugerir animes.");
+    alert("Você precisa estar logado para sugerir animes.");
     window.location.href = "index.html";
     return;
   }
@@ -246,8 +246,8 @@ function renderResults(list, isLocal = false, isError = false) {
   if (isError) {
     resultsDropdown.innerHTML = `
       <li class="search-dropdown-message is-error">
-        <strong>Erro de conexao</strong><br>
-        O MyAnimeList esta instavel no momento. Tente novamente mais tarde.
+        <strong>Erro de conexão</strong><br>
+        O MyAnimeList está instável no momento. Tente novamente mais tarde.
       </li>
     `;
     return;
@@ -261,7 +261,7 @@ function renderResults(list, isLocal = false, isError = false) {
   } else if (isLocal && list.length === 0) {
     resultsDropdown.innerHTML = `
       <li class="search-dropdown-message is-empty">
-        Nenhum anime encontrado no banco local e o MyAnimeList esta fora do ar.
+        Nenhum anime encontrado no banco local e o MyAnimeList está fora do ar.
       </li>
     `;
     return;
@@ -304,8 +304,8 @@ function selectAnime(anime) {
 
   if (detailsSection) {
     const statusMarkup = existsInGroup
-      ? `<p class="anime-preview-status is-danger">Este anime ja existe no acervo do grupo!</p>`
-      : `<p class="anime-preview-status is-success">Pronto para sugestao</p>`;
+      ? `<p class="anime-preview-status is-danger">Este anime já existe no acervo do grupo!</p>`
+      : `<p class="anime-preview-status is-success">Pronto para sugestão</p>`;
 
     const genrePills = prettyGenresList
       .slice(0, 3)
@@ -342,7 +342,7 @@ async function handleSubmit() {
   const score = isNotWatched ? null : parseFloat(scoreInput?.value || 5);
   const comment =
     commentInput?.value.trim() ||
-    (isNotWatched ? "Ainda nao assisti." : "Sugerido por mim.");
+    (isNotWatched ? "Ainda não assisti." : "Sugerido por mim.");
 
   const links = {};
   document.querySelectorAll(".link-input-row").forEach((row) => {
@@ -386,7 +386,7 @@ async function handleSubmit() {
 
     if (error) {
       if (error.code === "23505") {
-        alert("Este anime ja existe no acervo do grupo!");
+        alert("Este anime já existe no acervo do grupo!");
         return;
       }
       throw error;
@@ -434,7 +434,7 @@ async function loadLibraryAndGroup() {
 
     if (genreFilterImport) {
       genreFilterImport.innerHTML =
-        '<option value="">Todos os generos</option>' +
+        '<option value="">Todos os gêneros</option>' +
         Array.from(genres)
           .sort()
           .map((genre) => `<option value="${genre}">${genre}</option>`)
@@ -444,7 +444,7 @@ async function loadLibraryAndGroup() {
     renderImportList();
   } catch (_error) {
     if (importContainer) {
-      importContainer.innerHTML = '<p class="import-empty-state">Historico vazio.</p>';
+      importContainer.innerHTML = '<p class="import-empty-state">Histórico vazio.</p>';
     }
   }
 }
@@ -453,7 +453,7 @@ function renderImportList() {
   if (!importContainer) return;
 
   if (userLibrary.length === 0) {
-    importContainer.innerHTML = '<p class="import-empty-state">Historico vazio.</p>';
+    importContainer.innerHTML = '<p class="import-empty-state">Histórico vazio.</p>';
     return;
   }
 
@@ -575,7 +575,7 @@ async function handleImport() {
               mal_id: malId,
               user_id: currentUser.id,
               score: historical.last_score,
-              comment: historical.last_comment || "Importado do meu historico.",
+              comment: historical.last_comment || "Importado do meu histórico.",
             },
           ]);
         }
@@ -587,9 +587,9 @@ async function handleImport() {
   }
 
   if (errors.length > 0) {
-    alert(`Importacao concluida com avisos:\n${successCount} sucesso(s)\n${errors.length} erro(s).`);
+    alert(`Importação concluída com avisos:\n${successCount} sucesso(s)\n${errors.length} erro(s).`);
   } else {
-    alert(`${successCount} animes importados com sucesso para a fila de aprovacao!`);
+    alert(`${successCount} animes importados com sucesso para a fila de aprovação!`);
   }
 
   window.location.href = `pending.html#g=${currentGroupId}`;
