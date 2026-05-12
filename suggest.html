@@ -6,75 +6,276 @@
     <title>Sugerir Anime | Animes RD</title>
     <link rel="stylesheet" href="css/style.css?v=platform-v9" />
     <style>
-      /* ── Título da página ── */
+      body.suggest-page {
+        --pink-line: rgba(249, 168, 212, 0.52);
+        --lilac-line: rgba(196, 181, 253, 0.5);
+        --mint-line: rgba(134, 239, 172, 0.46);
+        --soft-panel: rgba(255, 255, 255, 0.035);
+      }
+
+      @keyframes cardBorderShift {
+        0% {
+          background-position: 0 0, 0% 50%;
+        }
+        100% {
+          background-position: 0 0, 200% 50%;
+        }
+      }
+
+      @keyframes riseIn {
+        0% {
+          opacity: 0;
+          transform: translateY(12px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes softPulse {
+        0%,
+        100% {
+          box-shadow: 0 0 0 rgba(196, 181, 253, 0);
+        }
+        50% {
+          box-shadow: 0 0 24px rgba(196, 181, 253, 0.08);
+        }
+      }
+
+      .gradient-outline {
+        position: relative;
+        border-radius: 16px;
+      }
+
+      .gradient-outline::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        padding: 1px;
+        background: linear-gradient(
+          90deg,
+          rgba(249, 168, 212, 0.3) 0%,
+          rgba(196, 181, 253, 0.3) 50%,
+          rgba(134, 239, 172, 0.28) 100%
+        );
+        -webkit-mask:
+          linear-gradient(#000 0 0) content-box,
+          linear-gradient(#000 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        pointer-events: none;
+      }
+
+      .gradient-outline > input,
+      .gradient-outline > textarea {
+        background: transparent !important;
+        border: none !important;
+        border-radius: inherit !important;
+        box-shadow: none !important;
+        display: block;
+        margin: 0;
+        width: 100%;
+        position: relative;
+        z-index: 1;
+      }
+
+      .gradient-outline.input-shell {
+        background: rgba(9, 10, 16, 0.56) !important;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+      }
+
+      .is-readonly-input {
+        cursor: not-allowed;
+        opacity: 0.7;
+      }
+
+      body.suggest-page .page-header {
+        display: none;
+      }
+
       body.suggest-page .page-header h1 {
-        background: linear-gradient(90deg, #f9a8d4 0%, #c4b5fd 50%, #86efac 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
+        color: #fff7ef;
         font-size: clamp(32px, 5vw, 56px);
       }
 
-      /* ── Card principal com bordas temáticas ── */
+      body.suggest-page .page-header h1 .title-accent {
+        background: linear-gradient(90deg, rgba(196, 181, 253, 0.92) 0%, rgba(125, 211, 252, 0.88) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      body.suggest-page .page-header {
+        animation: riseIn 0.45s ease both;
+      }
+
       .suggest-form-card {
         max-width: 1150px;
         margin: 0 auto;
-        padding: 25px 35px !important;
-        border-radius: 28px !important;
+        padding: 30px 38px !important;
+        border-radius: 34px !important;
         border: 2px solid transparent !important;
-        background: 
-          linear-gradient(var(--card), var(--card)) padding-box,
-          linear-gradient(90deg, rgba(249, 168, 212, 0.4), rgba(196, 181, 253, 0.4), rgba(134, 239, 172, 0.4)) border-box !important;
-        box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        background:
+          linear-gradient(
+              145deg,
+              rgba(31, 24, 38, 0.98) 0%,
+              rgba(24, 22, 30, 0.985) 34%,
+              rgba(18, 22, 29, 0.985) 68%,
+              rgba(16, 25, 24, 0.98) 100%
+            )
+            padding-box,
+          linear-gradient(
+              90deg,
+              rgba(249, 168, 212, 0.48),
+              rgba(196, 181, 253, 0.48),
+              rgba(134, 239, 172, 0.46),
+              rgba(196, 181, 253, 0.48),
+              rgba(249, 168, 212, 0.48)
+            )
+            border-box !important;
+        background-size: 100% 100%, 220% 100%;
+        box-shadow:
+          0 24px 60px rgba(0, 0, 0, 0.34),
+          inset 0 1px 0 rgba(255, 255, 255, 0.04);
+        animation:
+          riseIn 0.55s ease both,
+          cardBorderShift 14s linear infinite;
+        position: relative;
+        overflow: visible;
       }
 
-      /* Grid layout para campos */
+      .suggest-form-card::before {
+        background:
+          radial-gradient(circle at 14% 12%, rgba(139, 92, 246, 0.16) 0%, rgba(139, 92, 246, 0) 32%),
+          radial-gradient(circle at 72% 18%, rgba(56, 189, 248, 0.1) 0%, rgba(56, 189, 248, 0) 28%),
+          radial-gradient(circle at 54% 82%, rgba(168, 85, 247, 0.08) 0%, rgba(168, 85, 247, 0) 26%);
+        content: "";
+        inset: 0;
+        pointer-events: none;
+        position: absolute;
+        z-index: 0;
+      }
+
+      .suggest-form-card > * {
+        position: relative;
+        z-index: 1;
+      }
+
+      .suggest-hero {
+        align-items: center;
+        display: flex;
+        gap: 18px;
+        justify-content: space-between;
+        margin-bottom: 28px;
+        padding-bottom: 24px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .suggest-hero-main {
+        align-items: center;
+        display: flex;
+        gap: 0;
+      }
+
+      .suggest-hero-copy h1 {
+        color: #fff7ef;
+        font-size: clamp(26px, 4vw, 48px);
+        line-height: 1.02;
+        margin: 0 0 8px;
+      }
+
+      .suggest-hero-copy h1 .title-accent {
+        background: linear-gradient(
+          90deg,
+          rgba(196, 181, 253, 0.94) 0%,
+          rgba(125, 211, 252, 0.84) 54%,
+          rgba(103, 232, 249, 0.82) 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .suggest-hero-copy p {
+        color: rgba(255, 247, 239, 0.7);
+        font-size: 16px;
+        margin: 0;
+      }
+
       .form-grid-row {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 20px;
-        margin-bottom: 15px;
-      }
-      @media (max-width: 768px) {
-        .form-grid-row { grid-template-columns: 1fr; }
+        gap: 24px;
+        margin-bottom: 18px;
       }
 
-      /* ── Tabs com o importar à direita ── */
+      @media (max-width: 768px) {
+        .form-grid-row {
+          grid-template-columns: 1fr;
+        }
+      }
+
       .suggest-tabs {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 20px;
-        border-bottom: 1px solid rgba(255,255,255,0.08);
-        padding-bottom: 12px;
+        flex: 0 0 auto;
+        gap: 14px;
+        margin-bottom: 0;
+        padding-bottom: 0;
       }
+
       .tab-btn {
-        background: rgba(255,255,255,0.03) !important;
-        border: 1px solid rgba(255,255,255,0.05) !important;
-        color: var(--faint) !important;
+        background: rgba(255, 255, 255, 0.03) !important;
+        border: 1px solid rgba(196, 181, 253, 0.18) !important;
+        color: rgba(255, 247, 239, 0.76) !important;
         font-weight: 700 !important;
         cursor: pointer !important;
-        padding: 8px 16px !important;
-        border-radius: 10px !important;
+        padding: 14px 22px !important;
+        border-radius: 18px !important;
         transition: all 0.2s !important;
-        font-size: 12px !important;
+        font-size: 13px !important;
         display: flex !important;
         align-items: center !important;
         gap: 8px !important;
-      }
-      .tab-btn:hover {
-        background: rgba(255,255,255,0.06) !important;
-        color: var(--text) !important;
-      }
-      .tab-btn.active {
-        background: var(--accent) !important;
-        border-color: var(--accent) !important;
-        color: white !important;
-        box-shadow: 0 4px 12px rgba(var(--accent-rgb), 0.3) !important;
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.03),
+          0 12px 26px rgba(0, 0, 0, 0.12);
+        min-height: 52px;
       }
 
-      /* ── Fontes e Escrita (Standardized to Link Section style) ── */
-      .suggest-form-card h2, .suggest-form-card .card-title {
+      .tab-btn::before {
+        color: rgba(196, 181, 253, 0.85);
+        content: "+";
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 1;
+      }
+
+      .tab-btn[data-tab="import"]::before {
+        content: "\2193";
+      }
+
+      .tab-btn:hover {
+        background: rgba(255, 255, 255, 0.075) !important;
+        color: #fff7ef !important;
+        transform: translateY(-1px);
+        border-color: rgba(196, 181, 253, 0.34) !important;
+      }
+
+      .tab-btn.active {
+        background: linear-gradient(135deg, rgba(124, 58, 237, 0.88), rgba(139, 92, 246, 0.82)) !important;
+        border-color: rgba(196, 181, 253, 0.56) !important;
+        color: white !important;
+        box-shadow:
+          0 14px 28px rgba(124, 58, 237, 0.18),
+          inset 0 1px 0 rgba(255, 255, 255, 0.14) !important;
+      }
+
+      .suggest-form-card h2,
+      .suggest-form-card .card-title {
         font-family: "Newsreader", serif;
         font-weight: 700;
         font-size: 18px !important;
@@ -82,36 +283,232 @@
         margin-bottom: 12px;
       }
 
-      .form-group label, .links-suggestion-area label {
+      .form-group label,
+      .links-suggestion-area label {
+        align-items: center;
         display: block;
         font-size: 10px !important;
         font-weight: 800;
         letter-spacing: 0.15em;
         text-transform: uppercase;
-        color: rgba(196, 181, 253, 0.8);
+        color: rgba(223, 214, 255, 0.88);
         margin-bottom: 8px;
         font-family: inherit;
+        text-shadow: 0 0 18px rgba(196, 181, 253, 0.08);
       }
 
-      /* ── Inputs compactos ── */
+      #rating-fields > .form-group label {
+        display: inline-flex;
+      }
+
+      .form-group label::before,
+      .links-suggestion-area label::before {
+        color: rgba(196, 181, 253, 0.78);
+        display: inline-block;
+        margin-right: 8px;
+        text-align: center;
+        width: 12px;
+      }
+
+      .form-grid-row > .form-group:first-child label::before {
+        content: "\2726";
+      }
+
+      .form-grid-row > .form-group:last-child label::before {
+        content: "\2727";
+      }
+
+      .form-group {
+        display: grid;
+        gap: 8px;
+      }
+
+      #rating-fields > .form-group,
+      .links-suggestion-area {
+        background:
+          linear-gradient(145deg, rgba(17, 20, 29, 0.72), rgba(14, 16, 24, 0.9)),
+          rgba(255, 255, 255, 0.015);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 26px;
+        padding: 20px 20px 18px;
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.035),
+          0 14px 32px rgba(0, 0, 0, 0.14);
+      }
+
+      #rating-fields > .form-group {
+        align-content: start;
+      }
+
+      #rating-fields > .form-group:first-child {
+        max-width: 300px;
+        padding-bottom: 20px;
+      }
+
+      #rating-fields > .form-group label::before {
+        content: "\2606";
+      }
+
+      #rating-fields > .form-group:last-child label::before {
+        content: "\25CB";
+      }
+
+      .form-group:nth-child(1) input {
+        border-color: var(--pink-line) !important;
+      }
+
+      .form-group:nth-child(2) input {
+        border-color: var(--lilac-line) !important;
+      }
+
       .suggest-form-card input[type="text"],
       .suggest-form-card input[type="number"],
       .suggest-form-card textarea,
-      #anime-name, #anime-genres, #my-score, #my-comment, .link-input-row input {
-        background: rgba(0, 0, 0, 0.3) !important;
-        border: 1.5px solid rgba(196, 181, 253, 0.15) !important;
-        padding: 10px 12px !important;
+      #anime-name,
+      #anime-genres,
+      #my-score,
+      #my-comment,
+      .link-input-row input {
+        background: rgba(9, 10, 16, 0.56) !important;
+        border: 1px solid transparent !important;
+        padding: 12px 14px !important;
         font-size: 12px !important;
-        border-radius: 10px !important;
-        color: white !important;
+        border-radius: 16px !important;
+        color: rgba(255, 247, 239, 0.96) !important;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+        transition:
+          border-color 0.2s ease,
+          box-shadow 0.2s ease,
+          background 0.2s ease;
       }
 
-      /* ── Botão principal centralizado e mais proporcional ── */
+      .suggest-form-card input::placeholder,
+      .suggest-form-card textarea::placeholder {
+        color: rgba(255, 247, 239, 0.34) !important;
+      }
+
+      .suggest-form-card input[type="text"]:focus,
+      .suggest-form-card input[type="number"]:focus,
+      .suggest-form-card textarea:focus,
+      .link-input-row input:focus {
+        background: rgba(10, 12, 20, 0.7) !important;
+        box-shadow:
+          0 0 0 4px rgba(196, 181, 253, 0.08),
+          inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        outline: none;
+      }
+
+      #my-score {
+        border-color: rgba(249, 168, 212, 0.2) !important;
+        max-width: 96px;
+        min-height: 56px;
+        border-radius: 999px !important;
+        font-size: 16px !important;
+        font-weight: 800;
+        padding: 0 18px !important;
+        text-align: center;
+      }
+
+      #my-score::-webkit-outer-spin-button,
+      #my-score::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      #my-score[type="number"] {
+        -moz-appearance: textfield;
+        appearance: textfield;
+      }
+
+      .score-input-shell {
+        align-items: center;
+        display: inline-flex;
+        gap: 10px;
+      }
+
+      .score-stepper {
+        background:
+          linear-gradient(180deg, rgba(249, 168, 212, 0.12), rgba(196, 181, 253, 0.12)),
+          rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(196, 181, 253, 0.18);
+        border-radius: 14px;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+        display: inline-flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+
+      .score-stepper-btn {
+        align-items: center;
+        background: transparent;
+        border: 0;
+        color: rgba(255, 247, 239, 0.72);
+        cursor: pointer;
+        display: inline-flex;
+        font-size: 12px;
+        font-weight: 800;
+        height: 21px;
+        justify-content: center;
+        padding: 0;
+        transition:
+          background 0.18s ease,
+          color 0.18s ease;
+        width: 22px;
+      }
+
+      .score-stepper-btn-label {
+        line-height: 1;
+        transform: translateY(-1px);
+      }
+
+      .score-stepper-btn + .score-stepper-btn {
+        border-top: 1px solid rgba(196, 181, 253, 0.14);
+      }
+
+      .score-stepper-btn:hover {
+        background: rgba(196, 181, 253, 0.12);
+        color: #fff7ef;
+      }
+
+      #my-comment {
+        border-color: rgba(196, 181, 253, 0.18) !important;
+      }
+
+      #my-comment {
+        min-height: 104px;
+        resize: vertical;
+        width: 100%;
+      }
+
+      #my-comment + .comment-counter {
+        color: rgba(255, 247, 239, 0.34);
+        font-size: 12px;
+        justify-self: end;
+        margin-top: 6px;
+      }
+
+      #my-score.gradient-outline::before {
+        background: linear-gradient(
+          90deg,
+          rgba(249, 168, 212, 0.24) 0%,
+          rgba(196, 181, 253, 0.2) 100%
+        );
+      }
+
+      #my-comment.gradient-outline::before {
+        background: linear-gradient(
+          90deg,
+          rgba(249, 168, 212, 0.18) 0%,
+          rgba(196, 181, 253, 0.18) 52%,
+          rgba(134, 239, 172, 0.16) 100%
+        );
+      }
+
       #submit-anime-button {
-        background: linear-gradient(90deg, #f9a8d4 0%, #c4b5fd 50%, #86efac 100%) !important;
-        border: none !important;
+        background: transparent !important;
+        border: 1px solid transparent !important;
         border-radius: 12px !important;
-        color: #1a1826 !important;
+        color: rgba(255, 247, 239, 0.9) !important;
         font-weight: 800 !important;
         font-size: 14px !important;
         letter-spacing: 0.01em !important;
@@ -120,71 +517,135 @@
         width: 100%;
         text-align: center;
         display: block;
-        margin-top: 20px;
-        box-shadow: 0 6px 20px rgba(196, 181, 253, 0.15);
+        margin-top: 24px;
+        position: relative;
         transition: all 0.2s ease !important;
-      }
-      #submit-anime-button:hover {
-        transform: translateY(-2px) !important;
-        filter: brightness(1.1) !important;
-        background: linear-gradient(90deg, #f9a8d4 0%, #c4b5fd 50%, #86efac 100%) !important;
-        color: #1a1826 !important;
+        animation: softPulse 3.8s ease-in-out infinite;
       }
 
-      /* ── Checkbox customizada verde ── */
+      #submit-anime-button::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        padding: 1px;
+        background: linear-gradient(
+          90deg,
+          rgba(249, 168, 212, 0.72) 0%,
+          rgba(196, 181, 253, 0.72) 50%,
+          rgba(134, 239, 172, 0.72) 100%
+        );
+        -webkit-mask:
+          linear-gradient(#000 0 0) content-box,
+          linear-gradient(#000 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        pointer-events: none;
+      }
+
+      #submit-anime-button:hover {
+        transform: translateY(-1px) !important;
+        filter: brightness(1.03) !important;
+        color: #fff7ef !important;
+      }
+
+      #submit-anime-button:hover::before {
+        background: linear-gradient(
+          90deg,
+          rgba(249, 168, 212, 0.82) 0%,
+          rgba(196, 181, 253, 0.82) 50%,
+          rgba(134, 239, 172, 0.82) 100%
+        );
+      }
+
       .checkbox-group {
         display: flex;
         align-items: center;
         gap: 12px;
-        margin: 15px 0;
+        margin: 18px 0;
         cursor: pointer;
         color: white;
         font-weight: 600;
         font-size: 12px !important;
         user-select: none;
+        padding: 8px 2px;
+        border-radius: 16px;
+        color: rgba(255, 247, 239, 0.92);
       }
+
       .checkbox-group input {
         display: none !important;
       }
+
       .custom-checkbox {
-        width: 20px;
-        height: 20px;
-        border: 2px solid rgba(134, 239, 172, 0.4);
-        border-radius: 6px;
-        background: rgba(0,0,0,0.3);
+        width: 22px;
+        height: 22px;
+        border: 2px solid rgba(196, 181, 253, 0.34);
+        border-radius: 8px;
+        background:
+          linear-gradient(145deg, rgba(21, 18, 33, 0.92), rgba(12, 15, 25, 0.9)),
+          rgba(0, 0, 0, 0.3);
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.04),
+          0 0 0 1px rgba(125, 211, 252, 0.08);
         display: flex;
         align-items: center;
         justify-content: center;
         transition: all 0.2s;
         flex-shrink: 0;
       }
+
       .checkbox-group input:checked + .custom-checkbox {
-        background: #86efac !important;
-        border-color: #86efac !important;
+        background: linear-gradient(135deg, rgba(124, 58, 237, 0.92), rgba(96, 165, 250, 0.88)) !important;
+        border-color: rgba(196, 181, 253, 0.66) !important;
+        box-shadow:
+          0 10px 22px rgba(124, 58, 237, 0.24),
+          inset 0 1px 0 rgba(255, 255, 255, 0.16);
       }
+
       .custom-checkbox::after {
-        content: '✓';
-        color: #1a1826;
+        content: "\2713";
+        color: #fff7ef;
         font-size: 14px;
         font-weight: 900;
         display: none;
       }
+
       .checkbox-group input:checked + .custom-checkbox::after {
         display: block;
       }
 
-      /* ── Seção de Links ── */
       .links-suggestion-area {
-        margin-top: 15px;
-        padding-top: 15px;
-        border-top: 1px dashed rgba(255,255,255,0.1);
+        margin-top: 22px;
+        padding: 18px 18px 16px;
+        border: 1px solid transparent;
+        border-radius: 24px;
+        background:
+          linear-gradient(145deg, rgba(196, 181, 253, 0.05), rgba(134, 239, 172, 0.02)),
+          rgba(255, 255, 255, 0.02);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
       }
+
+      #links-container-rows {
+        display: none;
+        min-height: 36px;
+        border: 1px dashed rgba(196, 181, 253, 0.14);
+        border-radius: 16px;
+        padding: 12px;
+        margin-top: 8px;
+      }
+
+      #links-container-rows.has-links {
+        display: block;
+      }
+
       .link-input-row {
         display: grid;
         grid-template-columns: 1fr 1.5fr 40px;
-        gap: 10px;
-        margin-bottom: 8px;
+        gap: 12px;
+        margin-bottom: 10px;
       }
+
       .btn-remove-link {
         background: none !important;
         border: none !important;
@@ -196,17 +657,18 @@
         justify-content: center !important;
       }
 
-      /* Estilo para botões secundários (ex: Selecionar Todos) */
       .suggest-form-card .btn {
         background: rgba(255, 255, 255, 0.05) !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        color: var(--muted) !important;
+        border: 1px solid transparent !important;
+        color: rgba(255, 247, 239, 0.72) !important;
         transition: all 0.2s ease !important;
-        border-radius: 10px !important;
+        border-radius: 14px !important;
         font-weight: 700 !important;
         font-size: 11px !important;
         cursor: pointer !important;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
       }
+
       .suggest-form-card .btn:hover {
         background: rgba(255, 255, 255, 0.12) !important;
         border-color: rgba(196, 181, 253, 0.4) !important;
@@ -215,18 +677,24 @@
         transform: translateY(-1px) !important;
       }
 
-      .suggest-panel { display: none; }
-      .suggest-panel.active { display: block; }
+      .suggest-panel {
+        display: none;
+      }
 
-      /* ── Painel de Importação Otimizado ── */
+      .suggest-panel.active {
+        display: block;
+        animation: riseIn 0.35s ease both;
+      }
+
       .import-controls {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 15px;
+        margin-bottom: 18px;
         gap: 10px;
         flex-wrap: wrap;
       }
+
       .import-list {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
@@ -236,35 +704,43 @@
         padding-right: 8px;
         margin-bottom: 20px;
       }
+
       .import-item {
         display: flex;
         flex-direction: column;
-        background: rgba(255,255,255,0.03);
-        border: 1px solid rgba(255,255,255,0.06);
-        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 18px;
         overflow: hidden;
         cursor: pointer;
         transition: all 0.2s;
         position: relative;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
       }
+
       .import-item:hover {
-        background: rgba(255,255,255,0.06);
-        border-color: rgba(196,181,253,0.3);
+        background: rgba(255, 255, 255, 0.07);
+        border-color: rgba(196, 181, 253, 0.3);
+        transform: translateY(-1px);
       }
+
       .import-item.exists {
         opacity: 0.4;
         cursor: not-allowed;
       }
+
       .import-item img {
         width: 100%;
         height: 180px;
         object-fit: cover;
-        border-bottom: 1px solid rgba(255,255,255,0.05);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
       }
+
       .import-item-info {
         padding: 10px;
         flex: 1;
       }
+
       .import-item-info strong {
         display: block;
         font-size: 12px !important;
@@ -274,11 +750,13 @@
         overflow: hidden;
         text-overflow: ellipsis;
       }
+
       .import-item-info p {
         font-size: 10px !important;
         color: var(--faint);
         margin: 0;
       }
+
       .import-item input {
         position: absolute;
         top: 8px;
@@ -289,22 +767,378 @@
         cursor: pointer;
       }
 
-      /* Dropdown de busca */
-      .search-container { position: relative; width: 100%; }
+      .search-container {
+        position: relative;
+        width: 100%;
+      }
+
       .search-dropdown {
-        position: absolute; top: 100%; left: 0; right: 0;
-        background: #1c1c24; border: 1px solid var(--border);
-        border-radius: 8px; z-index: 100; max-height: 250px;
-        overflow-y: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.5); margin-top: 5px;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #1c1c24;
+        border: 1px solid rgba(196, 181, 253, 0.16);
+        border-radius: 18px;
+        z-index: 100;
+        max-height: 250px;
+        overflow-y: auto;
+        box-shadow: 0 16px 30px rgba(0, 0, 0, 0.42);
+        margin-top: 8px;
+        animation: riseIn 0.18s ease both;
       }
+
       .search-result-item {
-        display: flex; align-items: center; gap: 10px; padding: 8px;
-        cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.05);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px;
+        cursor: pointer;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
       }
-      .search-result-item:hover { background: rgba(var(--accent-rgb), 0.2); }
-      .search-result-item img { width: 35px; height: 50px; object-fit: cover; border-radius: 4px; }
-      
-      .hidden { display: none !important; }
+
+      .search-result-item:hover {
+        background: rgba(var(--accent-rgb), 0.2);
+      }
+
+      .search-result-item img {
+        width: 35px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: 4px;
+      }
+
+      .search-dropdown-message {
+        font-size: 12px;
+        padding: 15px;
+        text-align: center;
+      }
+
+      .search-dropdown-message.is-error {
+        color: #f87171;
+      }
+
+      .search-dropdown-message.is-empty {
+        color: var(--faint);
+      }
+
+      .search-dropdown-notice {
+        background: rgba(251, 191, 36, 0.1);
+        border-bottom: 1px solid rgba(251, 191, 36, 0.2);
+        color: #fbbf24;
+        font-size: 10px;
+        font-weight: 800;
+        padding: 8px 12px;
+        text-transform: uppercase;
+      }
+
+      .import-empty-state {
+        color: var(--faint);
+        padding: 20px;
+      }
+
+      .import-score-copy {
+        color: var(--faint);
+        font-size: 11px;
+      }
+
+      .import-item-flag {
+        background: rgba(0, 0, 0, 0.4);
+        border-radius: 4px;
+        bottom: 8px;
+        color: var(--accent);
+        font-size: 9px;
+        font-weight: 800;
+        padding: 2px 6px;
+        position: absolute;
+        right: 12px;
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      body.suggest-page,
+      .search-dropdown,
+      .import-list,
+      #links-container-rows {
+        scrollbar-color: rgba(196, 181, 253, 0.58) rgba(255, 255, 255, 0.06);
+        scrollbar-width: thin;
+      }
+
+      body.suggest-page::-webkit-scrollbar,
+      .search-dropdown::-webkit-scrollbar,
+      .import-list::-webkit-scrollbar,
+      #links-container-rows::-webkit-scrollbar {
+        height: 12px;
+        width: 12px;
+      }
+
+      body.suggest-page::-webkit-scrollbar-track,
+      .search-dropdown::-webkit-scrollbar-track,
+      .import-list::-webkit-scrollbar-track,
+      #links-container-rows::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 999px;
+      }
+
+      body.suggest-page::-webkit-scrollbar-thumb,
+      .search-dropdown::-webkit-scrollbar-thumb,
+      .import-list::-webkit-scrollbar-thumb,
+      #links-container-rows::-webkit-scrollbar-thumb {
+        background: linear-gradient(
+          180deg,
+          rgba(249, 168, 212, 0.56) 0%,
+          rgba(196, 181, 253, 0.68) 52%,
+          rgba(125, 211, 252, 0.54) 100%
+        );
+        border: 2px solid rgba(17, 20, 29, 0.92);
+        border-radius: 999px;
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.15),
+          0 0 18px rgba(196, 181, 253, 0.14);
+      }
+
+      body.suggest-page::-webkit-scrollbar-thumb:hover,
+      .search-dropdown::-webkit-scrollbar-thumb:hover,
+      .import-list::-webkit-scrollbar-thumb:hover,
+      #links-container-rows::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(
+          180deg,
+          rgba(249, 168, 212, 0.68) 0%,
+          rgba(196, 181, 253, 0.78) 52%,
+          rgba(125, 211, 252, 0.66) 100%
+        );
+      }
+
+      body.suggest-page::-webkit-scrollbar-corner,
+      .search-dropdown::-webkit-scrollbar-corner,
+      .import-list::-webkit-scrollbar-corner,
+      #links-container-rows::-webkit-scrollbar-corner {
+        background: transparent;
+      }
+
+      #anime-details-section {
+        min-height: 216px;
+        padding: 0 !important;
+        background:
+          linear-gradient(90deg, rgba(15, 11, 28, 0.96) 0%, rgba(16, 13, 30, 0.9) 44%, rgba(8, 14, 22, 0.84) 100%),
+          rgba(255, 255, 255, 0.04) !important;
+        border: 1px solid transparent;
+        border-left: none !important;
+        border-radius: 28px !important;
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.03),
+          0 16px 36px rgba(0, 0, 0, 0.18);
+        animation: riseIn 0.28s ease both;
+        overflow: hidden;
+      }
+
+      .anime-preview-card {
+        align-items: center;
+        display: grid;
+        gap: 28px;
+        grid-template-columns: 116px minmax(0, 1fr);
+        min-height: 216px;
+        padding: 28px 32px;
+        position: relative;
+      }
+
+      .anime-preview-card::before {
+        background:
+          linear-gradient(90deg, rgba(13, 10, 24, 0.96) 0%, rgba(14, 11, 27, 0.92) 36%, rgba(14, 11, 27, 0.58) 72%, rgba(14, 11, 27, 0.14) 100%),
+          linear-gradient(180deg, rgba(111, 76, 255, 0.09) 0%, rgba(34, 197, 94, 0.05) 100%);
+        content: "";
+        inset: 0;
+        position: absolute;
+      }
+
+      .anime-preview-card::after {
+        background:
+          linear-gradient(90deg, rgba(17, 12, 28, 0) 0%, rgba(17, 12, 28, 0.08) 42%, rgba(17, 12, 28, 0.72) 100%),
+          var(--preview-image, none) right center / cover no-repeat;
+        content: "";
+        inset: 0 0 0 34%;
+        opacity: 0.28;
+        pointer-events: none;
+        position: absolute;
+      }
+
+      .anime-preview-media {
+        border-radius: 20px;
+        box-shadow:
+          0 18px 30px rgba(0, 0, 0, 0.3),
+          0 0 0 1px rgba(255, 255, 255, 0.05);
+        overflow: hidden;
+        position: relative;
+        z-index: 1;
+      }
+
+      .anime-preview-media img {
+        border-radius: 20px;
+        display: block;
+        height: 158px;
+        object-fit: cover;
+        width: 116px;
+      }
+
+      .anime-preview-copy {
+        position: relative;
+        z-index: 1;
+      }
+
+      .anime-preview-title {
+        color: #fff7ef;
+        font-size: clamp(24px, 3.2vw, 38px);
+        font-weight: 800;
+        line-height: 1.05;
+        margin: 0 0 12px;
+      }
+
+      .anime-preview-genres {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 14px;
+      }
+
+      .anime-preview-pill {
+        background: rgba(139, 92, 246, 0.16);
+        border: 1px solid rgba(196, 181, 253, 0.24);
+        border-radius: 999px;
+        color: rgba(255, 247, 239, 0.88);
+        font-size: 12px;
+        font-weight: 700;
+        padding: 6px 12px;
+      }
+
+      .anime-preview-status {
+        color: #ff6654;
+        font-size: 15px;
+        font-weight: 800;
+        margin: 0;
+      }
+
+      .anime-preview-status.is-success {
+        color: #86efac;
+      }
+
+      .anime-preview-status.is-danger {
+        color: #ff6654;
+      }
+
+      #manual-fields {
+        margin-top: 12px;
+        padding: 14px 0 4px;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+      }
+
+      #rating-fields {
+        align-items: start;
+        grid-template-columns: minmax(240px, 0.74fr) minmax(0, 1.26fr);
+        margin-top: 15px;
+      }
+
+      #panel-import {
+        padding-top: 8px;
+      }
+
+      .suggest-details-card {
+        margin-bottom: 15px;
+        margin-top: 10px;
+      }
+
+      .checkbox-group-tight {
+        margin: 10px 0;
+      }
+
+      .links-suggestion-area.compact {
+        margin-top: 15px;
+        padding-top: 15px;
+      }
+
+      .add-link-btn {
+        background: rgba(255, 255, 255, 0.05) !important;
+        font-size: 10px !important;
+        margin-top: 5px;
+        padding: 4px 10px !important;
+      }
+
+      .import-actions-btn {
+        background: rgba(255, 255, 255, 0.05) !important;
+        font-size: 12px !important;
+        padding: 8px 16px !important;
+      }
+
+      .import-genre-select {
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        color: white;
+        font-size: 12px;
+        outline: none;
+        padding: 8px 16px;
+      }
+
+      .import-submit-btn {
+        font-size: 15px !important;
+        margin-top: 10px;
+        padding: 16px !important;
+        width: 100%;
+      }
+
+      body.suggest-page .page-header p {
+        color: rgba(255, 247, 239, 0.78);
+        max-width: 560px;
+      }
+
+      @media (max-width: 768px) {
+        .suggest-form-card {
+          padding: 22px 18px !important;
+          border-radius: 28px !important;
+        }
+
+        .suggest-tabs {
+          align-self: stretch;
+          gap: 10px;
+          width: 100%;
+        }
+
+        .tab-btn {
+          flex: 1 1 0;
+          justify-content: center;
+          padding: 12px 14px !important;
+        }
+
+        .suggest-hero {
+          align-items: start;
+          flex-direction: column;
+        }
+
+        .suggest-hero-main {
+          align-items: start;
+        }
+
+        .import-list {
+          grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        }
+
+        .anime-preview-card {
+          grid-template-columns: 72px 1fr;
+        }
+
+        .anime-preview-media img {
+          height: 108px;
+          width: 72px;
+        }
+
+        .anime-preview-title {
+          font-size: 22px;
+        }
+      }
     </style>
     <script type="module" src="./js/theme.js?v=platform-v9"></script>
     <script type="module" src="./js/utils.js?v=platform-v9"></script>
@@ -314,85 +1148,136 @@
 
     <main class="page">
       <div class="page-header">
-        <h1>✨ Sugira um Novo Anime</h1>
-        <p>Adicione novos títulos ao acervo do grupo.</p>
+        <h1>Sugerir <span class="title-accent">Novo Anime</span></h1>
+        <p>Compartilhe animes incriveis com a comunidade do grupo.</p>
       </div>
 
       <div class="card suggest-form-card">
-        <div class="suggest-tabs">
-          <button class="tab-btn active" data-tab="new">🔍 Sugerir Novo</button>
-          <button class="tab-btn" data-tab="import">📚 Importar do meu Histórico</button>
+        <div class="suggest-hero">
+          <div class="suggest-hero-main">
+            <div class="suggest-hero-copy">
+              <h1>Sugerir <span class="title-accent">Novo Anime</span></h1>
+              <p>Compartilhe animes incriveis com a comunidade do grupo.</p>
+            </div>
+          </div>
+
+          <div class="suggest-tabs">
+            <button class="tab-btn active" data-tab="new">Sugerir Novo</button>
+            <button class="tab-btn" data-tab="import">Importar do meu Historico</button>
+          </div>
         </div>
 
-        <!-- Aba: Novo Anime -->
         <div id="panel-new" class="suggest-panel active">
           <div class="form-grid-row">
             <div class="form-group">
               <label for="anime-name">Nome do Anime</label>
-              <div class="search-container">
-                <input type="text" id="anime-name" placeholder="Digite o nome para buscar no MAL..." autocomplete="off">
+              <div class="search-container gradient-outline input-shell">
+                <input
+                  type="text"
+                  id="anime-name"
+                  placeholder="Digite o nome para buscar no MAL..."
+                  autocomplete="off"
+                />
                 <ul id="search-results-list" class="search-dropdown hidden"></ul>
               </div>
             </div>
 
             <div class="form-group">
-              <label for="anime-genres">Gêneros (Automático)</label>
-              <input type="text" id="anime-genres" placeholder="Ação, Aventura..." readonly style="opacity: 0.7; cursor: not-allowed;">
+              <label for="anime-genres">Generos (Automatico)</label>
+              <div class="gradient-outline input-shell">
+                <input
+                  type="text"
+                  id="anime-genres"
+                  placeholder="Acao, Aventura..."
+                  readonly
+                  class="is-readonly-input"
+                />
+              </div>
             </div>
           </div>
 
-          <div id="anime-details-section" class="hidden" style="margin-top: 10px; padding: 12px; background: rgba(255,255,255,0.03); border-radius: 12px; border-left: 4px solid var(--accent); margin-bottom: 15px;">
-             <!-- Preenchido via JS -->
+          <div id="anime-details-section" class="hidden gradient-outline suggest-details-card">
+            <!-- Preenchido via JS -->
           </div>
 
           <div id="manual-fields" class="hidden">
-            <label class="checkbox-group" style="margin: 10px 0;">
-              <input type="checkbox" id="not-watched-check">
+            <label class="checkbox-group checkbox-group-tight">
+              <input type="checkbox" id="not-watched-check" />
               <span class="custom-checkbox"></span>
-              <span>Eu ainda <strong>não assisti</strong> este anime</span>
+              <span>Eu ainda <strong>nao assisti</strong> este anime</span>
             </label>
 
-            <div id="rating-fields" class="form-grid-row" style="margin-top: 15px;">
+            <div id="rating-fields" class="form-grid-row">
               <div class="form-group">
                 <label for="my-score">Minha Nota</label>
-                <input type="number" id="my-score" value="5.0" min="0" max="10" step="0.1">
+                <div class="score-input-shell">
+                  <input
+                    type="number"
+                    id="my-score"
+                    value="5.0"
+                    min="0"
+                    max="10"
+                    step="0.1"
+                    class="gradient-outline"
+                  />
+                  <div class="score-stepper" aria-hidden="true">
+                    <button type="button" class="score-stepper-btn" data-score-step="up"><span class="score-stepper-btn-label">+</span></button>
+                    <button type="button" class="score-stepper-btn" data-score-step="down"><span class="score-stepper-btn-label">-</span></button>
+                  </div>
+                </div>
               </div>
               <div class="form-group">
-                <label for="my-comment">Meu Comentário (Opcional)</label>
-                <input type="text" id="my-comment" placeholder="O que você achou deste anime?">
+                <label for="my-comment">Meu Comentario (Opcional)</label>
+                <textarea
+                  id="my-comment"
+                  placeholder="O que voce achou deste anime?"
+                  class="gradient-outline"
+                ></textarea>
+                <span class="comment-counter">0/500</span>
               </div>
             </div>
 
-            <!-- SEÇÃO: LINKS -->
-            <div class="links-suggestion-area" style="margin-top: 15px; padding-top: 15px;">
+            <div class="links-suggestion-area gradient-outline compact">
               <label>Links Adicionais (Opcional)</label>
               <div id="links-container-rows">
-                <!-- Vazio por padrão -->
+                <!-- Vazio por padrao -->
               </div>
-              <button type="button" class="btn" style="padding: 4px 10px; font-size: 10px; margin-top: 5px; background: rgba(255,255,255,0.05);" onclick="window.addNewLinkRow()">+ Adicionar link</button>
+              <button
+                type="button"
+                class="btn gradient-outline add-link-btn"
+                onclick="window.addNewLinkRow()"
+              >
+                + Adicionar link
+              </button>
             </div>
 
-            <button id="submit-anime-button">Enviar Sugestão</button>
+            <button id="submit-anime-button">Enviar Sugestao</button>
           </div>
         </div>
 
-        <!-- Aba: Importar Histórico -->
         <div id="panel-import" class="suggest-panel">
           <div class="import-controls">
-            <button class="btn" style="padding: 8px 16px; font-size: 12px; background: rgba(255,255,255,0.05);" onclick="window.selectAllImport()">Selecionar Todos</button>
-            <select id="filter-genre-import" style="padding: 8px 16px; border-radius: 10px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); color: white; font-size: 12px; outline: none;"></select>
+              <button
+                class="btn import-actions-btn"
+                onclick="window.selectAllImport()"
+            >
+              Selecionar Todos
+            </button>
+            <select id="filter-genre-import" class="import-genre-select"></select>
           </div>
-          
+
           <div id="import-list-container" class="import-list">
-            <p>Carregando seu histórico...</p>
+            <p>Carregando seu historico...</p>
           </div>
-          
-          <button id="import-selected-button" class="btn" style="width: 100%; padding: 16px; margin-top: 10px; font-size: 15px;">Importar Selecionados (0)</button>
+
+          <button id="import-selected-button" class="btn import-submit-btn">
+            Importar Selecionados (0)
+          </button>
         </div>
       </div>
     </main>
 
-    <script type="module" src="./js/suggest.js?v=platform-v9"></script>
+    <script type="module" src="./js/suggest.js?v=platform-v11"></script>
     <script type="module" src="js/nyx-widget.js?v=platform-v9"></script>
   </body>
 </html>
