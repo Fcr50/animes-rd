@@ -2568,7 +2568,7 @@ body.compare-page .page.compare-dashboard-page {
 
 .compare-hero {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: 1fr;
   gap: 18px;
   align-items: start;
 }
@@ -2650,15 +2650,15 @@ body.compare-page .page.compare-dashboard-page {
 }
 
 body.compare-page .compare-selector-bar select {
-  min-width: 220px;
-  height: 50px;
-  padding: 0 52px 0 18px;
+  min-width: 150px;
+  height: 40px;
+  padding: 0 40px 0 14px;
   border-radius: 999px;
   border: 1px solid rgba(138, 123, 224, 0.28);
   background:
     linear-gradient(145deg, rgba(11, 15, 28, 0.94), rgba(8, 12, 23, 0.9));
   color: #f4f7ff;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 700;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.04),
@@ -2709,7 +2709,7 @@ body.compare-page .compare-selector-bar select:focus {
   position: relative;
   z-index: 1;
   display: grid;
-  gap: 18px;
+  gap: 14px;
 }
 
 .compare-affinity-shell::before {
@@ -2722,6 +2722,19 @@ body.compare-page .compare-selector-bar select:focus {
     radial-gradient(circle at 48% 90%, rgba(52, 211, 153, 0.08), transparent 22%);
   pointer-events: none;
   filter: blur(10px);
+  z-index: 0;
+}
+
+.compare-affinity-shell::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.018), transparent 24%),
+    radial-gradient(circle at 82% 20%, rgba(96, 165, 250, 0.05), transparent 18%);
+  pointer-events: none;
+  z-index: 0;
 }
 
 .compare-card-title {
@@ -2733,6 +2746,14 @@ body.compare-page .compare-selector-bar select:focus {
   font-weight: 800;
   letter-spacing: 0.18em;
   text-transform: uppercase;
+}
+
+.compare-venn4-card .compare-card-title::before {
+  content: "◌";
+  display: inline-block;
+  margin-right: 10px;
+  color: #d8b4fe;
+  font-size: 12px;
 }
 
 .compare-summary-grid {
@@ -2842,8 +2863,10 @@ body.compare-page .compare-selector-bar select:focus {
 
 .compare-affinity-hero {
   display: grid;
-  grid-template-columns: minmax(220px, 0.7fr) minmax(0, 1.3fr);
+  grid-template-columns: minmax(260px, 1.35fr) repeat(3, minmax(122px, 0.82fr));
   gap: 14px;
+  position: relative;
+  z-index: 1;
 }
 
 .compare-affinity-score,
@@ -2867,6 +2890,21 @@ body.compare-page .compare-selector-bar select:focus {
   justify-content: center;
   min-height: 150px;
   overflow: hidden;
+  position: relative;
+}
+
+.compare-affinity-score::after {
+  content: "";
+  position: absolute;
+  right: -8px;
+  top: 14px;
+  width: 140px;
+  height: 88px;
+  opacity: 0.32;
+  background:
+    repeating-radial-gradient(circle at 0 50%, transparent 0 10px, rgba(255,255,255,0.08) 10px 11px, transparent 11px 18px);
+  transform: rotate(-8deg);
+  pointer-events: none;
 }
 
 .compare-affinity-score-value {
@@ -2888,10 +2926,10 @@ body.compare-page .compare-selector-bar select:focus {
 .compare-affinity-meter {
   position: relative;
   width: 100%;
-  height: 10px;
-  margin-top: 16px;
+  height: 8px;
+  margin-top: 14px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.07);
   overflow: hidden;
 }
 
@@ -2904,20 +2942,22 @@ body.compare-page .compare-selector-bar select:focus {
 }
 
 .compare-affinity-strip {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
+  display: contents;
 }
 
 .compare-affinity-mini-card {
   --mini-accent: #8b5cf6;
   border-color: color-mix(in srgb, var(--mini-accent) 34%, rgba(255, 255, 255, 0.1));
   min-height: 150px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .compare-affinity-mini-card strong {
   display: block;
-  margin-top: 8px;
+  margin-top: 10px;
   color: color-mix(in srgb, var(--mini-accent) 80%, #ffffff);
   font-size: 28px;
   line-height: 1;
@@ -2934,6 +2974,8 @@ body.compare-page .compare-selector-bar select:focus {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12px;
+  position: relative;
+  z-index: 1;
 }
 
 .compare-affinity-band {
@@ -2942,6 +2984,7 @@ body.compare-page .compare-selector-bar select:focus {
   border: 1px solid rgba(160, 141, 240, 0.24);
   background: linear-gradient(145deg, rgba(17, 20, 36, 0.84), rgba(11, 15, 28, 0.82));
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  min-height: 82px;
 }
 
 .compare-affinity-band strong {
@@ -2972,8 +3015,8 @@ body.compare-page .compare-selector-bar select:focus {
 }
 
 .compare-affinity-band-icon {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   display: grid;
   place-items: center;
   border-radius: 999px;
@@ -3021,6 +3064,8 @@ body.compare-page .compare-selector-bar select:focus {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
+  position: relative;
+  z-index: 1;
 }
 
 .compare-affinity-title {
@@ -3034,10 +3079,14 @@ body.compare-page .compare-selector-bar select:focus {
 }
 
 .compare-affinity-panel p {
-  margin: 10px 0 0;
+  margin: 8px 0 0;
   color: rgba(220, 226, 246, 0.88);
   font-size: 13px;
   line-height: 1.55;
+}
+
+.compare-affinity-panel {
+  min-height: 110px;
 }
 
 .compare-affinity-panel.is-hot {
@@ -3048,14 +3097,14 @@ body.compare-page .compare-selector-bar select:focus {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin-top: 12px;
+  margin-top: 10px;
 }
 
 .compare-affinity-tag {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 9px 12px;
+  padding: 8px 12px;
   border-radius: 999px;
   border: 1px solid rgba(167, 139, 250, 0.28);
   background:
