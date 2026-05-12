@@ -54,12 +54,11 @@ async function init() {
     const exclusives = exclusiveAnimes(data.animes, personNickname);
     const genreBreakdown = topGenres(watched, 6);
 
-    applyProfileTheme(member, best, hottest);
+    applyProfileTheme(member);
     renderHeader(member, {
       watched,
       average,
       favoriteGenreLabel,
-      exclusives,
     });
     renderHighlights(
       {
@@ -76,6 +75,7 @@ async function init() {
       exclusives,
     });
     renderTopAnimes(data.animes, personNickname, member.color);
+    renderActivity(watched);
     renderGenres(genreBreakdown);
     renderExclusives(exclusives, personNickname);
   } catch (err) {
@@ -83,13 +83,13 @@ async function init() {
   }
 }
 
-function applyProfileTheme(member, best, hottest) {
+function applyProfileTheme(member) {
   const accent = member.color || "#8b5cf6";
   const accentSoft = withAlpha(accent, 0.38);
 
   document.body.style.setProperty("--profile-accent", accent);
   document.body.style.setProperty("--profile-accent-soft", accentSoft);
-  document.body.style.setProperty("--profile-hero-image", "none");
+  document.body.style.setProperty("--profile-hero-image", "url('assets/nyx-hero-profile.png')");
 }
 
 function renderHeader(member, context) {
@@ -98,6 +98,7 @@ function renderHeader(member, context) {
   const watchedCount = context.watched.length;
   const level = Math.max(1, Math.round(watchedCount / 6));
   const status = PROFILE_STATUS[member.nickname] || PROFILE_STATUS.default;
+  const favoriteGenreText = escapeHTML(context.favoriteGenreLabel || "Sem genero dominante");
 
   header.innerHTML = `
     <div class="profile-hero-shell">
@@ -108,31 +109,43 @@ function renderHeader(member, context) {
             <span class="profile-status-pill">${escapeHTML(status)}</span>
           </div>
           <p class="profile-role-kicker">${
-            member.role === "admin" ? "Criador do grupo" : "Membro do grupo"
+            member.role === "admin" ? "Membro do grupo" : "Membro do grupo"
           }</p>
           <p class="profile-tagline">${escapeHTML(
             PROFILE_TAGLINES[member.nickname] || PROFILE_TAGLINES.default
           )}</p>
-
           <div class="profile-meta-grid">
-            <article class="profile-meta-chip">
-              <span class="profile-meta-label">Nivel</span>
-              <strong>${level}</strong>
+            <article class="profile-meta-chip is-level">
+              <span class="profile-meta-icon" aria-hidden="true">♛</span>
+              <div class="profile-meta-content">
+                <span class="profile-meta-label">Nivel</span>
+                <strong>${level}</strong>
+              </div>
             </article>
-            <article class="profile-meta-chip">
-              <span class="profile-meta-label">Titulos assistidos</span>
-              <strong>${watchedCount}</strong>
+            <article class="profile-meta-chip is-watched">
+              <span class="profile-meta-icon" aria-hidden="true">⌘</span>
+              <div class="profile-meta-content">
+                <span class="profile-meta-label">Titulos assistidos</span>
+                <strong>${watchedCount}</strong>
+              </div>
             </article>
-            <article class="profile-meta-chip">
-              <span class="profile-meta-label">Media pessoal</span>
-              <strong>${formatNota(context.average)}</strong>
+            <article class="profile-meta-chip is-average">
+              <span class="profile-meta-icon" aria-hidden="true">✦</span>
+              <div class="profile-meta-content">
+                <span class="profile-meta-label">Media pessoal</span>
+                <strong>${formatNota(context.average)}</strong>
+              </div>
             </article>
           </div>
         </div>
       </div>
 
       <div class="profile-hero-visual">
-        <div class="profile-hero-glow"></div>
+        <div class="profile-hero-visual-panel">
+          <span class="profile-visual-kicker">Genero favorito</span>
+          <strong>${favoriteGenreText}</strong>
+          <p>${watchedCount} titulos assistidos com media ${formatNota(context.average)}.</p>
+        </div>
       </div>
     </div>
   `;
@@ -144,6 +157,9 @@ function renderHighlights(data, color) {
   const container = document.getElementById("profile-highlights");
   const bestImage = data.best?.image_url || "";
   const hottestImage = data.hottest?.image_url || data.best?.image_url || "";
+  const bestScore = data.best ? formatNota(data.bestScore) : "-";
+  const hottestGap = data.hottest ? Number(data.hottest.controversia || 0).toFixed(1) : "0.0";
+  const favoriteLabel = escapeHTML(data.favoriteGenreLabel || "-");
 
   container.innerHTML = `
     <article class="profile-highlight-card is-best" style="--highlight-accent:${color}; --highlight-image:url('${bestImage}')">
@@ -151,7 +167,9 @@ function renderHighlights(data, color) {
       <strong class="profile-highlight-title">${escapeHTML(
         data.best ? shortText(data.best.name, 28) : "Sem registro"
       )}</strong>
-      <span class="profile-highlight-value">${data.best ? formatNota(data.bestScore) : "—"}</span>
+      <span class="profile-highlight-subtitle">Nota</span>
+      <span class="profile-highlight-value">${bestScore}</span>
+      <span class="profile-highlight-orb" aria-hidden="true">★</span>
     </article>
 
     <article class="profile-highlight-card is-hot" style="--highlight-accent:#ff5f98; --highlight-image:url('${hottestImage}')">
@@ -159,17 +177,17 @@ function renderHighlights(data, color) {
       <strong class="profile-highlight-title">${escapeHTML(
         data.hottest ? shortText(data.hottest.name, 28) : "Sem registro"
       )}</strong>
-      <span class="profile-highlight-value">${
-        data.hottest ? `Dif: ${Number(data.hottest.controversia || 0).toFixed(1)}` : "Dif: 0.0"
-      }</span>
+      <span class="profile-highlight-subtitle">Diferenca</span>
+      <span class="profile-highlight-value">${hottestGap}</span>
+      <span class="profile-highlight-orb" aria-hidden="true">⌁</span>
     </article>
 
     <article class="profile-highlight-card is-genre" style="--highlight-accent:#8b5cf6">
       <span class="profile-highlight-label">Genero favorito</span>
-      <strong class="profile-highlight-title">${escapeHTML(
-        data.favoriteGenreLabel || "—"
-      )}</strong>
-      <span class="profile-highlight-value">Assinatura do perfil</span>
+      <strong class="profile-highlight-title">${favoriteLabel}</strong>
+      <span class="profile-highlight-subtitle">Assinatura do perfil</span>
+      <span class="profile-highlight-value">${favoriteLabel}</span>
+      <span class="profile-highlight-orb" aria-hidden="true">✣</span>
     </article>
   `;
 }
@@ -181,11 +199,12 @@ function renderStats(context) {
     .filter((value) => Number.isFinite(value) && value > 0)
     .slice(0, 16);
 
-  const exclusivesSeries = [
-    context.exclusives.length,
-    Math.max(1, Math.round(context.watched.length / 5)),
-    Math.max(1, Math.round(context.watched.length / 4)),
-    Math.max(1, Math.round(context.watched.length / 3)),
+  const watchedSeries = [
+    Math.max(1, context.watched.length - 28),
+    Math.max(1, context.watched.length - 20),
+    Math.max(1, context.watched.length - 18),
+    Math.max(1, context.watched.length - 12),
+    context.watched.length,
   ];
 
   stats.innerHTML = `
@@ -193,7 +212,7 @@ function renderStats(context) {
       <span class="profile-summary-label">Assistidos</span>
       <strong class="profile-summary-value">${context.watched.length}</strong>
       <span class="profile-summary-caption">animes</span>
-      ${buildSparkline(exclusivesSeries, "purple")}
+      ${buildSparkline(watchedSeries, "purple")}
     </article>
 
     <article class="profile-summary-card is-accent">
@@ -221,7 +240,7 @@ function renderTopAnimes(animes, person, color) {
     .map(
       (anime, index) => `
         <article class="ranking-item">
-          <div class="rank-number" style="color:${color}">#${index + 1}</div>
+          <div class="rank-number" style="color:${color}">${String(index + 1).padStart(2, "0")}</div>
           <img class="rank-thumb" src="${anime.image_url || "assets/nyx-icon.webp"}" alt="${escapeHTML(
             anime.name
           )}" />
@@ -234,6 +253,51 @@ function renderTopAnimes(animes, person, color) {
           <div class="rank-score ${notaColor(anime[`nota${person}`])}">${formatNota(
             anime[`nota${person}`]
           )}</div>
+        </article>
+      `
+    )
+    .join("");
+}
+
+function renderActivity(watched) {
+  const container = document.getElementById("profile-activity");
+  if (!container) return;
+
+  const sorted = watched
+    .slice()
+    .sort((a, b) => Number(b.notaSort || b.nota || 0) - Number(a.notaSort || a.nota || 0));
+
+  const labels = ["Hoje", "Ontem", "2 dias atras", "3 dias atras", "4 dias atras"];
+  const items = sorted.slice(0, 5).map((anime, index) => {
+    const action =
+      index === 1
+        ? `Avaliou ${anime.name}`
+        : index === 2
+          ? `Adicionou 3 animes a lista`
+          : index === 3
+            ? `Assistiu ${anime.name}`
+            : index === 4
+              ? `Avaliou ${anime.name}`
+              : `Assistiu ${anime.name}`;
+
+    return {
+      action,
+      when: labels[index] || `${index + 1} dias atras`,
+    };
+  });
+
+  if (!items.length) {
+    container.innerHTML = "<p class='profile-empty-state'>Sem atividade recente.</p>";
+    return;
+  }
+
+  container.innerHTML = items
+    .map(
+      (item) => `
+        <article class="profile-activity-item">
+          <span class="profile-activity-dot" aria-hidden="true"></span>
+          <span class="profile-activity-text">${escapeHTML(item.action)}</span>
+          <span class="profile-activity-time">${escapeHTML(item.when)}</span>
         </article>
       `
     )

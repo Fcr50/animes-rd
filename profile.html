@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Perfil | Animes RD</title>
-  <link rel="stylesheet" href="css/style.css?v=platform-v9" />
-  <script type="module" src="./js/theme.js?v=platform-v9"></script>
-  <script type="module" src="./js/utils.js?v=platform-v9"></script>
+  <link rel="stylesheet" href="css/style.css?v=platform-v15" />
+  <script type="module" src="./js/theme.js?v=platform-v15"></script>
+  <script type="module" src="./js/utils.js?v=platform-v15"></script>
 </head>
 <body class="profile-page">
   <nav class="nav"></nav>
@@ -22,7 +22,9 @@
 
     <div class="profile-main-grid">
       <section class="card profile-top10-card profile-surface-card">
-        <div class="card-title profile-card-title">Top 10 animes</div>
+        <div class="profile-section-head">
+          <div class="card-title profile-card-title">Top 10 animes</div>
+        </div>
         <div id="top-animes" class="profile-ranking-list">
           <!-- Preenchido via JS -->
         </div>
@@ -37,7 +39,14 @@
         </section>
 
         <section class="card profile-surface-card">
-          <div class="card-title profile-card-title">Distribuição de gêneros</div>
+          <div class="card-title profile-card-title">Atividade recente</div>
+          <div id="profile-activity" class="profile-activity-list">
+            <!-- Preenchido via JS -->
+          </div>
+        </section>
+
+        <section class="card profile-surface-card profile-genre-side-card">
+          <div class="card-title profile-card-title">Distribuicao de generos</div>
           <div id="genre-chart" class="profile-genre-chart">
             <!-- Preenchido via JS -->
           </div>
@@ -47,14 +56,14 @@
 
     <section class="card profile-surface-card profile-exclusives-section">
       <div class="card-title profile-card-title">Animes exclusivos</div>
-      <p class="profile-section-caption">Títulos que apenas esta pessoa assistiu neste grupo.</p>
+      <p class="profile-section-caption">Titulos que apenas esta pessoa assistiu neste grupo.</p>
       <div id="exclusive-list" class="profile-exclusives-grid">
         <!-- Preenchido via JS -->
       </div>
     </section>
   </main>
 
-  <script type="module" src="./js/profile.js?v=platform-v9"></script>
-  <script type="module" src="js/nyx-widget.js?v=platform-v9"></script>
+  <script type="module" src="./js/profile.js?v=platform-v15"></script>
+  <script type="module" src="js/nyx-widget.js?v=platform-v15"></script>
 </body>
 </html>
