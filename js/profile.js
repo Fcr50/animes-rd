@@ -1,12 +1,37 @@
-// js/profile.js
-import { loadData, animesOf, avgNota, favoriteGenre, topGenres, exclusiveAnimes, formatNota, notaColor, favoriteAnime, mostControversial } from './data.js';
-import { escapeHTML, shortText } from './utils.js';
+import {
+  loadData,
+  animesOf,
+  avgNota,
+  favoriteGenre,
+  topGenres,
+  exclusiveAnimes,
+  formatNota,
+  notaColor,
+  favoriteAnime,
+  mostControversial,
+  prettyGenre,
+} from "./data.js";
+import { escapeHTML, shortText } from "./utils.js";
+
+const PROFILE_TAGLINES = {
+  Rafael: "Explorando historias, vivendo mundos.",
+  Fernando: "Sempre em busca do proximo classico.",
+  Dudu: "Colecionando hype, porrada e nostalgia.",
+  Zana: "Analisando historias com carinho e caos.",
+  Hacksuya: "Curadoria afiada para cada temporada.",
+  default: "Catalogando historias que valem memoria.",
+};
+
+const PROFILE_STATUS = {
+  Rafael: "online",
+  default: "ativo",
+};
 
 async function init() {
   const urlParams = new URLSearchParams(window.location.search);
   const hashParams = new URLSearchParams(window.location.hash.substring(1));
-  const personNickname = urlParams.get('p') || hashParams.get('p');
-  
+  const personNickname = urlParams.get("p") || hashParams.get("p");
+
   if (!personNickname) {
     window.location.href = "index.html";
     return;
@@ -14,145 +39,294 @@ async function init() {
 
   try {
     const data = await loadData();
-    const member = data.members.find(m => m.nickname === personNickname);
-    
+    const member = data.members.find((item) => item.nickname === personNickname);
+
     if (!member) {
-      alert("Membro não encontrado.");
+      alert("Membro nao encontrado.");
       return;
     }
 
-    renderHeader(member);
-    renderHighlights(data.animes, personNickname, member.color);
-    renderStats(data.animes, personNickname);
-    renderTopAnimes(data.animes, personNickname, member.color);
-    renderGenres(data.animes, personNickname);
-    renderExclusives(data.animes, personNickname);
+    const watched = animesOf(data.animes, personNickname);
+    const average = avgNota(data.animes, personNickname);
+    const best = favoriteAnime(data.animes, personNickname);
+    const hottest = mostControversial(data.animes, personNickname);
+    const favoriteGenreLabel = favoriteGenre(data.animes, personNickname);
+    const exclusives = exclusiveAnimes(data.animes, personNickname);
+    const genreBreakdown = topGenres(watched, 6);
 
+    applyProfileTheme(member, best, hottest);
+    renderHeader(member, {
+      watched,
+      average,
+      favoriteGenreLabel,
+      exclusives,
+    });
+    renderHighlights(
+      {
+        best,
+        bestScore: best ? best[`nota${personNickname}`] : null,
+        hottest,
+        favoriteGenreLabel,
+      },
+      member.color
+    );
+    renderStats({
+      watched,
+      average,
+      exclusives,
+    });
+    renderTopAnimes(data.animes, personNickname, member.color);
+    renderGenres(genreBreakdown);
+    renderExclusives(exclusives, personNickname);
   } catch (err) {
     console.error("Erro ao carregar perfil:", err);
   }
 }
 
-function renderHeader(member) {
-  const header = document.getElementById("profile-header");
-  const color = member.color || "#8b5cf6";
-  header.innerHTML = `
-    <h1 style="color: ${color}; font-size: 38px; margin-bottom: 5px;">${member.nickname}</h1>
-    <p class="profile-role" style="color: var(--faint); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; font-size: 12px;">
-      ${member.role === 'admin' ? '👑 Criador do Grupo' : 'Membro do Grupo'}
-    </p>
-  `;
+function applyProfileTheme(member, best, hottest) {
+  const accent = member.color || "#8b5cf6";
+  const accentSoft = withAlpha(accent, 0.38);
+
+  document.body.style.setProperty("--profile-accent", accent);
+  document.body.style.setProperty("--profile-accent-soft", accentSoft);
+  document.body.style.setProperty("--profile-hero-image", "none");
 }
 
-function renderHighlights(animes, person, color) {
-  const best = favoriteAnime(animes, person);
-  const hottest = mostControversial(animes, person);
-  const favGenre = favoriteGenre(animes, person);
+function renderHeader(member, context) {
+  const header = document.getElementById("profile-header");
+  const accent = member.color || "#8b5cf6";
+  const watchedCount = context.watched.length;
+  const level = Math.max(1, Math.round(watchedCount / 6));
+  const status = PROFILE_STATUS[member.nickname] || PROFILE_STATUS.default;
+
+  header.innerHTML = `
+    <div class="profile-hero-shell">
+      <div class="profile-hero-copy">
+        <div class="profile-hero-text">
+          <div class="profile-name-row">
+            <h1>${escapeHTML(member.nickname)}</h1>
+            <span class="profile-status-pill">${escapeHTML(status)}</span>
+          </div>
+          <p class="profile-role-kicker">${
+            member.role === "admin" ? "Criador do grupo" : "Membro do grupo"
+          }</p>
+          <p class="profile-tagline">${escapeHTML(
+            PROFILE_TAGLINES[member.nickname] || PROFILE_TAGLINES.default
+          )}</p>
+
+          <div class="profile-meta-grid">
+            <article class="profile-meta-chip">
+              <span class="profile-meta-label">Nivel</span>
+              <strong>${level}</strong>
+            </article>
+            <article class="profile-meta-chip">
+              <span class="profile-meta-label">Titulos assistidos</span>
+              <strong>${watchedCount}</strong>
+            </article>
+            <article class="profile-meta-chip">
+              <span class="profile-meta-label">Media pessoal</span>
+              <strong>${formatNota(context.average)}</strong>
+            </article>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-hero-visual">
+        <div class="profile-hero-glow"></div>
+      </div>
+    </div>
+  `;
+
+  header.style.setProperty("--profile-local-accent", accent);
+}
+
+function renderHighlights(data, color) {
   const container = document.getElementById("profile-highlights");
+  const bestImage = data.best?.image_url || "";
+  const hottestImage = data.hottest?.image_url || data.best?.image_url || "";
 
   container.innerHTML = `
-    <div class="stat-card highlight-card" style="border-top: 4px solid ${color}">
-      <div class="stat-label">⭐ Melhor Avaliado</div>
-      <div class="stat-value" style="font-size: 16px; margin-top: 10px;">${best ? shortText(best.name, 25) : '—'}</div>
-      <div class="stat-sub" style="color:${color}">${best ? formatNota(best[`nota${person}`]) : ''}</div>
-    </div>
-    <div class="stat-card highlight-card" style="border-top: 4px solid var(--danger)">
-      <div class="stat-label">🌶️ Mais Controverso</div>
-      <div class="stat-value" style="font-size: 16px; margin-top: 10px;">${hottest ? shortText(hottest.name, 25) : '—'}</div>
-      <div class="stat-sub" style="color:var(--danger)">Dif: ${hottest ? hottest.controversia.toFixed(1) : '0.0'}</div>
-    </div>
-    <div class="stat-card highlight-card" style="border-top: 4px solid var(--accent)">
-      <div class="stat-label">🎭 Gênero Favorito</div>
-      <div class="stat-value" style="font-size: 16px; margin-top: 10px;">${favGenre}</div>
-    </div>
+    <article class="profile-highlight-card is-best" style="--highlight-accent:${color}; --highlight-image:url('${bestImage}')">
+      <span class="profile-highlight-label">Melhor avaliado</span>
+      <strong class="profile-highlight-title">${escapeHTML(
+        data.best ? shortText(data.best.name, 28) : "Sem registro"
+      )}</strong>
+      <span class="profile-highlight-value">${data.best ? formatNota(data.bestScore) : "—"}</span>
+    </article>
+
+    <article class="profile-highlight-card is-hot" style="--highlight-accent:#ff5f98; --highlight-image:url('${hottestImage}')">
+      <span class="profile-highlight-label">Mais controverso</span>
+      <strong class="profile-highlight-title">${escapeHTML(
+        data.hottest ? shortText(data.hottest.name, 28) : "Sem registro"
+      )}</strong>
+      <span class="profile-highlight-value">${
+        data.hottest ? `Dif: ${Number(data.hottest.controversia || 0).toFixed(1)}` : "Dif: 0.0"
+      }</span>
+    </article>
+
+    <article class="profile-highlight-card is-genre" style="--highlight-accent:#8b5cf6">
+      <span class="profile-highlight-label">Genero favorito</span>
+      <strong class="profile-highlight-title">${escapeHTML(
+        data.favoriteGenreLabel || "—"
+      )}</strong>
+      <span class="profile-highlight-value">Assinatura do perfil</span>
+    </article>
   `;
 }
 
-function renderStats(animes, person) {
-  const watched = animesOf(animes, person);
-  const average = avgNota(animes, person);
-
+function renderStats(context) {
   const stats = document.getElementById("profile-stats");
+  const scoreSeries = context.watched
+    .map((anime) => Number(anime.notaSort || anime.nota || 0))
+    .filter((value) => Number.isFinite(value) && value > 0)
+    .slice(0, 16);
+
+  const exclusivesSeries = [
+    context.exclusives.length,
+    Math.max(1, Math.round(context.watched.length / 5)),
+    Math.max(1, Math.round(context.watched.length / 4)),
+    Math.max(1, Math.round(context.watched.length / 3)),
+  ];
+
   stats.innerHTML = `
-    <div class="stat-card mini">
-      <div class="stat-label">Assistidos</div>
-      <div class="stat-value" style="font-size: 24px;">${watched.length}</div>
-    </div>
-    <div class="stat-card mini">
-      <div class="stat-label">Média</div>
-      <div class="stat-value" style="font-size: 24px;">${formatNota(average)}</div>
-    </div>
+    <article class="profile-summary-card">
+      <span class="profile-summary-label">Assistidos</span>
+      <strong class="profile-summary-value">${context.watched.length}</strong>
+      <span class="profile-summary-caption">animes</span>
+      ${buildSparkline(exclusivesSeries, "purple")}
+    </article>
+
+    <article class="profile-summary-card is-accent">
+      <span class="profile-summary-label">Media</span>
+      <strong class="profile-summary-value">${formatNota(context.average)}</strong>
+      <span class="profile-summary-caption">nota media</span>
+      ${buildSparkline(scoreSeries, "pink")}
+    </article>
   `;
 }
 
 function renderTopAnimes(animes, person, color) {
   const top10 = animesOf(animes, person)
-    .filter(a => a[`nota${person}`] !== null)
+    .filter((anime) => anime[`nota${person}`] !== null)
     .sort((a, b) => (b[`nota${person}`] || 0) - (a[`nota${person}`] || 0))
     .slice(0, 10);
 
   const container = document.getElementById("top-animes");
   if (!top10.length) {
-    container.innerHTML = "<p style='padding:20px; color:var(--faint)'>Nenhuma nota registrada.</p>";
+    container.innerHTML = "<p class='profile-empty-state'>Nenhuma nota registrada.</p>";
     return;
   }
 
-  container.innerHTML = `
-    <div class="ranking-grid">
-      ${top10.map((a, i) => `
-        <div class="ranking-item">
-          <div class="rank-number" style="color: ${color}">#${i + 1}</div>
+  container.innerHTML = top10
+    .map(
+      (anime, index) => `
+        <article class="ranking-item">
+          <div class="rank-number" style="color:${color}">#${index + 1}</div>
+          <img class="rank-thumb" src="${anime.image_url || "assets/nyx-icon.webp"}" alt="${escapeHTML(
+            anime.name
+          )}" />
           <div class="rank-info">
-            <div class="rank-name">${escapeHTML(a.name)}</div>
-            <div class="rank-genres">${(a.genres || []).slice(0, 2).join(", ")}</div>
+            <div class="rank-name">${escapeHTML(anime.name)}</div>
+            <div class="rank-genres">${escapeHTML(
+              (anime.genres || []).slice(0, 2).map((genre) => prettyGenre(genre)).join("  •  ")
+            )}</div>
           </div>
-          <div class="rank-score ${notaColor(a[`nota${person}`])}">${formatNota(a[`nota${person}`])}</div>
+          <div class="rank-score ${notaColor(anime[`nota${person}`])}">${formatNota(
+            anime[`nota${person}`]
+          )}</div>
+        </article>
+      `
+    )
+    .join("");
+}
+
+function renderGenres(genres) {
+  const container = document.getElementById("genre-chart");
+
+  if (!genres.length) {
+    container.innerHTML = "<p class='profile-empty-state'>Sem dados de genero.</p>";
+    return;
+  }
+
+  const maxCount = genres[0][1] || 1;
+  container.innerHTML = genres
+    .map(
+      ([name, count]) => `
+        <div class="genre-bar-row">
+          <div class="genre-bar-info">
+            <span>${escapeHTML(name)}</span>
+            <small>${count} animes</small>
+          </div>
+          <div class="genre-bar-bg">
+            <div class="genre-bar-fill" style="width:${(count / maxCount) * 100}%"></div>
+          </div>
         </div>
-      `).join("")}
-    </div>
+      `
+    )
+    .join("");
+}
+
+function renderExclusives(exclusives, person) {
+  const container = document.getElementById("exclusive-list");
+
+  if (!exclusives.length) {
+    container.innerHTML =
+      "<p class='profile-empty-state'>Nenhum anime exclusivo para este perfil.</p>";
+    return;
+  }
+
+  container.innerHTML = exclusives
+    .slice(0, 12)
+    .map(
+      (anime) => `
+        <article class="exclusive-mini-card">
+          <img src="${anime.image_url || "assets/nyx-icon.webp"}" alt="${escapeHTML(
+            anime.name
+          )}" />
+          <div class="exclusive-info">
+            <strong>${escapeHTML(anime.name)}</strong>
+            <span>Nota ${formatNota(anime[`nota${person}`])}</span>
+          </div>
+        </article>
+      `
+    )
+    .join("");
+}
+
+function buildSparkline(values, tone) {
+  const clean = (values || []).filter((value) => Number.isFinite(value));
+  if (!clean.length) return "";
+
+  const width = 280;
+  const height = 70;
+  const max = Math.max(...clean);
+  const min = Math.min(...clean);
+  const range = Math.max(max - min, 1);
+  const step = clean.length === 1 ? width : width / (clean.length - 1);
+
+  const points = clean.map((value, index) => {
+    const x = index * step;
+    const y = height - ((value - min) / range) * (height - 10) - 5;
+    return [x, y];
+  });
+
+  const path = points
+    .map(([x, y], index) => `${index === 0 ? "M" : "L"} ${x.toFixed(2)} ${y.toFixed(2)}`)
+    .join(" ");
+
+  return `
+    <svg class="profile-sparkline profile-sparkline-${tone}" viewBox="0 0 ${width} ${height}" aria-hidden="true">
+      <path class="profile-sparkline-area" d="${path} L ${width} ${height} L 0 ${height} Z"></path>
+      <path class="profile-sparkline-line" d="${path}"></path>
+    </svg>
   `;
 }
 
-function renderGenres(animes, person) {
-  const genres = topGenres(animesOf(animes, person), 6);
-  const container = document.getElementById("genre-chart");
-  
-  if (!genres.length) {
-    container.innerHTML = "<p style='color:var(--faint)'>Sem dados.</p>";
-    return;
-  }
-
-  container.innerHTML = genres.map(([name, count]) => `
-    <div class="genre-bar-row">
-      <div class="genre-bar-info">
-        <span>${name}</span>
-        <small>${count} animes</small>
-      </div>
-      <div class="genre-bar-bg">
-        <div class="genre-bar-fill" style="width: ${(count / genres[0][1]) * 100}%"></div>
-      </div>
-    </div>
-  `).join("");
-}
-
-function renderExclusives(animes, person) {
-  const excl = exclusiveAnimes(animes, person);
-  const container = document.getElementById("exclusive-list");
-  
-  if (!excl.length) {
-    container.innerHTML = "<p style='color: var(--faint); padding: 20px;'>Nenhum anime exclusivo.</p>";
-    return;
-  }
-
-  container.innerHTML = excl.map(a => `
-    <div class="exclusive-mini-card">
-      <img src="${a.image_url}" onerror="this.src='assets/placeholder.png'">
-      <div class="exclusive-info">
-        <strong>${escapeHTML(a.name)}</strong>
-        <span>Nota: ${formatNota(a[`nota${person}`])}</span>
-      </div>
-    </div>
-  `).join("");
+function withAlpha(hex, alpha) {
+  const value = String(hex || "").replace("#", "");
+  if (value.length !== 6) return "rgba(139, 92, 246, 0.38)";
+  const channels = value.match(/.{1,2}/g).map((part) => parseInt(part, 16));
+  return `rgba(${channels[0]}, ${channels[1]}, ${channels[2]}, ${alpha})`;
 }
 
 window.addEventListener("hashchange", () => window.location.reload());

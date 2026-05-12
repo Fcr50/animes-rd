@@ -4,63 +4,57 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Perfil | Animes RD</title>
-  <link rel="stylesheet" href="css/style.css?v=platform-v8" />
-  <script type="module" src="./js/theme.js?v=platform-v8"></script>
-  <script type="module" src="./js/utils.js?v=platform-v8"></script>
+  <link rel="stylesheet" href="css/style.css?v=platform-v9" />
+  <script type="module" src="./js/theme.js?v=platform-v9"></script>
+  <script type="module" src="./js/utils.js?v=platform-v9"></script>
 </head>
 <body class="profile-page">
   <nav class="nav"></nav>
 
-  <main class="page">
-    <!-- Cabeçalho simplificado sem a barra gigante -->
-    <header id="profile-header" class="profile-header-new">
-       <!-- Preenchido via JS: apenas Nome e Role -->
+  <main class="page profile-dashboard-page">
+    <header id="profile-header" class="profile-hero-card">
+      <!-- Preenchido via JS -->
     </header>
 
-    <!-- Grid de Destaques (Os 2 cards que faltavam + Gênero Fav) -->
-    <div class="stats-grid-highlights" id="profile-highlights">
-       <!-- Preenchido via JS: Melhor Nota, Mais Controverso, Gênero Fav -->
+    <div class="stats-grid-highlights profile-highlight-grid" id="profile-highlights">
+      <!-- Preenchido via JS -->
     </div>
 
-    <!-- Grid principal -->
-    <div class="grid-2">
-      <!-- Coluna Esquerda: Top 10 -->
-      <section class="card profile-top10-card">
-        <div class="card-title">🏆 Top 10 Animes</div>
+    <div class="profile-main-grid">
+      <section class="card profile-top10-card profile-surface-card">
+        <div class="card-title profile-card-title">Top 10 animes</div>
         <div id="top-animes" class="profile-ranking-list">
           <!-- Preenchido via JS -->
         </div>
       </section>
 
-      <!-- Coluna Direita: Estatísticas e Gêneros -->
-      <div style="display: flex; flex-direction: column; gap: 20px;">
-        <section class="card">
-          <div class="card-title">📊 Resumo Geral</div>
-          <div class="stats-grid" id="profile-stats" style="grid-template-columns: 1fr 1fr; margin-top: 10px;">
+      <div class="profile-side-column">
+        <section class="card profile-surface-card">
+          <div class="card-title profile-card-title">Resumo geral</div>
+          <div class="profile-summary-grid" id="profile-stats">
             <!-- Preenchido via JS -->
           </div>
         </section>
 
-        <section class="card">
-          <div class="card-title">🎭 Distribuição de Gêneros</div>
-          <div id="genre-chart" class="profile-genre-chart" style="margin-top: 15px;">
+        <section class="card profile-surface-card">
+          <div class="card-title profile-card-title">Distribuição de gêneros</div>
+          <div id="genre-chart" class="profile-genre-chart">
             <!-- Preenchido via JS -->
           </div>
         </section>
       </div>
     </div>
 
-    <!-- Tabela de Exclusivos -->
-    <section class="card" style="margin-top: 28px;">
-      <div class="card-title">🌟 Animes Exclusivos</div>
-      <p style="color: var(--faint); font-size: 13px; margin-bottom: 20px;">Títulos que apenas esta pessoa assistiu neste grupo.</p>
+    <section class="card profile-surface-card profile-exclusives-section">
+      <div class="card-title profile-card-title">Animes exclusivos</div>
+      <p class="profile-section-caption">Títulos que apenas esta pessoa assistiu neste grupo.</p>
       <div id="exclusive-list" class="profile-exclusives-grid">
         <!-- Preenchido via JS -->
       </div>
     </section>
   </main>
 
-  <script type="module" src="./js/profile.js?v=platform-v8"></script>
-  <script type="module" src="js/nyx-widget.js?v=platform-v8"></script>
+  <script type="module" src="./js/profile.js?v=platform-v9"></script>
+  <script type="module" src="js/nyx-widget.js?v=platform-v9"></script>
 </body>
 </html>

@@ -3,65 +3,78 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Comparar — Animes RD</title>
-    <link rel="stylesheet" href="css/style.css?v=platform-v9" />
-    <script type="module" src="./js/theme.js?v=platform-v9"></script>
-    <script type="module" src="./js/utils.js?v=platform-v9"></script>
+    <title>Comparar | Animes RD</title>
+    <link rel="stylesheet" href="css/style.css?v=platform-v10" />
+    <script type="module" src="./js/theme.js?v=platform-v10"></script>
+    <script type="module" src="./js/utils.js?v=platform-v10"></script>
   </head>
-  <body>
+  <body class="compare-page">
     <nav class="nav"></nav>
 
-    <main class="page">
-      <div class="page-header">
-        <h1>Comparar</h1>
-        <p>Compare gosto, gêneros e notas entre dois membros</p>
-      </div>
-
-      <div class="compare-selectors">
-        <label style="color: var(--muted); font-size: 13px">Comparar</label>
-        <select id="person1"></select>
-        <label style="color: var(--muted); font-size: 13px">com</label>
-        <select id="person2"></select>
-      </div>
-
-      <div class="card" style="margin-bottom: 28px">
-        <div class="card-title">Diagrama de Venn — os 4</div>
-        <div id="venn4-container"></div>
-      </div>
-
-      <div class="grid-2" style="margin-bottom: 28px">
-        <div class="card">
-          <div class="card-title">Animes em comum — diagrama de Venn</div>
-          <div id="venn-container"></div>
+    <main class="page compare-dashboard-page">
+      <section class="compare-hero">
+        <div class="compare-hero-copy">
+          <h1>Comparar</h1>
+          <p>Compare gosto, gêneros e notas entre dois membros.</p>
         </div>
-        <div class="card">
-          <div class="card-title">Perfil de gêneros — radar</div>
-          <div class="chart-container" style="height: 280px">
+        <aside class="compare-tip-card">
+          <strong>Dica</strong>
+          <span>Passe o mouse sobre os itens para ver mais detalhes.</span>
+        </aside>
+      </section>
+
+      <section class="compare-selector-bar">
+        <label class="compare-inline-label" for="person1">Comparar</label>
+        <select id="person1" aria-label="Primeiro membro"></select>
+        <label class="compare-inline-label" for="person2">com</label>
+        <select id="person2" aria-label="Segundo membro"></select>
+      </section>
+
+      <section class="compare-top-grid">
+        <article class="card compare-surface-card compare-venn4-card">
+          <div class="card-title compare-card-title">Mapa de afinidade</div>
+          <div id="venn4-container"></div>
+        </article>
+
+        <aside class="card compare-surface-card compare-summary-shell">
+          <div class="card-title compare-card-title">Resumo da comparação</div>
+          <div id="compare-summary"></div>
+        </aside>
+      </section>
+
+      <section class="compare-bottom-grid">
+        <article class="card compare-surface-card">
+          <div class="card-title compare-card-title">Venn dos gêneros</div>
+          <div id="venn-container"></div>
+        </article>
+
+        <article class="card compare-surface-card">
+          <div class="card-title compare-card-title">Perfil de gêneros — radar</div>
+          <div class="chart-container compare-radar-wrap">
             <canvas id="chartRadar"></canvas>
           </div>
-        </div>
-      </div>
+        </article>
+      </section>
 
-      <div class="card">
-        <div class="card-title">Animes em comum — notas comparadas</div>
-        <p style="font-size: 12px; color: var(--faint); margin-bottom: 12px">
-          ? linhas em destaque = diferença de 2+ pontos
-        </p>
+      <section class="card compare-surface-card compare-table-card">
+        <div class="card-title compare-card-title">Animes em comum — notas comparadas</div>
+        <p class="compare-table-caption">Linhas em destaque mostram diferença de 2 pontos ou mais.</p>
         <div id="common-table-wrap"></div>
-      </div>
+      </section>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
     <script type="module">
-      import { loadData } from "./js/data.js?v=platform-v9";
-      import { initCompare } from "./js/compare.js?v=platform-v9";
+      import { loadData } from "./js/data.js?v=platform-v10";
+      import { initCompare } from "./js/compare.js?v=platform-v10";
 
       async function init() {
         const { animes, members } = await loadData();
         initCompare(animes, members);
       }
+
       init().catch(() => {});
     </script>
-    <script type="module" src="js/nyx-widget.js?v=platform-v9"></script>
+    <script type="module" src="js/nyx-widget.js?v=platform-v10"></script>
   </body>
 </html>
