@@ -236,8 +236,12 @@ async function updateNavbarState(user) {
 
       if (isActive) {
         link.classList.add("active");
+        link.style.border = "2px solid rgba(187, 247, 208, 0.9)";
+        link.style.boxShadow = "0 0 0 1px rgba(187, 247, 208, 0.3)";
       } else {
         link.classList.remove("active");
+        link.style.border = "";
+        link.style.boxShadow = "";
       }
     }
     
@@ -264,7 +268,7 @@ export async function loadNavbar() {
   if (!nav) return;
 
   try {
-    const response = await fetch(`navbar.html?v=platform-v8`);
+    const response = await fetch(`navbar.html?v=platform-v16`);
     if (!response.ok) throw new Error("Falha ao carregar navbar.html");
 
     nav.innerHTML = await response.text();
