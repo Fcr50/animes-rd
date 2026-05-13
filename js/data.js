@@ -109,11 +109,13 @@ export async function loadData() {
     return animeObj;
   });
 
+  const approvedAnimes = processedAnimes.filter(a => a.status === 'approved');
+
   _data = {
     groupId,
     updatedAt: new Date().toISOString(),
-    total: processedAnimes.filter(a => a.status === 'approved').length,
-    animes: processedAnimes,
+    total: approvedAnimes.length,
+    animes: approvedAnimes,
     members: _members
   };
 

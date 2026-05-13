@@ -616,5 +616,3 @@ window.addNewLinkRow = () => {
   container.appendChild(row);
   syncLinksContainerState();
 };
-yncLinksContainerState();
-};
