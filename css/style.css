@@ -6268,7 +6268,6 @@ body.dark-theme .nav a:hover {
   --nav-pill: rgba(187, 247, 208, 0.3);
   --nav-pill-bg: rgba(187, 247, 208, 0.07);
   --nav-pill-fill: linear-gradient(135deg, rgba(220, 252, 231, 0.96), rgba(186, 230, 253, 0.92));
-  --nav-pill-border: rgb(187, 247, 208);
   background: var(--nav-pill-bg);
   border-color: var(--nav-pill);
 }
@@ -6277,42 +6276,36 @@ body.dark-theme .nav a:hover {
   --nav-pill: rgba(186, 230, 253, 0.48);
   --nav-pill-bg: rgba(186, 230, 253, 0.08);
   --nav-pill-fill: linear-gradient(135deg, #dcfce7, #bfecf6);
-  --nav-pill-border: rgb(186, 230, 253);
 }
 
 .nav > a:nth-of-type(2) {
   --nav-pill: rgba(216, 204, 186, 0.36);
   --nav-pill-bg: rgba(243, 239, 230, 0.05);
   --nav-pill-fill: linear-gradient(135deg, #fff7d6, #dcfce7);
-  --nav-pill-border: rgb(216, 204, 186);
 }
 
 .nav > a:nth-of-type(3) {
   --nav-pill: rgba(182, 156, 255, 0.42);
   --nav-pill-bg: rgba(182, 156, 255, 0.08);
   --nav-pill-fill: linear-gradient(135deg, #e8ddff, #dff6ff);
-  --nav-pill-border: rgb(182, 156, 255);
 }
 
 .nav > a:nth-of-type(4) {
   --nav-pill: rgba(255, 157, 204, 0.38);
   --nav-pill-bg: rgba(255, 157, 204, 0.07);
   --nav-pill-fill: linear-gradient(135deg, #ffe0ef, #e8ddff);
-  --nav-pill-border: rgb(255, 157, 204);
 }
 
 .nav > a:nth-of-type(5) {
   --nav-pill: rgba(134, 239, 172, 0.4);
   --nav-pill-bg: rgba(134, 239, 172, 0.07);
   --nav-pill-fill: linear-gradient(135deg, #dcfce7, #d7fff3);
-  --nav-pill-border: rgb(134, 239, 172);
 }
 
 .nav > a:nth-of-type(6) {
   --nav-pill: rgba(186, 230, 253, 0.38);
   --nav-pill-bg: rgba(186, 230, 253, 0.07);
   --nav-pill-fill: linear-gradient(135deg, #e0f2fe, #dcfce7);
-  --nav-pill-border: rgb(186, 230, 253);
 }
 
 .nav > a:hover,
@@ -6324,11 +6317,10 @@ body.dark-theme .nav > a:hover {
 .nav > a.active,
 body.dark-theme .nav > a.active,
 body:not(.dark-theme) .nav > a.active {
-  background: color-mix(in srgb, var(--nav-pill) 24%, transparent) !important;
-  border: 2px solid var(--nav-pill-border) !important;
-  color: var(--paper) !important;
+  background: var(--nav-pill-fill);
+  border-color: color-mix(in srgb, var(--nav-pill) 82%, transparent);
+  color: #10211d;
 }
-.nav a.active { outline: 3px solid red !important; }
 
 .nav > a.nav-logo,
 .nav > a.nav-logo.active,

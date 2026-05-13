@@ -236,12 +236,8 @@ async function updateNavbarState(user) {
 
       if (isActive) {
         link.classList.add("active");
-        link.style.border = "2px solid rgba(187, 247, 208, 0.9)";
-        link.style.boxShadow = "0 0 0 1px rgba(187, 247, 208, 0.3)";
       } else {
         link.classList.remove("active");
-        link.style.border = "";
-        link.style.boxShadow = "";
       }
     }
     
