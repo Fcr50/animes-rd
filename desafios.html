@@ -3,138 +3,191 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Desafios — Animes RD</title>
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/aniliber-icon-32.png?v=aniliber-icon-v4" />
-    <link rel="icon" type="image/png" sizes="192x192" href="assets/aniliber-icon-192.png?v=aniliber-icon-v4" />
+    <title>Comunidade | AniLiber</title>
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="assets/aniliber-icon-32.png?v=aniliber-icon-v4"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="assets/aniliber-icon-192.png?v=aniliber-icon-v4"
+    />
     <link rel="apple-touch-icon" href="assets/aniliber-icon-512.png?v=aniliber-icon-v4" />
     <link rel="stylesheet" href="css/style.css?v=platform-v16" />
     <script type="module" src="./js/theme.js?v=platform-v7"></script>
     <script type="module" src="./js/utils.js?v=platform-v16"></script>
   </head>
-  <body class="desafios-page">
+  <body class="desafios-page community-page community-v2-page">
     <nav class="nav"></nav>
 
-    <main class="page">
-      <div class="page-header">
-        <h1>Desafios</h1>
-        <p>Jogos e análises do acervo do grupo.</p>
-      </div>
-
-      <!-- Tabs -->
-      <div class="desafios-tabs" id="desafios-tabs">
-        <button class="desafio-tab active" data-tab="previsao">🔮 Previsão</button>
-        <button class="desafio-tab" data-tab="misterio">❓ Misterioso</button>
-        <button class="desafio-tab" data-tab="timeline">📊 Timeline</button>
-        <button class="desafio-tab" data-tab="batalha">⚔️ Batalha</button>
-      </div>
-
-      <!-- 🔮 Previsão -->
-      <section class="desafio-panel active" id="tab-previsao">
-        <div class="desafio-hero" style="--accent: #818cf8; --glow: rgba(99, 102, 241, 0.18)">
-          <div class="desafio-hero-icon">🔮</div>
-          <div class="desafio-hero-text">
-            <h2>Previsão de Nota</h2>
-            <p>
-              Chute sua nota <strong>antes</strong> de assistir. Depois que você votar no acervo, a
-              nota real aparece aqui automaticamente para comparar.
-            </p>
+    <main class="community-v2-shell">
+      <header class="community-v2-hero">
+        <section class="community-v2-hero-copy">
+          <span class="eyebrow">Comunidade</span>
+          <h1>O grupo ganha vida fora da lista.</h1>
+          <p>
+            Enquetes, sessões combinadas, afinidades, missões e radar de membros usando o acervo que
+            vocês já construíram juntos.
+          </p>
+          <div class="community-v2-actions" aria-label="Atalhos">
+            <button type="button" data-scroll-target="community-pulse">Pulso</button>
+            <button type="button" data-scroll-target="community-poll">Enquete</button>
+            <button type="button" data-scroll-target="community-events">Sessões</button>
+            <button type="button" data-scroll-target="community-members">Membros</button>
           </div>
-        </div>
-        <div class="desafio-body">
-          <div class="previsao-form">
-            <div class="desafio-field-group">
-              <div class="desafio-field">
-                <label>Membro</label>
-                <select id="prev-person"></select>
-              </div>
-              <div class="desafio-field">
-                <label>Anime que vai assistir</label>
-                <select id="prev-anime"></select>
-              </div>
-            </div>
-            <div class="prev-slider-wrap">
-              <label class="prev-slider-label"
-                >Minha previsão:
-                <span id="prev-slider-val" class="prev-slider-number">5.0</span></label
-              >
-              <input
-                type="range"
-                id="prev-slider"
-                min="0"
-                max="10"
-                step="0.1"
-                value="5.0"
-                class="prev-slider"
-              />
-              <div class="prev-slider-marks"><span>0</span><span>5</span><span>10</span></div>
-            </div>
-            <button class="desafio-btn primary" id="prev-btn">Registrar previsão →</button>
-          </div>
-          <div id="prev-result" class="previsao-result hidden"></div>
-          <div id="prev-history"></div>
-        </div>
+        </section>
+
+        <aside class="community-v2-spotlight" id="community-spotlight">
+          <div class="skeleton" style="height: 260px"></div>
+        </aside>
+      </header>
+
+      <section class="community-v2-stats" aria-label="Resumo da comunidade">
+        <article>
+          <span>Membros</span>
+          <strong id="community-total-members">0</strong>
+        </article>
+        <article>
+          <span>Animes no grupo</span>
+          <strong id="community-total-animes">0</strong>
+        </article>
+        <article>
+          <span>Votos dados</span>
+          <strong id="community-total-votes">0</strong>
+        </article>
+        <article>
+          <span>Comentários</span>
+          <strong id="community-total-comments">0</strong>
+        </article>
       </section>
 
-      <!-- ❓ Misterioso -->
-      <section class="desafio-panel" id="tab-misterio">
-        <div class="desafio-hero" style="--accent: #f472b6; --glow: rgba(244, 114, 182, 0.15)">
-          <div class="desafio-hero-icon">❓</div>
-          <div class="desafio-hero-text">
-            <h2>Anime Misterioso</h2>
-            <p>O nome está escondido. Use as pistas para adivinhar qual anime é.</p>
+      <section class="community-v2-grid">
+        <article class="community-panel community-panel-wide" id="community-pulse">
+          <div class="community-panel-head">
+            <div>
+              <span class="eyebrow">Pulso do grupo</span>
+              <h2>O que está acontecendo</h2>
+            </div>
+            <button class="community-icon-btn" type="button" id="community-refresh-feed">
+              Atualizar
+            </button>
           </div>
-        </div>
-        <div class="desafio-body">
-          <div id="misterio-clues" class="misterio-clues-wrap"></div>
-          <div class="misterio-input-row">
+          <div class="community-feed" id="community-feed"></div>
+        </article>
+
+        <article class="community-panel" id="community-poll">
+          <div class="community-panel-head">
+            <div>
+              <span class="eyebrow">Escolha coletiva</span>
+              <h2>Próximo play</h2>
+            </div>
+          </div>
+          <div class="community-poll-voter">
+            <label for="community-poll-member">Votar como</label>
+            <select id="community-poll-member"></select>
+          </div>
+          <div class="community-poll-options" id="community-poll-options"></div>
+          <button class="community-secondary-btn" type="button" id="community-reset-poll">
+            Zerar enquete local
+          </button>
+        </article>
+
+        <article class="community-panel" id="community-events">
+          <div class="community-panel-head">
+            <div>
+              <span class="eyebrow">Sessões</span>
+              <h2>Agenda do grupo</h2>
+            </div>
+          </div>
+          <form class="community-event-form" id="community-event-form">
+            <select id="community-event-anime" aria-label="Anime da sessão"></select>
+            <div class="community-event-row">
+              <select id="community-event-host" aria-label="Anfitrião"></select>
+              <input id="community-event-date" type="datetime-local" aria-label="Data da sessão" />
+            </div>
             <input
-              id="misterio-guess"
-              type="text"
-              placeholder="Digite o nome do anime..."
-              autocomplete="off"
-              class="desafio-input"
+              id="community-event-link"
+              type="url"
+              placeholder="Link opcional: Discord, YouTube, Drive..."
+              aria-label="Link da sessão"
             />
-            <button class="desafio-btn primary" id="misterio-submit">Chutar →</button>
-          </div>
-          <div id="misterio-feedback" class="misterio-feedback hidden"></div>
-          <div class="misterio-footer">
-            <button class="desafio-btn secondary" id="misterio-reveal">👁 Revelar</button>
-            <button class="desafio-btn secondary" id="misterio-next">⟳ Novo anime</button>
-          </div>
-        </div>
-      </section>
+            <button class="community-primary-btn" type="submit">Criar sessão local</button>
+          </form>
+          <div class="community-events-list" id="community-events-list"></div>
+        </article>
 
-      <!-- 📊 Timeline -->
-      <section class="desafio-panel" id="tab-timeline">
-        <div class="desafio-hero" style="--accent: #34d399; --glow: rgba(52, 211, 153, 0.15)">
-          <div class="desafio-hero-icon">📊</div>
-          <div class="desafio-hero-text">
-            <h2>Linha do Tempo</h2>
-            <p>Recordes, marcos e perfil detalhado de cada membro do grupo.</p>
+        <article class="community-panel" id="community-rank">
+          <div class="community-panel-head">
+            <div>
+              <span class="eyebrow">Ranking</span>
+              <h2>Engajamento</h2>
+            </div>
           </div>
-        </div>
-        <div class="desafio-body" id="timeline-content"></div>
-      </section>
+          <div class="community-leaderboard" id="community-leaderboard"></div>
+        </article>
 
-      <!-- ⚔️ Batalha -->
-      <section class="desafio-panel" id="tab-batalha">
-        <div class="desafio-hero" style="--accent: #fb923c; --glow: rgba(251, 146, 60, 0.15)">
-          <div class="desafio-hero-icon">⚔️</div>
-          <div class="desafio-hero-text">
-            <h2>Batalha de Animes</h2>
-            <p>
-              5 rodadas. Apenas animes que vocês dois assistiram. 1 voto por rodada. Quem ganhar
-              mais rodadas vence.
-            </p>
+        <article class="community-panel community-panel-wide" id="community-affinity">
+          <div class="community-panel-head">
+            <div>
+              <span class="eyebrow">Afinidades</span>
+              <h2>Duplas que pensam parecido</h2>
+            </div>
           </div>
-        </div>
-        <div class="desafio-body">
-          <div id="batalha-container"></div>
-        </div>
+          <div class="community-affinity-grid" id="community-affinity-grid"></div>
+        </article>
+
+        <article class="community-panel" id="community-missions">
+          <div class="community-panel-head">
+            <div>
+              <span class="eyebrow">Missões</span>
+              <h2>Semana da comunidade</h2>
+            </div>
+          </div>
+          <div class="community-missions-list" id="community-missions-list"></div>
+        </article>
+
+        <article class="community-panel" id="community-debate">
+          <div class="community-panel-head">
+            <div>
+              <span class="eyebrow">Debate</span>
+              <h2>Assunto da rodada</h2>
+            </div>
+            <button class="community-icon-btn" type="button" id="community-next-debate">
+              Novo
+            </button>
+          </div>
+          <div class="community-debate-card" id="community-debate-card"></div>
+        </article>
+
+        <article class="community-panel community-panel-wide" id="community-members">
+          <div class="community-panel-head">
+            <div>
+              <span class="eyebrow">Radar pessoal</span>
+              <h2>Mapa de gosto por membro</h2>
+            </div>
+            <select id="community-member-select" aria-label="Selecionar membro"></select>
+          </div>
+          <div class="community-member-radar" id="community-member-radar"></div>
+        </article>
+
+        <article class="community-panel" id="community-vibes">
+          <div class="community-panel-head">
+            <div>
+              <span class="eyebrow">Clima</span>
+              <h2>Recomendação por vibe</h2>
+            </div>
+          </div>
+          <div class="community-vibe-buttons" id="community-vibe-buttons"></div>
+          <div class="community-vibe-result" id="community-vibe-result"></div>
+        </article>
       </section>
     </main>
 
-    <script type="module" src="./js/desafios.js?v=platform-v7"></script>
-    <script type="module" src="js/nyx-widget.js?v=platform-v7"></script>
+    <script type="module" src="./js/desafios.js?v=platform-v16"></script>
+    <script type="module" src="js/nyx-widget.js?v=platform-v16"></script>
   </body>
 </html>
