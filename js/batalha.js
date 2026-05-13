@@ -29,13 +29,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
 
 import { firebaseConfig } from "./firebase-config.js";
-import {
-  PEOPLE,
-  PERSON_COLORS,
-  PERSON_LIGHTS,
-  animesOf,
-  formatNota,
-} from "./data.js?v=desafios-soft-1";
+import { animesOf, formatNota } from "./data.js?v=platform-v8";
 import { escapeHTML } from "./utils.js";
 
 const app = getApps()[0] || initializeApp(firebaseConfig);
@@ -65,8 +59,16 @@ function buildRounds(animes, p1, p2) {
   if (common.length < ROUNDS_TOTAL * 2) return null;
   const pool = shuffle(common).slice(0, ROUNDS_TOTAL * 2);
   return Array.from({ length: ROUNDS_TOTAL }, (_, i) => ({
-    animeA: { id: pool[i * 2].id, nome: pool[i * 2].nome, nota: pool[i * 2].nota },
-    animeB: { id: pool[i * 2 + 1].id, nome: pool[i * 2 + 1].nome, nota: pool[i * 2 + 1].nota },
+    animeA: {
+      id: pool[i * 2].id,
+      nome: pool[i * 2].name || pool[i * 2].nome,
+      nota: pool[i * 2].nota,
+    },
+    animeB: {
+      id: pool[i * 2 + 1].id,
+      nome: pool[i * 2 + 1].name || pool[i * 2 + 1].nome,
+      nota: pool[i * 2 + 1].nota,
+    },
   }));
 }
 
@@ -176,8 +178,19 @@ async function tryResolve(sessionId, round) {
 let unsub = null;
 let myName = localStorage.getItem(MY_KEY) || null;
 let fireUser = null;
+let battlePeople = [];
+let battleColors = {};
+let battleLights = {};
+let PERSON_COLORS = {};
+let PERSON_LIGHTS = {};
 
-export function initBatalha(container, animes) {
+export function initBatalha(container, animes, members = []) {
+  battlePeople = members.map((m) => m.nickname).filter(Boolean);
+  battleColors = Object.fromEntries(members.map((m) => [m.nickname, m.color || "#a78bfa"]));
+  battleLights = battleColors;
+  PERSON_COLORS = battleColors;
+  PERSON_LIGHTS = battleLights;
+
   onAuthStateChanged(auth, (user) => {
     fireUser = user;
     if (!user) {
@@ -262,22 +275,30 @@ function renderRoot(container, animes) {
 // ── Tela 1: Lobby ─────────────────────────────────────────────────────────────
 
 function renderLobby(container, animes, activeSessions) {
-  const opponents = PEOPLE.filter((p) => !myName || p !== myName);
+  const people = battlePeople;
+  const opponents = people.filter((p) => !myName || p !== myName);
 
   container.innerHTML = `
     <div class="bt-lobby">
+      ${
+        !people.length
+          ? `<div class="bt-error">Nenhum membro encontrado para montar batalhas neste grupo.</div>`
+          : ""
+      }
       <div class="bt-identity">
         <label class="bt-label">Eu sou</label>
         <div class="bt-person-grid" id="bt-who">
-          ${PEOPLE.map(
-            (p) => `
+          ${people
+            .map(
+              (p) => `
             <button class="bt-person-btn ${myName === p ? "active" : ""}" data-name="${p}"
-              style="--pc:${PERSON_COLORS[p]};--pl:${PERSON_LIGHTS[p]}">
-              <span class="bt-person-dot" style="background:${PERSON_LIGHTS[p]}"></span>
+              style="--pc:${battleColors[p]};--pl:${battleLights[p]}">
+              <span class="bt-person-dot" style="background:${battleLights[p]}"></span>
               ${p}
             </button>
           `,
-          ).join("")}
+            )
+            .join("")}
         </div>
       </div>
 
@@ -286,7 +307,8 @@ function renderLobby(container, animes, activeSessions) {
         <div class="bt-create-row">
           <select id="bt-opponent" class="batalha-select">
             <option value="">Selecionar oponente...</option>
-            ${PEOPLE.filter((p) => p !== myName)
+            ${people
+              .filter((p) => p !== myName)
               .map(
                 (p) => `
               <option value="${p}">${p}</option>

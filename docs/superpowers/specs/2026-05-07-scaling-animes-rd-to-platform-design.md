@@ -1,4 +1,4 @@
-# Design Spec: Scaling Animes RD to a Multi-Group Platform
+# Design Spec: Scaling AniLiber to a Multi-Group Platform
 
 **Date:** 2026-05-07  
 **Status:** Approved  

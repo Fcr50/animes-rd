@@ -1,9 +1,9 @@
-# GEMINI.md - Contexto do Projeto Animes RD
+# GEMINI.md - Contexto do Projeto AniLiber
 
-Este arquivo fornece diretrizes e visão geral técnica para interações com o projeto **Animes RD**.
+Este arquivo fornece diretrizes e visão geral técnica para interações com o projeto **AniLiber**.
 
 ## 🚀 Visão Geral do Projeto
-Animes RD é uma plataforma para grupos de amigos gerenciarem catálogos compartilhados de animes, votarem em títulos e visualizarem estatísticas.
+AniLiber é uma plataforma para grupos de amigos gerenciarem catálogos compartilhados de animes, votarem em títulos e visualizarem estatísticas.
 - **Arquitetura:** Site estático (HTML/JS/CSS) hospedado no GitHub Pages.
 - **Backend:** Supabase (PostgreSQL, Authentication, Realtime).
 - **Dados:** Originalmente no Firebase, agora migrado para Supabase.
