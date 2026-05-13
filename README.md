@@ -1,4 +1,4 @@
-# ✦ Animes RD
+# ✦ AniLiber
 
 Site estático hospedado no GitHub Pages que exibe gráficos, rankings e comparações dos animes assistidos pelo grupo. Os dados são gerenciados no Firebase Firestore e sincronizados via GitHub Actions para manter o site rápido e gratuito.
 

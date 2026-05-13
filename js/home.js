@@ -32,8 +32,8 @@ function renderHeroInfoRotator(data, featuredAnime) {
   const featuredTitle = featuredAnime?.name || "o proximo anime";
 
   const slides = [
-    { tone: "blog", eyebrow: `Blog <span class="brand-gradient">Animes RD</span>`, title: "Críticas, rankings e guias para decidir o próximo anime.", text: subtitle, visuals: [] },
-    { tone: "playlists", eyebrow: "Playlists do grupo", title: "Openings para deixar tocando enquanto escolhe.", text: "Duas playlists pra entrar no clima: YouTube e Spotify, com a vibe do Animes RD.", visuals: [{ label: "YouTube", src: "https://cdn.simpleicons.org/youtube/FF0033", href: YOUTUBE_PLAYLIST_URL }, { label: "Spotify", src: "https://cdn.simpleicons.org/spotify/1ED760", href: SPOTIFY_PLAYLIST_URL }] },
+    { tone: "blog", eyebrow: `Blog <span class="brand-gradient">AniLiber</span>`, title: "Críticas, rankings e guias para decidir o próximo anime.", text: subtitle, visuals: [] },
+    { tone: "playlists", eyebrow: "Playlists do grupo", title: "Openings para deixar tocando enquanto escolhe.", text: `Duas playlists pra entrar no clima: YouTube e Spotify, com a vibe do <span class="brand-gradient">AniLiber</span>.`, visuals: [{ label: "YouTube", src: "https://cdn.simpleicons.org/youtube/FF0033", href: YOUTUBE_PLAYLIST_URL }, { label: "Spotify", src: "https://cdn.simpleicons.org/spotify/1ED760", href: SPOTIFY_PLAYLIST_URL }] },
     { tone: "news", eyebrow: "Notícias", title: "Radar MyAnimeList para novidades da temporada.", text: "Um atalho para acompanhar anúncios, trailers, estreias e movimentações do mundo dos animes.", visuals: [{ label: "MAL", src: "https://cdn.simpleicons.org/myanimelist/2E51A2", href: MAL_NEWS_URL }] },
     { tone: "featured", eyebrow: "Dica em destaque", title: `Hoje o acervo esta puxando: ${featuredTitle}.`, text: featuredAnime ? `Nota geral ${formatNota(featuredAnime.nota)} com ${featuredAnime.qtdVotos} votos no grupo.` : "Aguardando recomendações.", visuals: [] }
   ];

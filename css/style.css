@@ -26,6 +26,15 @@
   --danger: #fb7185;
   --warning: #fbbf24;
   --success: #4ade80;
+  --aniliber-purple: #a855ff;
+  --aniliber-magenta: #ff4fd8;
+  --aniliber-pink: #ff79e3;
+  --aniliber-gradient: linear-gradient(
+    90deg,
+    var(--aniliber-purple) 0%,
+    var(--aniliber-pink) 48%,
+    var(--aniliber-magenta) 100%
+  );
   --shadow: 0 22px 70px rgba(0, 0, 0, 0.32);
 }
 
@@ -4244,11 +4253,15 @@ body.compare-page .compare-selector-bar select {
   }
 
   .mobile-drawer-logo {
-    color: var(--paper);
+    background: var(--aniliber-gradient);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
     font-family: "Newsreader", serif;
     font-size: 20px;
     font-weight: 750;
     letter-spacing: 0.01em;
+    -webkit-text-fill-color: transparent;
   }
 
   .mobile-drawer-close {
@@ -6146,7 +6159,7 @@ body.dark-theme .post-featured .featured-comment-title {
 .brand-gradient,
 body.dark-theme .nav-logo,
 body.dark-theme .brand-gradient {
-  background: linear-gradient(90deg, #bbf7d0 0%, #a7f3d0 42%, #bae6fd 100%);
+  background: var(--aniliber-gradient);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
@@ -6179,7 +6192,7 @@ body.dark-theme .nav a.nav-logo {
 
 .nav a.nav-logo:hover,
 body.dark-theme .nav a.nav-logo:hover {
-  background: linear-gradient(90deg, #bbf7d0 0%, #a7f3d0 42%, #bae6fd 100%);
+  background: var(--aniliber-gradient);
   background-clip: text;
   -webkit-background-clip: text;
   box-shadow: none;
@@ -6315,7 +6328,7 @@ body.dark-theme .nav > a.nav-logo,
 body.dark-theme .nav > a.nav-logo.active,
 body:not(.dark-theme) .nav > a.nav-logo,
 body:not(.dark-theme) .nav > a.nav-logo.active {
-  background: linear-gradient(90deg, #bbf7d0 0%, #a7f3d0 42%, #bae6fd 100%);
+  background: var(--aniliber-gradient);
   background-clip: text;
   -webkit-background-clip: text;
   border-color: transparent;
@@ -10320,12 +10333,12 @@ body:not(.dark-theme) .nav {
   box-shadow: 0 2px 16px rgba(60, 40, 20, 0.07);
 }
 
-/* Logo: gradiente azul→verde para contraste no fundo claro */
+/* Logo: gradiente roxo, magenta e branco da marca AniLiber */
 body:not(.dark-theme) .nav-logo,
 body:not(.dark-theme) .brand-gradient,
 body:not(.dark-theme) .nav > a.nav-logo,
 body:not(.dark-theme) .nav > a.nav-logo.active {
-  background: linear-gradient(90deg, #5d8bff 0%, #57cdae 100%);
+  background: var(--aniliber-gradient);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
@@ -10590,7 +10603,11 @@ body:not(.dark-theme) .mobile-drawer-backdrop {
   background: rgba(16, 16, 16, 0.45);
 }
 body:not(.dark-theme) .mobile-drawer-logo {
-  color: var(--text);
+  background: var(--aniliber-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
 }
 body:not(.dark-theme) .mobile-drawer-link {
   border-bottom-color: var(--border);

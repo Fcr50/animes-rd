@@ -1,9 +1,9 @@
-# 📺 Animes RD Platform - Agent Context
+# 📺 AniLiber Platform - Agent Context
 
 Este arquivo serve como a "Fonte da Verdade" sobre a arquitetura, regras de negócio e estado atual do projeto para agentes de IA.
 
 ## 1. Visão Geral
-O **Animes RD** é uma plataforma multi-tenant de gerenciamento de catálogos de animes. Os usuários podem criar grupos independentes, sugerir animes via API do MyAnimeList (MAL), votar com notas e comentários, e manter uma biblioteca pessoal portátil entre grupos.
+O **AniLiber** é uma plataforma multi-tenant de gerenciamento de catálogos de animes. Os usuários podem criar grupos independentes, sugerir animes via API do MyAnimeList (MAL), votar com notas e comentários, e manter uma biblioteca pessoal portátil entre grupos.
 
 ## 2. Tech Stack
 - **Backend**: Supabase (PostgreSQL, Auth, RLS).
