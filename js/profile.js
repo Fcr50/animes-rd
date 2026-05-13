@@ -321,7 +321,6 @@ function renderExclusives(exclusives, person) {
   }
 
   container.innerHTML = exclusives
-    .slice(0, 12)
     .map(
       (anime) => `
         <article class="exclusive-mini-card">
