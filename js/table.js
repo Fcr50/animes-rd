@@ -560,7 +560,7 @@ function renderModalLinks(anime) {
   `;
 }
 
-async function updateAnimeLinks(malId, newLinks) {
+async function updateAnimeLinks(malId, newLinks, autoRefresh = true) {
   const groupId = getGroupId();
   const { data: updated, error } = await supabase
     .from('group_animes')
@@ -570,14 +570,22 @@ async function updateAnimeLinks(malId, newLinks) {
     .select('mal_id, links');
 
   if (error) throw error;
+  
+  if (!updated || updated.length === 0) {
+    console.error("Supabase update returned empty array. Possible RLS violation or wrong IDs.");
+    alert("Erro: O banco de dados recusou a alteração. Pode ser um problema de permissão (RLS).");
+    return;
+  }
 
-  // Atualiza estado local
-  const update = a => a.mal_id === malId ? { ...a, links: newLinks } : a;
+  // Atualiza estado local garantindo que tipos não quebrem a comparação
+  const update = a => String(a.mal_id) === String(malId) ? { ...a, links: newLinks } : a;
   allAnimes = allAnimes.map(update);
   filtered = filtered.map(update);
 
-  renderTable();
-  if (currentModalIndex !== null) window.openModal(currentModalIndex);
+  if (autoRefresh) {
+    renderTable();
+    if (currentModalIndex !== null) window.openModal(currentModalIndex);
+  }
 }
 
 window.toggleAddLinkForm = (animeId) => {
@@ -596,16 +604,33 @@ window.saveCustomLink = async (animeId) => {
   if (!name || !url) { if (statusEl) statusEl.textContent = "Preencha nome e URL."; return; }
   try { new URL(url); } catch { if (statusEl) statusEl.textContent = "URL inválida."; return; }
   try {
-    const anime = allAnimes.find(a => a.id === animeId);
+    if (statusEl) {
+      statusEl.style.color = "#86efac";
+      statusEl.textContent = "Salvando...";
+    }
+    const anime = allAnimes.find(a => String(a.id) === String(animeId));
     const newLinks = [...normalizeLinks(anime?.links), { name, url }];
-    await updateAnimeLinks(animeId, newLinks);
-  } catch (e) { if (statusEl) statusEl.textContent = "Erro ao salvar."; console.error(e); }
+    await updateAnimeLinks(anime.mal_id, newLinks, false); // Passa false para não recarregar imediatamente
+    
+    if (statusEl) statusEl.textContent = "Salvo com sucesso!";
+    setTimeout(() => {
+      renderTable();
+      if (currentModalIndex !== null) window.openModal(currentModalIndex);
+    }, 800);
+
+  } catch (e) { 
+    if (statusEl) {
+      statusEl.style.color = "#f87171";
+      statusEl.textContent = "Erro ao salvar."; 
+    }
+    console.error(e); 
+  }
 };
 
 let _editingLinkIdx = null;
 window.startEditLink = (animeId, idx) => {
   _editingLinkIdx = idx;
-  const anime = allAnimes.find(a => a.id === animeId);
+  const anime = allAnimes.find(a => String(a.id) === String(animeId));
   const link = normalizeLinks(anime?.links)[idx] || {};
   document.getElementById(`add-link-form-${animeId}`).hidden = true;
   const form = document.getElementById(`edit-link-form-${animeId}`);
@@ -631,22 +656,39 @@ window.saveEditLink = async (animeId) => {
   if (!newName || !newUrl) { if (statusEl) statusEl.textContent = "Preencha nome e URL."; return; }
   try { new URL(newUrl); } catch { if (statusEl) statusEl.textContent = "URL inválida."; return; }
   try {
-    const anime = allAnimes.find(a => a.id === animeId);
+    if (statusEl) {
+      statusEl.style.color = "#86efac";
+      statusEl.textContent = "Salvando...";
+    }
+    const anime = allAnimes.find(a => String(a.id) === String(animeId));
     const newLinks = normalizeLinks(anime?.links).map((l, i) =>
       i === _editingLinkIdx ? { name: newName, url: newUrl } : l
     );
     _editingLinkIdx = null;
-    await updateAnimeLinks(animeId, newLinks);
-  } catch (e) { if (statusEl) statusEl.textContent = "Erro ao salvar."; console.error(e); }
+    await updateAnimeLinks(anime.mal_id, newLinks, false);
+    
+    if (statusEl) statusEl.textContent = "Atualizado com sucesso!";
+    setTimeout(() => {
+      renderTable();
+      if (currentModalIndex !== null) window.openModal(currentModalIndex);
+    }, 800);
+
+  } catch (e) { 
+    if (statusEl) {
+      statusEl.style.color = "#f87171";
+      statusEl.textContent = "Erro ao salvar."; 
+    }
+    console.error(e); 
+  }
 };
 
 window.deleteAnimeLink = async (animeId, idx) => {
-  const anime = allAnimes.find(a => a.id === animeId);
+  const anime = allAnimes.find(a => String(a.id) === String(animeId));
   const link = normalizeLinks(anime?.links)[idx];
   if (!confirm(`Remover "${link?.name}"?`)) return;
   try {
     const newLinks = normalizeLinks(anime?.links).filter((_, i) => i !== idx);
-    await updateAnimeLinks(animeId, newLinks);
+    await updateAnimeLinks(anime.mal_id, newLinks);
   } catch (e) { alert("Erro ao remover link."); console.error(e); }
 };
 
