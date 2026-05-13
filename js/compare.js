@@ -25,10 +25,17 @@ export function initCompare(animes, members) {
   if (!person1 || !person2) return;
 
   populateSelects(person1, person2);
+  setupComparePickers(person1, person2);
 
   const handleChange = () => renderCompare();
-  person1.onchange = handleChange;
-  person2.onchange = handleChange;
+  person1.addEventListener("change", () => {
+    syncComparePickers();
+    handleChange();
+  });
+  person2.addEventListener("change", () => {
+    syncComparePickers();
+    handleChange();
+  });
 
   renderCompare();
 }
@@ -49,6 +56,85 @@ function populateSelects(select1, select2) {
     option2.textContent = member.nickname;
     if (index === 1 || (currentMembers.length === 1 && index === 0)) option2.selected = true;
     select2.appendChild(option2);
+  });
+}
+
+function setupComparePickers(...selects) {
+  document.querySelectorAll(".compare-picker").forEach((picker) => picker.remove());
+
+  selects.forEach((select) => {
+    select.classList.add("compare-native-select");
+    const picker = document.createElement("div");
+    picker.className = "compare-picker";
+    picker.dataset.selectId = select.id;
+    picker.innerHTML = `
+      <button class="compare-picker-trigger" type="button" aria-haspopup="listbox" aria-expanded="false">
+        <span></span>
+      </button>
+      <div class="compare-picker-menu" role="listbox"></div>
+    `;
+    select.insertAdjacentElement("afterend", picker);
+    renderComparePicker(select);
+  });
+
+  document.addEventListener("click", closeComparePickers);
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeComparePickers();
+  });
+}
+
+function renderComparePicker(select) {
+  const picker = document.querySelector(`.compare-picker[data-select-id="${select.id}"]`);
+  if (!picker) return;
+
+  const trigger = picker.querySelector(".compare-picker-trigger");
+  const label = trigger.querySelector("span");
+  const menu = picker.querySelector(".compare-picker-menu");
+  const selected = select.options[select.selectedIndex];
+
+  label.textContent = selected?.textContent || "Selecionar";
+  menu.innerHTML = Array.from(select.options)
+    .map(
+      (option) => `
+        <button
+          type="button"
+          role="option"
+          data-value="${escapeHTML(option.value)}"
+          aria-selected="${option.selected ? "true" : "false"}"
+        >
+          <span>${escapeHTML(option.textContent)}</span>
+        </button>
+      `,
+    )
+    .join("");
+
+  trigger.onclick = (event) => {
+    event.stopPropagation();
+    const isOpen = picker.classList.contains("open");
+    closeComparePickers();
+    picker.classList.toggle("open", !isOpen);
+    trigger.setAttribute("aria-expanded", String(!isOpen));
+  };
+
+  menu.onclick = (event) => {
+    const button = event.target.closest("[data-value]");
+    if (!button) return;
+    select.value = button.dataset.value;
+    select.dispatchEvent(new Event("change", { bubbles: true }));
+    closeComparePickers();
+  };
+}
+
+function syncComparePickers() {
+  document
+    .querySelectorAll(".compare-native-select")
+    .forEach((select) => renderComparePicker(select));
+}
+
+function closeComparePickers() {
+  document.querySelectorAll(".compare-picker.open").forEach((picker) => {
+    picker.classList.remove("open");
+    picker.querySelector(".compare-picker-trigger")?.setAttribute("aria-expanded", "false");
   });
 }
 
@@ -131,7 +217,8 @@ function renderAffinityPanel(p1, p2) {
 
   const shared = commonAnimes(allAnimes, p1, p2);
   if (!shared.length) {
-    wrap.innerHTML = '<div class="empty-state"><p>Sem base suficiente para comparar esse par.</p></div>';
+    wrap.innerHTML =
+      '<div class="empty-state"><p>Sem base suficiente para comparar esse par.</p></div>';
     return;
   }
 
@@ -235,24 +322,26 @@ function renderAffinityPanel(p1, p2) {
         <article class="compare-affinity-panel">
           <span class="compare-side-block-title">Mai em comum</span>
           <strong class="compare-affinity-title">${escapeHTML(
-            strongestAgreement ? shortText(strongestAgreement.anime.name, 32) : "Sem registro"
+            strongestAgreement ? shortText(strongestAgreement.anime.name, 32) : "Sem registro",
           )}</strong>
           <p>${escapeHTML(
             strongestAgreement
               ? `Pontuação ${formatCompactScore(strongestAgreement.n1)} • ${p2} ${formatCompactScore(strongestAgreement.n2)}`
-              : "Ainda não existe um empate forte entre os dois."
+              : "Ainda não existe um empate forte entre os dois.",
           )}</p>
         </article>
 
         <article class="compare-affinity-panel">
           <span class="compare-side-block-title">Maior divergência</span>
           <strong class="compare-affinity-title">${escapeHTML(
-            strongestDisagreement ? shortText(strongestDisagreement.anime.name, 32) : "Sem registro"
+            strongestDisagreement
+              ? shortText(strongestDisagreement.anime.name, 32)
+              : "Sem registro",
           )}</strong>
           <p>${escapeHTML(
             strongestDisagreement
               ? `Pontuação ${formatCompactScore(strongestDisagreement.n1)} • ${p2} ${formatCompactScore(strongestDisagreement.n2)} • GAP ${strongestDisagreement.diff.toFixed(1)}`
-              : "Sem contraste relevante por enquanto."
+              : "Sem contraste relevante por enquanto.",
           )}</p>
         </article>
 
@@ -264,7 +353,7 @@ function renderAffinityPanel(p1, p2) {
                 ? commonGenreCounts
                     .map(
                       ([genre, count]) =>
-                        `<span class="compare-affinity-tag">${escapeHTML(cleanGenreLabel(genre))}<small>${count}</small></span>`
+                        `<span class="compare-affinity-tag">${escapeHTML(cleanGenreLabel(genre))}<small>${count}</small></span>`,
                     )
                     .join("")
                 : '<span class="compare-affinity-tag">Sem gênero dominante</span>'
@@ -277,8 +366,8 @@ function renderAffinityPanel(p1, p2) {
           <div class="compare-gap-panel-body">
             <p class="compare-affinity-reading">
               ${escapeHTML(stricter)} tende a dar notas mais rigorosas nesse recorte, enquanto ${escapeHTML(
-    softer
-  )} costuma avaliar mais na média. A distância média entre eles aqui ficou em ${avgDiff.toFixed(2)}.
+                softer,
+              )} costuma avaliar mais na média. A distância média entre eles aqui ficou em ${avgDiff.toFixed(2)}.
             </p>
             <div class="compare-gap-mini-chart" aria-hidden="true">
               <svg viewBox="0 0 190 92" focusable="false">
@@ -410,7 +499,7 @@ function renderCommonTable(p1, p2) {
   if (!wrap) return;
 
   const common = commonAnimes(allAnimes, p1, p2).sort(
-    (a, b) => (Number(b.nota) || 0) - (Number(a.nota) || 0)
+    (a, b) => (Number(b.nota) || 0) - (Number(a.nota) || 0),
   );
 
   if (!common.length) {
