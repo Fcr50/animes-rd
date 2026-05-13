@@ -159,7 +159,7 @@ function renderFeaturedPost(animes) {
 
 // --- 🎶 OPENINGS ---
 
-function renderOpeningChips(member) {
+function renderOpeningChipsLegacy(member) {
   const ops = member.openings || [];
   const canEdit = _currentUser?.id === member.user_id;
   
@@ -186,7 +186,7 @@ function renderOpeningChips(member) {
   }).join("");
 }
 
-window.editOpening = (uid, i) => {
+window.editOpeningLegacy = (uid, i) => {
   const m = _members.find(m => m.user_id === uid);
   const op = (m.openings || [])[i] || { name: "", url: "" };
   const wrap = document.getElementById(`openings-container-${uid}`);
@@ -207,6 +207,62 @@ window.saveOp = async (uid, i) => {
 };
 
 window.refreshMemberCards = () => window.location.reload();
+
+function renderOpeningChips(member) {
+  const ops = member.openings || [];
+  const canEdit = _currentUser?.id === member.user_id;
+
+  const fullList = [
+    ops[0] || { name: "Adicionar Abertura 1", url: "" },
+    ops[1] || { name: "Adicionar Abertura 2", url: "" },
+    ops[2] || { name: "Adicionar Abertura 3", url: "" }
+  ];
+
+  return fullList.map((op, i) => {
+    const content = op.url
+      ? `<a class="opening-chip" href="${escapeHTML(op.url)}" target="_blank" rel="noopener noreferrer"><b>${i + 1}</b>${escapeHTML(op.name)}</a>`
+      : `<span class="opening-chip placeholder"><b>${i + 1}</b>${escapeHTML(op.name)}</span>`;
+
+    const editBtn = canEdit
+      ? `<button class="opening-edit-btn" type="button" onclick="window.editOpening('${member.user_id}', ${i})" aria-label="Editar abertura ${i + 1}">✎</button>`
+      : "";
+
+    return `<div class="opening-chip-wrap">${content}${editBtn}</div>`;
+  }).join("");
+}
+
+window.editOpening = (uid, i) => {
+  const m = _members.find((member) => member.user_id === uid);
+  const op = (m.openings || [])[i] || { name: "", url: "" };
+  const wrap = document.getElementById(`openings-container-${uid}`);
+  if (!wrap) return;
+
+  const formHtml = `
+    <div class="opening-inline-form">
+      <input
+        id="op-n-${i}"
+        class="opening-form-input"
+        type="text"
+        value="${escapeHTML(op.name)}"
+        placeholder="Nome da abertura"
+      />
+      <input
+        id="op-u-${i}"
+        class="opening-form-input"
+        type="url"
+        value="${escapeHTML(op.url)}"
+        placeholder="https://youtube.com/..."
+      />
+      <div class="opening-form-actions">
+        <button class="opening-save-btn" type="button" onclick="window.saveOp('${uid}',${i})">Salvar</button>
+        <button class="opening-cancel-btn" type="button" onclick="window.refreshMemberCards()">Cancelar</button>
+      </div>
+    </div>
+  `;
+
+  document.querySelectorAll(".opening-inline-form").forEach((el) => el.remove());
+  wrap.insertAdjacentHTML("beforeend", formHtml);
+};
 
 // --- 📊 RANKINGS ---
 
