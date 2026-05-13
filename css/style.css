@@ -31,9 +31,8 @@
   --aniliber-pink: #ff79e3;
   --aniliber-gradient: linear-gradient(
     90deg,
-    var(--aniliber-purple) 0%,
-    var(--aniliber-pink) 48%,
-    var(--aniliber-magenta) 100%
+    #4ade80 0%,
+    #22d3ee 100%
   );
   --shadow: 0 22px 70px rgba(0, 0, 0, 0.32);
 }
