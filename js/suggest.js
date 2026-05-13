@@ -360,6 +360,7 @@ async function handleSubmit() {
         name: currentAnimeData.name,
         genres: currentAnimeData.genres,
         image_url: currentAnimeData.imageUrl,
+        titles: currentAnimeData.titles,
       },
     ]);
 
@@ -614,4 +615,6 @@ window.addNewLinkRow = () => {
 
   container.appendChild(row);
   syncLinksContainerState();
+};
+yncLinksContainerState();
 };

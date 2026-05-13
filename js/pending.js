@@ -80,6 +80,7 @@ function renderList(list) {
     const votes = item.votes || [];
     
     const voteStatusHTML = `
+      <a href="https://myanimelist.net/anime/${item.mal_id}" target="_blank" class="mal-link">Ver no MAL</a>
       <button class="vote-now-btn" onclick="window.toggleVotePanel('${item.mal_id}', this)">Votar Agora</button>
     `;
 

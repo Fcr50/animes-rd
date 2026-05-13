@@ -185,7 +185,12 @@ function applyFilters() {
   const cleanedGenre = genreSelected ? stripEmoji(genreSelected) : "";
 
   filtered = allAnimes.filter(a => {
-    if (search && !a.name.toLowerCase().includes(search)) return false;
+    const searchTerm = search.toLowerCase();
+    const hasMatch = (
+      (a.name && a.name.toLowerCase().includes(searchTerm)) ||
+      (a.titles && a.titles.some(t => t.title.toLowerCase().includes(searchTerm)))
+    );
+    if (search && !hasMatch) return false;
 
     if (cleanedGenre) {
       const hasGenre = (a.generos || []).some(g => stripEmoji(g) === cleanedGenre);
