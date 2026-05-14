@@ -17,7 +17,7 @@
       href="assets/aniliber-icon-192.png?v=aniliber-icon-v4"
     />
     <link rel="apple-touch-icon" href="assets/aniliber-icon-512.png?v=aniliber-icon-v4" />
-    <link rel="stylesheet" href="css/style.css?v=community-v24" />
+    <link rel="stylesheet" href="css/style.css?v=community-v27" />
     <script type="module" src="./js/theme.js?v=platform-v7"></script>
     <script type="module" src="./js/utils.js?v=platform-v16"></script>
   </head>
@@ -120,67 +120,40 @@
         >
           <div class="community-section-title">
             <span class="eyebrow">Combinados</span>
-            <h2>Do “bora?” ao play</h2>
-            <p>
-              Enquete, agenda local e missões ficam em cartões diferentes para o grupo decidir sem
-              bagunça.
-            </p>
+            <h2>Pacto de watch</h2>
+            <p>Um lugar só para marcar anime em grupo ou assumir que você está assistindo.</p>
           </div>
 
           <div class="community-layout-choices">
-            <article class="community-panel" id="community-poll">
+            <article
+              class="community-panel community-panel-wide community-watch-pact-card"
+              id="community-watch-pact"
+            >
               <div class="community-panel-head">
                 <div>
-                  <span class="eyebrow">Enquete</span>
-                  <h2>Próximo play</h2>
+                  <span class="eyebrow">Combinado</span>
+                  <h2>Quem vai assistir o quê?</h2>
                 </div>
               </div>
-              <div class="community-poll-voter">
-                <label for="community-poll-member">Votar como</label>
-                <select id="community-poll-member"></select>
-              </div>
-              <div class="community-poll-options" id="community-poll-options"></div>
-              <button class="community-secondary-btn" type="button" id="community-reset-poll">
-                Zerar enquete local
-              </button>
-            </article>
-
-            <article class="community-panel" id="community-events">
-              <div class="community-panel-head">
-                <div>
-                  <span class="eyebrow">Sessões</span>
-                  <h2>Agenda do grupo</h2>
-                </div>
-              </div>
-              <form class="community-event-form" id="community-event-form">
-                <select id="community-event-anime" aria-label="Anime da sessão"></select>
+              <form class="community-event-form" id="community-watch-form">
                 <div class="community-event-row">
-                  <select id="community-event-host" aria-label="Anfitrião"></select>
-                  <input
-                    id="community-event-date"
-                    type="datetime-local"
-                    aria-label="Data da sessão"
-                  />
+                  <select id="community-watch-type" aria-label="Tipo de combinado">
+                    <option value="together">Assistir junto</option>
+                    <option value="promise">Promessa de assistir</option>
+                  </select>
+                  <select id="community-watch-member" aria-label="Pessoa"></select>
                 </div>
+                <select id="community-watch-anime" aria-label="Anime"></select>
                 <input
-                  id="community-event-link"
-                  type="url"
-                  placeholder="Link opcional: Discord, YouTube, Drive..."
-                  aria-label="Link da sessão"
+                  id="community-watch-note"
+                  type="text"
+                  maxlength="80"
+                  placeholder="Opcional: episódio, prazo ou chamada do rolê"
+                  aria-label="Observação do combinado"
                 />
-                <button class="community-primary-btn" type="submit">Criar sessão local</button>
+                <button class="community-primary-btn" type="submit">Marcar combinado</button>
               </form>
-              <div class="community-events-list" id="community-events-list"></div>
-            </article>
-
-            <article class="community-panel" id="community-missions">
-              <div class="community-panel-head">
-                <div>
-                  <span class="eyebrow">Missões</span>
-                  <h2>Semana da comunidade</h2>
-                </div>
-              </div>
-              <div class="community-missions-list" id="community-missions-list"></div>
+              <div class="community-watch-showcase" id="community-watch-list"></div>
             </article>
           </div>
         </section>
@@ -247,7 +220,7 @@
       </div>
     </main>
 
-    <script type="module" src="./js/desafios.js?v=community-v25"></script>
+    <script type="module" src="./js/desafios.js?v=community-v27"></script>
     <script type="module" src="js/nyx-widget.js?v=platform-v16"></script>
   </body>
 </html>

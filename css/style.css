@@ -13915,6 +13915,158 @@ body.community-v4-page {
   background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 143, 199, 0.09));
 }
 
+.community-v4-page #community-watch-pact {
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255, 214, 102, 0.2), transparent 30%),
+    radial-gradient(circle at 88% 12%, rgba(109, 217, 255, 0.2), transparent 28%),
+    linear-gradient(145deg, rgba(255, 143, 199, 0.18), #111827 68%);
+  grid-column: 1 / -1;
+  width: 100%;
+}
+
+.community-v4-page .community-section-choices .community-layout-choices {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.community-v4-page .community-watch-pact-card {
+  display: grid;
+  gap: 18px;
+}
+
+.community-v4-page .community-watch-pact-card .community-event-form {
+  background: rgba(2, 6, 23, 0.36);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+}
+
+.community-v4-page .community-watch-pact-card .community-event-row {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.community-v4-page .community-watch-showcase {
+  display: grid;
+  gap: 12px;
+}
+
+.community-v4-page .community-watch-feature {
+  background:
+    linear-gradient(135deg, rgba(255, 214, 102, 0.2), transparent 38%), rgba(255, 255, 255, 0.09);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 22px;
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.22);
+  min-height: 190px;
+  padding: clamp(20px, 3vw, 30px);
+}
+
+.community-v4-page .community-watch-feature > span,
+.community-v4-page .community-watch-queue span {
+  color: #ff8fc7;
+  display: block;
+  font-size: 0.74rem;
+  font-weight: 1000;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.community-v4-page .community-watch-feature strong {
+  color: #fff7ed;
+  display: block;
+  font-family: "Baloo 2", system-ui, sans-serif;
+  font-size: clamp(2rem, 4.2vw, 3.8rem);
+  line-height: 0.95;
+  margin-top: 8px;
+  max-width: 980px;
+  overflow-wrap: anywhere;
+}
+
+.community-v4-page .community-watch-feature p {
+  color: #f8d7ff;
+  font-weight: 900;
+  margin: 16px 0 8px;
+}
+
+.community-v4-page .community-watch-feature small,
+.community-v4-page .community-watch-queue small {
+  color: #dbeafe;
+  display: block;
+  font-weight: 800;
+}
+
+.community-v4-page .community-watch-feature div,
+.community-v4-page .community-watch-queue div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.community-v4-page .community-watch-feature button,
+.community-v4-page .community-watch-queue button {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 999px;
+  color: #fff7ed;
+  cursor: pointer;
+  font-weight: 950;
+  padding: 10px 14px;
+}
+
+.community-v4-page .community-watch-feature button:first-child,
+.community-v4-page .community-watch-queue button:first-child {
+  background: linear-gradient(135deg, #61e6b8, #6dd9ff);
+  color: #0f172a;
+}
+
+.community-v4-page .community-watch-feature.is-done,
+.community-v4-page .community-watch-queue article.is-done {
+  opacity: 0.76;
+}
+
+.community-v4-page .community-watch-feature.is-done strong,
+.community-v4-page .community-watch-queue article.is-done strong {
+  text-decoration: line-through;
+  text-decoration-thickness: 0.08em;
+}
+
+.community-v4-page .community-watch-queue {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.community-v4-page .community-watch-queue article,
+.community-v4-page .community-watch-empty {
+  background: rgba(255, 255, 255, 0.075);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 22px;
+  padding: 18px;
+}
+
+.community-v4-page .community-watch-queue strong {
+  color: #fff7ed;
+  display: block;
+  font-size: 1.2rem;
+  margin: 6px 0;
+}
+
+.community-v4-page .community-watch-empty {
+  color: #dbeafe;
+  font-weight: 900;
+  min-height: 180px;
+}
+
+@media (max-width: 760px) {
+  .community-v4-page .community-watch-pact-card .community-event-row,
+  .community-v4-page .community-watch-queue {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 760px) {
   .community-v4-page .community-tabs {
     grid-template-columns: 1fr;

@@ -620,6 +620,119 @@ function bindEvents() {
   });
 }
 
+function renderWatchPacts() {
+  const { members } = state.data;
+  const animes = getApprovedAnimes();
+  const memberSelect = $("#community-watch-member");
+  const animeSelect = $("#community-watch-anime");
+  const list = $("#community-watch-list");
+  if (!memberSelect || !animeSelect || !list) return;
+
+  memberSelect.innerHTML = members
+    .map((member) => `<option value="${member.nickname}">${escapeHTML(member.nickname)}</option>`)
+    .join("");
+  animeSelect.innerHTML = animes
+    .slice(0, 120)
+    .map(
+      (anime) => `<option value="${anime.mal_id || anime.id}">${escapeHTML(anime.name)}</option>`,
+    )
+    .join("");
+
+  const pacts = readStore("watch-pacts", []);
+  if (!pacts.length) {
+    list.innerHTML = `<div class="community-watch-empty">Marca um anime para assistir junto ou assume uma promessa pública. O combinado aparece grandão aqui.</div>`;
+    return;
+  }
+
+  const labelFor = (item) => (item.type === "together" ? "Assistir junto" : "Promessa de assistir");
+  const active = pacts[0];
+  const queue = pacts.slice(1, 5);
+
+  list.innerHTML = `
+    <article class="community-watch-feature ${active.done ? "is-done" : ""}">
+      <span>${escapeHTML(labelFor(active))}</span>
+      <strong>${escapeHTML(active.animeName)}</strong>
+      <p>${escapeHTML(active.member)} ${active.done ? "cumpriu o combinado" : "deixou marcado no clube"}</p>
+      <small>${escapeHTML(active.note || (active.done ? "Combinado cumprido" : "Ainda em aberto"))}</small>
+      <div>
+        <button type="button" data-toggle-watch-pact="0">
+          ${active.done ? "Reabrir" : "Marcar feito"}
+        </button>
+        <button type="button" data-remove-watch-pact="0">Remover</button>
+      </div>
+    </article>
+    ${
+      queue.length
+        ? `<div class="community-watch-queue">
+            ${queue
+              .map(
+                (item, index) => `
+                  <article class="${item.done ? "is-done" : ""}">
+                    <span>${escapeHTML(labelFor(item))}</span>
+                    <strong>${escapeHTML(item.animeName)}</strong>
+                    <small>${escapeHTML(item.member)} · ${escapeHTML(item.note || (item.done ? "feito" : "em aberto"))}</small>
+                    <div>
+                      <button type="button" data-toggle-watch-pact="${index + 1}">
+                        ${item.done ? "Reabrir" : "Feito"}
+                      </button>
+                      <button type="button" data-remove-watch-pact="${index + 1}">Remover</button>
+                    </div>
+                  </article>
+                `,
+              )
+              .join("")}
+          </div>`
+        : ""
+    }
+  `;
+}
+
+function bindWatchPacts() {
+  $("#community-watch-form")?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const animes = getApprovedAnimes();
+    const animeId = $("#community-watch-anime")?.value;
+    const anime = animes.find((item) => String(item.mal_id || item.id) === String(animeId));
+    const member = $("#community-watch-member")?.value;
+    const type = $("#community-watch-type")?.value || "together";
+    if (!anime || !member) return;
+
+    const pacts = readStore("watch-pacts", []);
+    pacts.unshift({
+      animeId,
+      animeName: anime.name,
+      done: false,
+      member,
+      note: $("#community-watch-note")?.value.trim() || "",
+      type,
+    });
+    writeStore("watch-pacts", pacts.slice(0, 12));
+    event.target.reset();
+    renderWatchPacts();
+  });
+
+  $("#community-watch-list")?.addEventListener("click", (event) => {
+    const toggleButton = event.target.closest("[data-toggle-watch-pact]");
+    const removeButton = event.target.closest("[data-remove-watch-pact]");
+    const pacts = readStore("watch-pacts", []);
+
+    if (toggleButton) {
+      const index = Number(toggleButton.dataset.toggleWatchPact);
+      if (!pacts[index]) return;
+      pacts[index].done = !pacts[index].done;
+      writeStore("watch-pacts", pacts);
+      renderWatchPacts();
+      return;
+    }
+
+    if (removeButton) {
+      pacts.splice(Number(removeButton.dataset.removeWatchPact), 1);
+      writeStore("watch-pacts", pacts);
+      renderWatchPacts();
+    }
+  });
+}
+
 function renderLeaderboard() {
   const host = $("#community-leaderboard");
   const { animes, members } = state.data;
@@ -1048,6 +1161,7 @@ function renderAll() {
   renderFeed();
   renderPoll();
   renderEvents();
+  renderWatchPacts();
   renderLeaderboard();
   renderAffinity();
   renderMissions();
@@ -1072,6 +1186,7 @@ async function init() {
   bindScrollActions();
   bindPoll();
   bindEvents();
+  bindWatchPacts();
   bindMissions();
   bindDebate();
   bindMemberRadar();
