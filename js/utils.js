@@ -1,7 +1,18 @@
 // js/utils.js
-import { supabase } from './supabase-client.js';
-import { signInWithGoogle, signOut, onAuthStateChange } from './auth.js';
-import { loadData } from './data.js';
+import { supabase } from "./supabase-client.js";
+import { signInWithGoogle, signOut, onAuthStateChange } from "./auth.js";
+import { loadData } from "./data.js";
+
+function enforceHttps() {
+  const hosts = new Set(["aniliber.com", "www.aniliber.com"]);
+  if (window.location.protocol === "http:" && hosts.has(window.location.hostname)) {
+    window.location.replace(
+      `https://${window.location.host}${window.location.pathname}${window.location.search}${window.location.hash}`,
+    );
+  }
+}
+
+enforceHttps();
 
 /**
  * Escapa caracteres HTML para evitar XSS.
@@ -76,7 +87,7 @@ export function shuffleItems(items) {
 export function getGroupId() {
   const urlParams = new URLSearchParams(window.location.search);
   const hashParams = new URLSearchParams(window.location.hash.substring(1));
-  
+
   let gid = urlParams.get("g") || hashParams.get("g");
 
   if (gid) {
@@ -125,32 +136,35 @@ async function updatePendingBadge(user, groupId) {
   try {
     // 1. Busca animes pendentes no grupo
     const { data: pendingAnimes } = await supabase
-      .from('group_animes')
-      .select('mal_id')
-      .eq('group_id', groupId)
-      .eq('status', 'pending');
+      .from("group_animes")
+      .select("mal_id")
+      .eq("group_id", groupId)
+      .eq("status", "pending");
 
     if (!pendingAnimes || pendingAnimes.length === 0) return;
 
     // 2. Busca em quais o usuário já votou
     const { data: userVotes } = await supabase
-      .from('votes')
-      .select('mal_id')
-      .eq('group_id', groupId)
-      .eq('user_id', user.id)
-      .in('mal_id', pendingAnimes.map(a => a.mal_id));
+      .from("votes")
+      .select("mal_id")
+      .eq("group_id", groupId)
+      .eq("user_id", user.id)
+      .in(
+        "mal_id",
+        pendingAnimes.map((a) => a.mal_id),
+      );
 
-    const votedIds = new Set(userVotes?.map(v => v.mal_id));
-    const pendingCount = pendingAnimes.filter(a => !votedIds.has(a.mal_id)).length;
+    const votedIds = new Set(userVotes?.map((v) => v.mal_id));
+    const pendingCount = pendingAnimes.filter((a) => !votedIds.has(a.mal_id)).length;
 
     // 3. Atualiza a UI (Desktop e Mobile)
     const links = document.querySelectorAll('a[href^="pending.html"]');
-    links.forEach(link => {
-      let badge = link.querySelector('.nav-badge');
+    links.forEach((link) => {
+      let badge = link.querySelector(".nav-badge");
       if (pendingCount > 0) {
         if (!badge) {
-          badge = document.createElement('span');
-          badge.className = 'nav-badge';
+          badge = document.createElement("span");
+          badge.className = "nav-badge";
           link.appendChild(badge);
         }
         badge.textContent = pendingCount;
@@ -177,26 +191,28 @@ async function updateNavbarState(user) {
 
   // RIGOR: Só mostra se houver usuário LOGADO E grupo na URL
   if (user && isGroupInURL) {
-    nav.querySelectorAll(".group-only").forEach(el => el.classList.remove("group-only"));
-    
+    nav.querySelectorAll(".group-only").forEach((el) => el.classList.remove("group-only"));
+
     // Atualiza o contador de pendências
     updatePendingBadge(user, groupId);
-    
+
     // Se logado e em um grupo, carregar membros
     try {
       const { members } = await loadData();
       const desktopContainer = document.getElementById("dynamic-members");
       const mobileContainer = document.getElementById("mobile-dynamic-members");
 
-      const membersHtml = members.map(m => {
-        const profileUrl = `profile.html#p=${m.nickname}&g=${groupId}`;
-        const avatarColor = m.color || "#888";
-        return `
+      const membersHtml = members
+        .map((m) => {
+          const profileUrl = `profile.html#p=${m.nickname}&g=${groupId}`;
+          const avatarColor = m.color || "#888";
+          return `
           <a href="${profileUrl}">
             <span class="nav-avatar" style="background: ${avatarColor}2e; color: ${avatarColor}">${m.nickname[0].toUpperCase()}</span>${m.nickname}
           </a>
         `;
-      }).join("");
+        })
+        .join("");
       if (desktopContainer) desktopContainer.innerHTML = membersHtml;
       if (mobileContainer) mobileContainer.innerHTML = membersHtml;
     } catch (err) {
@@ -204,31 +220,34 @@ async function updateNavbarState(user) {
     }
   } else {
     // Caso contrário, garante que tudo do grupo suma
-    nav.querySelectorAll("a.nav-link, .nav-person, .mobile-drawer-section").forEach(el => {
+    nav.querySelectorAll("a.nav-link, .nav-person, .mobile-drawer-section").forEach((el) => {
       if (el.getAttribute("href") !== "index.html") {
-         el.classList.add("group-only");
+        el.classList.add("group-only");
       }
     });
   }
 
   // Atualiza links de TODA A PÁGINA para manter o contexto do grupo
-  const currentPath = (window.location.pathname.split("/").pop() || "index.html");
+  const currentPath = window.location.pathname.split("/").pop() || "index.html";
   document.querySelectorAll("a").forEach((link) => {
     const href = link.getAttribute("href");
     if (!href || href.startsWith("http") || href.startsWith("#")) return;
 
     const url = new URL(href, window.location.origin + window.location.pathname);
     const linkPath = url.pathname.split("/").pop() || "index.html";
-    
+
     // Marca como ativo apenas se for um link da navbar
     if (link.closest("nav.nav")) {
-      const isSamePath = linkPath === currentPath || (linkPath === "index.html" && currentPath === "");
+      const isSamePath =
+        linkPath === currentPath || (linkPath === "index.html" && currentPath === "");
       let isActive = isSamePath;
 
       // Refinamento para perfis: checa o parâmetro 'p' (nickname)
       if (currentPath === "profile.html") {
         const linkParams = new URLSearchParams(url.hash.substring(1) || url.search);
-        const currentParams = new URLSearchParams(window.location.hash.substring(1) || window.location.search);
+        const currentParams = new URLSearchParams(
+          window.location.hash.substring(1) || window.location.search,
+        );
         if (linkParams.get("p") !== currentParams.get("p")) {
           isActive = false;
         }
@@ -240,7 +259,7 @@ async function updateNavbarState(user) {
         link.classList.remove("active");
       }
     }
-    
+
     // Aplica o contexto de grupo se ele existir
     if (groupId && !href.includes("index.html")) {
       const url = new URL(href, window.location.href);
@@ -275,7 +294,6 @@ export async function loadNavbar() {
     });
 
     document.dispatchEvent(new CustomEvent("navbar-loaded"));
-
   } catch (error) {
     console.error("Erro ao carregar a navbar:", error);
   }
