@@ -95,27 +95,46 @@ function renderSpotlight() {
   const animes = getApprovedAnimes();
   if (!host) return;
 
-  const top = [...animes]
-    .filter((anime) => anime.image_url)
-    .sort(
-      (a, b) =>
-        scoreNumber(b.nota) +
-        scoreNumber(b.controversia) -
-        (scoreNumber(a.nota) + scoreNumber(a.controversia)),
-    )[0];
+  const top = [...animes].sort(
+    (a, b) =>
+      scoreNumber(b.nota) +
+      scoreNumber(b.controversia) -
+      (scoreNumber(a.nota) + scoreNumber(a.controversia)),
+  )[0];
 
   if (!top) {
     host.innerHTML = `<div class="community-spotlight-empty">A comunidade aparece quando o acervo tiver animes votados.</div>`;
     return;
   }
 
-  host.style.setProperty("--spotlight-image", `url("${top.image_url}")`);
+  const hot = [...animes].sort(
+    (a, b) => scoreNumber(b.controversia) - scoreNumber(a.controversia),
+  )[0];
+  const watched = [...animes].sort((a, b) => (b.qtdVotos || 0) - (a.qtdVotos || 0))[0];
+
+  host.style.removeProperty("--spotlight-image");
   host.innerHTML = `
-    <div class="community-spotlight-glass">
-      <span>Anime em pauta</span>
-      <h2>${escapeHTML(top.name)}</h2>
-      <p>${formatNota(top.nota)} de média, ${top.qtdVotos || 0} votos e ${formatNota(top.controversia || 0)} de controvérsia.</p>
-      <a href="acervo.html#g=${getGroupId()}&open=${top.mal_id}">Abrir no acervo</a>
+    <div class="community-club-board">
+      <span class="community-board-kicker">Quadro do clube</span>
+      <h2>Hoje tem assunto.</h2>
+      <p>Três pistas rápidas para puxar conversa, marcar sessão ou decidir o próximo play.</p>
+      <div class="community-board-stack">
+        <a class="community-board-note is-next" href="acervo.html#g=${getGroupId()}&open=${top.mal_id}">
+          <span>Play sugerido</span>
+          <strong>${escapeHTML(top.name)}</strong>
+          <small>${formatNota(top.nota)} de média · ${top.qtdVotos || 0} votos</small>
+        </a>
+        <a class="community-board-note is-hot" href="acervo.html#g=${getGroupId()}&open=${hot?.mal_id || top.mal_id}">
+          <span>Treta saudável</span>
+          <strong>${escapeHTML(hot?.name || top.name)}</strong>
+          <small>${formatNota(hot?.controversia || 0)} de controvérsia</small>
+        </a>
+        <a class="community-board-note is-known" href="acervo.html#g=${getGroupId()}&open=${watched?.mal_id || top.mal_id}">
+          <span>Porta de entrada</span>
+          <strong>${escapeHTML(watched?.name || top.name)}</strong>
+          <small>${watched?.qtdVotos || top.qtdVotos || 0} membros votaram</small>
+        </a>
+      </div>
     </div>
   `;
 }
@@ -599,14 +618,48 @@ function renderVibes() {
 }
 
 function bindScrollActions() {
-  document.querySelectorAll("[data-scroll-target]").forEach((button) => {
-    button.addEventListener("click", () => {
-      document
-        .getElementById(button.dataset.scrollTarget)
-        ?.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
-  });
   $("#community-refresh-feed")?.addEventListener("click", renderFeed);
+}
+
+function setCommunityTab(tabName, shouldScroll = false) {
+  const fallback = "mural";
+  const target = document.querySelector(`[data-community-panel="${tabName}"]`) ? tabName : fallback;
+
+  document.querySelectorAll("[data-community-tab]").forEach((button) => {
+    const active = button.dataset.communityTab === target;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-selected", active ? "true" : "false");
+  });
+
+  document.querySelectorAll("[data-community-panel]").forEach((panel) => {
+    const active = panel.dataset.communityPanel === target;
+    panel.classList.toggle("active", active);
+    panel.hidden = !active;
+  });
+
+  const hashParams = new URLSearchParams(window.location.hash.substring(1));
+  hashParams.set("tab", target);
+  const newHash = hashParams.toString();
+  history.replaceState(null, "", `${window.location.pathname}${window.location.search}#${newHash}`);
+
+  if (shouldScroll) {
+    document
+      .querySelector(".community-tabs")
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+}
+
+function bindCommunityTabs() {
+  document.querySelectorAll("[data-community-tab]").forEach((button) => {
+    button.addEventListener("click", () => setCommunityTab(button.dataset.communityTab));
+  });
+
+  document.querySelectorAll("[data-community-tab-jump]").forEach((button) => {
+    button.addEventListener("click", () => setCommunityTab(button.dataset.communityTabJump, true));
+  });
+
+  const hashParams = new URLSearchParams(window.location.hash.substring(1));
+  setCommunityTab(hashParams.get("tab") || "mural");
 }
 
 function renderAll() {
@@ -638,6 +691,7 @@ async function init() {
   bindMissions();
   bindDebate();
   bindMemberRadar();
+  bindCommunityTabs();
   renderAll();
 }
 
