@@ -1280,6 +1280,84 @@ function renderBingoBoard() {
   });
 }
 
+function noteAccent(tag) {
+  const accents = {
+    "Defendam isso": "mint",
+    Injustiçado: "yellow",
+    "Não vejam cansados": "blue",
+    "Revisem a nota": "pink",
+    "Chamem sessão": "purple",
+  };
+  return accents[tag] || "mint";
+}
+
+function renderAnonymousNotes() {
+  const animeSelect = $("#community-note-anime");
+  const wall = $("#community-note-wall");
+  if (!animeSelect || !wall) return;
+
+  const animes = getApprovedAnimes();
+  animeSelect.innerHTML = animes
+    .slice(0, 120)
+    .map(
+      (anime) => `<option value="${anime.mal_id || anime.id}">${escapeHTML(anime.name)}</option>`,
+    )
+    .join("");
+
+  const notes = readStore("anonymous-notes", []);
+  wall.innerHTML = notes.length
+    ? notes
+        .map(
+          (note, index) => `
+            <article class="community-note-card" data-tone="${noteAccent(note.tag)}">
+              <span>${escapeHTML(note.tag)}</span>
+              <strong>${escapeHTML(note.animeName)}</strong>
+              <p>${escapeHTML(note.text)}</p>
+              <small>${escapeHTML(note.author)} · ${escapeHTML(note.createdAt)}</small>
+              <button type="button" data-remove-note="${index}">Remover</button>
+            </article>
+          `,
+        )
+        .join("")
+    : `<div class="community-note-empty">Nenhum recado pregado ainda. Solta uma opinião anônima, uma defesa dramática ou um aviso útil para o clube.</div>`;
+}
+
+function bindAnonymousNotes() {
+  $("#community-note-form")?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const animes = getApprovedAnimes();
+    const animeId = $("#community-note-anime")?.value;
+    const anime = animes.find((item) => String(item.mal_id || item.id) === String(animeId));
+    const text = $("#community-note-text")?.value.trim();
+    if (!anime || !text) return;
+
+    const notes = readStore("anonymous-notes", []);
+    notes.unshift({
+      animeId,
+      animeName: anime.name,
+      author: "Anônimo",
+      createdAt: new Date().toLocaleDateString("pt-BR", {
+        day: "2-digit",
+        month: "short",
+      }),
+      tag: $("#community-note-tag")?.value || "Defendam isso",
+      text,
+    });
+    writeStore("anonymous-notes", notes.slice(0, 18));
+    event.target.reset();
+    renderAnonymousNotes();
+  });
+
+  $("#community-note-wall")?.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-remove-note]");
+    if (!button) return;
+    const notes = readStore("anonymous-notes", []);
+    notes.splice(Number(button.dataset.removeNote), 1);
+    writeStore("anonymous-notes", notes);
+    renderAnonymousNotes();
+  });
+}
+
 function renderVibes() {
   const modeSelect = $("#community-mood-mode");
   const memberSelect = $("#community-mood-member");
@@ -1431,7 +1509,7 @@ function renderAll() {
   renderMissions();
   renderDebate();
   renderMemberRadar();
-  renderBingoBoard();
+  renderAnonymousNotes();
 }
 
 async function init() {
@@ -1454,6 +1532,7 @@ async function init() {
   bindMissions();
   bindDebate();
   bindMemberRadar();
+  bindAnonymousNotes();
   bindCommunityTabs();
   renderAll();
   startBoardRotation();

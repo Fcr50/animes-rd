@@ -17,7 +17,7 @@
       href="assets/aniliber-icon-192.png?v=aniliber-icon-v4"
     />
     <link rel="apple-touch-icon" href="assets/aniliber-icon-512.png?v=aniliber-icon-v4" />
-    <link rel="stylesheet" href="css/style.css?v=community-v30" />
+    <link rel="stylesheet" href="css/style.css?v=community-v31" />
     <script type="module" src="./js/theme.js?v=platform-v7"></script>
     <script type="module" src="./js/utils.js?v=platform-v16"></script>
   </head>
@@ -69,8 +69,8 @@
           <small>ranking, duplas e perfis</small>
         </button>
         <button type="button" data-community-tab="mood">
-          <span>Mood</span>
-          <small>recomendação por clima</small>
+          <span>Anonimato</span>
+          <small>recados secretos</small>
         </button>
       </nav>
 
@@ -201,27 +201,46 @@
 
         <section class="community-section community-section-discovery" data-community-panel="mood">
           <div class="community-section-title">
-            <span class="eyebrow">Bingo do clube</span>
-            <h2>Missões pra movimentar o acervo</h2>
+            <span class="eyebrow">Correio anônimo</span>
+            <h2>Recados soltos para o acervo</h2>
             <p>
-              Uma cartela local para o grupo destravar voto, comentário e sessão sem virar reunião.
+              Deixe bilhetes anônimos ou assinados para provocar defesa, revisão de nota e conversa.
             </p>
           </div>
 
-          <article class="community-panel community-panel-wide" id="community-bingo-lab">
+          <article class="community-panel community-panel-wide" id="community-notes-lab">
             <div class="community-panel-head">
               <div>
-                <span class="eyebrow">Cartela</span>
-                <h2>Marca o que o grupo cumprir</h2>
+                <span class="eyebrow">Mural secreto</span>
+                <h2>Alguém precisava dizer</h2>
               </div>
             </div>
-            <div class="community-bingo-board" id="community-bingo-board"></div>
+            <form class="community-note-form" id="community-note-form">
+              <div class="community-note-row">
+                <select id="community-note-anime" aria-label="Anime do recado"></select>
+                <select id="community-note-tag" aria-label="Tipo de recado">
+                  <option value="Defendam isso">Defendam isso</option>
+                  <option value="Injustiçado">Injustiçado</option>
+                  <option value="Não vejam cansados">Não vejam cansados</option>
+                  <option value="Revisem a nota">Revisem a nota</option>
+                  <option value="Chamem sessão">Chamem sessão</option>
+                </select>
+              </div>
+              <textarea
+                id="community-note-text"
+                maxlength="160"
+                placeholder="Ex: alguém precisa defender isso antes que vire crime no acervo..."
+                aria-label="Texto do recado"
+              ></textarea>
+              <button class="community-primary-btn" type="submit">Pregar recado</button>
+            </form>
+            <div class="community-note-wall" id="community-note-wall"></div>
           </article>
         </section>
       </div>
     </main>
 
-    <script type="module" src="./js/desafios.js?v=community-v30"></script>
+    <script type="module" src="./js/desafios.js?v=community-v31"></script>
     <script type="module" src="js/nyx-widget.js?v=platform-v16"></script>
   </body>
 </html>
