@@ -17,26 +17,26 @@
       href="assets/aniliber-icon-192.png?v=aniliber-icon-v4"
     />
     <link rel="apple-touch-icon" href="assets/aniliber-icon-512.png?v=aniliber-icon-v4" />
-    <link rel="stylesheet" href="css/style.css?v=platform-v16" />
+    <link rel="stylesheet" href="css/style.css?v=community-v19" />
     <script type="module" src="./js/theme.js?v=platform-v7"></script>
     <script type="module" src="./js/utils.js?v=platform-v16"></script>
   </head>
-  <body class="desafios-page community-page community-v2-page">
+  <body class="desafios-page community-page community-v2-page community-v3-page">
     <nav class="nav"></nav>
 
     <main class="community-v2-shell">
       <header class="community-v2-hero">
         <section class="community-v2-hero-copy">
           <span class="eyebrow">Comunidade</span>
-          <h1>O grupo ganha vida fora da lista.</h1>
+          <h1>O ponto de encontro do AniLiber.</h1>
           <p>
-            Enquetes, sessões combinadas, afinidades, missões e radar de membros usando o acervo que
-            vocês já construíram juntos.
+            Um painel social para transformar o acervo em conversa: comentários recentes, sessões
+            marcadas, enquetes, afinidades, missões da semana e recomendações por clima.
           </p>
           <div class="community-v2-actions" aria-label="Atalhos">
-            <button type="button" data-scroll-target="community-pulse">Pulso</button>
-            <button type="button" data-scroll-target="community-poll">Enquete</button>
-            <button type="button" data-scroll-target="community-events">Sessões</button>
+            <button type="button" data-scroll-target="community-pulse">Agora</button>
+            <button type="button" data-scroll-target="community-poll">Escolhas</button>
+            <button type="button" data-scroll-target="community-affinity">Afinidades</button>
             <button type="button" data-scroll-target="community-members">Membros</button>
           </div>
         </section>
@@ -65,114 +65,156 @@
         </article>
       </section>
 
-      <section class="community-v2-grid">
-        <article class="community-panel community-panel-wide" id="community-pulse">
-          <div class="community-panel-head">
-            <div>
-              <span class="eyebrow">Pulso do grupo</span>
-              <h2>O que está acontecendo</h2>
+      <section class="community-section community-section-live">
+        <div class="community-section-title">
+          <span class="eyebrow">Agora</span>
+          <h2>O que movimenta o grupo</h2>
+          <p>Um resumo espaçoso do que virou comentário, pauta ou desculpa para chamar sessão.</p>
+        </div>
+
+        <div class="community-layout-live">
+          <article class="community-panel community-panel-wide" id="community-pulse">
+            <div class="community-panel-head">
+              <div>
+                <span class="eyebrow">Pulso do grupo</span>
+                <h2>Atividade recente</h2>
+              </div>
+              <button class="community-icon-btn" type="button" id="community-refresh-feed">
+                Atualizar
+              </button>
             </div>
-            <button class="community-icon-btn" type="button" id="community-refresh-feed">
-              Atualizar
+            <div class="community-feed" id="community-feed"></div>
+          </article>
+
+          <article class="community-panel" id="community-debate">
+            <div class="community-panel-head">
+              <div>
+                <span class="eyebrow">Debate</span>
+                <h2>Assunto da rodada</h2>
+              </div>
+              <button class="community-icon-btn" type="button" id="community-next-debate">
+                Novo
+              </button>
+            </div>
+            <div class="community-debate-card" id="community-debate-card"></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="community-section community-section-choices">
+        <div class="community-section-title">
+          <span class="eyebrow">Escolhas coletivas</span>
+          <h2>Transformar vontade em combinado</h2>
+          <p>
+            Votação, agenda local e missões semanais ficam juntos, mas com espaço para cada fluxo.
+          </p>
+        </div>
+
+        <div class="community-layout-choices">
+          <article class="community-panel" id="community-poll">
+            <div class="community-panel-head">
+              <div>
+                <span class="eyebrow">Enquete</span>
+                <h2>Próximo play</h2>
+              </div>
+            </div>
+            <div class="community-poll-voter">
+              <label for="community-poll-member">Votar como</label>
+              <select id="community-poll-member"></select>
+            </div>
+            <div class="community-poll-options" id="community-poll-options"></div>
+            <button class="community-secondary-btn" type="button" id="community-reset-poll">
+              Zerar enquete local
             </button>
-          </div>
-          <div class="community-feed" id="community-feed"></div>
-        </article>
+          </article>
 
-        <article class="community-panel" id="community-poll">
-          <div class="community-panel-head">
-            <div>
-              <span class="eyebrow">Escolha coletiva</span>
-              <h2>Próximo play</h2>
+          <article class="community-panel" id="community-events">
+            <div class="community-panel-head">
+              <div>
+                <span class="eyebrow">Sessões</span>
+                <h2>Agenda do grupo</h2>
+              </div>
             </div>
-          </div>
-          <div class="community-poll-voter">
-            <label for="community-poll-member">Votar como</label>
-            <select id="community-poll-member"></select>
-          </div>
-          <div class="community-poll-options" id="community-poll-options"></div>
-          <button class="community-secondary-btn" type="button" id="community-reset-poll">
-            Zerar enquete local
-          </button>
-        </article>
+            <form class="community-event-form" id="community-event-form">
+              <select id="community-event-anime" aria-label="Anime da sessão"></select>
+              <div class="community-event-row">
+                <select id="community-event-host" aria-label="Anfitrião"></select>
+                <input
+                  id="community-event-date"
+                  type="datetime-local"
+                  aria-label="Data da sessão"
+                />
+              </div>
+              <input
+                id="community-event-link"
+                type="url"
+                placeholder="Link opcional: Discord, YouTube, Drive..."
+                aria-label="Link da sessão"
+              />
+              <button class="community-primary-btn" type="submit">Criar sessão local</button>
+            </form>
+            <div class="community-events-list" id="community-events-list"></div>
+          </article>
 
-        <article class="community-panel" id="community-events">
-          <div class="community-panel-head">
-            <div>
-              <span class="eyebrow">Sessões</span>
-              <h2>Agenda do grupo</h2>
+          <article class="community-panel" id="community-missions">
+            <div class="community-panel-head">
+              <div>
+                <span class="eyebrow">Missões</span>
+                <h2>Semana da comunidade</h2>
+              </div>
             </div>
-          </div>
-          <form class="community-event-form" id="community-event-form">
-            <select id="community-event-anime" aria-label="Anime da sessão"></select>
-            <div class="community-event-row">
-              <select id="community-event-host" aria-label="Anfitrião"></select>
-              <input id="community-event-date" type="datetime-local" aria-label="Data da sessão" />
-            </div>
-            <input
-              id="community-event-link"
-              type="url"
-              placeholder="Link opcional: Discord, YouTube, Drive..."
-              aria-label="Link da sessão"
-            />
-            <button class="community-primary-btn" type="submit">Criar sessão local</button>
-          </form>
-          <div class="community-events-list" id="community-events-list"></div>
-        </article>
+            <div class="community-missions-list" id="community-missions-list"></div>
+          </article>
+        </div>
+      </section>
 
-        <article class="community-panel" id="community-rank">
-          <div class="community-panel-head">
-            <div>
-              <span class="eyebrow">Ranking</span>
-              <h2>Engajamento</h2>
-            </div>
-          </div>
-          <div class="community-leaderboard" id="community-leaderboard"></div>
-        </article>
+      <section class="community-section community-section-people">
+        <div class="community-section-title">
+          <span class="eyebrow">Pessoas</span>
+          <h2>Quem puxa o gosto do grupo</h2>
+          <p>Ranking, afinidades e radar pessoal separados para comparação ficar legível.</p>
+        </div>
 
-        <article class="community-panel community-panel-wide" id="community-affinity">
-          <div class="community-panel-head">
-            <div>
-              <span class="eyebrow">Afinidades</span>
-              <h2>Duplas que pensam parecido</h2>
+        <div class="community-layout-people">
+          <article class="community-panel" id="community-rank">
+            <div class="community-panel-head">
+              <div>
+                <span class="eyebrow">Ranking</span>
+                <h2>Engajamento</h2>
+              </div>
             </div>
-          </div>
-          <div class="community-affinity-grid" id="community-affinity-grid"></div>
-        </article>
+            <div class="community-leaderboard" id="community-leaderboard"></div>
+          </article>
 
-        <article class="community-panel" id="community-missions">
-          <div class="community-panel-head">
-            <div>
-              <span class="eyebrow">Missões</span>
-              <h2>Semana da comunidade</h2>
+          <article class="community-panel community-panel-wide" id="community-affinity">
+            <div class="community-panel-head">
+              <div>
+                <span class="eyebrow">Afinidades</span>
+                <h2>Duplas que pensam parecido</h2>
+              </div>
             </div>
-          </div>
-          <div class="community-missions-list" id="community-missions-list"></div>
-        </article>
+            <div class="community-affinity-grid" id="community-affinity-grid"></div>
+          </article>
 
-        <article class="community-panel" id="community-debate">
-          <div class="community-panel-head">
-            <div>
-              <span class="eyebrow">Debate</span>
-              <h2>Assunto da rodada</h2>
+          <article class="community-panel community-panel-wide" id="community-members">
+            <div class="community-panel-head">
+              <div>
+                <span class="eyebrow">Radar pessoal</span>
+                <h2>Mapa de gosto por membro</h2>
+              </div>
+              <select id="community-member-select" aria-label="Selecionar membro"></select>
             </div>
-            <button class="community-icon-btn" type="button" id="community-next-debate">
-              Novo
-            </button>
-          </div>
-          <div class="community-debate-card" id="community-debate-card"></div>
-        </article>
+            <div class="community-member-radar" id="community-member-radar"></div>
+          </article>
+        </div>
+      </section>
 
-        <article class="community-panel community-panel-wide" id="community-members">
-          <div class="community-panel-head">
-            <div>
-              <span class="eyebrow">Radar pessoal</span>
-              <h2>Mapa de gosto por membro</h2>
-            </div>
-            <select id="community-member-select" aria-label="Selecionar membro"></select>
-          </div>
-          <div class="community-member-radar" id="community-member-radar"></div>
-        </article>
+      <section class="community-section community-section-discovery">
+        <div class="community-section-title">
+          <span class="eyebrow">Descoberta</span>
+          <h2>Escolher pelo clima do dia</h2>
+          <p>Um bloco final, leve, para quando o grupo só quer apertar um botão e decidir.</p>
+        </div>
 
         <article class="community-panel" id="community-vibes">
           <div class="community-panel-head">
@@ -187,7 +229,7 @@
       </section>
     </main>
 
-    <script type="module" src="./js/desafios.js?v=platform-v16"></script>
+    <script type="module" src="./js/desafios.js?v=community-v19"></script>
     <script type="module" src="js/nyx-widget.js?v=platform-v16"></script>
   </body>
 </html>
