@@ -1058,56 +1058,320 @@ function bindMemberRadar() {
   $("#community-member-select")?.addEventListener("change", renderMemberRadar);
 }
 
-function renderVibes() {
-  const host = $("#community-vibe-buttons");
-  const result = $("#community-vibe-result");
-  if (!host || !result) return;
+function renderDiscoveryBoard() {
+  const host = $("#community-discovery-board");
+  if (!host) return;
 
-  const vibes = [
+  const animes = getApprovedAnimes();
+  const { members } = state.data;
+  if (!animes.length) {
+    host.innerHTML = `<div class="community-soft-empty">Sem animes suficientes no acervo para garimpar.</div>`;
+    return;
+  }
+
+  const hiddenGems = [...animes]
+    .filter((anime) => (anime.qtdVotos || 0) > 0 && (anime.qtdVotos || 0) <= 2)
+    .sort((a, b) => scoreNumber(b.nota) - scoreNumber(a.nota));
+  const almostConsensus = [...animes]
+    .filter((anime) => (anime.qtdVotos || 0) >= 2 && scoreNumber(anime.controversia) <= 1.2)
+    .sort((a, b) => scoreNumber(b.nota) - scoreNumber(a.nota));
+  const debateFuel = [...animes]
+    .filter((anime) => (anime.qtdVotos || 0) >= 2)
+    .sort((a, b) => scoreNumber(b.controversia) - scoreNumber(a.controversia));
+  const waitingRoom = [...animes]
+    .filter((anime) => (anime.qtdVotos || 0) === 0)
+    .sort((a, b) => animeActivityDate(b) - animeActivityDate(a));
+  const memberGaps = members
+    .map((member) => ({
+      member,
+      missed: missedAnimes(animes, member.nickname).filter((anime) => scoreNumber(anime.nota) >= 8),
+    }))
+    .filter((item) => item.missed.length)
+    .sort((a, b) => b.missed.length - a.missed.length);
+
+  const feature =
+    hiddenGems[0] || waitingRoom[0] || debateFuel[0] || almostConsensus[0] || animes[0];
+  const featureReason =
+    feature === hiddenGems[0]
+      ? "nota boa com pouca gente dando atenção"
+      : feature === waitingRoom[0]
+        ? "entrou no acervo e ainda precisa de primeira nota"
+        : feature === debateFuel[0]
+          ? "tem potencial para render conversa"
+          : "parece uma aposta sólida para o grupo";
+
+  const animeRow = (anime, meta) => `
+    <a href="acervo.html#g=${getGroupId()}&open=${anime.mal_id || anime.id}">
+      <strong>${escapeHTML(anime.name)}</strong>
+      <small>${escapeHTML(meta)}</small>
+    </a>
+  `;
+
+  const listCard = (title, items, emptyText, mapper) => `
+    <article class="community-discovery-list">
+      <span>${escapeHTML(title)}</span>
+      ${
+        items.length
+          ? items
+              .slice(0, 4)
+              .map((item) => mapper(item))
+              .join("")
+          : `<small>${escapeHTML(emptyText)}</small>`
+      }
+    </article>
+  `;
+
+  host.innerHTML = `
+    <article class="community-discovery-feature">
+      <span>Achado principal</span>
+      <strong>${escapeHTML(feature.name)}</strong>
+      <p>${escapeHTML(featureReason)}.</p>
+      <div>
+        <small>${formatNota(feature.nota)} de média</small>
+        <small>${feature.qtdVotos || 0} votos</small>
+        <small>${formatNota(feature.controversia || 0)} de controvérsia</small>
+      </div>
+      <a href="acervo.html#g=${getGroupId()}&open=${feature.mal_id || feature.id}">Abrir no acervo</a>
+    </article>
+    <div class="community-discovery-stats">
+      <article><strong>${hiddenGems.length}</strong><span>joias pouco votadas</span></article>
+      <article><strong>${waitingRoom.length}</strong><span>sem primeira nota</span></article>
+      <article><strong>${memberGaps.length}</strong><span>pessoas com pendência 8+</span></article>
+    </div>
+    <div class="community-discovery-lists">
+      ${listCard("Pouca gente viu", hiddenGems, "Sem achados escondidos por enquanto.", (anime) =>
+        animeRow(anime, `${formatNota(anime.nota)} de média · ${anime.qtdVotos || 0} votos`),
+      )}
+      ${listCard("Pode virar debate", debateFuel, "Nada muito polêmico agora.", (anime) =>
+        animeRow(anime, `${formatNota(anime.controversia || 0)} de controvérsia`),
+      )}
+      ${listCard(
+        "Quem precisa alcançar",
+        memberGaps,
+        "Todo mundo está em dia com os destaques.",
+        (item) => `
+          <a href="profile.html#p=${encodeURIComponent(item.member.nickname)}&g=${getGroupId()}">
+            <strong>${escapeHTML(item.member.nickname)}</strong>
+            <small>${item.missed.length} anime(s) 8+ esperando</small>
+          </a>
+        `,
+      )}
+    </div>
+  `;
+}
+
+function renderBingoBoard() {
+  const host = $("#community-bingo-board");
+  if (!host) return;
+
+  const animes = getApprovedAnimes();
+  const { members } = state.data;
+  if (!animes.length) {
+    host.innerHTML = `<div class="community-soft-empty">Sem animes suficientes no acervo para montar a cartela.</div>`;
+    return;
+  }
+
+  const hiddenGems = [...animes]
+    .filter((anime) => (anime.qtdVotos || 0) > 0 && (anime.qtdVotos || 0) <= 2)
+    .sort((a, b) => scoreNumber(b.nota) - scoreNumber(a.nota));
+  const debateFuel = [...animes]
+    .filter((anime) => (anime.qtdVotos || 0) >= 2)
+    .sort((a, b) => scoreNumber(b.controversia) - scoreNumber(a.controversia));
+  const waitingRoom = [...animes]
+    .filter((anime) => (anime.qtdVotos || 0) === 0)
+    .sort((a, b) => animeActivityDate(b) - animeActivityDate(a));
+  const memberGaps = members
+    .map((member) => ({
+      member,
+      missed: missedAnimes(animes, member.nickname).filter((anime) => scoreNumber(anime.nota) >= 8),
+    }))
+    .filter((item) => item.missed.length)
+    .sort((a, b) => b.missed.length - a.missed.length);
+
+  const top = [...animes].sort((a, b) => scoreNumber(b.nota) - scoreNumber(a.nota))[0];
+  const watched = [...animes].sort((a, b) => (b.qtdVotos || 0) - (a.qtdVotos || 0))[0];
+  const activeMember = memberGaps[0];
+  const bingo = readStore("bingo", {});
+  const missions = [
     {
-      id: "intenso",
-      label: "Intenso",
-      genres: ["Action", "Ação", "Suspense", "Psychological", "Psicológico"],
+      id: "comment",
+      tag: "Comentario",
+      title: `Comentar ${debateFuel[0]?.name || top.name}`,
+      body: "Alguem deixa uma opiniao curta no acervo.",
+      tone: "pink",
     },
-    { id: "leve", label: "Leve", genres: ["Comedy", "Comédia", "Slice of Life", "Romance"] },
     {
-      id: "fantasia",
-      label: "Fantasia",
-      genres: ["Fantasy", "Fantasia", "Adventure", "Aventura", "Isekai"],
+      id: "first-score",
+      tag: "Primeira nota",
+      title: waitingRoom[0] ? `Dar nota em ${waitingRoom[0].name}` : `Revisitar ${top.name}`,
+      body: waitingRoom[0]
+        ? "Tirar esse anime do zero votos."
+        : "Adicionar uma leitura nova num favorito.",
+      tone: "sky",
     },
-    { id: "classico", label: "Consagrado", genres: [] },
+    {
+      id: "hidden",
+      tag: "Achado",
+      title: `Defender ${hiddenGems[0]?.name || watched.name}`,
+      body: "Vender esse anime para mais uma pessoa do grupo.",
+      tone: "mint",
+    },
+    {
+      id: "catchup",
+      tag: "Pendencia",
+      title: activeMember
+        ? `${activeMember.member.nickname} assistir ${activeMember.missed[0].name}`
+        : `Indicar ${top.name}`,
+      body: activeMember ? "Missao de alcancar o bonde." : "Escolher alguem para entrar nessa.",
+      tone: "yellow",
+    },
+    {
+      id: "session",
+      tag: "Sessao",
+      title: `Marcar play de ${watched.name}`,
+      body: "Transformar acervo em role, nem que seja sem data perfeita.",
+      tone: "purple",
+    },
+    {
+      id: "wildcard",
+      tag: "Coringa",
+      title: "Trocar uma nota com argumento",
+      body: "Alguem muda ou confirma uma nota explicando o motivo.",
+      tone: "blue",
+    },
   ];
+  const completed = missions.filter((mission) => bingo[mission.id]).length;
 
-  host.innerHTML = vibes
-    .map((vibe) => `<button type="button" data-vibe="${vibe.id}">${vibe.label}</button>`)
-    .join("");
+  host.innerHTML = `
+    <div class="community-bingo-score">
+      <div>
+        <span>Progresso da cartela</span>
+        <strong>${completed}/${missions.length}</strong>
+      </div>
+      <button type="button" id="community-bingo-reset">Limpar cartela</button>
+    </div>
+    <div class="community-bingo-grid">
+      ${missions
+        .map(
+          (mission) => `
+            <button class="community-bingo-tile ${bingo[mission.id] ? "done" : ""}" type="button" data-bingo="${mission.id}" data-tone="${mission.tone}">
+              <span>${escapeHTML(mission.tag)}</span>
+              <strong>${escapeHTML(mission.title)}</strong>
+              <small>${escapeHTML(mission.body)}</small>
+            </button>
+          `,
+        )
+        .join("")}
+    </div>
+  `;
 
-  const showVibe = (id) => {
-    const vibe = vibes.find((item) => item.id === id) || vibes[0];
-    const pool = getApprovedAnimes()
-      .filter(
-        (anime) =>
-          !vibe.genres.length ||
-          (anime.genres || []).some((genre) => vibe.genres.includes(stripEmoji(genre))),
-      )
-      .sort((a, b) => scoreNumber(b.nota) - scoreNumber(a.nota));
-    const pick = pool[0] || getApprovedAnimes()[0];
+  host.querySelectorAll("[data-bingo]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const next = readStore("bingo", {});
+      next[button.dataset.bingo] = !next[button.dataset.bingo];
+      writeStore("bingo", next);
+      renderBingoBoard();
+    });
+  });
+
+  $("#community-bingo-reset")?.addEventListener("click", () => {
+    writeStore("bingo", {});
+    renderBingoBoard();
+  });
+}
+
+function renderVibes() {
+  const modeSelect = $("#community-mood-mode");
+  const memberSelect = $("#community-mood-member");
+  const rollButton = $("#community-mood-roll");
+  const result = $("#community-mood-result");
+  if (!modeSelect || !memberSelect || !rollButton || !result) return;
+
+  const { members } = state.data;
+  const animes = getApprovedAnimes();
+  const modes = {
+    safe: {
+      eyebrow: "Aposta segura",
+      title: "Boa chance de agradar geral",
+      sort: (a, b) =>
+        scoreNumber(b.nota) +
+        (b.qtdVotos || 0) * 0.12 -
+        (scoreNumber(a.nota) + (a.qtdVotos || 0) * 0.12),
+    },
+    chaos: {
+      eyebrow: "Vai dar conversa",
+      title: "Escolha para render opinião",
+      sort: (a, b) =>
+        scoreNumber(b.controversia) +
+        (b.qtdVotos || 0) * 0.04 -
+        (scoreNumber(a.controversia) + (a.qtdVotos || 0) * 0.04),
+    },
+    hidden: {
+      eyebrow: "Achado escondido",
+      title: "Pouca gente viu, mas tem potencial",
+      filter: (anime) => (anime.qtdVotos || 0) <= 2,
+      sort: (a, b) => scoreNumber(b.nota) - scoreNumber(a.nota),
+    },
+    catchup: {
+      eyebrow: "Para alguém alcançar",
+      title: "Bom para tirar pendência",
+      filter: (anime, member) =>
+        !member || !(anime.quemAssistiu || []).includes(member.nickname || member),
+      sort: (a, b) => scoreNumber(b.nota) - scoreNumber(a.nota),
+    },
+  };
+
+  if (!memberSelect.dataset.ready) {
+    memberSelect.innerHTML = [
+      `<option value="">Grupo todo</option>`,
+      ...members.map(
+        (member) => `<option value="${member.nickname}">${escapeHTML(member.nickname)}</option>`,
+      ),
+    ].join("");
+    memberSelect.dataset.ready = "true";
+  }
+
+  const pickMood = () => {
+    const mode = modes[modeSelect.value] || modes.safe;
+    const member = members.find((item) => item.nickname === memberSelect.value);
+    const pool = animes
+      .filter((anime) => (mode.filter ? mode.filter(anime, member) : true))
+      .sort(mode.sort)
+      .slice(0, 10);
+    const candidates = pool.length ? pool : animes.slice(0, 10);
+    const pick = candidates[Math.floor(Math.random() * Math.min(candidates.length, 5))];
+    const alternates = candidates.filter((anime) => anime !== pick).slice(0, 3);
+
     result.innerHTML = pick
-      ? `<strong>${escapeHTML(pick.name)}</strong><span>${formatNota(pick.nota)} de média. ${pick.qtdVotos || 0} votos no grupo.</span>`
-      : `<span>Sem anime suficiente para recomendar por vibe.</span>`;
+      ? `
+        <article class="community-mood-pick">
+          <span>${escapeHTML(mode.eyebrow)}</span>
+          <strong>${escapeHTML(pick.name)}</strong>
+          <p>${escapeHTML(mode.title)}${member ? ` para ${escapeHTML(member.nickname)}` : ""}.</p>
+          <small>${formatNota(pick.nota)} de média · ${pick.qtdVotos || 0} votos · ${formatNota(pick.controversia || 0)} de controvérsia</small>
+          <a href="acervo.html#g=${getGroupId()}&open=${pick.mal_id || pick.id}">Abrir no acervo</a>
+        </article>
+        <div class="community-mood-alternates">
+          ${alternates
+            .map(
+              (anime) => `
+                <a href="acervo.html#g=${getGroupId()}&open=${anime.mal_id || anime.id}">
+                  <span>Alternativa</span>
+                  <strong>${escapeHTML(anime.name)}</strong>
+                  <small>${formatNota(anime.nota)} · ${anime.qtdVotos || 0} votos</small>
+                </a>
+              `,
+            )
+            .join("")}
+        </div>
+      `
+      : `<div class="community-soft-empty">Sem anime suficiente no acervo para sortear.</div>`;
   };
 
-  host.onclick = (event) => {
-    const button = event.target.closest("[data-vibe]");
-    if (!button) return;
-    host
-      .querySelectorAll("button")
-      .forEach((item) => item.classList.toggle("active", item === button));
-    showVibe(button.dataset.vibe);
-  };
-
-  host.querySelector("button")?.classList.add("active");
-  showVibe(vibes[0].id);
+  rollButton.onclick = pickMood;
+  modeSelect.onchange = pickMood;
+  memberSelect.onchange = pickMood;
+  pickMood();
 }
 
 function bindScrollActions() {
@@ -1167,7 +1431,7 @@ function renderAll() {
   renderMissions();
   renderDebate();
   renderMemberRadar();
-  renderVibes();
+  renderBingoBoard();
 }
 
 async function init() {
