@@ -8,16 +8,21 @@ import {
   loadData,
   missedAnimes,
 } from "./data.js";
+import { supabase } from "./supabase-client.js";
 import { escapeHTML, getGroupId, shortText, stripEmoji } from "./utils.js";
 
 let state = {
   data: { animes: [], members: [], total: 0 },
+  activities: [],
+  boardIndex: 0,
+  boardTimer: null,
   comments: [],
   pollCandidates: [],
   debateIndex: 0,
 };
 
 const $ = (selector) => document.querySelector(selector);
+const BOARD_ROTATION_MS = 5000;
 
 function storageKey(name) {
   return `community-v2:${getGroupId() || "global"}:${name}`;
@@ -68,6 +73,172 @@ function scoreNumber(value) {
   return Number.isFinite(number) ? number : 0;
 }
 
+function activityTime(value) {
+  if (!value) return "agora";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "agora";
+  return date.toLocaleString("pt-BR", {
+    day: "2-digit",
+    month: "short",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
+function parseActivityDate(value) {
+  if (!value) return null;
+  if (typeof value === "string") {
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? null : date;
+  }
+  if (typeof value === "object" && "_seconds" in value) {
+    return new Date(value._seconds * 1000);
+  }
+  return null;
+}
+
+function animeActivityDate(anime) {
+  return (
+    parseActivityDate(anime.updated_at) ||
+    parseActivityDate(anime.updatedAt) ||
+    parseActivityDate(anime.created_at) ||
+    new Date(0)
+  );
+}
+
+function getAnimeByMalId(data, malId) {
+  return data.animes.find((anime) => String(anime.mal_id || anime.id) === String(malId));
+}
+
+function getMemberByUserId(data, userId) {
+  return data.members.find((member) => member.user_id === userId);
+}
+
+async function loadRecentActivity(data) {
+  const groupId = getGroupId();
+  if (!groupId) return [];
+
+  try {
+    const [votesResult, animesResult] = await Promise.all([
+      supabase
+        .from("votes")
+        .select("mal_id, user_id, score, comment, created_at")
+        .eq("group_id", groupId)
+        .order("created_at", { ascending: false })
+        .limit(18),
+      supabase
+        .from("group_animes")
+        .select("mal_id, added_by, status, created_at")
+        .eq("group_id", groupId)
+        .order("created_at", { ascending: false })
+        .limit(8),
+    ]);
+
+    if (votesResult.error) throw votesResult.error;
+    if (animesResult.error) throw animesResult.error;
+
+    const voteActivities = (votesResult.data || []).flatMap((vote) => {
+      const anime = getAnimeByMalId(data, vote.mal_id);
+      const member = getMemberByUserId(data, vote.user_id);
+      if (!anime || !member) return [];
+
+      const scoreLabel = vote.score !== null ? formatNota(vote.score) : "não assistiu";
+      const base = {
+        accent: member.color || "#a78bfa",
+        animeName: anime.name,
+        at: vote.created_at,
+        person: member.nickname,
+      };
+
+      const items = [
+        {
+          ...base,
+          title: `${member.nickname} deu nota`,
+          body:
+            vote.score !== null
+              ? `${formatNota(vote.score)} para ${anime.name}`
+              : `marcou ${anime.name} como não assistido`,
+          meta: activityTime(vote.created_at),
+        },
+      ];
+
+      if (vote.comment) {
+        items.unshift({
+          ...base,
+          title: `${member.nickname} comentou`,
+          body: `"${shortText(vote.comment, 120)}"`,
+          meta: `${anime.name} · ${scoreLabel} · ${activityTime(vote.created_at)}`,
+        });
+      }
+
+      return items;
+    });
+
+    const animeActivities = (animesResult.data || []).flatMap((item) => {
+      const anime = getAnimeByMalId(data, item.mal_id);
+      const member = getMemberByUserId(data, item.added_by);
+      if (!anime) return [];
+      return {
+        accent: member?.color || "#61e6b8",
+        animeName: anime.name,
+        at: item.created_at,
+        person: member?.nickname || "Comunidade",
+        title: item.status === "approved" ? "Anime entrou no acervo" : "Anime foi sugerido",
+        body: anime.name,
+        meta: `${member?.nickname ? `por ${member.nickname} · ` : ""}${activityTime(item.created_at)}`,
+      };
+    });
+
+    return [...voteActivities, ...animeActivities]
+      .sort((a, b) => new Date(b.at || 0) - new Date(a.at || 0))
+      .slice(0, 12);
+  } catch (error) {
+    console.warn("[Comunidade] Falha ao carregar atividades recentes", error);
+    return [];
+  }
+}
+
+function buildDerivedActivity(data, comments) {
+  const commentActivities = comments.slice(0, 10).map((comment) => {
+    const at = animeActivityDate(comment.anime);
+    return {
+      accent: comment.color,
+      animeName: comment.anime.name,
+      at: at.toISOString(),
+      person: comment.person,
+      title: `${comment.person} comentou`,
+      body: `"${shortText(comment.text, 120)}"`,
+      meta: `${comment.anime.name} · ${activityTime(at)}`,
+    };
+  });
+
+  const scoreActivities = data.animes
+    .flatMap((anime) =>
+      data.members
+        .map((member) => {
+          const score = getPersonNota(anime, member.nickname);
+          if (score === null || score === undefined) return null;
+          const at = animeActivityDate(anime);
+          return {
+            accent: member.color || "#a78bfa",
+            animeName: anime.name,
+            at: at.toISOString(),
+            person: member.nickname,
+            title: `${member.nickname} deu nota`,
+            body: `${formatNota(score)} para ${anime.name}`,
+            meta: activityTime(at),
+          };
+        })
+        .filter(Boolean),
+    )
+    .sort((a, b) => new Date(b.at || 0) - new Date(a.at || 0))
+    .slice(0, 12);
+
+  return [...commentActivities, ...scoreActivities]
+    .sort((a, b) => new Date(b.at || 0) - new Date(a.at || 0))
+    .slice(0, 12);
+}
+
 function renderEmptyState() {
   const shell = $(".community-v2-shell");
   if (!shell) return;
@@ -90,60 +261,188 @@ function renderMetrics() {
   $("#community-total-comments").textContent = state.comments.length;
 }
 
+function boardNote(kind, label, anime, meta) {
+  if (!anime) return "";
+  return `
+    <a class="community-board-note ${kind}" href="acervo.html#g=${getGroupId()}&open=${anime.mal_id}">
+      <span>${escapeHTML(label)}</span>
+      <strong>${escapeHTML(anime.name)}</strong>
+      <small>${escapeHTML(meta)}</small>
+    </a>
+  `;
+}
+
+function getBoardSlides() {
+  const animes = getApprovedAnimes();
+  const hot = [...animes].sort(
+    (a, b) => scoreNumber(b.controversia) - scoreNumber(a.controversia),
+  )[0];
+  const top = [...animes].sort((a, b) => scoreNumber(b.nota) - scoreNumber(a.nota))[0];
+  const watched = [...animes].sort((a, b) => (b.qtdVotos || 0) - (a.qtdVotos || 0))[0];
+  const hidden = [...animes]
+    .filter((anime) => (anime.qtdVotos || 0) > 0 && (anime.qtdVotos || 0) <= 2)
+    .sort((a, b) => scoreNumber(b.nota) - scoreNumber(a.nota))[0];
+  const fresh = [...animes].sort((a, b) => animeActivityDate(b) - animeActivityDate(a))[0];
+  const freshMeta = fresh ? `mexido em ${activityTime(animeActivityDate(fresh))}` : "";
+  const underdog = [...animes]
+    .filter((anime) => scoreNumber(anime.nota) >= 7 && scoreNumber(anime.nota) < 8.5)
+    .sort((a, b) => scoreNumber(b.controversia) - scoreNumber(a.controversia))[0];
+  const recentCommentAnime = state.activities.find((activity) =>
+    activity.title?.includes("comentou"),
+  );
+  const commented = recentCommentAnime
+    ? getAnimeByMalId(state.data, recentCommentAnime.animeName) ||
+      animes.find((anime) => anime.name === recentCommentAnime.animeName)
+    : null;
+
+  return [
+    {
+      kicker: "Quadro do clube",
+      title: "Hoje tem assunto.",
+      body: "Três pistas rápidas para puxar conversa, marcar sessão ou decidir o próximo play.",
+      notes: [
+        boardNote(
+          "is-next",
+          "Play sugerido",
+          top,
+          `${formatNota(top?.nota)} de média · ${top?.qtdVotos || 0} votos`,
+        ),
+        boardNote(
+          "is-hot",
+          "Treta saudável",
+          hot,
+          `${formatNota(hot?.controversia || 0)} de controvérsia`,
+        ),
+        boardNote(
+          "is-known",
+          "Porta de entrada",
+          watched,
+          `${watched?.qtdVotos || 0} membros votaram`,
+        ),
+      ],
+    },
+    {
+      kicker: "Rodada de descoberta",
+      title: "Tira um da sombra.",
+      body: "O clube também precisa olhar para os animes que ainda não tiveram chance suficiente.",
+      notes: [
+        boardNote(
+          "is-next",
+          "Achado escondido",
+          hidden,
+          `${formatNota(hidden?.nota)} de média · poucos votos`,
+        ),
+        boardNote("is-hot", "Atualizado recente", fresh, freshMeta),
+        boardNote("is-known", "Aposta segura", top, `${formatNota(top?.nota)} de média no grupo`),
+      ],
+    },
+    {
+      kicker: "Pauta social",
+      title: "Quem vai defender?",
+      body: "Ideias rápidas para transformar nota e comentário em conversa de grupo.",
+      notes: [
+        boardNote(
+          "is-hot",
+          "Debate quente",
+          underdog || hot,
+          `${formatNota((underdog || hot)?.controversia || 0)} de controvérsia`,
+        ),
+        boardNote(
+          "is-known",
+          "Comentado agora",
+          commented || watched,
+          recentCommentAnime?.person
+            ? `puxado por ${recentCommentAnime.person}`
+            : "bom para resposta rápida",
+        ),
+        boardNote(
+          "is-next",
+          "Sessão candidata",
+          watched,
+          `${watched?.qtdVotos || 0} votos registrados`,
+        ),
+      ],
+    },
+  ].filter((slide) => slide.notes.some(Boolean));
+}
+
 function renderSpotlight() {
   const host = $("#community-spotlight");
-  const animes = getApprovedAnimes();
   if (!host) return;
 
-  const top = [...animes].sort(
-    (a, b) =>
-      scoreNumber(b.nota) +
-      scoreNumber(b.controversia) -
-      (scoreNumber(a.nota) + scoreNumber(a.controversia)),
-  )[0];
-
-  if (!top) {
+  const slides = getBoardSlides();
+  if (!slides.length) {
     host.innerHTML = `<div class="community-spotlight-empty">A comunidade aparece quando o acervo tiver animes votados.</div>`;
     return;
   }
 
-  const hot = [...animes].sort(
-    (a, b) => scoreNumber(b.controversia) - scoreNumber(a.controversia),
-  )[0];
-  const watched = [...animes].sort((a, b) => (b.qtdVotos || 0) - (a.qtdVotos || 0))[0];
+  const index = state.boardIndex % slides.length;
+  const slide = slides[index];
 
   host.style.removeProperty("--spotlight-image");
   host.innerHTML = `
     <div class="community-club-board">
-      <span class="community-board-kicker">Quadro do clube</span>
-      <h2>Hoje tem assunto.</h2>
-      <p>Três pistas rápidas para puxar conversa, marcar sessão ou decidir o próximo play.</p>
+      <span class="community-board-kicker">${escapeHTML(slide.kicker)}</span>
+      <h2>${escapeHTML(slide.title)}</h2>
+      <p>${escapeHTML(slide.body)}</p>
       <div class="community-board-stack">
-        <a class="community-board-note is-next" href="acervo.html#g=${getGroupId()}&open=${top.mal_id}">
-          <span>Play sugerido</span>
-          <strong>${escapeHTML(top.name)}</strong>
-          <small>${formatNota(top.nota)} de média · ${top.qtdVotos || 0} votos</small>
-        </a>
-        <a class="community-board-note is-hot" href="acervo.html#g=${getGroupId()}&open=${hot?.mal_id || top.mal_id}">
-          <span>Treta saudável</span>
-          <strong>${escapeHTML(hot?.name || top.name)}</strong>
-          <small>${formatNota(hot?.controversia || 0)} de controvérsia</small>
-        </a>
-        <a class="community-board-note is-known" href="acervo.html#g=${getGroupId()}&open=${watched?.mal_id || top.mal_id}">
-          <span>Porta de entrada</span>
-          <strong>${escapeHTML(watched?.name || top.name)}</strong>
-          <small>${watched?.qtdVotos || top.qtdVotos || 0} membros votaram</small>
-        </a>
+        ${slide.notes.join("")}
+      </div>
+      <div class="community-board-dots" aria-label="Rotação do quadro">
+        ${slides
+          .map(
+            (_, dotIndex) =>
+              `<span class="${dotIndex === index ? "active" : ""}" data-board-slide="${dotIndex}" role="button" tabindex="0" aria-label="Mostrar pauta ${dotIndex + 1}"></span>`,
+          )
+          .join("")}
       </div>
     </div>
   `;
+
+  host.querySelector(".community-board-dots")?.addEventListener("click", (event) => {
+    const dot = event.target.closest("[data-board-slide]");
+    if (!dot) return;
+    setBoardSlide(Number(dot.dataset.boardSlide), true);
+  });
+
+  host.querySelector(".community-board-dots")?.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    const dot = event.target.closest("[data-board-slide]");
+    if (!dot) return;
+    event.preventDefault();
+    setBoardSlide(Number(dot.dataset.boardSlide), true);
+  });
+}
+
+function setBoardSlide(index, shouldRestart = false) {
+  const slides = getBoardSlides();
+  if (!slides.length) return;
+  state.boardIndex = ((index % slides.length) + slides.length) % slides.length;
+  renderSpotlight();
+  if (shouldRestart) startBoardRotation();
+}
+
+function startBoardRotation() {
+  if (state.boardTimer) clearInterval(state.boardTimer);
+  const slides = getBoardSlides();
+  if (slides.length <= 1) return;
+  state.boardTimer = setInterval(() => {
+    setBoardSlide(state.boardIndex + 1);
+  }, BOARD_ROTATION_MS);
 }
 
 function renderFeed() {
   const feed = $("#community-feed");
   if (!feed) return;
 
-  const comments = state.comments.slice(0, 8).map((comment) => ({
+  const activities = state.activities.map((item) => ({
+    accent: item.accent,
+    title: item.title,
+    body: item.body,
+    meta: item.meta,
+  }));
+
+  const comments = state.comments.slice(0, 6).map((comment) => ({
     accent: comment.color,
     title: `${comment.person} comentou`,
     body: `"${shortText(comment.text, 105)}"`,
@@ -160,7 +459,7 @@ function renderFeed() {
       meta: `${formatNota(anime.controversia || 0)} de controvérsia`,
     }));
 
-  const items = [...comments, ...hot].slice(0, 10);
+  const items = [...activities, ...comments, ...hot].slice(0, 12);
   feed.innerHTML = items.length
     ? items
         .map(
@@ -173,7 +472,7 @@ function renderFeed() {
       `,
         )
         .join("")
-    : `<div class="community-soft-empty">Sem comentários ainda. O mural começa a respirar quando o grupo vota e comenta no acervo.</div>`;
+    : `<div class="community-soft-empty">Sem atividade ainda. O mural começa a respirar quando o grupo vota, comenta e sugere animes.</div>`;
 }
 
 function choosePollCandidates() {
@@ -473,34 +772,115 @@ function bindMissions() {
 
 function debatePrompts() {
   const animes = getApprovedAnimes();
+  const { members } = state.data;
   const top = [...animes].sort((a, b) => scoreNumber(b.nota) - scoreNumber(a.nota))[0];
   const hot = [...animes].sort(
     (a, b) => scoreNumber(b.controversia) - scoreNumber(a.controversia),
   )[0];
   const watched = [...animes].sort((a, b) => (b.qtdVotos || 0) - (a.qtdVotos || 0))[0];
+
+  const scoredPairs = animes
+    .flatMap((anime) => {
+      const scores = members
+        .map((member) => ({
+          member,
+          score: getPersonNota(anime, member.nickname),
+        }))
+        .filter((item) => item.score !== null);
+      if (scores.length < 2) return [];
+      const high = [...scores].sort((a, b) => Number(b.score) - Number(a.score))[0];
+      const low = [...scores].sort((a, b) => Number(a.score) - Number(b.score))[0];
+      return {
+        anime,
+        diff: Number(high.score) - Number(low.score),
+        high,
+        low,
+      };
+    })
+    .filter((item) => item.diff >= 1)
+    .sort((a, b) => b.diff - a.diff);
+
+  const clash = scoredPairs[0];
+  const recentComment = state.activities.find((item) => item.title?.includes("comentou"));
+  const quietAnime = [...animes]
+    .filter((anime) => (anime.qtdVotos || 0) > 0 && (anime.qtdVotos || 0) <= 2)
+    .sort((a, b) => scoreNumber(b.nota) - scoreNumber(a.nota))[0];
+  const missingTarget = members
+    .map((member) => ({
+      member,
+      missed: missedAnimes(animes, member.nickname).filter((anime) => scoreNumber(anime.nota) >= 8),
+    }))
+    .filter((item) => item.missed.length)
+    .sort((a, b) => b.missed.length - a.missed.length)[0];
+
   return [
-    top
-      ? `${top.name} é realmente tudo isso ou a nota do grupo está generosa?`
-      : "Qual anime merece defender o topo do grupo?",
+    clash
+      ? {
+          prompt: `${clash.high.member.nickname} deu ${formatNota(clash.high.score)} e ${clash.low.member.nickname} deu ${formatNota(clash.low.score)} para ${clash.anime.name}. Quem convence quem?`,
+          action: "Regra da rodada: cada lado tem 3 argumentos e um anime para usar como prova.",
+        }
+      : null,
     hot
-      ? `O que explica a divisão em ${hot.name}? Gosto, ritmo, final ou expectativa?`
-      : "Qual anime mais divide opiniões aqui?",
+      ? {
+          prompt: `${hot.name} divide o grupo. O problema é hype alto, ritmo estranho ou gosto pessoal mesmo?`,
+          action: "Votem no culpado: hype, ritmo, final, personagem ou birra assumida.",
+        }
+      : null,
+    recentComment
+      ? {
+          prompt: `${recentComment.person} puxou assunto sobre ${recentComment.animeName}. Alguém concorda ou vai defender o contrário?`,
+          action: "Responder com uma nota, uma frase e uma recomendação parecida.",
+        }
+      : null,
+    missingTarget
+      ? {
+          prompt: `${missingTarget.member.nickname} ainda tem ${missingTarget.missed.length} anime(s) 8+ pendente(s). Qual é o obrigatório primeiro?`,
+          action: `Comecem por ${missingTarget.missed[0].name} ou indiquem uma alternativa melhor.`,
+        }
+      : null,
+    quietAnime
+      ? {
+          prompt: `${quietAnime.name} tem pouca gente votando. Achado escondido ou só passou despercebido?`,
+          action:
+            "Missão relâmpago: mais duas pessoas assistirem ou alguém explicar por que não vale.",
+        }
+      : null,
     watched
-      ? `${watched.name} seria uma boa porta de entrada para alguém novo no grupo?`
-      : "Qual anime representa melhor o gosto do grupo?",
-    "Qual gênero o grupo está subestimando no acervo?",
-    "Que anime todo mundo deveria rever com calma antes de bater o martelo?",
-  ];
+      ? {
+          prompt: `Se alguém novo entrasse hoje, ${watched.name} venderia bem o gosto do grupo?`,
+          action: "Escolham uma porta de entrada melhor se discordarem.",
+        }
+      : null,
+    top
+      ? {
+          prompt: `${top.name} está no topo. Qual anime do acervo tem chance real de derrubar esse reinado?`,
+          action: "Cada pessoa indica um desafiante e defende em uma frase.",
+        }
+      : null,
+    {
+      prompt: "Tribunal do grupo: qual anime está com nota injusta e quem vai defender a revisão?",
+      action: "Formato rápido: acusação, defesa e veredito final: sobe, desce ou mantém.",
+    },
+    {
+      prompt: "Qual anime você defenderia sozinho contra o grupo inteiro?",
+      action: "Vale escolher só um. A defesa precisa ter argumento, não só apego emocional.",
+    },
+    {
+      prompt:
+        "Se o grupo tivesse que marcar sessão hoje, qual anime geraria mais comentário no chat?",
+      action: "Indiquem uma opção segura e uma opção caótica.",
+    },
+  ].filter(Boolean);
 }
 
 function renderDebate() {
   const host = $("#community-debate-card");
   if (!host) return;
   const prompts = debatePrompts();
-  const prompt = prompts[state.debateIndex % prompts.length];
+  const item = prompts[state.debateIndex % prompts.length];
   host.innerHTML = `
-    <p>${escapeHTML(prompt)}</p>
-    <span>Use isso como pauta para comentário, chamada ou próxima sessão.</span>
+    <p>${escapeHTML(item.prompt)}</p>
+    <span>${escapeHTML(item.action)}</span>
   `;
 }
 
@@ -685,6 +1065,10 @@ async function init() {
 
   state.data = data;
   state.comments = getComments(data.animes, data.members);
+  state.activities = await loadRecentActivity(data);
+  if (!state.activities.length) {
+    state.activities = buildDerivedActivity(data, state.comments);
+  }
   bindScrollActions();
   bindPoll();
   bindEvents();
@@ -693,6 +1077,7 @@ async function init() {
   bindMemberRadar();
   bindCommunityTabs();
   renderAll();
+  startBoardRotation();
 }
 
 init().catch((error) => {

@@ -13686,6 +13686,24 @@ body.community-v4-page {
   box-shadow: inset 8px 0 0 var(--club-sky);
 }
 
+.community-v4-page .community-board-dots {
+  display: flex;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.community-v4-page .community-board-dots span {
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  height: 8px;
+  width: 24px;
+}
+
+.community-v4-page .community-board-dots span.active {
+  background: linear-gradient(90deg, var(--club-yellow), var(--club-pink));
+  width: 46px;
+}
+
 .community-v4-page .community-spotlight-glass h2,
 .community-v4-page .community-panel h2,
 .community-v4-page .community-section-title h2,
