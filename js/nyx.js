@@ -9,7 +9,7 @@ import {
   missedAnimes,
   topGenres,
   countGenres,
-} from "./data.js?v=desafios-soft-1";
+} from "./data.js?v=platform-v18";
 import { escapeHTML, stripEmoji } from "./utils.js";
 
 let members = [];

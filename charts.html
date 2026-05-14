@@ -4,8 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gráficos — AniLiber</title>
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/aniliber-icon-32.png?v=aniliber-icon-v4" />
-    <link rel="icon" type="image/png" sizes="192x192" href="assets/aniliber-icon-192.png?v=aniliber-icon-v4" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="assets/aniliber-icon-32.png?v=aniliber-icon-v4"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="assets/aniliber-icon-192.png?v=aniliber-icon-v4"
+    />
     <link rel="apple-touch-icon" href="assets/aniliber-icon-512.png?v=aniliber-icon-v4" />
     <link rel="stylesheet" href="css/style.css?v=platform-v16" />
     <script type="module" src="./js/theme.js?v=platform-v7"></script>
@@ -16,8 +26,7 @@
           radial-gradient(circle at 14% 6%, rgba(196, 181, 253, 0.14), transparent 380px),
           radial-gradient(circle at 86% 14%, rgba(249, 168, 212, 0.1), transparent 360px),
           radial-gradient(circle at 50% 85%, rgba(6, 182, 212, 0.06), transparent 500px),
-          linear-gradient(180deg, rgba(243, 239, 230, 0.04), transparent 340px),
-          var(--bg);
+          linear-gradient(180deg, rgba(243, 239, 230, 0.04), transparent 340px), var(--bg);
       }
 
       .page-header h1 {
@@ -186,7 +195,9 @@
           🌶️ Nota média vs. Controvérsia
           <span class="card-badge">hover para ver o nome</span>
         </div>
-        <p class="card-desc">Animes com divisão de opiniões — altas notas, mas nem todos concordam</p>
+        <p class="card-desc">
+          Animes com divisão de opiniões — altas notas, mas nem todos concordam
+        </p>
         <div class="chart-container" style="height: 340px">
           <canvas id="chartScatter"></canvas>
         </div>
@@ -195,7 +206,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
     <script type="module">
-      import { loadData } from "./js/data.js?v=platform-v7";
+      import { loadData } from "./js/data.js?v=platform-v18";
       import { renderAllCharts, renderChartsStats } from "./js/charts.js?v=platform-v7";
 
       async function init() {

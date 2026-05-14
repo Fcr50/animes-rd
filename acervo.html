@@ -4,8 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Acervo — AniLiber</title>
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/aniliber-icon-32.png?v=aniliber-icon-v4" />
-    <link rel="icon" type="image/png" sizes="192x192" href="assets/aniliber-icon-192.png?v=aniliber-icon-v4" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="assets/aniliber-icon-32.png?v=aniliber-icon-v4"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="assets/aniliber-icon-192.png?v=aniliber-icon-v4"
+    />
     <link rel="apple-touch-icon" href="assets/aniliber-icon-512.png?v=aniliber-icon-v4" />
     <link rel="stylesheet" href="css/style.css?v=platform-v16" />
     <script type="module" src="./js/theme.js?v=platform-v5"></script>
@@ -46,7 +56,9 @@
           display: flex;
           flex-direction: column;
           overflow: hidden;
-          transition: background 0.15s ease, border-color 0.15s ease;
+          transition:
+            background 0.15s ease,
+            border-color 0.15s ease;
         }
 
         /* Override: último tr não perde a borda inferior */
@@ -198,8 +210,8 @@
     </main>
 
     <script type="module">
-      import { loadData, formatNota } from "./js/data.js?v=platform-v5";
-      import { initTable } from "./js/table.js?v=platform-v5";
+      import { loadData, formatNota } from "./js/data.js?v=platform-v18";
+      import { initTable } from "./js/table.js?v=platform-v18";
 
       async function init() {
         const { animes, updatedAt, total } = await loadData();

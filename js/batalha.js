@@ -29,7 +29,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
 
 import { firebaseConfig } from "./firebase-config.js";
-import { animesOf, formatNota } from "./data.js?v=platform-v8";
+import { animesOf, formatNota } from "./data.js?v=platform-v18";
 import { escapeHTML } from "./utils.js";
 
 const app = getApps()[0] || initializeApp(firebaseConfig);
