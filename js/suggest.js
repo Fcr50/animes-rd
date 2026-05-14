@@ -172,6 +172,7 @@ function setupSearch() {
       detailsSection?.classList.add("hidden");
       manualFields?.classList.add("hidden");
       currentAnimeData = null;
+      if (genresInput) genresInput.value = "";
       if (importBtn) importBtn.disabled = importBtn.disabled;
       const submitBtn = document.getElementById("submit-anime-button");
       if (submitBtn) submitBtn.disabled = true;
