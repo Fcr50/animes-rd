@@ -18,9 +18,14 @@ jobs:
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           PROJECT_ID: ${{ secrets.PROJECT_ID }}
         run: |
-          # Região confirmada: sa-east-1 (São Paulo)
+          # Região: sa-east-1
           REGION="sa-east-1"
-          PGPASSWORD="$DB_PASSWORD" pg_dump "postgres://postgres.$PROJECT_ID:$DB_PASSWORD@aws-0-$REGION.pooler.supabase.com:5432/postgres" -f backup_data.sql
+          # Limpa eventuais espaços no ID do projeto
+          CLEAN_PROJECT_ID=$(echo "${{ secrets.PROJECT_ID }}" | tr -d '[:space:]')
+          
+          # Usamos flags explícitas (-h, -p, -U) que são mais seguras que uma URL longa
+          # Porta 6543 é o padrão para conexões estáveis via Pooler
+          PGPASSWORD="$DB_PASSWORD" pg_dump -h "aws-0-$REGION.pooler.supabase.com" -p 6543 -U "postgres.$CLEAN_PROJECT_ID" -d postgres -f backup_data.sql
 
       - name: Upload Backup Artifact
         uses: actions/upload-artifact@v4
