@@ -15,15 +15,13 @@ jobs:
 
       - name: Run Database Dump
         env:
-          # Estas variáveis precisam ser configuradas no "Settings > Secrets and variables > Actions" do seu repositório no GitHub
-          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           PROJECT_ID: ${{ secrets.PROJECT_ID }}
         run: |
-          # Executa o dump usando npx (baixa e roda na hora)
-          npx supabase login --token "$SUPABASE_ACCESS_TOKEN"
-          # Usamos o Pooler IPv4 confirmado (sa-east-1) com o usuário no formato postgres.ID
-          npx supabase db dump -f backup_data.sql --db-url "postgresql://postgres.$PROJECT_ID:$DB_PASSWORD@aws-0-sa-east-1.pooler.supabase.com:6543/postgres"
+          # Usa o pg_dump nativo que já existe no GitHub Actions
+          # O endereço aws-0-sa-east-1 é IPv4 e funciona no GitHub
+          # O usuário PRECISA ser no formato postgres.ID_DO_PROJETO
+          PGPASSWORD="$DB_PASSWORD" pg_dump -h aws-0-sa-east-1.pooler.supabase.com -p 6543 -U "postgres.xiziyothphnyifyftrwz" -f backup_data.sql postgres
 
       - name: Upload Backup Artifact
         uses: actions/upload-artifact@v4
