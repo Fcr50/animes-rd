@@ -18,10 +18,9 @@ jobs:
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           PROJECT_ID: ${{ secrets.PROJECT_ID }}
         run: |
-          # Usa o pg_dump nativo que já existe no GitHub Actions
-          # O endereço aws-0-sa-east-1 é IPv4 e funciona no GitHub
-          # O usuário PRECISA ser no formato postgres.ID_DO_PROJETO
-          PGPASSWORD="$DB_PASSWORD" pg_dump -h aws-0-sa-east-1.pooler.supabase.com -p 6543 -U "postgres.xiziyothphnyifyftrwz" -f backup_data.sql postgres
+          # Região confirmada: sa-east-1 (São Paulo)
+          REGION="sa-east-1"
+          PGPASSWORD="$DB_PASSWORD" pg_dump "postgres://postgres.$PROJECT_ID:$DB_PASSWORD@aws-0-$REGION.pooler.supabase.com:5432/postgres" -f backup_data.sql
 
       - name: Upload Backup Artifact
         uses: actions/upload-artifact@v4
