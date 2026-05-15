@@ -1,0 +1,37 @@
+name: Supabase Scheduled Backup
+
+on:
+  schedule:
+    # Roda todo dia às 03:00 AM UTC
+    - cron: '0 3 * * *'
+  workflow_dispatch: # Permite rodar manualmente se quiser
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install Supabase CLI
+        run: |
+          # Instala a CLI do Supabase no ambiente do GitHub
+          npm install -g supabase
+
+      - name: Run Database Dump
+        env:
+          # Estas variáveis precisam ser configuradas no "Settings > Secrets and variables > Actions" do seu repositório no GitHub
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          PROJECT_ID: ${{ secrets.PROJECT_ID }}
+        run: |
+          # Faz o login e gera o backup (dump) do banco de dados
+          supabase login --token "$SUPABASE_ACCESS_TOKEN"
+          supabase db dump --project-ref "$PROJECT_ID" -f backup_data.sql --db-url "postgresql://postgres:$DB_PASSWORD@db.$PROJECT_ID.supabase.co:5432/postgres"
+
+      - name: Upload Backup Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: supabase-db-backup-${{ github.run_id }}
+          path: backup_data.sql
+          retention-days: 7 # Guarda cada backup por 7 dias no GitHub
