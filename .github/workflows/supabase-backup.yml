@@ -22,22 +22,23 @@ jobs:
           echo "deb [signed-by=/usr/share/keyrings/postgresql-keyring.gpg] http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" | sudo tee /etc/apt/sources.list.d/postgresql.list
           sudo apt-get update
           sudo apt-get install -y postgresql-client-17
-- name: Run Database Dump
-  env:
-    DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-    PROJECT_ID: ${{ secrets.PROJECT_ID }}
-  run: |
-    # Região confirmada: sa-east-1
-    REGION="sa-east-1"
 
-    # Limpa o ID (remove 'postgres.' se houver e espaços)
-    CLEAN_ID=$(echo "${PROJECT_ID#postgres.}" | tr -d '[:space:]')
-
-    echo "Iniciando dump usando pg_dump 17 para o projeto: $CLEAN_ID"
-
-    # Forçamos o uso do executável da versão 17 instalado no passo anterior
-    # O caminho padrão no Ubuntu é /usr/lib/postgresql/17/bin/pg_dump
-    /usr/lib/postgresql/17/bin/pg_dump "postgresql://postgres.$CLEAN_ID:$DB_PASSWORD@aws-1-$REGION.pooler.supabase.com:6543/postgres" -f backup_data.sql
+      - name: Run Database Dump
+        env:
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          PROJECT_ID: ${{ secrets.PROJECT_ID }}
+        run: |
+          # Região confirmada: sa-east-1
+          REGION="sa-east-1"
+          
+          # Limpa o ID (remove 'postgres.' se houver e espaços)
+          CLEAN_ID=$(echo "${PROJECT_ID#postgres.}" | tr -d '[:space:]')
+          
+          echo "Iniciando dump usando pg_dump 17 para o projeto: $CLEAN_ID"
+          
+          # Forçamos o uso do executável da versão 17 instalado no passo anterior
+          # O caminho padrão no Ubuntu é /usr/lib/postgresql/17/bin/pg_dump
+          /usr/lib/postgresql/17/bin/pg_dump "postgresql://postgres.$CLEAN_ID:$DB_PASSWORD@aws-1-$REGION.pooler.supabase.com:6543/postgres" -f backup_data.sql
 
       - name: Upload Backup Artifact
         uses: actions/upload-artifact@v4
