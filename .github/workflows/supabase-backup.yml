@@ -13,11 +13,6 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Install Supabase CLI
-        run: |
-          # Instala a CLI do Supabase no ambiente do GitHub
-          npm install -g supabase
-
       - name: Run Database Dump
         env:
           # Estas variáveis precisam ser configuradas no "Settings > Secrets and variables > Actions" do seu repositório no GitHub
@@ -25,9 +20,9 @@ jobs:
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           PROJECT_ID: ${{ secrets.PROJECT_ID }}
         run: |
-          # Faz o login e gera o backup (dump) do banco de dados
-          supabase login --token "$SUPABASE_ACCESS_TOKEN"
-          supabase db dump --project-ref "$PROJECT_ID" -f backup_data.sql --db-url "postgresql://postgres:$DB_PASSWORD@db.$PROJECT_ID.supabase.co:5432/postgres"
+          # Executa o dump usando npx (baixa e roda na hora)
+          npx supabase login --token "$SUPABASE_ACCESS_TOKEN"
+          npx supabase db dump --project-ref "$PROJECT_ID" -f backup_data.sql --db-url "postgresql://postgres:$DB_PASSWORD@db.$PROJECT_ID.supabase.co:5432/postgres"
 
       - name: Upload Backup Artifact
         uses: actions/upload-artifact@v4
