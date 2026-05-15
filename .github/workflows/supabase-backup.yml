@@ -22,7 +22,8 @@ jobs:
         run: |
           # Executa o dump usando npx (baixa e roda na hora)
           npx supabase login --token "$SUPABASE_ACCESS_TOKEN"
-          npx supabase db dump -f backup_data.sql --db-url "postgresql://postgres.xiziyothphnyifyftrwz:$DB_PASSWORD@aws-0-sa-east-1.pooler.supabase.com:6543/postgres"
+          # Usamos a URL direta do banco com o ID do projeto dinâmico
+          npx supabase db dump -f backup_data.sql --db-url "postgresql://postgres:$DB_PASSWORD@db.$PROJECT_ID.supabase.co:5432/postgres"
 
       - name: Upload Backup Artifact
         uses: actions/upload-artifact@v4
