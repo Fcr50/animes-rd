@@ -14570,6 +14570,125 @@ body.community-v4-page {
   margin: 6px 0;
 }
 
+/* Community compact density */
+.community-v4-page .community-v2-shell {
+  gap: 18px;
+  max-width: 1180px;
+  padding: 24px 18px 42px;
+}
+
+.community-v4-page .community-v2-hero {
+  gap: 18px;
+  grid-template-columns: minmax(0, 0.9fr) minmax(360px, 0.95fr);
+}
+
+.community-v4-page .community-v2-hero-copy,
+.community-v4-page .community-v2-spotlight,
+.community-v4-page .community-section,
+.community-v4-page .community-panel {
+  border-radius: 22px;
+}
+
+.community-v4-page .community-v2-hero-copy {
+  min-height: 320px;
+  padding: clamp(30px, 5vw, 58px);
+}
+
+.community-v4-page .community-v2-hero-copy h1 {
+  font-size: clamp(54px, 8.4vw, 104px);
+  line-height: 0.84;
+}
+
+.community-v4-page .community-v2-stats {
+  gap: 12px;
+}
+
+.community-v4-page .community-v2-stats article {
+  min-height: 112px;
+  padding: 18px;
+}
+
+.community-v4-page .community-v2-stats strong {
+  font-size: clamp(30px, 4.5vw, 48px);
+}
+
+.community-v4-page .community-tabs {
+  gap: 10px;
+}
+
+.community-v4-page .community-tabs button {
+  border-radius: 18px;
+  min-height: 68px;
+  padding: 14px 16px;
+}
+
+.community-v4-page .community-section {
+  padding: clamp(24px, 4vw, 40px);
+}
+
+.community-v4-page .community-section-title {
+  margin-bottom: 22px;
+}
+
+.community-v4-page .community-section-title h2 {
+  font-size: clamp(30px, 4.2vw, 48px);
+}
+
+.community-v4-page .community-panel {
+  padding: 22px;
+}
+
+.community-v4-page .community-panel h2 {
+  font-size: clamp(22px, 2.4vw, 30px);
+}
+
+.community-v4-page .community-club-board h2,
+.community-v4-page .community-debate-card p,
+.community-v4-page .community-watch-feature strong {
+  font-size: clamp(28px, 3.5vw, 44px);
+}
+
+.community-v4-page .community-note-card strong {
+  font-size: clamp(20px, 2vw, 28px);
+}
+
+.community-v4-page .community-board-note,
+.community-v4-page .community-feed-item,
+.community-v4-page .community-leader-row,
+.community-v4-page .community-event-card,
+.community-v4-page .community-affinity-card,
+.community-v4-page .community-radar-card,
+.community-v4-page .community-radar-lists section,
+.community-v4-page .community-debate-card,
+.community-v4-page .community-watch-feature,
+.community-v4-page .community-watch-queue article,
+.community-v4-page .community-note-card,
+.community-v4-page .community-note-empty {
+  border-radius: 18px;
+  padding: 16px;
+}
+
+.community-v4-page .community-note-card,
+.community-v4-page .community-note-empty {
+  min-height: 180px;
+}
+
+.community-v4-page .community-note-form,
+.community-v4-page .community-watch-pact-card .community-event-form {
+  border-radius: 18px;
+  padding: 14px;
+}
+
+.community-v4-page .community-note-form textarea {
+  min-height: 82px;
+}
+
+.community-v4-page .community-note-wall,
+.community-v4-page .community-watch-queue,
+.community-v4-page .community-affinity-grid {
+  gap: 12px;
+}
+
 @media (max-width: 760px) {
   .community-v4-page .community-watch-pact-card .community-event-row,
   .community-v4-page .community-watch-queue,
