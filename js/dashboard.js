@@ -5,24 +5,6 @@ import { signInWithGoogle, onAuthStateChange, getCurrentUser } from './auth.js';
 let currentUser = null;
 let currentManagingGroupId = null;
 
-// Substitui títulos dos cards independente do cache do HTML
-function styleCardTitles() {
-  const style = (text, gradient) => {
-    const el = document.createElement('div');
-    el.textContent = text;
-    el.style.cssText = `font-family:'Newsreader',serif;font-size:22px;font-weight:750;letter-spacing:-0.01em;text-align:center;margin-bottom:18px;background:${gradient};-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;`;
-    return el;
-  };
-  document.querySelectorAll('.card-title').forEach(el => {
-    const text = el.textContent.trim().toLowerCase();
-    if (text.includes('criar') || text.includes('novo grupo')) {
-      el.replaceWith(style('Criar Novo Grupo', 'linear-gradient(90deg,#5d8bff,#57cdae)'));
-    } else if (text.includes('entrar') || text.includes('convite')) {
-      el.replaceWith(style('Entrar em um Grupo', 'linear-gradient(90deg,#ff9fc7,#f97316)'));
-    }
-  });
-}
-document.addEventListener('DOMContentLoaded', styleCardTitles);
 
 async function init() {
   const dashboardContent = document.getElementById('dashboard-content');
@@ -75,10 +57,25 @@ async function init() {
   document.getElementById('btn-delete-group')?.addEventListener('click', handleDeleteGroup);
 }
 
+const EMOJI_OPTIONS = ['🏠','👥','⭐','🎮','🎬','📺','🎵','🌟','🎯','🚀','🦊','🐉','🌸','🏆','💫','🌈','🐱','🎭','🦄','🍥','🎪','🔮','🐼','🌙'];
+
+function groupIcon(name, gid) {
+  if (gid) {
+    const saved = localStorage.getItem(`group-icon-${gid}`);
+    if (saved) return saved;
+  }
+  let h = 0;
+  for (let i = 0; i < name.length; i++) h += name.charCodeAt(i);
+  return EMOJI_OPTIONS[h % EMOJI_OPTIONS.length];
+}
+
 async function loadGroups() {
   const groupsList = document.getElementById('groups-list');
   if (!groupsList || !currentUser) return;
-  groupsList.innerHTML = '<div class="skeleton" style="height: 100px;"></div>';
+  groupsList.innerHTML = `
+    <p class="skeleton" style="height:180px;border-radius:20px;"></p>
+    <p class="skeleton" style="height:180px;border-radius:20px;"></p>
+    <p class="skeleton" style="height:180px;border-radius:20px;"></p>`;
 
   try {
     const { data, error } = await supabase
@@ -103,7 +100,7 @@ async function loadGroups() {
 
     if (!data || data.length === 0) {
       groupsList.innerHTML = `
-        <div style="color: var(--faint); grid-column: 1/-1; text-align: center; padding: 20px; border: 1px dashed var(--border); border-radius: 8px;">
+        <div style="color:var(--faint);grid-column:1/-1;text-align:center;padding:20px;border:1px dashed var(--border);border-radius:16px;">
           <p>Você ainda não participa de nenhum grupo.</p>
         </div>`;
       return;
@@ -119,66 +116,46 @@ async function loadGroups() {
       const shown = members.slice(0, 4);
       const extra = members.length - 4;
 
-      const memberAvatars = shown.map(m => `
-        <div title="${m.nickname}" style="
-          width: 32px; height: 32px; border-radius: 50%;
-          background: ${m.color || '#888'}22;
-          border: 2px solid ${m.color || '#888'};
-          display: flex; align-items: center; justify-content: center;
-          font-size: 12px; font-weight: 800; color: ${m.color || '#888'};
-          flex-shrink: 0;
-        ">${m.nickname[0].toUpperCase()}</div>
-      `).join('');
+      const avatars = shown.map(m => `
+        <div class="db-avatar" title="${m.nickname}" style="
+          background:${m.color || '#888'}22;
+          border:2px solid ${m.color || '#888'};
+          color:${m.color || '#888'};
+        ">${m.nickname[0].toUpperCase()}</div>`).join('');
 
       const extraBadge = extra > 0 ? `
-        <div style="
-          width: 32px; height: 32px; border-radius: 50%;
-          background: rgba(255,255,255,0.06);
-          border: 2px solid rgba(255,255,255,0.18);
-          display: flex; align-items: center; justify-content: center;
-          font-size: 10px; font-weight: 800; color: var(--muted);
+        <div class="db-avatar" style="
+          background:rgba(255,255,255,0.06);
+          border:2px solid rgba(255,255,255,0.18);
+          color:var(--muted);font-size:10px;
         ">+${extra}</div>` : '';
 
+      const badge = isCreator
+        ? `<span class="db-badge-creator">👑 Criador · <strong>${g.invite_code}</strong></span>`
+        : `<span class="db-badge-member">Membro</span>`;
+
+      const settingsBtn = isCreator
+        ? `<button class="db-settings-btn" onclick="window.openManageModal('${g.id}','${g.name}')" title="Gerenciar">⚙️</button>`
+        : '';
+
       return `
-        <div class="card group-card" style="display:flex; flex-direction:column; gap:0; padding: 22px; position: relative;">
-          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px;">
-            <div style="
-              font-family: 'Newsreader', serif;
-              font-size: 28px; font-weight: 750;
-              letter-spacing: -0.02em; line-height: 1.1;
-              background: linear-gradient(90deg, #5d8bff, #57cdae);
-              -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-              background-clip: text;
-            ">${g.name}</div>
-            
-            ${isCreator ? `
-              <button class="btn-manage-trigger" onclick="window.openManageModal('${g.id}', '${g.name}')" 
-                style="background: rgba(255,255,255,0.05); border: 1px solid rgba(243, 239, 230, 0.1); border-radius: 10px; color: var(--muted); cursor: pointer; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; font-size: 16px; transition: all 0.2s; padding: 0;"
-                onmouseover="this.style.background='rgba(255,255,255,0.1)'; this.style.borderColor='rgba(243, 239, 230, 0.2)';"
-                onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.borderColor='rgba(243, 239, 230, 0.1)';"
-              >⚙️</button>` : ''}
-          </div>
-
-          <p style="font-size: 11px; color: var(--faint); margin: 0 0 16px 0;">
-            ${isCreator ? `👑 Criador · <span style="color:var(--accent)">${g.invite_code}</span>` : 'Membro'}
-          </p>
-
-          <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-bottom: 16px;">
-            ${memberAvatars}${extraBadge}
-          </div>
-
-          <div style="border-top: 1px solid var(--border); margin-bottom: 14px;"></div>
-
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <div style="display:flex; align-items:center; gap:8px;">
-              <button
-                onclick="window.editMemberColor('${g.id}', '${memberColor}', this)"
-                style="width:20px; height:20px; border-radius:50%; background:${memberColor}; border:2px solid rgba(255,255,255,0.25); cursor:pointer; flex-shrink:0;"
-                title="Editar minha cor no grupo"
-              ></button>
-              <span style="font-size:11px; color:var(--faint);">Minha cor</span>
+        <div class="db-group-card">
+          <div class="db-group-top">
+            <div class="db-group-icon" data-gid="${g.id}" style="background: rgba(107,90,224,0.22); box-shadow: inset 0 0 0 1px rgba(107,90,224,0.4);">${groupIcon(g.name, g.id)}</div>
+            <div class="db-group-info">
+              <div class="db-group-name">${g.name}</div>
+              ${badge}
             </div>
-            <a href="${url}" style="font-size:12px; font-weight:700; color:var(--accent); text-decoration:none;">Abrir acervo →</a>
+            ${settingsBtn}
+          </div>
+          <div class="db-avatars">${avatars}${extraBadge}</div>
+          <div class="db-card-footer">
+            <div class="db-color-row">
+              <button class="db-color-dot" data-color-gid="${g.id}" onclick="window.editMemberColor('${g.id}','${memberColor}',this)"
+                style="background:${memberColor};" title="Editar minha cor no grupo"></button>
+              <span class="db-color-label">Minha cor</span>
+            </div>
+            <a href="${url}" class="db-acervo-btn" style="background: rgba(107,90,224,0.15); border-color: rgba(107,90,224,0.55); color: #b098f8;">Abrir acervo →</a>
           </div>
         </div>`;
     }).join('');
@@ -193,6 +170,26 @@ window.openManageModal = (gid, name) => {
   if (input) input.value = name;
   document.getElementById('modal-manage-group').classList.add('open');
   loadManageMembers(gid);
+  loadEmojiPicker(gid, name);
+};
+
+function loadEmojiPicker(gid, groupName) {
+  const picker = document.getElementById('emoji-picker');
+  if (!picker) return;
+  const current = groupIcon(groupName, gid);
+  picker.innerHTML = EMOJI_OPTIONS.map(e => `
+    <button type="button" class="db-emoji-btn ${e === current ? 'active' : ''}"
+      onclick="window.setGroupIcon('${gid}', '${e}', this)">
+      ${e}
+    </button>`).join('');
+}
+
+window.setGroupIcon = (gid, emoji, btn) => {
+  localStorage.setItem(`group-icon-${gid}`, emoji);
+  document.querySelectorAll('.db-emoji-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  // Atualiza só o ícone no DOM, sem refetch
+  document.querySelectorAll(`[data-gid="${gid}"]`).forEach(el => el.textContent = emoji);
 };
 window.closeManageModal = () => document.getElementById('modal-manage-group').classList.remove('open');
 
@@ -299,7 +296,11 @@ window.applyMemberColor = async (groupId, color) => {
     .update({ color })
     .eq('group_id', groupId)
     .eq('user_id', currentUser.id);
-  if (!error) await loadGroups();
+  if (!error) {
+    // Atualiza só a bolinha de cor no DOM, sem refetch
+    const dot = document.querySelector(`[data-color-gid="${groupId}"]`);
+    if (dot) { dot.style.background = color; dot.setAttribute('onclick', `window.editMemberColor('${groupId}','${color}',this)`); }
+  }
 };
 
 async function joinGroup(code) {
