@@ -151,9 +151,56 @@
         padding: 3px 9px;
       }
 
+      /* ── Header polished ── */
+      .pending-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-bottom: 32px;
+      }
+      .pending-header-left {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+      }
+      .pending-header-icon {
+        width: 62px; height: 62px; border-radius: 50%;
+        background: rgba(26,107,120,0.2);
+        border: 1px solid rgba(42,157,180,0.45);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 26px; flex-shrink: 0;
+      }
+      .pending-header-text h1 {
+        font-size: 62px; font-weight: 800;
+        background: linear-gradient(90deg, #2a9db4, #86efac);
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin: 0 0 4px; line-height: 1;
+      }
+      .pending-header-text p { color: var(--faint); margin: 0; font-size: 14px; }
+      .pending-history-btn,
+      a.pending-history-btn {
+        padding: 9px 20px; border-radius: 999px;
+        border: 1px solid rgba(74,222,128,0.55) !important;
+        background: rgba(74,222,128,0.1) !important;
+        color: #4ade80 !important; font-size: 13px; font-weight: 800;
+        text-decoration: none !important; white-space: nowrap;
+        display: inline-block;
+        transition: background 0.18s, border-color 0.18s;
+      }
+      .pending-history-btn:hover,
+      a.pending-history-btn:hover {
+        background: rgba(74,222,128,0.2) !important;
+        border-color: rgba(74,222,128,0.85) !important;
+        color: #fff !important;
+      }
+
       @media (max-width: 768px) {
         #pending-animes-container { grid-template-columns: 1fr; gap: 12px; }
         .vote-card { border-radius: 16px; padding: 14px; }
+        .pending-header { flex-direction: column; align-items: flex-start; }
       }
     </style>
     <script type="module" src="./js/theme.js?v=platform-v7"></script>
@@ -163,10 +210,10 @@
     <nav class="nav"></nav>
 
     <main class="page">
-      <div class="page-header pending-header">
-        <div>
+      <div class="pending-header">
+        <div class="pending-header-text">
           <h1>Fila de Aprovação</h1>
-          <p style="color: var(--faint)">Animes que aguardam votos de todos os membros.</p>
+          <p>Animes que aguardam votos de todos os membros.</p>
         </div>
         <a href="historico.html" class="pending-history-btn">Meu histórico →</a>
       </div>
