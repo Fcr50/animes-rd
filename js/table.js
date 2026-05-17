@@ -343,7 +343,14 @@ window.openModal = function (idx) {
     .map((g) => `<span class="badge badge-genre">${g}</span>`)
     .join(" ");
 
-  document.getElementById("modal-notes").innerHTML = members
+  document.getElementById("modal-notes").innerHTML = [...members]
+    .sort((x, y) => {
+      const nx = a[`nota${x.nickname}`];
+      const ny = a[`nota${y.nickname}`];
+      if (nx !== null && ny === null) return -1;
+      if (nx === null && ny !== null) return 1;
+      return 0;
+    })
     .map((m) => {
       const nota = a[`nota${m.nickname}`];
       const color = getPersonColor(m.nickname);
