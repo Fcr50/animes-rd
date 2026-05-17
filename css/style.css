@@ -11650,9 +11650,31 @@ body.acervo-page .modal-genres .badge-genre {
 }
 
 body.acervo-page .notes-grid {
+  display: flex;
+  flex-wrap: nowrap;
   gap: 10px;
-  grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
   margin-bottom: 14px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+}
+
+body.acervo-page .notes-grid::-webkit-scrollbar {
+  height: 4px;
+}
+
+body.acervo-page .notes-grid::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+body.acervo-page .notes-grid::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 99px;
+}
+
+body.acervo-page .note-box {
+  flex: 0 0 118px;
 }
 
 body.acervo-page .note-box {
