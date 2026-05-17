@@ -4,80 +4,802 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Comparar | AniLiber</title>
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="assets/aniliber-icon-32.png?v=aniliber-icon-v4"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="192x192"
-      href="assets/aniliber-icon-192.png?v=aniliber-icon-v4"
-    />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/aniliber-icon-32.png?v=aniliber-icon-v4" />
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/aniliber-icon-192.png?v=aniliber-icon-v4" />
     <link rel="apple-touch-icon" href="assets/aniliber-icon-512.png?v=aniliber-icon-v4" />
     <link rel="stylesheet" href="css/style.css?v=platform-v17" />
     <script type="module" src="./js/theme.js?v=platform-v11"></script>
     <script type="module" src="./js/utils.js?v=platform-v16"></script>
+    <style>
+      /* ══════════════════════════════════════════════
+         Compare page — redesign total (cmp-* namespace)
+         ══════════════════════════════════════════════ */
+
+      body.compare-page {
+        background:
+          radial-gradient(circle at 12% 6%, rgba(196,181,253,.16), transparent 380px),
+          radial-gradient(circle at 88% 12%, rgba(249,168,212,.11), transparent 360px),
+          radial-gradient(circle at 50% 88%, rgba(6,182,212,.08), transparent 500px),
+          linear-gradient(180deg, rgba(243,239,230,.04), transparent 340px),
+          var(--bg);
+      }
+
+      .cmp-page {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 40px 20px 80px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      /* ── Hero ─────────────────────────────── */
+      .cmp-hero { margin-bottom: 4px; }
+
+      .cmp-title {
+        font-size: clamp(32px, 4vw, 50px);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 1;
+        background: linear-gradient(90deg, #c4b5fd 0%, #f9a8d4 55%, #fdba74 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        -webkit-text-fill-color: transparent;
+        margin: 0 0 8px;
+      }
+
+      .cmp-subtitle {
+        color: rgba(255,255,255,.38);
+        font-size: 14px;
+        margin: 0;
+      }
+
+      /* ── Versus bar ───────────────────────── */
+      .cmp-versus {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        gap: 12px;
+        align-items: center;
+        background:
+          linear-gradient(135deg, rgba(196,181,253,.06), rgba(249,168,212,.04));
+        border: 1px solid rgba(196,181,253,.2);
+        border-radius: 20px;
+        padding: 16px 20px;
+        backdrop-filter: blur(12px);
+        position: relative;
+        z-index: 50;
+        box-shadow: 0 0 0 1px rgba(249,168,212,.06) inset;
+      }
+
+      .cmp-pick { display: flex; align-items: center; gap: 10px; }
+      .cmp-pick:last-child { justify-content: flex-end; }
+
+      .cmp-pick-label {
+        color: rgba(255,255,255,.3);
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: .05em;
+        white-space: nowrap;
+      }
+
+      /* Custom picker keeps compare-picker classes from JS */
+      .compare-picker { min-width: 160px; position: relative; z-index: 20; }
+
+      .compare-native-select {
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        height: 1px !important;
+        min-width: 0 !important;
+        opacity: 0;
+        overflow: hidden;
+        pointer-events: none;
+        position: absolute;
+        width: 1px !important;
+      }
+
+      .compare-picker-trigger {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        height: 40px;
+        padding: 0 14px 0 16px;
+        border-radius: 12px;
+        border: 1px solid rgba(196,181,253,.28);
+        background: rgba(196,181,253,.07);
+        color: #f5f3ff;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: border-color .18s, background .18s, box-shadow .18s;
+        font-family: inherit;
+      }
+
+      .compare-picker-trigger:hover {
+        border-color: rgba(196,181,253,.45);
+        background: rgba(196,181,253,.11);
+      }
+
+      .compare-picker-trigger::after {
+        content: "⌄";
+        color: #c4b5fd;
+        font-size: 16px;
+        margin-left: 10px;
+        transition: transform .18s;
+        transform: translateY(-1px);
+      }
+
+      .compare-picker.open .compare-picker-trigger {
+        border-color: rgba(196,181,253,.55);
+        box-shadow: 0 0 0 3px rgba(196,181,253,.1);
+      }
+
+      .compare-picker.open .compare-picker-trigger::after { transform: rotate(180deg); }
+
+      .compare-picker-menu {
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 0; right: 0;
+        background: #1a1826;
+        border: 1px solid rgba(196,181,253,.18);
+        border-radius: 14px;
+        padding: 6px;
+        display: grid;
+        gap: 2px;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-6px) scale(.97);
+        transition: opacity .15s, transform .15s;
+        box-shadow: 0 24px 56px rgba(0,0,0,.5);
+        max-height: 230px;
+        overflow-y: auto;
+        z-index: 99;
+      }
+
+      .compare-picker.open .compare-picker-menu { opacity: 1; pointer-events: auto; transform: none; }
+
+      .compare-picker-menu button {
+        display: flex;
+        align-items: center;
+        background: transparent;
+        border: 1px solid transparent;
+        border-radius: 10px;
+        color: rgba(255,255,255,.6);
+        font-size: 13px;
+        font-weight: 600;
+        min-height: 36px;
+        padding: 0 12px;
+        cursor: pointer;
+        transition: background .12s, color .12s;
+        font-family: inherit;
+      }
+
+      .compare-picker-menu button:hover,
+      .compare-picker-menu button[aria-selected="true"] {
+        background: rgba(196,181,253,.1);
+        border-color: rgba(196,181,253,.2);
+        color: #f5f3ff;
+      }
+
+      .compare-picker-menu button[aria-selected="true"]::after {
+        content: "✓";
+        color: #c4b5fd;
+        margin-left: auto;
+        font-weight: 900;
+      }
+
+      /* ── VS center ────────────────────────── */
+      .cmp-vs-center {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        padding: 0 8px;
+        min-width: 80px;
+      }
+
+      .cmp-vs-badge {
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: .15em;
+        color: rgba(255,255,255,.25);
+        text-transform: uppercase;
+      }
+
+      /* ── Compat card (fills #venn4-container via JS) ── */
+      .cmp-compat {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .cmp-compat-top {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 12px;
+        align-items: stretch;
+      }
+
+      .cmp-compat-main {
+        grid-column: 1;
+        background: linear-gradient(145deg, rgba(74,222,128,.07), rgba(34,211,238,.04));
+        border: 1px solid rgba(74,222,128,.16);
+        border-radius: 18px;
+        padding: 22px 22px 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        min-height: 150px;
+      }
+
+      .cmp-compat-label {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: .13em;
+        text-transform: uppercase;
+        color: rgba(74,222,128,.6);
+        margin-bottom: 6px;
+      }
+
+      .cmp-compat-pct {
+        font-size: 52px;
+        font-family: "Newsreader", serif;
+        font-weight: 750;
+        line-height: 1;
+        background: linear-gradient(90deg, #4ade80, #22d3ee);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: -0.02em;
+      }
+
+      .cmp-compat-pct small { font-size: 24px; }
+
+      .cmp-compat-bar {
+        height: 4px;
+        border-radius: 999px;
+        background: rgba(255,255,255,.08);
+        overflow: hidden;
+        margin-top: 14px;
+      }
+
+      .cmp-compat-bar-fill {
+        height: 100%;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #4ade80, #22d3ee);
+        transition: width .7s cubic-bezier(.4,0,.2,1);
+      }
+
+      .cmp-compat-tag {
+        margin-top: 12px;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+        color: rgba(74,222,128,.5);
+      }
+
+      .cmp-stat-mini {
+        background: rgba(255,255,255,.022);
+        border: 1px solid rgba(255,255,255,.07);
+        border-radius: 18px;
+        padding: 18px 14px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        gap: 0;
+        min-height: 150px;
+      }
+
+      .cmp-stat-mini-icon {
+        width: 36px; height: 36px;
+        border-radius: 10px;
+        display: grid;
+        place-items: center;
+        font-size: 16px;
+        background: color-mix(in srgb, var(--c, #4ade80) 9%, rgba(255,255,255,.03));
+        border: 1px solid color-mix(in srgb, var(--c, #4ade80) 18%, transparent);
+        color: color-mix(in srgb, var(--c, #4ade80) 90%, #fff);
+        margin-bottom: 10px;
+      }
+
+      .cmp-stat-mini strong {
+        display: block;
+        font-size: 28px;
+        font-family: "Newsreader", serif;
+        font-weight: 750;
+        line-height: 1;
+        color: color-mix(in srgb, var(--c, #4ade80) 88%, #fff);
+        margin-bottom: 8px;
+      }
+
+      .cmp-stat-mini span {
+        font-size: 11px;
+        color: rgba(255,255,255,.38);
+        font-weight: 500;
+        line-height: 1.4;
+        max-width: 90px;
+      }
+
+      /* ── Bands ────────────────────────────── */
+      .cmp-bands {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        border-radius: 16px;
+        overflow: hidden;
+        border: 1px solid rgba(255,255,255,.07);
+        background: rgba(255,255,255,.018);
+      }
+
+      .cmp-band {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 16px;
+        border-right: 1px solid rgba(255,255,255,.07);
+      }
+
+      .cmp-band:last-child { border-right: none; }
+
+      .cmp-band-icon {
+        width: 34px; height: 34px;
+        border-radius: 9px;
+        display: grid;
+        place-items: center;
+        font-size: 15px;
+        flex-shrink: 0;
+        background: color-mix(in srgb, var(--bc) 10%, rgba(255,255,255,.03));
+        color: var(--bc);
+      }
+
+      .cmp-band-info { display: flex; flex-direction: column; gap: 2px; }
+
+      .cmp-band-num {
+        font-size: 22px;
+        font-family: "Newsreader", serif;
+        font-weight: 800;
+        line-height: 1;
+        color: var(--bc);
+      }
+
+      .cmp-band-lbl {
+        font-size: 11px;
+        color: rgba(255,255,255,.4);
+        font-weight: 500;
+      }
+
+      /* ── 2x2 panels ───────────────────────── */
+      .cmp-panels {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+      .cmp-panel {
+        background: rgba(255,255,255,.022);
+        border: 1px solid rgba(255,255,255,.07);
+        border-radius: 16px;
+        padding: 18px 20px;
+        min-height: 96px;
+      }
+
+      .cmp-panel-label {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: .15em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,.3);
+        margin-bottom: 6px;
+      }
+
+      .cmp-panel-title {
+        font-size: 17px;
+        font-weight: 700;
+        color: #f7f2e8;
+        line-height: 1.2;
+        margin: 0 0 4px;
+      }
+
+      .cmp-panel-sub {
+        font-size: 12px;
+        color: rgba(255,255,255,.42);
+        line-height: 1.5;
+      }
+
+      .cmp-panel-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 10px;
+      }
+
+      .cmp-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 5px 10px;
+        border-radius: 999px;
+        background: rgba(74,222,128,.07);
+        border: 1px solid rgba(74,222,128,.14);
+        color: rgba(74,222,128,.82);
+        font-size: 11px;
+        font-weight: 600;
+      }
+
+      .cmp-tag small { opacity: .55; }
+
+      .cmp-panel.is-gap {
+        border-color: rgba(34,211,238,.1);
+        background: rgba(34,211,238,.025);
+      }
+
+      .cmp-gap-reading {
+        font-size: 12px;
+        color: rgba(255,255,255,.42);
+        line-height: 1.6;
+        margin-top: 6px;
+      }
+
+      /* ── Summary (fills #compare-summary) ── */
+      .cmp-summary {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+      }
+
+      .cmp-summary-pill {
+        background: linear-gradient(135deg, rgba(196,181,253,.06), rgba(249,168,212,.03));
+        border: 1px solid rgba(196,181,253,.15);
+        border-radius: 14px;
+        padding: 16px 18px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .cmp-summary-ico {
+        width: 36px; height: 36px;
+        border-radius: 10px;
+        display: grid;
+        place-items: center;
+        font-size: 16px;
+        background: color-mix(in srgb, var(--sc, #4ade80) 9%, rgba(255,255,255,.03));
+        border: 1px solid color-mix(in srgb, var(--sc, #4ade80) 18%, transparent);
+        flex-shrink: 0;
+      }
+
+      .cmp-summary-body { display: flex; flex-direction: column; gap: 2px; }
+
+      .cmp-summary-val {
+        font-size: 24px;
+        font-family: "Newsreader", serif;
+        font-weight: 750;
+        line-height: 1;
+        color: #f7f2e8;
+      }
+
+      .cmp-summary-desc {
+        font-size: 11px;
+        color: rgba(255,255,255,.38);
+        font-weight: 500;
+      }
+
+      .cmp-summary-name {
+        margin-left: auto;
+        font-size: 11px;
+        font-weight: 700;
+        color: color-mix(in srgb, var(--sc, #4ade80) 85%, #fff);
+        white-space: nowrap;
+      }
+
+      /* ── Two-col (venn + radar) ───────────── */
+      .cmp-two-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+
+      /* ── Generic card ─────────────────────── */
+      .cmp-card {
+        background:
+          linear-gradient(145deg, rgba(196,181,253,.04), transparent 50%),
+          rgba(17,17,24,.75);
+        border: 1px solid rgba(196,181,253,.14);
+        border-radius: 20px;
+        padding: 24px;
+        backdrop-filter: blur(14px);
+        box-shadow:
+          inset 0 1px 0 rgba(255,255,255,.05),
+          0 20px 40px rgba(0,0,0,.2),
+          0 0 0 1px rgba(249,168,212,.04);
+      }
+
+      .cmp-card-title {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: .13em;
+        text-transform: uppercase;
+        color: #c4b5fd;
+        margin-bottom: 18px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .cmp-card-title::before {
+        content: "";
+        display: inline-block;
+        width: 6px; height: 6px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #c4b5fd, #f9a8d4);
+        flex-shrink: 0;
+      }
+
+      .cmp-table-note {
+        font-size: 12px;
+        color: rgba(255,255,255,.28);
+        margin: -6px 0 14px;
+      }
+
+      /* ── Venn ─────────────────────────────── */
+      .cmp-venn-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+        padding: 16px 0;
+      }
+
+      .cmp-venn-circle {
+        width: 120px; height: 120px;
+        border-radius: 999px;
+        background: color-mix(in srgb, var(--vc) 10%, rgba(14,14,20,.92));
+        border: 2px solid color-mix(in srgb, var(--vc) 30%, transparent);
+        box-shadow: 0 0 18px color-mix(in srgb, var(--vc) 8%, transparent);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        flex-shrink: 0;
+        z-index: 1;
+      }
+
+      .cmp-venn-circle.left { margin-right: -1px; }
+      .cmp-venn-circle.right { margin-left: -1px; }
+
+      .cmp-venn-circle strong {
+        font-size: 26px;
+        font-family: "Newsreader", serif;
+        font-weight: 750;
+        line-height: 1;
+        color: color-mix(in srgb, var(--vc) 90%, #fff);
+      }
+
+      .cmp-venn-circle span {
+        font-size: 10px;
+        color: rgba(255,255,255,.5);
+        font-weight: 600;
+        max-width: 80px;
+        text-align: center;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .cmp-venn-overlap {
+        width: 72px; height: 72px;
+        border-radius: 999px;
+        background: rgba(14,14,20,.88);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,.14);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        z-index: 2;
+        flex-shrink: 0;
+      }
+
+      .cmp-venn-overlap strong {
+        font-size: 20px;
+        font-family: "Newsreader", serif;
+        font-weight: 750;
+        line-height: 1;
+        background: linear-gradient(90deg, #4ade80, #22d3ee);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .cmp-venn-overlap span {
+        font-size: 9px;
+        color: rgba(255,255,255,.4);
+        font-weight: 600;
+      }
+
+      /* ── Table search ─────────────────────── */
+      .cmp-search {
+        width: 100%;
+        height: 40px;
+        padding: 0 14px;
+        border-radius: 11px;
+        border: 1px solid rgba(255,255,255,.08);
+        background: rgba(255,255,255,.04);
+        color: #f7f2e8;
+        font-size: 13px;
+        font-family: inherit;
+        outline: none;
+        margin-bottom: 14px;
+        transition: border-color .18s, background .18s;
+      }
+
+      .cmp-search:focus {
+        border-color: rgba(196,181,253,.38);
+        background: rgba(196,181,253,.04);
+      }
+
+      .cmp-search::placeholder { color: rgba(255,255,255,.2); }
+
+      /* ── Table ────────────────────────────── */
+      .cmp-table-scroll { overflow-x: auto; }
+
+      .cmp-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+
+      .cmp-table thead tr {
+        border-bottom: 1px solid rgba(255,255,255,.07);
+      }
+
+      .cmp-table th {
+        padding: 10px 14px;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: .12em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,.28);
+        text-align: left;
+      }
+
+      .cmp-table th:nth-child(n+2) { text-align: center; }
+
+      .cmp-table td {
+        padding: 10px 14px;
+        border-bottom: 1px solid rgba(255,255,255,.04);
+        vertical-align: middle;
+      }
+
+      .cmp-table tbody tr { transition: background .12s; }
+      .cmp-table tbody tr:hover { background: rgba(255,255,255,.024); }
+      .cmp-table tbody tr.hot td { background: rgba(251,113,133,.05); }
+
+      .cmp-anime-cell {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .cmp-anime-cell img {
+        width: 36px; height: 50px;
+        object-fit: cover;
+        border-radius: 7px;
+        border: 1px solid rgba(255,255,255,.07);
+        flex-shrink: 0;
+      }
+
+      .cmp-anime-cell strong {
+        display: block;
+        color: #f5f7ff;
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      .cmp-anime-cell span {
+        display: block;
+        margin-top: 2px;
+        color: rgba(255,255,255,.32);
+        font-size: 11px;
+      }
+
+      .cmp-score {
+        text-align: center;
+        font-size: 16px;
+        font-family: "Newsreader", serif;
+        font-weight: 750;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .cmp-diff {
+        text-align: center;
+        font-size: 13px;
+        font-weight: 700;
+        color: rgba(255,255,255,.28);
+        font-variant-numeric: tabular-nums;
+      }
+
+      tr.hot .cmp-diff { color: #fb7185; }
+
+      /* ── Responsive ───────────────────────── */
+      @media (max-width: 900px) {
+        .cmp-compat-top { grid-template-columns: 1fr 1fr; }
+        .cmp-compat-main { grid-column: span 2; min-height: 130px; }
+        .cmp-two-col, .cmp-panels { grid-template-columns: 1fr; }
+        .cmp-summary { grid-template-columns: 1fr 1fr; }
+        .cmp-bands { grid-template-columns: 1fr 1fr; }
+        .cmp-band { border-right: none; border-bottom: 1px solid rgba(255,255,255,.07); }
+        .cmp-band:nth-child(odd) { border-right: 1px solid rgba(255,255,255,.07); }
+        .cmp-band:last-child { border-bottom: none; }
+      }
+
+      @media (max-width: 620px) {
+        .cmp-versus { grid-template-columns: 1fr; }
+        .cmp-pick:last-child { justify-content: flex-start; }
+        .cmp-vs-center { display: none; }
+        .cmp-summary { grid-template-columns: 1fr 1fr; }
+        .cmp-bands { grid-template-columns: 1fr 1fr; }
+      }
+    </style>
   </head>
   <body class="compare-page">
     <nav class="nav"></nav>
 
-    <main class="page compare-dashboard-page">
-      <section class="compare-hero">
-        <div class="compare-hero-copy">
-          <h1>Comparar</h1>
-          <p>Compare gosto, gêneros e notas entre dois membros.</p>
+    <main class="cmp-page">
+      <section class="cmp-hero">
+        <h1 class="cmp-title">Comparar</h1>
+        <p class="cmp-subtitle">Compare gosto, gêneros e notas entre dois membros.</p>
+      </section>
+
+      <section class="cmp-versus">
+        <div class="cmp-pick">
+          <span class="cmp-pick-label">Comparar</span>
+          <select id="person1" aria-label="Primeiro membro"></select>
+        </div>
+        <div class="cmp-vs-center" id="cmp-vs-center">
+          <span class="cmp-vs-badge">VS</span>
+        </div>
+        <div class="cmp-pick">
+          <span class="cmp-pick-label">com</span>
+          <select id="person2" aria-label="Segundo membro"></select>
         </div>
       </section>
 
-      <section class="compare-selector-bar">
-        <label class="compare-inline-label" for="person1">Comparar</label>
-        <select id="person1" aria-label="Primeiro membro"></select>
-        <label class="compare-inline-label" for="person2">com</label>
-        <select id="person2" aria-label="Segundo membro"></select>
-      </section>
+      <div class="cmp-card" id="venn4-container" style="padding:24px;"></div>
 
-      <section class="compare-top-grid">
-        <article class="card compare-surface-card compare-venn4-card">
-          <div class="card-title compare-card-title">Mapa de afinidade</div>
-          <div id="venn4-container"></div>
-        </article>
+      <div id="compare-summary"></div>
 
-        <aside class="card compare-surface-card compare-summary-shell">
-          <div class="card-title compare-card-title">Resumo da comparação</div>
-          <div id="compare-summary"></div>
-        </aside>
-      </section>
-
-      <section class="compare-bottom-grid">
-        <article class="card compare-surface-card">
-          <div class="card-title compare-card-title">Venn dos gêneros</div>
+      <section class="cmp-two-col">
+        <div class="cmp-card">
+          <div class="cmp-card-title">Venn dos gêneros</div>
           <div id="venn-container"></div>
-        </article>
-
-        <article class="card compare-surface-card">
-          <div class="card-title compare-card-title">Perfil de gêneros — radar</div>
-          <div class="chart-container compare-radar-wrap">
+        </div>
+        <div class="cmp-card">
+          <div class="cmp-card-title">Perfil de gêneros — radar</div>
+          <div class="chart-container compare-radar-wrap" style="height:260px;padding:0;position:relative;z-index:1;">
             <canvas id="chartRadar"></canvas>
           </div>
-        </article>
+        </div>
       </section>
 
-      <section class="card compare-surface-card compare-table-card">
-        <div class="card-title compare-card-title">Animes em comum — notas comparadas</div>
-        <p class="compare-table-caption">
-          Linhas em destaque mostram diferença de 2 pontos ou mais.
-        </p>
+      <div class="cmp-card">
+        <div class="cmp-card-title">Animes em comum — notas comparadas</div>
+        <p class="cmp-table-note">Linhas destacadas têm diferença de 2 pontos ou mais.</p>
         <div id="common-table-wrap"></div>
-      </section>
+      </div>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
     <script type="module">
       import { loadData } from "./js/data.js?v=platform-v18";
-      import { initCompare } from "./js/compare.js?v=platform-v17";
+      import { initCompare } from "./js/compare.js?v=platform-v18";
 
       async function init() {
         const { animes, members } = await loadData();
