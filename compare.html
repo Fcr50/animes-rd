@@ -559,7 +559,8 @@
         align-items: center;
         justify-content: center;
         gap: 0;
-        padding: 16px 0;
+        padding: 32px 0;
+        min-height: 200px;
       }
 
       .cmp-venn-circle {
@@ -602,9 +603,11 @@
       .cmp-venn-overlap {
         width: 72px; height: 72px;
         border-radius: 999px;
-        background: rgba(14,14,20,.88);
+        background:
+          linear-gradient(#0d0d12, #0d0d12) padding-box,
+          linear-gradient(135deg, #4ade80, #22d3ee) border-box;
+        border: 1.5px solid transparent;
         backdrop-filter: blur(10px);
-        border: 1px solid rgba(255,255,255,.14);
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -612,6 +615,7 @@
         gap: 3px;
         z-index: 2;
         flex-shrink: 0;
+        box-shadow: 0 0 12px rgba(74,222,128,.12);
       }
 
       .cmp-venn-overlap strong {
@@ -628,8 +632,12 @@
 
       .cmp-venn-overlap span {
         font-size: 9px;
-        color: rgba(255,255,255,.4);
-        font-weight: 600;
+        font-weight: 700;
+        background: linear-gradient(90deg, #4ade80, #22d3ee);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        -webkit-text-fill-color: transparent;
       }
 
       /* ── Table search ─────────────────────── */
