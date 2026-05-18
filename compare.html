@@ -62,14 +62,15 @@
         gap: 12px;
         align-items: center;
         background:
-          linear-gradient(135deg, rgba(196,181,253,.06), rgba(249,168,212,.04));
-        border: 1px solid rgba(196,181,253,.2);
+          linear-gradient(#13121e, #13121e) padding-box,
+          linear-gradient(135deg, #c4b5fd, #f9a8d4, #22d3ee) border-box;
+        border: 1px solid transparent;
         border-radius: 20px;
         padding: 16px 20px;
         backdrop-filter: blur(12px);
         position: relative;
         z-index: 50;
-        box-shadow: 0 0 0 1px rgba(249,168,212,.06) inset;
+        box-shadow: 0 8px 32px rgba(196,181,253,.08);
       }
 
       .cmp-pick { display: flex; align-items: center; gap: 10px; }
@@ -200,11 +201,15 @@
       }
 
       .cmp-vs-badge {
-        font-size: 10px;
+        font-size: 11px;
         font-weight: 800;
-        letter-spacing: .15em;
-        color: rgba(255,255,255,.25);
+        letter-spacing: .18em;
         text-transform: uppercase;
+        background: linear-gradient(90deg, #c4b5fd, #f9a8d4);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        -webkit-text-fill-color: transparent;
       }
 
       /* ── Compat card (fills #venn4-container via JS) ── */
@@ -223,14 +228,15 @@
 
       .cmp-compat-main {
         grid-column: 1;
-        background: linear-gradient(145deg, rgba(74,222,128,.07), rgba(34,211,238,.04));
-        border: 1px solid rgba(74,222,128,.16);
+        background: transparent;
+        border: 1.5px solid rgba(74,222,128,.4);
         border-radius: 18px;
         padding: 22px 22px 20px;
         display: flex;
         flex-direction: column;
         justify-content: center;
         min-height: 150px;
+        box-shadow: 0 0 20px rgba(74,222,128,.06);
       }
 
       .cmp-compat-label {
@@ -282,8 +288,8 @@
       }
 
       .cmp-stat-mini {
-        background: rgba(255,255,255,.022);
-        border: 1px solid rgba(255,255,255,.07);
+        background: transparent;
+        border: 1.5px solid color-mix(in srgb, var(--c, #4ade80) 45%, transparent);
         border-radius: 18px;
         padding: 18px 14px;
         display: flex;
@@ -293,6 +299,7 @@
         text-align: center;
         gap: 0;
         min-height: 150px;
+        box-shadow: 0 0 16px color-mix(in srgb, var(--c, #4ade80) 5%, transparent);
       }
 
       .cmp-stat-mini-icon {
@@ -331,35 +338,38 @@
         grid-template-columns: repeat(4, 1fr);
         border-radius: 16px;
         overflow: hidden;
-        border: 1px solid rgba(255,255,255,.07);
-        background: rgba(255,255,255,.018);
+        border: 1px solid rgba(255,255,255,.08);
       }
 
       .cmp-band {
         display: flex;
         align-items: center;
         gap: 12px;
-        padding: 14px 16px;
-        border-right: 1px solid rgba(255,255,255,.07);
+        padding: 16px 18px;
+        background: color-mix(in srgb, var(--bc) 5%, rgba(16,16,20,.8));
+        border-right: 1px solid rgba(255,255,255,.06);
+        transition: background .18s;
       }
 
       .cmp-band:last-child { border-right: none; }
+      .cmp-band:hover { background: color-mix(in srgb, var(--bc) 9%, rgba(16,16,20,.8)); }
 
       .cmp-band-icon {
-        width: 34px; height: 34px;
-        border-radius: 9px;
+        width: 36px; height: 36px;
+        border-radius: 10px;
         display: grid;
         place-items: center;
-        font-size: 15px;
+        font-size: 16px;
         flex-shrink: 0;
-        background: color-mix(in srgb, var(--bc) 10%, rgba(255,255,255,.03));
+        background: color-mix(in srgb, var(--bc) 16%, rgba(0,0,0,.2));
+        border: 1px solid color-mix(in srgb, var(--bc) 30%, transparent);
         color: var(--bc);
       }
 
       .cmp-band-info { display: flex; flex-direction: column; gap: 2px; }
 
       .cmp-band-num {
-        font-size: 22px;
+        font-size: 24px;
         font-family: "Newsreader", serif;
         font-weight: 800;
         line-height: 1;
@@ -368,7 +378,7 @@
 
       .cmp-band-lbl {
         font-size: 11px;
-        color: rgba(255,255,255,.4);
+        color: rgba(255,255,255,.45);
         font-weight: 500;
       }
 
@@ -380,12 +390,17 @@
       }
 
       .cmp-panel {
-        background: rgba(255,255,255,.022);
-        border: 1px solid rgba(255,255,255,.07);
+        background: transparent;
+        border: 1.5px solid rgba(196,181,253,.3);
         border-radius: 16px;
         padding: 18px 20px;
         min-height: 96px;
       }
+
+      .cmp-panel:nth-child(1) { border-color: rgba(74,222,128,.35); }
+      .cmp-panel:nth-child(2) { border-color: rgba(251,113,133,.35); }
+      .cmp-panel:nth-child(3) { border-color: rgba(196,181,253,.35); }
+      .cmp-panel.is-gap       { border-color: rgba(34,211,238,.35); }
 
       .cmp-panel-label {
         font-size: 10px;
@@ -452,8 +467,8 @@
       }
 
       .cmp-summary-pill {
-        background: linear-gradient(135deg, rgba(196,181,253,.06), rgba(249,168,212,.03));
-        border: 1px solid rgba(196,181,253,.15);
+        background: transparent;
+        border: 1.5px solid color-mix(in srgb, var(--sc, #c4b5fd) 50%, transparent);
         border-radius: 14px;
         padding: 16px 18px;
         display: flex;
@@ -505,17 +520,11 @@
 
       /* ── Generic card ─────────────────────── */
       .cmp-card {
-        background:
-          linear-gradient(145deg, rgba(196,181,253,.04), transparent 50%),
-          rgba(17,17,24,.75);
-        border: 1px solid rgba(196,181,253,.14);
+        background: transparent;
+        border: 1.5px solid rgba(196,181,253,.28);
         border-radius: 20px;
         padding: 24px;
-        backdrop-filter: blur(14px);
-        box-shadow:
-          inset 0 1px 0 rgba(255,255,255,.05),
-          0 20px 40px rgba(0,0,0,.2),
-          0 0 0 1px rgba(249,168,212,.04);
+        box-shadow: 0 0 24px rgba(196,181,253,.04);
       }
 
       .cmp-card-title {
@@ -714,8 +723,10 @@
         text-align: center;
         font-size: 16px;
         font-family: "Newsreader", serif;
-        font-weight: 750;
+        font-weight: 800;
         font-variant-numeric: tabular-nums;
+        color: var(--sc, #f7f2e8) !important;
+        filter: brightness(1.3);
       }
 
       .cmp-diff {

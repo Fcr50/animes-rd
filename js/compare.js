@@ -10,6 +10,7 @@ import {
 import { hexToRgba, escapeHTML, shortText } from "./utils.js";
 
 Chart.defaults.color = "#b8c0d9";
+
 Chart.defaults.font.family = "'Inter', sans-serif";
 
 let allAnimes = [];
@@ -419,8 +420,10 @@ function renderCommonTable(p1, p2) {
     return;
   }
 
-  const c1 = getPersonColor(p1);
-  const c2 = getPersonColor(p2);
+  const m1 = currentMembers.find((m) => m.nickname === p1);
+  const m2 = currentMembers.find((m) => m.nickname === p2);
+  const c1 = m1?.color || "#c4b5fd";
+  const c2 = m2?.color || "#f9a8d4";
 
   const buildRows = (list) =>
     list.map((anime) => {
@@ -438,8 +441,8 @@ function renderCommonTable(p1, p2) {
               </div>
             </div>
           </td>
-          <td class="cmp-score" style="color:${c1}">${n1 !== null ? Number(n1).toFixed(1) : "—"}</td>
-          <td class="cmp-score" style="color:${c2}">${n2 !== null ? Number(n2).toFixed(1) : "—"}</td>
+          <td class="cmp-score" style="--sc:${c1}">${n1 !== null ? Number(n1).toFixed(1) : "—"}</td>
+          <td class="cmp-score" style="--sc:${c2}">${n2 !== null ? Number(n2).toFixed(1) : "—"}</td>
           <td class="cmp-diff">${diff.toFixed(1)}</td>
         </tr>`;
     }).join("");
