@@ -143,8 +143,8 @@ function renderAffinityPanel(p1, p2) {
     return;
   }
 
-  const c1 = getPersonColor(p1);
-  const c2 = getPersonColor(p2);
+  const c1 = currentMembers.find((m) => m.nickname === p1)?.color || "#c4b5fd";
+  const c2 = currentMembers.find((m) => m.nickname === p2)?.color || "#f9a8d4";
   const avg1 = avgScore(shared, p1);
   const avg2 = avgScore(shared, p2);
 
@@ -245,7 +245,7 @@ function renderAffinityPanel(p1, p2) {
           <div class="cmp-panel-label">Gêneros em comum</div>
           <div class="cmp-panel-tags">
             ${topGenreList.length
-              ? topGenreList.map(([g, c]) => `<span class="cmp-tag">${escapeHTML(cleanGenreLabel(g))}<small>${c}</small></span>`).join("")
+              ? topGenreList.map(([g, c]) => `<span class="cmp-tag">${escapeHTML(g)}<small>${c}</small></span>`).join("")
               : '<span class="cmp-tag">Sem gênero dominante</span>'}
           </div>
         </div>
@@ -268,8 +268,8 @@ function renderSummary(p1, p2) {
   const common = commonAnimes(allAnimes, p1, p2);
   const only1 = a1.length - common.length;
   const only2 = a2.length - common.length;
-  const c1 = getPersonColor(p1);
-  const c2 = getPersonColor(p2);
+  const c1 = currentMembers.find((m) => m.nickname === p1)?.color || "#c4b5fd";
+  const c2 = currentMembers.find((m) => m.nickname === p2)?.color || "#f9a8d4";
 
   wrap.innerHTML = `
     <div class="cmp-summary">
@@ -318,8 +318,8 @@ function renderVenn(p1, p2) {
   const common = commonAnimes(allAnimes, p1, p2);
   const only1 = a1.length - common.length;
   const only2 = a2.length - common.length;
-  const c1 = getPersonColor(p1);
-  const c2 = getPersonColor(p2);
+  const c1 = currentMembers.find((m) => m.nickname === p1)?.color || "#c4b5fd";
+  const c2 = currentMembers.find((m) => m.nickname === p2)?.color || "#f9a8d4";
 
   wrap.innerHTML = `
     <div class="cmp-venn-wrap">
@@ -353,8 +353,8 @@ function renderRadar(p1, p2) {
     return allTop.map((g) => Math.round(((map[g] || 0) / total) * 100));
   };
 
-  const c1 = getPersonColor(p1);
-  const c2 = getPersonColor(p2);
+  const c1 = currentMembers.find((m) => m.nickname === p1)?.color || "#c4b5fd";
+  const c2 = currentMembers.find((m) => m.nickname === p2)?.color || "#f9a8d4";
 
   if (radarChart) radarChart.destroy();
 
@@ -366,22 +366,22 @@ function renderRadar(p1, p2) {
         {
           label: p1,
           data: genreVector(p1),
-          backgroundColor: hexToRgba(c1, 0.15),
+          backgroundColor: safeRgba(c1, 0.15),
           borderColor: c1,
           borderWidth: 2,
           pointBackgroundColor: c1,
           pointBorderColor: c1,
-          pointRadius: 3,
+          pointRadius: 4,
         },
         {
           label: p2,
           data: genreVector(p2),
-          backgroundColor: hexToRgba(c2, 0.13),
+          backgroundColor: safeRgba(c2, 0.13),
           borderColor: c2,
           borderWidth: 2,
           pointBackgroundColor: c2,
           pointBorderColor: c2,
-          pointRadius: 3,
+          pointRadius: 4,
         },
       ],
     },
@@ -484,4 +484,16 @@ function avgScore(animes, person) {
 
 function fmtScore(v) {
   return Number(v || 0).toFixed(2);
+}
+
+function safeRgba(color, alpha) {
+  if (!color) return `rgba(180,180,180,${alpha})`;
+  const hex = color.replace("#", "");
+  if (hex.length === 6) {
+    const r = parseInt(hex.slice(0, 2), 16);
+    const g = parseInt(hex.slice(2, 4), 16);
+    const b = parseInt(hex.slice(4, 6), 16);
+    if (!isNaN(r)) return `rgba(${r},${g},${b},${alpha})`;
+  }
+  return color;
 }
