@@ -17,8 +17,9 @@ let members = [];
 // ── Recommendation engine ────────────────────────────────────────────────────
 
 function scoreAnime(anime, genre) {
-  const genreBonus = anime.main_genre &&
-    stripEmoji(anime.main_genre).toLowerCase() === stripEmoji(genre || "").toLowerCase()
+  const genreBonus = (anime.generos || []).some(
+    (g) => stripEmoji(g).toLowerCase() === stripEmoji(genre || "").toLowerCase(),
+  )
     ? 0.45
     : 0;
   const voteBonus = Math.min(Number(anime.qtdVotos || 0), 4) * 0.08;
@@ -32,8 +33,9 @@ function pickRecommendations(animes, person, genreFilter) {
     .filter((anime) => {
       if (Number(anime.nota) < 7.5) return false;
       if (genreFilter) {
-        return anime.main_genre &&
-          stripEmoji(anime.main_genre).toLowerCase().includes(genreFilter.toLowerCase());
+        return (anime.generos || []).some((g) =>
+          stripEmoji(g).toLowerCase().includes(genreFilter.toLowerCase()),
+        );
       }
       return true;
     })
@@ -41,8 +43,9 @@ function pickRecommendations(animes, person, genreFilter) {
     .slice(0, 6)
     .map((anime) => {
       const watchers = (anime.quemAssistiu || []).filter((n) => n !== person);
-      const genreMatch = anime.main_genre &&
-        stripEmoji(anime.main_genre).toLowerCase() === stripEmoji(favorite).toLowerCase();
+      const genreMatch = (anime.generos || []).some(
+        (g) => stripEmoji(g).toLowerCase() === stripEmoji(favorite).toLowerCase(),
+      );
       let reason;
       if (genreMatch && watchers.length) {
         reason = `alinhamento com ${stripEmoji(favorite)} confirmado. ${watchers.join(" e ")} validaram com nota alta`;
@@ -77,9 +80,10 @@ function analyzeProfile(animes, person) {
 
   const genreCount = {};
   watched.forEach((a) => {
-    if (!a.main_genre) return;
-    const clean = stripEmoji(a.main_genre);
-    genreCount[clean] = (genreCount[clean] || 0) + 1;
+    (a.generos || []).forEach((g) => {
+      const clean = stripEmoji(g);
+      genreCount[clean] = (genreCount[clean] || 0) + 1;
+    });
   });
   const topGenres = Object.entries(genreCount)
     .sort((a, b) => b[1] - a[1])

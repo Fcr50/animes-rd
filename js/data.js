@@ -122,7 +122,6 @@ export async function loadData() {
       id: item.mal_id,
       genres: genresArray,
       generos: genresArray, // Compatibilidade duplicada
-      main_genre: item.main_genre || genresArray[0] || null,
       image_url: IMAGE_OVERRIDES[item.mal_id] || item.image_url,
       nota: item.nota_media,
       notaSort: Number(item.nota_media) || 0,
@@ -188,10 +187,10 @@ export function getPersonColor(personNickname) {
 export function countGenres(animes) {
   const map = {};
   for (const a of animes) {
-    const g = a.main_genre;
-    if (!g) continue;
-    const p = prettyGenre(g);
-    map[p] = (map[p] || 0) + 1;
+    for (const g of a.genres || []) {
+      const p = prettyGenre(g);
+      map[p] = (map[p] || 0) + 1;
+    }
   }
   return map;
 }

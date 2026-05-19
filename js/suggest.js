@@ -13,8 +13,6 @@ const scoreInput = document.getElementById("my-score");
 const commentInput = document.getElementById("my-comment");
 const commentCounter = document.querySelector(".comment-counter");
 
-const mainGenreSelect = document.getElementById("main-genre-select");
-
 const importContainer = document.getElementById("import-list-container");
 const importBtn = document.getElementById("import-selected-button");
 const genreFilterImport = document.getElementById("filter-genre-import");
@@ -296,23 +294,11 @@ function selectAnime(anime) {
     malId: anime.mal_id,
     name: anime.title,
     genres: prettyGenresList,
-    mainGenre: prettyGenresList[0] || null,
     imageUrl: anime.images.jpg.large_image_url || anime.images.jpg.image_url,
   };
 
   if (animeNameInput) animeNameInput.value = anime.title;
   if (genresInput) genresInput.value = prettyGenresList.join(", ");
-
-  if (mainGenreSelect) {
-    mainGenreSelect.innerHTML = prettyGenresList
-      .map((g) => `<option value="${g}">${g}</option>`)
-      .join("");
-    mainGenreSelect.value = prettyGenresList[0] || "";
-    mainGenreSelect.disabled = false;
-    mainGenreSelect.onchange = () => {
-      currentAnimeData.mainGenre = mainGenreSelect.value;
-    };
-  }
 
   resultsDropdown?.classList.add("hidden");
   manualFields?.classList.remove("hidden");
@@ -374,7 +360,6 @@ async function handleSubmit() {
         mal_id: currentAnimeData.malId,
         name: currentAnimeData.name,
         genres: currentAnimeData.genres,
-        main_genre: currentAnimeData.mainGenre,
         image_url: currentAnimeData.imageUrl,
         titles: currentAnimeData.titles,
       },
