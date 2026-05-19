@@ -42,7 +42,7 @@ export function renderChartsStats(animes, members) {
   if (!el) return;
   const approved = animes.filter(a => a.status === "approved");
   const total = approved.length;
-  const genres = new Set(approved.flatMap((a) => a.genres || [])).size;
+  const genres = new Set(approved.map((a) => a.main_genre).filter(Boolean)).size;
   const rated = approved.filter((a) => a.nota !== null);
   const avg = rated.length
     ? (rated.reduce((s, a) => s + Number(a.nota), 0) / rated.length).toFixed(1)

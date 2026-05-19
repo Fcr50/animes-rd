@@ -5,6 +5,7 @@ CREATE TABLE public.animes (
   mal_id integer NOT NULL,
   name text NOT NULL,
   genres ARRAY,
+  main_genre text,
   image_url text,
   created_at timestamp with time zone DEFAULT now(),
   CONSTRAINT animes_pkey PRIMARY KEY (mal_id)
