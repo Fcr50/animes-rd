@@ -72,7 +72,16 @@ export async function loadData() {
 
   if (_data && _data.groupId === groupId) return _data;
 
-  // 1. Carregar Membros
+  // 1. Carregar Dados do Grupo (Nome)
+  const { data: groupData, error: groupError } = await supabase
+    .from("groups")
+    .select("name")
+    .eq("id", groupId)
+    .single();
+
+  if (groupError) throw groupError;
+
+  // 2. Carregar Membros
   const { data: members, error: membersError } = await supabase
     .from("group_members")
     .select("user_id, nickname, color, role, openings")
@@ -81,7 +90,7 @@ export async function loadData() {
   if (membersError) throw membersError;
   _members = members;
 
-  // 2. Carregar tudo da VIEW
+  // 3. Carregar tudo da VIEW
   const { data: details, error: detailsError } = await supabase
     .from("anime_details")
     .select("*")
@@ -89,7 +98,7 @@ export async function loadData() {
 
   if (detailsError) throw detailsError;
 
-  // 3. Carregar votos brutos para montar a matriz de notas individuais
+  // 4. Carregar votos brutos para montar a matriz de notas individuais
   const { data: rawVotes } = await supabase
     .from("votes")
     .select("mal_id, user_id, score, comment")
@@ -101,7 +110,7 @@ export async function loadData() {
     votesByAnime[v.mal_id].push(v);
   });
 
-  // 4. Mapeamento final
+  // 5. Mapeamento final
   const processedAnimes = details.map((item) => {
     const animeVotes = votesByAnime[item.mal_id] || [];
 
@@ -135,6 +144,12 @@ export async function loadData() {
           return `${m ? m.nickname : "Desconhecido"}: ${v.comment}`;
         })
         .join("\n"),
+      comentarios_array: animeVotes
+        .filter((v) => v.comment)
+        .map((v) => {
+          const m = _members.find((member) => member.user_id === v.user_id);
+          return { nickname: m ? m.nickname : "Desconhecido", text: v.comment };
+        }),
     };
 
     // Preenche as propriedades notaNickname
@@ -150,6 +165,7 @@ export async function loadData() {
 
   _data = {
     groupId,
+    groupName: groupData.name,
     updatedAt: new Date().toISOString(),
     total: approvedAnimes.length,
     animes: approvedAnimes,

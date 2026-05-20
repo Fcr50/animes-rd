@@ -50,18 +50,15 @@ function getApprovedAnimes() {
 
 function getComments(animes, members) {
   return animes.flatMap((anime) => {
-    if (!anime.comentarios) return [];
-    return anime.comentarios
-      .split("\n")
-      .map((line) => {
-        const [person, ...rest] = line.split(": ");
-        const text = rest.join(": ").trim();
-        const member = members.find((m) => m.nickname === person?.trim());
+    if (!anime.comentarios_array) return [];
+    return anime.comentarios_array
+      .map((c) => {
+        const member = members.find((m) => m.nickname === c.nickname);
         return {
           anime,
           color: member?.color || "#a78bfa",
-          person: person?.trim() || "Comunidade",
-          text,
+          person: c.nickname || "Comunidade",
+          text: c.text.trim(),
         };
       })
       .filter((comment) => comment.text.length > 3);

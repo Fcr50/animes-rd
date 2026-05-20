@@ -13,6 +13,11 @@
   />AniLiber</a
 >
 
+<div id="nav-group-info" class="nav-group-info group-only">
+  <span class="nav-group-divider">|</span>
+  <span id="nav-group-name" class="nav-group-name"></span>
+</div>
+
 <!-- Links que só aparecem quando um grupo está selecionado -->
 <a class="nav-link group-only" href="blog.html">Blog</a>
 <a class="nav-link group-only" href="acervo.html">Acervo</a>
@@ -25,7 +30,9 @@
 
 <div class="nav-person-group">
   <!-- Este contêiner será preenchido dinamicamente com os membros do grupo -->
-  <div id="dynamic-members" class="nav-person group-only"></div>
+  <div class="nav-person-group group-only" id="nav-person-group-container">
+    <!-- O usuário logado e o dropdown serão injetados aqui via JS -->
+  </div>
 
   <button
     class="theme-toggle"

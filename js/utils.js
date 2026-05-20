@@ -198,23 +198,65 @@ async function updateNavbarState(user) {
 
     // Se logado e em um grupo, carregar membros
     try {
-      const { members } = await loadData();
-      const desktopContainer = document.getElementById("dynamic-members");
+      const data = await loadData();
+      const { members, groupName } = data;
+
+      // Exibe o nome do grupo na navbar
+      const navGroupName = document.getElementById("nav-group-name");
+      if (navGroupName) navGroupName.textContent = groupName;
+
+      const desktopContainer = document.getElementById("nav-person-group-container") || document.getElementById("dynamic-members");
       const mobileContainer = document.getElementById("mobile-dynamic-members");
 
-      const membersHtml = members
-        .map((m) => {
-          const profileUrl = `profile.html#p=${m.nickname}&g=${groupId}`;
-          const avatarColor = m.color || "#888";
-          return `
-          <a href="${profileUrl}">
-            <span class="nav-avatar" style="background: ${avatarColor}2e; color: ${avatarColor}">${m.nickname[0].toUpperCase()}</span>${m.nickname}
-          </a>
+      const currentUserMember = members.find(m => m.user_id === user.id);
+      const otherMembers = members.filter(m => m.user_id !== user.id);
+
+      let membersHtml = '';
+
+      if (currentUserMember) {
+        // Render logged-in user as the main visible button
+        membersHtml += `
+          <div class="nav-dropdown-container">
+            <a href="profile.html#g=${groupId}&p=${escapeHTML(currentUserMember.nickname)}" class="nav-link nav-person current-user-btn" style="--nav-pill: ${currentUserMember.color}; --nav-pill-fill: ${currentUserMember.color}33; display: flex; align-items: center;">
+              <span class="nav-avatar" style="background:var(--nav-pill-fill); color:var(--nav-pill);">${escapeHTML(currentUserMember.nickname.charAt(0).toUpperCase())}</span>
+              ${escapeHTML(currentUserMember.nickname)} <span class="dropdown-caret">▼</span>
+            </a>
+            <div class="nav-dropdown-menu">
         `;
-        })
-        .join("");
+
+        // Render other members inside the dropdown
+        otherMembers.forEach(m => {
+          membersHtml += `
+              <a href="profile.html#g=${groupId}&p=${escapeHTML(m.nickname)}" class="nav-link nav-person dropdown-item" style="--nav-pill: ${m.color}; --nav-pill-fill: ${m.color}33;">
+                <span class="nav-avatar" style="background:var(--nav-pill-fill); color:var(--nav-pill);">${escapeHTML(m.nickname.charAt(0).toUpperCase())}</span>
+                ${escapeHTML(m.nickname)}
+              </a>
+          `;
+        });
+
+        membersHtml += `
+            </div>
+          </div>
+        `;
+      } else {
+        // Fallback se o usuário não for membro do grupo (admin global, etc)
+        membersHtml = members.map(m => `
+          <a href="profile.html#g=${groupId}&p=${escapeHTML(m.nickname)}" class="nav-link nav-person" style="--nav-pill: ${m.color}; --nav-pill-fill: ${m.color}33; display: flex; align-items: center;">
+            <span class="nav-avatar" style="background:var(--nav-pill-fill); color:var(--nav-pill);">${escapeHTML(m.nickname.charAt(0).toUpperCase())}</span>
+            ${escapeHTML(m.nickname)}
+          </a>
+        `).join("");
+      }
+
       if (desktopContainer) desktopContainer.innerHTML = membersHtml;
-      if (mobileContainer) mobileContainer.innerHTML = membersHtml;
+
+      if (mobileContainer) {
+        mobileContainer.innerHTML = members.map(m => `
+          <a href="profile.html#p=${escapeHTML(m.nickname)}&g=${groupId}">
+            <span class="nav-avatar" style="background: ${m.color || '#888'}2e; color: ${m.color || '#888'}">${escapeHTML(m.nickname[0].toUpperCase())}</span>${escapeHTML(m.nickname)}
+          </a>
+        `).join("");
+      }
     } catch (err) {
       console.error("Erro ao carregar membros:", err);
     }

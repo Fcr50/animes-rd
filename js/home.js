@@ -106,18 +106,16 @@ function renderFeaturedPost(animes) {
 
   // Extrai comentários de todos os animes incluindo o mal_id
   const allComments = animes.flatMap(a => {
-    if(!a.comentarios) return [];
-    return a.comentarios.split('\n').map(line => {
-      const parts = line.split(': ');
-      return { 
-        person: parts[0], 
-        text: parts[1] || "", 
+    if(!a.comentarios_array) return [];
+    return a.comentarios_array.map(c => {
+      return {
+        person: c.nickname,
+        text: c.text,
         anime: a.name,
         malId: a.mal_id // Guardamos o ID para o link
       };
     });
   }).filter(c => c.text.length > 5);
-
   const shuffled = shuffleItems(allComments);
   const container = document.getElementById("featured-comments");
 

@@ -310,9 +310,6 @@ function renderModal() {
       <div id="modal-edit"></div>
     </div>
   `;
-  div.addEventListener("click", (e) => {
-    if (e.target === div) window.closeModal();
-  });
   document.body.appendChild(div);
 }
 
@@ -343,56 +340,66 @@ window.openModal = function (idx) {
     .map((g) => `<span class="badge badge-genre">${g}</span>`)
     .join(" ");
 
-  document.getElementById("modal-notes").innerHTML = [...members]
-    .sort((x, y) => {
-      const nx = a[`nota${x.nickname}`];
-      const ny = a[`nota${y.nickname}`];
-      if (nx !== null && ny === null) return -1;
-      if (nx === null && ny !== null) return 1;
-      return 0;
-    })
-    .map((m) => {
-      const nota = a[`nota${m.nickname}`];
-      const color = getPersonColor(m.nickname);
-      return `
-      <div class="note-box" style="--note-color:${color}">
-        <div class="person" style="color:${color}">${m.nickname}</div>
-        <div class="score ${nota === null ? "empty" : notaColor(nota)}">
-          ${nota !== null ? Number(nota).toFixed(1) : "—"}
-        </div>
-      </div>
-    `;
-    })
-    .join("");
+  // 1. Esvazia os quadrados de notas do topo
+  document.getElementById("modal-notes").innerHTML = "";
 
-  const metaItems = [];
-  if (a.nota !== null) metaItems.push(`Média: <span>${Number(a.nota).toFixed(2)}</span>`);
+  // 2. Transforma as estatísticas em cards de destaque
+  const metaCards = [];
+  if (a.nota !== null) {
+    metaCards.push(`
+      <div class="modal-stat-card">
+        <div class="stat-label">Média do Grupo</div>
+        <div class="stat-value" style="color:#ff9dcc">${Number(a.nota).toFixed(2)}</div>
+      </div>
+    `);
+  }
   if (a.controversia !== null) {
     const hot = a.controversia > 1.5 ? "🌶️ " : "";
-    metaItems.push(`Controvérsia: <span>${hot}${Number(a.controversia).toFixed(1)}</span>`);
+    metaCards.push(`
+      <div class="modal-stat-card">
+        <div class="stat-label">Controvérsia</div>
+        <div class="stat-value" style="color:#86efac">${hot}${Number(a.controversia).toFixed(1)}</div>
+      </div>
+    `);
   }
-  if (a.qtdVotos != null) metaItems.push(`Votos: <span>${a.qtdVotos}</span>`);
-  document.getElementById("modal-meta").innerHTML = metaItems
-    .map((m) => `<span class="meta-item">${m}</span>`)
-    .join("");
+  if (a.qtdVotos != null) {
+    metaCards.push(`
+      <div class="modal-stat-card">
+        <div class="stat-label">Total de Votos</div>
+        <div class="stat-value" style="color:#67e8f9">${a.qtdVotos}</div>
+      </div>
+    `);
+  }
+  
+  document.getElementById("modal-meta").innerHTML = metaCards.length 
+    ? `<div class="modal-stats-grid">${metaCards.join("")}</div>`
+    : "";
 
   // Links
   renderModalLinks(a);
   document.getElementById("modal-links").dataset.animeId = a.id;
 
   // Comentários
-  const comments = (a.comentarios || "").split("\n").filter(Boolean);
+  const comments = a.comentarios_array || [];
   document.getElementById("modal-comment").innerHTML = comments.length
     ? `
     <section class="modal-comments"><h3>Comentários</h3>
       <div class="comment-list">
         ${comments
-          .map((line) => {
-            const [nick, ...rest] = line.split(": ");
-            const color = getPersonColor(nick.trim());
+          .map((c) => {
+            const color = getPersonColor(c.nickname.trim());
+            const safeText = escapeHTML(c.text).replace(/\n/g, "<br>");
+            const nota = a[`nota${c.nickname.trim()}`];
+            const notaHtml = nota !== null && nota !== undefined 
+              ? `<span class="comment-score-badge" style="background: color-mix(in srgb, ${color} 15%, transparent); border: 1px solid color-mix(in srgb, ${color} 30%, transparent);"><span style="color:#fde047; margin-right:4px;">★</span><span class="${notaColor(nota)}">${Number(nota).toFixed(1)}</span></span>` 
+              : '';
+
             return `<article class="comment-item" style="--comment-accent:${color}">
-            <strong style="color:${color}">${escapeHTML(nick.trim())}</strong>
-            <p>${escapeHTML(rest.join(": ").trim())}</p>
+            <div class="comment-header">
+              <strong style="color:${color}">${escapeHTML(c.nickname.trim())}</strong>
+              ${notaHtml}
+            </div>
+            <p>${safeText}</p>
           </article>`;
           })
           .join("")}
@@ -428,9 +435,8 @@ function renderEditPanel(anime) {
   const hasScore = currentScore !== null && currentScore !== undefined;
   const score = hasScore ? Number(currentScore).toFixed(1) : "5.0";
   const currentComment = (() => {
-    const lines = (anime.comentarios || "").split("\n");
-    const line = lines.find((l) => l.startsWith(`${nick}: `));
-    return line ? line.slice(nick.length + 2) : "";
+    const commentObj = (anime.comentarios_array || []).find((c) => c.nickname === nick);
+    return commentObj ? commentObj.text : "";
   })();
 
   return `
@@ -519,9 +525,10 @@ document.addEventListener("click", async (e) => {
     const data = await loadData();
     allAnimes = data.animes;
     members = data.members;
-    filtered = [...allAnimes];
-    sortData();
-    renderTable();
+    
+    // Reaplica os filtros atuais (isso também já chama sortData e renderTable)
+    applyFilters();
+    
     if (currentModalIndex !== null) window.openModal(currentModalIndex);
   } catch (err) {
     console.error(err);
