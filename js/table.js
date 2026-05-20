@@ -3,6 +3,20 @@ import { supabase } from "./supabase-client.js";
 import { getGroupId, normalizeText, escapeHTML, stripEmoji, shortText } from "./utils.js";
 import { loadData, notaColor, formatNota, getPersonColor, invalidateCache } from "./data.js";
 
+function genreToneClass(genre) {
+  const clean = normalizeText(stripEmoji(genre))
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+  return clean ? `genre-tone-${clean}` : "";
+}
+
+function modalScoreColor(score) {
+  const value = Number(score);
+  if (value >= 8.5) return "#86efac";
+  if (value >= 7) return "#fde047";
+  return "#f87171";
+}
+
 let allAnimes = [];
 let filtered = [];
 let sortCol = "notaSort";
@@ -337,7 +351,7 @@ window.openModal = function (idx) {
   document.getElementById("modal-title").textContent = a.name;
 
   document.getElementById("modal-genres").innerHTML = (a.generos || [])
-    .map((g) => `<span class="badge badge-genre">${g}</span>`)
+    .map((g) => `<span class="badge badge-genre ${genreToneClass(g)}">${g}</span>`)
     .join(" ");
 
   // 1. Esvazia os quadrados de notas do topo
@@ -346,10 +360,12 @@ window.openModal = function (idx) {
   // 2. Transforma as estatísticas em cards de destaque
   const metaCards = [];
   if (a.nota !== null) {
+    const score = Number(a.nota);
     metaCards.push(`
       <div class="modal-stat-card">
         <div class="stat-label">Média do Grupo</div>
-        <div class="stat-value" style="color:#ff9dcc">${Number(a.nota).toFixed(2)}</div>
+        <div class="stat-value" style="color:${modalScoreColor(score)}">${score.toFixed(2)}</div>
+        <div class="stat-caption">${score >= 8.5 ? "Excelente" : score >= 7 ? "Bom" : "Em debate"}</div>
       </div>
     `);
   }
@@ -358,7 +374,7 @@ window.openModal = function (idx) {
     metaCards.push(`
       <div class="modal-stat-card">
         <div class="stat-label">Controvérsia</div>
-        <div class="stat-value" style="color:#86efac">${hot}${Number(a.controversia).toFixed(1)}</div>
+        <div class="stat-value" style="color:#f87171">${hot}${Number(a.controversia).toFixed(1)}</div>
       </div>
     `);
   }
@@ -367,11 +383,12 @@ window.openModal = function (idx) {
       <div class="modal-stat-card">
         <div class="stat-label">Total de Votos</div>
         <div class="stat-value" style="color:#67e8f9">${a.qtdVotos}</div>
+        <div class="stat-caption">Votos registrados</div>
       </div>
     `);
   }
-  
-  document.getElementById("modal-meta").innerHTML = metaCards.length 
+
+  document.getElementById("modal-meta").innerHTML = metaCards.length
     ? `<div class="modal-stats-grid">${metaCards.join("")}</div>`
     : "";
 
@@ -383,16 +400,17 @@ window.openModal = function (idx) {
   const comments = a.comentarios_array || [];
   document.getElementById("modal-comment").innerHTML = comments.length
     ? `
-    <section class="modal-comments"><h3>Comentários</h3>
+    <section class="modal-comments"><h3><span class="modal-section-icon" aria-hidden="true">☯</span>Comentários</h3>
       <div class="comment-list">
         ${comments
           .map((c) => {
             const color = getPersonColor(c.nickname.trim());
             const safeText = escapeHTML(c.text).replace(/\n/g, "<br>");
             const nota = a[`nota${c.nickname.trim()}`];
-            const notaHtml = nota !== null && nota !== undefined 
-              ? `<span class="comment-score-badge" style="background: color-mix(in srgb, ${color} 15%, transparent); border: 1px solid color-mix(in srgb, ${color} 30%, transparent);"><span style="color:#fde047; margin-right:4px;">★</span><span class="${notaColor(nota)}">${Number(nota).toFixed(1)}</span></span>` 
-              : '';
+            const notaHtml =
+              nota !== null && nota !== undefined
+                ? `<span class="comment-score-badge" style="background: color-mix(in srgb, ${color} 15%, transparent); border: 1px solid color-mix(in srgb, ${color} 30%, transparent);"><span style="color:#fde047; margin-right:4px;">★</span><span class="${notaColor(nota)}">${Number(nota).toFixed(1)}</span></span>`
+                : "";
 
             return `<article class="comment-item" style="--comment-accent:${color}">
             <div class="comment-header">
@@ -442,11 +460,12 @@ function renderEditPanel(anime) {
   return `
     <details class="anime-edit-panel anime-edit-collapsible">
       <summary class="anime-edit-summary">
-        <div>
+        <span class="anime-edit-icon" aria-hidden="true">✎</span>
+        <div class="anime-edit-copy">
           <h3>Seu registro</h3>
           <p>Editando como <strong style="color:${color}">${escapeHTML(nick)}</strong></p>
         </div>
-        <span class="edit-expand-button">Editar</span>
+        <span class="edit-expand-button">Editar <span class="edit-expand-arrow" aria-hidden="true">›</span></span>
       </summary>
       <div class="anime-edit-body">
         <label class="edit-field">
@@ -525,10 +544,10 @@ document.addEventListener("click", async (e) => {
     const data = await loadData();
     allAnimes = data.animes;
     members = data.members;
-    
+
     // Reaplica os filtros atuais (isso também já chama sortData e renderTable)
     applyFilters();
-    
+
     if (currentModalIndex !== null) window.openModal(currentModalIndex);
   } catch (err) {
     console.error(err);
@@ -554,9 +573,9 @@ function renderModalLinks(anime) {
   const canEdit = !!currentUser;
   const links = normalizeLinks(anime.links);
   const malLink = anime.mal_id
-    ? `<a class="modal-link-chip modal-link-mal" href="https://myanimelist.net/anime/${encodeURIComponent(anime.mal_id)}" target="_blank" rel="noopener">MyAnimeList</a>`
+    ? `<a class="modal-link-chip modal-link-mal" href="https://myanimelist.net/anime/${encodeURIComponent(anime.mal_id)}" target="_blank" rel="noopener"><span class="link-chip-icon link-chip-mal-icon" aria-hidden="true">MAL</span><span>MyAnimeList</span></a>`
     : "";
-  const openingSearch = `<a class="modal-link-chip modal-link-opening" href="https://www.youtube.com/results?search_query=${encodeURIComponent(anime.name + " anime opening")}" target="_blank" rel="noopener">Buscar opening</a>`;
+  const openingSearch = `<a class="modal-link-chip modal-link-opening" href="https://www.youtube.com/results?search_query=${encodeURIComponent(anime.name + " anime opening")}" target="_blank" rel="noopener"><span class="link-chip-icon link-chip-play-icon" aria-hidden="true">▶</span><span>Buscar opening</span></a>`;
 
   const linkChips = links
     .map((link, idx) => {
@@ -568,7 +587,7 @@ function renderModalLinks(anime) {
       </div>`
         : "";
       return `<div class="modal-link-chip-wrap">
-      <a class="modal-link-chip modal-link-custom" href="${escapeHTML(link.url)}" target="_blank" rel="noopener">${escapeHTML(link.name)}</a>
+      <a class="modal-link-chip modal-link-custom" href="${escapeHTML(link.url)}" target="_blank" rel="noopener"><span class="link-chip-icon link-chip-play-icon" aria-hidden="true">▶</span><span>${escapeHTML(link.name)}</span></a>
       ${editDelete}
     </div>`;
     })
@@ -580,7 +599,7 @@ function renderModalLinks(anime) {
 
   document.getElementById("modal-links").innerHTML = `
     <section class="modal-links">
-      <h3>Links úteis</h3>
+      <h3><span class="modal-section-icon" aria-hidden="true">🔗</span>Links úteis</h3>
       <div class="modal-link-list">
         ${malLink}
         ${linkChips || (!canEdit ? openingSearch : "")}
