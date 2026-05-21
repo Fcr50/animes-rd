@@ -381,7 +381,7 @@ async function handleSubmit() {
         group_id: currentGroupId,
         mal_id: currentAnimeData.malId,
         added_by: currentUser.id,
-        status: "pending",
+        status: "approved",
         links,
       },
     ]);
@@ -563,7 +563,7 @@ async function handleImport() {
           group_id: currentGroupId,
           mal_id: malId,
           added_by: currentUser.id,
-          status: "pending",
+          status: "approved",
         },
       ]);
 
