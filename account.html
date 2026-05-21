@@ -39,29 +39,22 @@
           <div class="account-v2-sections">
             <section class="account-v2-section">
               <div class="account-v2-section-head">
-                <span class="account-v2-index">01</span>
                 <div>
-                  <h2>Presença pública</h2>
-                  <p>Como seu perfil aparece para você e para o grupo.</p>
+                  <h2>Perfil</h2>
                 </div>
+                <button class="account-v2-primary account-v2-card-save" type="button" id="account-save-profile">
+                  Salvar
+                </button>
               </div>
 
-              <div class="account-v2-grid">
-                <label class="account-v2-field">
-                  <span>Nome exibido</span>
-                  <input id="account-display-name" type="text" maxlength="60" />
-                </label>
+              <input id="account-display-name" type="hidden" />
+              <input id="account-email" type="hidden" />
+              <input id="account-avatar-url" type="hidden" />
+
+              <div class="account-v2-grid account-v2-grid-single">
                 <label class="account-v2-field">
                   <span>Apelido</span>
                   <input id="account-nickname" type="text" maxlength="32" />
-                </label>
-                <label class="account-v2-field">
-                  <span>Email</span>
-                  <input id="account-email" type="email" disabled />
-                </label>
-                <label class="account-v2-field">
-                  <span>Avatar por URL</span>
-                  <input id="account-avatar-url" type="url" placeholder="https://..." />
                 </label>
               </div>
 
@@ -73,11 +66,12 @@
                   placeholder="Ex: Vejo slice of life quando quero paz, dou nota alta para trilha sonora boa e tenho fraqueza por protagonistas caóticos."
                 ></textarea>
               </label>
+
+              <span id="account-status" class="account-v2-status"></span>
             </section>
 
             <section class="account-v2-section">
               <div class="account-v2-section-head">
-                <span class="account-v2-index">02</span>
                 <div>
                   <h2>Aparência do perfil</h2>
                   <p>Escolha a cor que vai acompanhar seus detalhes pessoais.</p>
@@ -98,28 +92,8 @@
               </label>
             </section>
 
-            <section class="account-v2-section">
-              <div class="account-v2-section-head">
-                <span class="account-v2-index">03</span>
-                <div>
-                  <h2>Funções do site</h2>
-                  <p>Preferências individuais pensadas para o AniLiber.</p>
-                </div>
-              </div>
-
-              <div class="account-v2-preferences">
-                <label><input type="checkbox" checked /><span><strong>Usar minha cor nos detalhes</strong><small>Botões, bordas e marcações pessoais usam sua cor.</small></span></label>
-                <label><input type="checkbox" checked /><span><strong>Destacar minha nota no acervo</strong><small>O modal do anime prioriza sua avaliação.</small></span></label>
-                <label><input type="checkbox" /><span><strong>Modo compacto no acervo</strong><small>Menos altura nos cards e mais informação por tela.</small></span></label>
-                <label><input type="checkbox" checked /><span><strong>Mostrar recomendações da Nyx</strong><small>Sugestões aparecem no blog e nas áreas de perfil.</small></span></label>
-                <label><input type="checkbox" /><span><strong>Esconder spoilers por padrão</strong><small>Comentários longos ficam recolhidos primeiro.</small></span></label>
-                <label><input type="checkbox" /><span><strong>Lembrar pendências</strong><small>Alertas quando tiver anime aguardando seu voto.</small></span></label>
-              </div>
-            </section>
-
             <section class="account-v2-section is-muted">
               <div class="account-v2-section-head">
-                <span class="account-v2-index">04</span>
                 <div>
                   <h2>Privacidade</h2>
                   <p>Controles de visibilidade para quando ligarmos essa tela ao banco.</p>

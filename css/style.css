@@ -17656,9 +17656,9 @@ body.account-v2-page {
 
 .account-v2-section-head {
   align-items: start;
-  display: grid;
-  gap: 14px;
-  grid-template-columns: 44px minmax(0, 1fr);
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
   margin-bottom: 18px;
 }
 
@@ -17692,6 +17692,11 @@ body.account-v2-page {
   display: grid;
   gap: 13px;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.account-v2-grid-single {
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 360px;
 }
 
 .account-v2-field {
@@ -17735,6 +17740,27 @@ body.account-v2-page {
 .account-v2-bio textarea {
   min-height: 126px;
   resize: vertical;
+}
+
+.account-v2-card-actions {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 14px;
+}
+
+.account-v2-card-save {
+  flex: 0 0 auto;
+  min-width: 86px;
+}
+
+.account-v2-status {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 10px;
+  min-height: 18px;
 }
 
 .account-v2-palette {

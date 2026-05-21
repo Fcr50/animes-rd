@@ -10,6 +10,8 @@ const nicknameInput = document.getElementById("account-nickname");
 const emailInput = document.getElementById("account-email");
 const colorInput = document.getElementById("account-color");
 const bioInput = document.getElementById("account-bio");
+const saveProfileBtn = document.getElementById("account-save-profile");
+const statusEl = document.getElementById("account-status");
 const cover = document.getElementById("account-cover");
 const previewAvatar = document.getElementById("account-preview-avatar");
 const largeAvatar = document.getElementById("account-avatar-large");
@@ -112,6 +114,14 @@ colorButtons.forEach((button) => {
     colorInput.value = button.dataset.accountColor || "#22c55e";
     updatePreview();
   });
+});
+
+saveProfileBtn?.addEventListener("click", () => {
+  if (!statusEl) return;
+  statusEl.textContent = "Prévia salva localmente.";
+  setTimeout(() => {
+    statusEl.textContent = "";
+  }, 2400);
 });
 
 hydrateAccount();

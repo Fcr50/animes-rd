@@ -120,7 +120,7 @@ function renderUserNav(user) {
           <span class="nav-profile-avatar" data-profile-avatar>${avatarHtml}</span>
         </button>
         <div class="nav-profile-dropdown" data-profile-dropdown>
-          <a href="account.html" class="nav-profile-item" data-profile-link>Ver perfil</a>
+          <a href="account.html" class="nav-profile-item" data-profile-link>Editar perfil</a>
           <button id="btn-logout" class="nav-profile-item nav-profile-logout" type="button">Sair</button>
         </div>
       </div>
