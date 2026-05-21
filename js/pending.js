@@ -41,8 +41,7 @@ async function loadPendingAnimes() {
       animes (name, genres, image_url),
       votes (user_id, score, comment)
     `)
-    .eq('group_id', currentGroupId)
-    .eq('status', 'pending');
+    .eq('group_id', currentGroupId);
 
   if (error) {
     return;
