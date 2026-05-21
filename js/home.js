@@ -157,110 +157,22 @@ function renderFeaturedPost(animes) {
 
 // --- 🎶 OPENINGS ---
 
-function renderOpeningChipsLegacy(member) {
-  const ops = member.openings || [];
-  const canEdit = _currentUser?.id === member.user_id;
-  
-  // SEMPRE garante uma lista de 3 slots (preenchidos ou vazios)
-  const fullList = [
-    ops[0] || { name: "Adicionar Abertura 1", url: "" },
-    ops[1] || { name: "Adicionar Abertura 2", url: "" },
-    ops[2] || { name: "Adicionar Abertura 3", url: "" }
-  ];
-
-  return fullList.map((op, i) => {
-    const isPlaceholder = !op.url && op.name.includes("Adicionar");
-    
-    let content;
-    if (op.url) {
-      content = `<a class="opening-chip" href="${escapeHTML(op.url)}" target="_blank" rel="noopener noreferrer"><b>${i+1}</b>${escapeHTML(op.name)}</a>`;
-    } else {
-      content = `<span class="opening-chip placeholder"><b>${i+1}</b>${escapeHTML(op.name)}</span>`;
-    }
-    
-    const editBtn = canEdit ? `<button class="opening-edit-btn" onclick="window.editOpening('${member.user_id}', ${i})" style="cursor:pointer; background:none; border:none; margin-left:5px; font-size:10px;">✎</button>` : "";
-    
-    return `<div class="opening-chip-wrap">${content}${editBtn}</div>`;
-  }).join("");
-}
-
-window.editOpeningLegacy = (uid, i) => {
-  const m = _members.find(m => m.user_id === uid);
-  const op = (m.openings || [])[i] || { name: "", url: "" };
-  const wrap = document.getElementById(`openings-container-${uid}`);
-  if (!wrap) return;
-  const formHtml = `<div class="opening-inline-form" style="background: rgba(0,0,0,0.4); padding: 10px; border-radius: 8px; margin-top: 10px;"><input id="op-n-${i}" type="text" value="${escapeHTML(op.name)}" style="width: 100%; margin-bottom: 5px; font-size: 11px; padding: 4px;" /><input id="op-u-${i}" type="url" value="${escapeHTML(op.url)}" style="width: 100%; margin-bottom: 8px; font-size: 11px; padding: 4px;" /><div style="display:flex; gap:5px"><button onclick="window.saveOp('${uid}',${i})" style="background:var(--accent); color:white; border:none; padding:4px 8px; border-radius:4px; font-size:10px; cursor:pointer;">Salvar</button><button onclick="window.refreshMemberCards()" style="background:none; color:white; border:1px solid var(--border); padding:4px 8px; border-radius:4px; font-size:10px; cursor:pointer;">Cancelar</button></div></div>`;
-  document.querySelectorAll(".opening-inline-form").forEach(el => el.remove());
-  wrap.insertAdjacentHTML('beforeend', formHtml);
-};
-
-window.saveOp = async (uid, i) => {
-  const name = document.getElementById(`op-n-${i}`).value.trim();
-  const url = document.getElementById(`op-u-${i}`).value.trim();
-  const m = _members.find(m => m.user_id === uid);
-  const ops = [...(m.openings || [{name:"",url:""},{name:"",url:""},{name:"",url:""}])];
-  ops[i] = { name, url };
-  await supabase.from('group_members').update({ openings: ops }).eq('group_id', getGroupId()).eq('user_id', uid);
-  window.location.reload();
-};
-
-window.refreshMemberCards = () => window.location.reload();
-
 function renderOpeningChips(member) {
-  const ops = member.openings || [];
-  const canEdit = _currentUser?.id === member.user_id;
+  const ops = (member.openings || []).filter(op => op && op.url);
 
-  const fullList = [
-    ops[0] || { name: "Adicionar Abertura 1", url: "" },
-    ops[1] || { name: "Adicionar Abertura 2", url: "" },
-    ops[2] || { name: "Adicionar Abertura 3", url: "" }
-  ];
+  if (ops.length === 0) {
+    return `<span class="opening-chip placeholder">Sem aberturas registradas</span>`;
+  }
 
-  return fullList.map((op, i) => {
-    const content = op.url
-      ? `<a class="opening-chip" href="${escapeHTML(op.url)}" target="_blank" rel="noopener noreferrer"><b>${i + 1}</b>${escapeHTML(op.name)}</a>`
-      : `<span class="opening-chip placeholder"><b>${i + 1}</b>${escapeHTML(op.name)}</span>`;
-
-    const editBtn = canEdit
-      ? `<button class="opening-edit-btn" type="button" onclick="window.editOpening('${member.user_id}', ${i})" aria-label="Editar abertura ${i + 1}">✎</button>`
-      : "";
-
-    return `<div class="opening-chip-wrap">${content}${editBtn}</div>`;
+  return ops.map((op, i) => {
+    return `
+      <div class="opening-chip-wrap">
+        <a class="opening-chip" href="${escapeHTML(op.url)}" target="_blank" rel="noopener noreferrer">
+          <b>${i + 1}</b>${escapeHTML(op.name)}
+        </a>
+      </div>`;
   }).join("");
 }
-
-window.editOpening = (uid, i) => {
-  const m = _members.find((member) => member.user_id === uid);
-  const op = (m.openings || [])[i] || { name: "", url: "" };
-  const wrap = document.getElementById(`openings-container-${uid}`);
-  if (!wrap) return;
-
-  const formHtml = `
-    <div class="opening-inline-form">
-      <input
-        id="op-n-${i}"
-        class="opening-form-input"
-        type="text"
-        value="${escapeHTML(op.name)}"
-        placeholder="Nome da abertura"
-      />
-      <input
-        id="op-u-${i}"
-        class="opening-form-input"
-        type="url"
-        value="${escapeHTML(op.url)}"
-        placeholder="https://youtube.com/..."
-      />
-      <div class="opening-form-actions">
-        <button class="opening-save-btn" type="button" onclick="window.saveOp('${uid}',${i})">Salvar</button>
-        <button class="opening-cancel-btn" type="button" onclick="window.refreshMemberCards()">Cancelar</button>
-      </div>
-    </div>
-  `;
-
-  document.querySelectorAll(".opening-inline-form").forEach((el) => el.remove());
-  wrap.insertAdjacentHTML("beforeend", formHtml);
-};
 
 // --- 📊 RANKINGS ---
 

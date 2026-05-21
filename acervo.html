@@ -162,6 +162,7 @@
       <div class="page-header">
         <h1><span class="archive-title-gradient">Acervo</span></h1>
         <p id="updated-at">Carregando dados...</p>
+        <p id="last-added" style="font-size: 13px; color: var(--muted); margin-top: 4px;"></p>
       </div>
 
       <div class="stats-grid" id="stats-grid">
@@ -189,7 +190,7 @@
           <table>
             <thead>
               <tr>
-                <th data-col="nome">Anime</th>
+                <th data-col="name">Anime</th>
                 <th data-col="generos">Gêneros</th>
                 <th data-col="quemAssistiu">Quem assistiu</th>
                 <th data-col="nota" style="text-align: center">Nota</th>
@@ -219,6 +220,12 @@
         const d = new Date(updatedAt);
         document.getElementById("updated-at").textContent =
           `${total} animes — atualizado em ${d.toLocaleDateString("pt-BR")} às ${d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}`;
+
+        // Encontra o último anime adicionado (baseado na data de criação)
+        const lastAddedAnime = [...animes].sort((a, b) => new Date(b.created_at) - new Date(a.created_at))[0];
+        if (lastAddedAnime) {
+          document.getElementById("last-added").textContent = `Último anime adicionado ao acervo: ${lastAddedAnime.name}`;
+        }
 
         const withNota = animes.filter((a) => a.nota !== null);
         const avgAll = withNota.length

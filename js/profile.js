@@ -397,8 +397,8 @@ function renderGlobalFavorites(favorites) {
       .map(
         (anime) => `
         <article class="profile-fav-anime-poster">
-          <img src="${anime.img || "assets/nyx-icon.webp"}" alt="${escapeHTML(anime.name)}" />
-          <div class="profile-fav-anime-name">${escapeHTML(anime.name)}</div>
+          <img src="${anime.image_url || "assets/nyx-icon.webp"}" alt="${escapeHTML(anime.title || anime.name)}" />
+          <div class="profile-fav-anime-name">${escapeHTML(anime.title || anime.name)}</div>
         </article>
       `
       )

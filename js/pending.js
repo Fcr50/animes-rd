@@ -1,6 +1,6 @@
 // js/pending.js
 import { supabase } from './supabase-client.js';
-import { getGroupId, escapeHTML } from './utils.js';
+import { getGroupId, escapeHTML, updatePendingBadge } from './utils.js';
 
 const pendingAnimesContainer = document.getElementById("pending-animes-container");
 
@@ -31,6 +31,12 @@ async function init() {
 }
 
 async function loadPendingAnimes() {
+  if (!currentGroupId) {
+    console.warn("loadPendingAnimes cancelado: currentGroupId não definido.");
+    renderList([]);
+    return;
+  }
+
   const { data: list, error } = await supabase
     .from('group_animes')
     .select(`
@@ -191,6 +197,9 @@ window.castVoteInline = async (malId) => {
         }
       }, 400);
     }
+
+    // Atualiza a bolinha vermelha da navbar em tempo real
+    updatePendingBadge(currentUser, currentGroupId);
     
   } catch (err) {
     alert("Erro ao votar: " + err.message);

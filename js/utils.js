@@ -159,8 +159,15 @@ function renderUserNav(user) {
 /**
  * Atualiza o badge de pendências na navbar
  */
-async function updatePendingBadge(user, groupId) {
-  if (!user || !groupId) return;
+export async function updatePendingBadge(user, groupId) {
+  if (!user || !groupId) {
+    const links = document.querySelectorAll('a[href^="pending.html"]');
+    links.forEach(link => {
+      let badge = link.querySelector(".nav-badge");
+      if (badge) badge.remove();
+    });
+    return;
+  }
 
   try {
     // 1. Busca TODOS os animes no grupo

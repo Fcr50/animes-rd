@@ -10,6 +10,8 @@ const nicknameInput = document.getElementById("account-nickname");
 const emailInput = document.getElementById("account-email");
 const colorInput = document.getElementById("account-color");
 const bioInput = document.getElementById("account-bio");
+const genreInput = document.getElementById("account-favorite-genre");
+const vibeInput = document.getElementById("account-preferred-vibe");
 const saveProfileBtn = document.getElementById("account-save-profile");
 const statusEl = document.getElementById("account-status");
 const cover = document.getElementById("account-cover");
@@ -271,6 +273,15 @@ async function hydrateAccount() {
           });
         }
       }
+
+      if (profile.preferences) {
+        if (profile.preferences.favorite_genre && genreInput) {
+          genreInput.value = profile.preferences.favorite_genre;
+        }
+        if (profile.preferences.vibe && vibeInput) {
+          vibeInput.value = profile.preferences.vibe;
+        }
+      }
     }
   } catch (err) {
     console.error("Erro ao hidratar perfil do banco:", err);
@@ -317,11 +328,21 @@ saveProfileBtn?.addEventListener("click", async () => {
     favorites: {
       animes: getFavAnimesData(),
       openings: getFavOpeningsData()
+    },
+    preferences: {
+      favorite_genre: genreInput?.value || "",
+      vibe: vibeInput?.value || ""
     }
   };
 
   try {
-    const { error: profileError } = await supabase.from("profiles").upsert(profileData);
+    // Usamos .update() em vez de .upsert() porque o perfil já deve existir
+    // e não queremos ser obrigados a enviar o 'email' (que é NOT NULL) toda vez.
+    const { error: profileError } = await supabase
+      .from("profiles")
+      .update(profileData)
+      .eq("id", user.id);
+      
     if (profileError) throw profileError;
 
     if (confirm("Deseja atualizar seu nome e cor em TODOS os seus grupos atuais?")) {

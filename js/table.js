@@ -254,9 +254,24 @@ function sortData() {
   filtered.sort((a, b) => {
     let va = a[sortCol];
     let vb = b[sortCol];
+
+    // Se for array (generos ou quemAssistiu), converte para string
+    if (Array.isArray(va)) va = va.join(", ");
+    if (Array.isArray(vb)) vb = vb.join(", ");
+
     if (va == null) va = -Infinity;
     if (vb == null) vb = -Infinity;
-    if (typeof va === "string") return sortDir * va.localeCompare(vb);
+
+    if (typeof va === "string") {
+      // Prioriza A-Z, movendo números e símbolos para o final no modo ascendente
+      if (sortCol === "name") {
+        const isAlpha = (s) => /^[a-zA-ZáàâãéèêíïóôõöúçÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇ]/.test(s);
+        const aAlpha = isAlpha(va);
+        const bAlpha = isAlpha(vb);
+        if (aAlpha !== bAlpha) return sortDir * (aAlpha ? -1 : 1);
+      }
+      return sortDir * va.localeCompare(vb);
+    }
     return sortDir * (va - vb);
   });
 }
@@ -826,8 +841,14 @@ document.addEventListener("DOMContentLoaded", () => {
         sortCol = col;
         sortDir = -1;
       }
-      document.querySelectorAll("thead th").forEach((h) => h.classList.remove("sorted"));
+
+      // Atualiza classes visuais
+      document.querySelectorAll("thead th").forEach((h) => {
+        h.classList.remove("sorted", "sort-asc", "sort-desc");
+      });
       th.classList.add("sorted");
+      th.classList.add(sortDir === 1 ? "sort-asc" : "sort-desc");
+
       sortData();
       renderTable();
     });
