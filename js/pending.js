@@ -68,8 +68,8 @@ function renderList(list) {
     pendingAnimesContainer.innerHTML = `
       <div style="grid-column: 1 / -1; text-align: center; padding: 80px 20px;">
         <div style="font-size: 52px; margin-bottom: 20px;">✅</div>
-        <p style="font-size: 20px; font-weight: 800; color: #4ade80; margin: 0 0 8px;">Você votou em todos!</p>
-        <p style="color: rgba(134,239,172,0.5); font-size: 14px; margin: 0 0 28px;">Nenhum anime aguardando votação.</p>
+        <p style="font-size: 20px; font-weight: 800; color: #4ade80; margin: 0 0 8px;">Você está em dia!</p>
+        <p style="color: rgba(134,239,172,0.5); font-size: 14px; margin: 0 0 28px;">Nenhum anime aguardando sua avaliação.</p>
         <a href="historico.html" class="pending-history-btn">Ver histórico →</a>
       </div>`;
     return;
