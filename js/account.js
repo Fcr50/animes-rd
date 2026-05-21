@@ -21,6 +21,16 @@ const bioPreview = document.getElementById("account-bio-preview");
 const groupsList = document.getElementById("account-groups-list");
 const colorButtons = document.querySelectorAll("[data-account-color]");
 
+let selectedAnimes = [null, null, null]; // To store { mal_id, title, image_url }
+
+function debounce(fn, delay) {
+  let timeout;
+  return (...args) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => fn(...args), delay);
+  };
+}
+
 function escapeHTML(value) {
   return String(value ?? "").replace(/[&<>"']/g, (char) =>
     ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" })[char],
@@ -70,6 +80,79 @@ function updatePreview() {
   colorButtons.forEach((button) => {
     button.classList.toggle("active", button.dataset.accountColor === color);
   });
+}
+
+async function searchFavAnime(query, index) {
+  const resultsContainer = document.getElementById(`fav-anime-results-${index}`);
+  if (query.length < 3) {
+    if (resultsContainer) {
+      resultsContainer.innerHTML = "";
+      resultsContainer.classList.add("hidden");
+    }
+    return;
+  }
+  try {
+    const response = await fetch(`https://api.jikan.moe/v4/anime?q=${encodeURIComponent(query)}&limit=5`);
+    const { data } = await response.json();
+    renderFavResults(data, index);
+  } catch (err) {
+    console.error("Error searching favorite anime:", err);
+  }
+}
+
+function renderFavResults(data, index) {
+  const container = document.getElementById(`fav-anime-results-${index}`);
+  if (!container) return;
+
+  if (!data || data.length === 0) {
+    container.innerHTML = '<div class="search-result-item">Nenhum resultado encontrado</div>';
+  } else {
+    container.innerHTML = data.map(anime => `
+      <div class="search-result-item" data-id="${anime.mal_id}" data-title="${escapeHTML(anime.title)}" data-image="${anime.images.jpg.image_url}">
+        <img src="${anime.images.jpg.small_image_url}" alt="" style="width: 32px; height: 44px; object-fit: cover; border-radius: 4px; margin-right: 8px;">
+        <span>${escapeHTML(anime.title)}</span>
+      </div>
+    `).join("");
+  }
+  container.classList.remove("hidden");
+
+  container.querySelectorAll(".search-result-item").forEach(item => {
+    item.addEventListener("click", () => {
+      const animeData = {
+        mal_id: item.dataset.id,
+        title: item.dataset.title,
+        image_url: item.dataset.image
+      };
+      selectAnime(animeData, index);
+    });
+  });
+}
+
+function selectAnime(anime, index) {
+  selectedAnimes[index - 1] = anime;
+  const input = document.getElementById(`fav-anime-input-${index}`);
+  if (input) input.value = anime.title;
+  const container = document.getElementById(`fav-anime-results-${index}`);
+  if (container) {
+    container.innerHTML = "";
+    container.classList.add("hidden");
+  }
+}
+
+function getFavAnimesData() {
+  return selectedAnimes.filter(a => a !== null);
+}
+
+function getFavOpeningsData() {
+  const openings = [];
+  for (let i = 1; i <= 3; i++) {
+    const name = document.getElementById(`fav-opening-name-${i}`)?.value.trim();
+    const url = document.getElementById(`fav-opening-url-${i}`)?.value.trim();
+    if (name || url) {
+      openings.push({ name, url });
+    }
+  }
+  return openings;
 }
 
 async function loadAccountGroups(user) {
@@ -154,6 +237,45 @@ async function hydrateAccount() {
   colorInput.value = "#22c55e";
   bioInput.value = "";
 
+  try {
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("id", user.id)
+      .single();
+
+    if (profile) {
+      if (profile.nickname) nicknameInput.value = profile.nickname;
+      if (profile.color) colorInput.value = profile.color;
+      if (profile.bio) bioInput.value = profile.bio;
+      if (profile.avatar_url) avatarUrlInput.value = profile.avatar_url;
+
+      if (profile.favorites) {
+        if (profile.favorites.animes) {
+          profile.favorites.animes.forEach((anime, idx) => {
+            if (idx < 3) {
+              selectedAnimes[idx] = anime;
+              const input = document.getElementById(`fav-anime-input-${idx + 1}`);
+              if (input) input.value = anime.title;
+            }
+          });
+        }
+        if (profile.favorites.openings) {
+          profile.favorites.openings.forEach((opening, idx) => {
+            if (idx < 3) {
+              const nameInput = document.getElementById(`fav-opening-name-${idx + 1}`);
+              const urlInput = document.getElementById(`fav-opening-url-${idx + 1}`);
+              if (nameInput) nameInput.value = opening.name || "";
+              if (urlInput) urlInput.value = opening.url || "";
+            }
+          });
+        }
+      }
+    }
+  } catch (err) {
+    console.error("Erro ao hidratar perfil do banco:", err);
+  }
+
   updatePreview();
   loadAccountGroups(user);
 }
@@ -164,6 +286,13 @@ loginBtn?.addEventListener("click", () => signInWithGoogle());
   input?.addEventListener("input", updatePreview);
 });
 
+for (let i = 1; i <= 3; i++) {
+  const animeInput = document.getElementById(`fav-anime-input-${i}`);
+  if (animeInput) {
+    animeInput.addEventListener("input", debounce((e) => searchFavAnime(e.target.value, i), 500));
+  }
+}
+
 colorButtons.forEach((button) => {
   button.addEventListener("click", () => {
     if (!colorInput) return;
@@ -172,12 +301,44 @@ colorButtons.forEach((button) => {
   });
 });
 
-saveProfileBtn?.addEventListener("click", () => {
+saveProfileBtn?.addEventListener("click", async () => {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return;
+
   if (!statusEl) return;
-  statusEl.textContent = "Prévia salva localmente.";
-  setTimeout(() => {
-    statusEl.textContent = "";
-  }, 2400);
+  statusEl.textContent = "Salvando...";
+
+  const profileData = {
+    id: user.id,
+    nickname: nicknameInput.value,
+    bio: bioInput.value,
+    color: colorInput.value,
+    avatar_url: avatarUrlInput.value,
+    favorites: {
+      animes: getFavAnimesData(),
+      openings: getFavOpeningsData()
+    }
+  };
+
+  try {
+    const { error: profileError } = await supabase.from("profiles").upsert(profileData);
+    if (profileError) throw profileError;
+
+    if (confirm("Deseja atualizar seu nome e cor em TODOS os seus grupos atuais?")) {
+      const { error: syncError } = await supabase.from("group_members")
+        .update({ nickname: profileData.nickname, color: profileData.color })
+        .eq("user_id", user.id);
+      if (syncError) console.error("Erro ao sincronizar grupos:", syncError);
+    }
+
+    statusEl.textContent = "Perfil atualizado com sucesso!";
+    setTimeout(() => {
+      statusEl.textContent = "";
+    }, 3000);
+  } catch (err) {
+    console.error("Erro ao salvar perfil:", err);
+    statusEl.textContent = "Erro ao salvar perfil.";
+  }
 });
 
 hydrateAccount();
