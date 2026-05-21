@@ -26,28 +26,41 @@ if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
 async function runCleanup() {
+  console.log("🚀 Iniciando processo de limpeza...");
   try {
     // 1. Buscar animes pendentes há mais de 5 dias OU que já tenham votos suficientes
     const fiveDaysAgo = new Date();
     fiveDaysAgo.setDate(fiveDaysAgo.getDate() - 5);
 
+    console.log(`🔍 Buscando animes com status 'pending'...`);
+    
     const { data: allPending, error: animeError } = await supabase
       .from('group_animes')
-      .select('group_id, mal_id, created_at, animes(name)')
+      .select('group_id, mal_id, created_at')
       .eq('status', 'pending');
 
-    if (animeError) throw animeError;
-
-    if (!allPending || allPending.length === 0) {
-      console.log("Nenhum anime pendente encontrado.");
+    if (animeError) {
+      console.error("❌ Erro na query do Supabase:", animeError.message);
+      console.error("Detalhes:", animeError);
       return;
     }
 
-    console.log(`Analisando ${allPending.length} animes pendentes...`);
+    if (!allPending || allPending.length === 0) {
+      console.log("ℹ️ Nenhuma linha encontrada na tabela group_animes com status 'pending'.");
+      return;
+    }
+
+    console.log(`📊 Encontrados ${allPending.length} animes pendentes no total. Analisando cada um...`);
 
     for (const item of allPending) {
       const { group_id, mal_id, created_at } = item;
+      
+      // Busca o nome apenas para o log, para não quebrar a query principal
+      const { data: animeData } = await supabase.from('animes').select('name').eq('mal_id', mal_id).single();
+      const animeName = animeData?.name || `ID:${mal_id}`;
+
       const isExpired = new Date(created_at) < fiveDaysAgo;
+      console.log(`   - Analisando "${animeName}" (Criado em: ${created_at}, Expirado: ${isExpired})`);
 
       // 2. Buscar todos os membros ATUAIS desse grupo
       const { data: members } = await supabase
@@ -65,28 +78,33 @@ async function runCleanup() {
       const votedUserIds = new Set(votes?.map(v => v.user_id));
       const missingMembers = members?.filter(m => !votedUserIds.has(m.user_id)) || [];
 
-      // LÓGICA A: Se já tem votos de todos os membros atuais (ex: membro expulso), aprova direto
+      console.log(`     -> Votos: ${votes?.length || 0} | Membros no grupo: ${members?.length || 0} | Faltam: ${missingMembers.length}`);
+
+      // LÓGICA A: Se já tem votos de todos os membros atuais, aprova
       if (missingMembers.length === 0) {
-        console.log(`   ✅ Forçando aprovação de "${item.animes?.name}" (Votos completos)`);
-        await supabase.from('group_animes').update({ status: 'approved' }).eq('group_id', group_id).eq('mal_id', mal_id);
+        console.log(`     ✅ Votos completos! Forçando aprovação...`);
+        const { error: upError } = await supabase.from('group_animes').update({ status: 'approved' }).eq('group_id', group_id).eq('mal_id', mal_id);
+        if (upError) console.error(`     ❌ Erro ao aprovar:`, upError.message);
         continue;
       }
 
-      // LÓGICA B: Se expirou os 5 dias, vota automaticamente pelos faltantes
+      // LÓGICA B: Se expirou os 5 dias, vota automaticamente
       if (isExpired) {
-        console.log(`   ⏳ Expirou 5 dias para "${item.animes?.name}". Votando por ${missingMembers.length} pessoas...`);
+        console.log(`     ⏳ Tempo expirado! Inserindo ${missingMembers.length} votos automáticos...`);
         for (const member of missingMembers) {
-          await supabase.from('votes').insert([{
+          const { error: insError } = await supabase.from('votes').insert([{
             group_id: group_id,
             mal_id: mal_id,
             user_id: member.user_id,
             score: null,
             comment: "Voto automático (Sistema: Expirou 5 dias)"
           }]);
+          if (insError) console.error(`     ❌ Erro no voto automático:`, insError.message);
         }
-        // O Trigger do banco cuidará de mudar para 'approved' após os inserts acima
       }
     }
+
+    console.log("🏁 Fim do processo de limpeza.");
 
   } catch (err) {
     console.error("💥 Erro durante a limpeza:", err);
