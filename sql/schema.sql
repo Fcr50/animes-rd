@@ -28,7 +28,6 @@ CREATE TABLE public.group_members (
   color text NOT NULL,
   role text DEFAULT 'member'::text CHECK (role = ANY (ARRAY['admin'::text, 'member'::text])),
   joined_at timestamp with time zone DEFAULT now(),
-  openings jsonb DEFAULT '[]'::jsonb,
   CONSTRAINT group_members_pkey PRIMARY KEY (group_id, user_id),
   CONSTRAINT group_members_group_id_fkey FOREIGN KEY (group_id) REFERENCES public.groups(id),
   CONSTRAINT group_members_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.profiles(id)
@@ -57,6 +56,12 @@ CREATE TABLE public.legacy_votes (
 CREATE TABLE public.profiles (
   id uuid NOT NULL,
   email text NOT NULL,
+  nickname text,
+  color text,
+  bio text,
+  avatar_url text,
+  favorites jsonb DEFAULT '{"animes": [], "openings": []}'::jsonb,
+  preferences jsonb DEFAULT '{"favorite_genre": "", "vibe": ""}'::jsonb,
   created_at timestamp with time zone DEFAULT now(),
   CONSTRAINT profiles_pkey PRIMARY KEY (id),
   CONSTRAINT profiles_id_fkey FOREIGN KEY (id) REFERENCES auth.users(id)
