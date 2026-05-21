@@ -18,7 +18,14 @@ const largeAvatar = document.getElementById("account-avatar-large");
 const previewName = document.getElementById("account-preview-name");
 const previewRole = document.getElementById("account-preview-role");
 const bioPreview = document.getElementById("account-bio-preview");
+const groupsList = document.getElementById("account-groups-list");
 const colorButtons = document.querySelectorAll("[data-account-color]");
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, (char) =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" })[char],
+  );
+}
 
 function initialOf(value) {
   return (value || "A").trim().charAt(0).toUpperCase() || "A";
@@ -65,6 +72,64 @@ function updatePreview() {
   });
 }
 
+async function loadAccountGroups(user) {
+  if (!groupsList || !user) return;
+
+  groupsList.innerHTML = `
+    <article class="account-v2-group-card is-loading">
+      <strong>Carregando grupos...</strong>
+      <span>Buscando participação da sua conta.</span>
+    </article>
+  `;
+
+  try {
+    const { data, error } = await supabase
+      .from("group_members")
+      .select("group_id, nickname, color, role, groups(id, name, creator_id, invite_code)")
+      .eq("user_id", user.id);
+
+    if (error) throw error;
+
+    if (!data?.length) {
+      groupsList.innerHTML = `
+        <article class="account-v2-group-card is-empty">
+          <strong>Nenhum grupo ainda</strong>
+          <span>Quando você entrar ou criar um grupo, ele aparece aqui.</span>
+        </article>
+      `;
+      return;
+    }
+
+    groupsList.innerHTML = data
+      .map((item) => {
+        const group = item.groups;
+        if (!group) return "";
+        const isCreator = group.creator_id === user.id;
+        const role = isCreator || item.role === "admin" ? "Admin" : "Membro";
+        const color = item.color || "#22c55e";
+        return `
+          <article class="account-v2-group-card" style="--group-color:${escapeHTML(color)}">
+            <div class="account-v2-group-mark">${escapeHTML(group.name.charAt(0).toUpperCase())}</div>
+            <div>
+              <strong>${escapeHTML(group.name)}</strong>
+              <span>${escapeHTML(item.nickname || "Sem apelido")} · ${role}</span>
+            </div>
+            <a href="acervo.html#g=${encodeURIComponent(group.id)}">Abrir</a>
+          </article>
+        `;
+      })
+      .join("");
+  } catch (err) {
+    console.error("Erro ao carregar grupos do perfil:", err);
+    groupsList.innerHTML = `
+      <article class="account-v2-group-card is-empty">
+        <strong>Não foi possível carregar</strong>
+        <span>Tente novamente mais tarde.</span>
+      </article>
+    `;
+  }
+}
+
 async function hydrateAccount() {
   const {
     data: { user },
@@ -90,6 +155,7 @@ async function hydrateAccount() {
   bioInput.value = "";
 
   updatePreview();
+  loadAccountGroups(user);
 }
 
 loginBtn?.addEventListener("click", () => signInWithGoogle());

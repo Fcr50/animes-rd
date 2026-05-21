@@ -17843,6 +17843,71 @@ body.account-v2-page {
   max-width: 220px;
 }
 
+.account-v2-groups {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.account-v2-group-card {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(226, 232, 240, 0.11);
+  border-radius: 16px;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 44px minmax(0, 1fr) auto;
+  min-height: 84px;
+  padding: 14px;
+}
+
+.account-v2-group-card.is-loading,
+.account-v2-group-card.is-empty {
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.account-v2-group-mark {
+  align-items: center;
+  background: color-mix(in srgb, var(--group-color, var(--account-profile-color)) 22%, transparent);
+  border: 1px solid color-mix(in srgb, var(--group-color, var(--account-profile-color)) 48%, rgba(255, 255, 255, 0.16));
+  border-radius: 14px;
+  color: color-mix(in srgb, var(--group-color, var(--account-profile-color)) 74%, #ffffff);
+  display: flex;
+  font-weight: 900;
+  height: 44px;
+  justify-content: center;
+  width: 44px;
+}
+
+.account-v2-group-card strong {
+  color: var(--paper);
+  display: block;
+  font-size: 15px;
+}
+
+.account-v2-group-card span {
+  color: var(--muted);
+  display: block;
+  font-size: 12px;
+  margin-top: 3px;
+}
+
+.account-v2-group-card a {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(226, 232, 240, 0.13);
+  border-radius: 999px;
+  color: var(--paper);
+  font-size: 12px;
+  font-weight: 900;
+  padding: 8px 11px;
+}
+
+.account-v2-group-card a:hover {
+  background: color-mix(in srgb, var(--group-color, var(--account-profile-color)) 14%, rgba(255, 255, 255, 0.06));
+  border-color: color-mix(in srgb, var(--group-color, var(--account-profile-color)) 32%, rgba(255, 255, 255, 0.13));
+}
+
 .account-v2-preference-grid {
   display: grid;
   gap: 13px;
@@ -17969,6 +18034,7 @@ body.account-v2-page {
   .account-v2-palette,
   .account-v2-preferences,
   .account-v2-preference-grid,
+  .account-v2-groups,
   .account-v2-favorites {
     grid-template-columns: 1fr;
   }
