@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meu perfil | AniLiber</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/aniliber-icon-32.png?v=aniliber-icon-v4" />
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/aniliber-icon-192.png?v=aniliber-icon-v4" />
+    <link rel="apple-touch-icon" href="assets/aniliber-icon-512.png?v=aniliber-icon-v4" />
+    <link rel="stylesheet" href="css/style.css?v=platform-v16" />
+    <script type="module" src="./js/theme.js?v=platform-v15"></script>
+    <script type="module" src="./js/utils.js?v=platform-v16"></script>
+  </head>
+  <body class="account-page account-v2-page">
+    <nav class="nav"></nav>
+
+    <main class="account-v2-shell">
+      <section class="account-v2-auth" id="account-auth-gate" hidden>
+        <span class="eyebrow">Perfil da conta</span>
+        <h1>Entre para montar seu perfil.</h1>
+        <p>Seu espaço pessoal no AniLiber vai reunir bio, aparência, privacidade e preferências do site.</p>
+        <button class="account-v2-primary" type="button" id="account-login-btn">Entrar com Google</button>
+      </section>
+
+      <section class="account-v2-workspace" id="account-content" hidden>
+        <div class="account-v2-layout">
+          <aside class="account-v2-preview">
+            <div class="account-v2-cover" id="account-cover"></div>
+            <div class="account-v2-avatar" id="account-avatar-large">A</div>
+            <strong id="account-preview-name">Seu nome</strong>
+            <span id="account-preview-role">@usuario</span>
+            <p id="account-bio-preview">Sua biografia aparece aqui como uma prévia pública.</p>
+            <div class="account-v2-preview-meta">
+              <span>Cor do perfil</span>
+              <strong id="account-color-label">Verde AniLiber</strong>
+            </div>
+          </aside>
+
+          <div class="account-v2-sections">
+            <section class="account-v2-section">
+              <div class="account-v2-section-head">
+                <span class="account-v2-index">01</span>
+                <div>
+                  <h2>Presença pública</h2>
+                  <p>Como seu perfil aparece para você e para o grupo.</p>
+                </div>
+              </div>
+
+              <div class="account-v2-grid">
+                <label class="account-v2-field">
+                  <span>Nome exibido</span>
+                  <input id="account-display-name" type="text" maxlength="60" />
+                </label>
+                <label class="account-v2-field">
+                  <span>Apelido</span>
+                  <input id="account-nickname" type="text" maxlength="32" />
+                </label>
+                <label class="account-v2-field">
+                  <span>Email</span>
+                  <input id="account-email" type="email" disabled />
+                </label>
+                <label class="account-v2-field">
+                  <span>Avatar por URL</span>
+                  <input id="account-avatar-url" type="url" placeholder="https://..." />
+                </label>
+              </div>
+
+              <label class="account-v2-field account-v2-bio">
+                <span>Biografia</span>
+                <textarea
+                  id="account-bio"
+                  maxlength="360"
+                  placeholder="Ex: Vejo slice of life quando quero paz, dou nota alta para trilha sonora boa e tenho fraqueza por protagonistas caóticos."
+                ></textarea>
+              </label>
+            </section>
+
+            <section class="account-v2-section">
+              <div class="account-v2-section-head">
+                <span class="account-v2-index">02</span>
+                <div>
+                  <h2>Aparência do perfil</h2>
+                  <p>Escolha a cor que vai acompanhar seus detalhes pessoais.</p>
+                </div>
+              </div>
+
+              <div class="account-v2-palette" id="account-color-row">
+                <button type="button" data-account-color="#22c55e" style="--swatch:#22c55e"><span>Verde</span></button>
+                <button type="button" data-account-color="#06b6d4" style="--swatch:#06b6d4"><span>Ciano</span></button>
+                <button type="button" data-account-color="#8b5cf6" style="--swatch:#8b5cf6"><span>Roxo</span></button>
+                <button type="button" data-account-color="#f472b6" style="--swatch:#f472b6"><span>Rosa</span></button>
+                <button type="button" data-account-color="#f59e0b" style="--swatch:#f59e0b"><span>Dourado</span></button>
+              </div>
+
+              <label class="account-v2-field account-v2-color-field">
+                <span>Cor personalizada</span>
+                <input id="account-color" type="color" value="#22c55e" />
+              </label>
+            </section>
+
+            <section class="account-v2-section">
+              <div class="account-v2-section-head">
+                <span class="account-v2-index">03</span>
+                <div>
+                  <h2>Funções do site</h2>
+                  <p>Preferências individuais pensadas para o AniLiber.</p>
+                </div>
+              </div>
+
+              <div class="account-v2-preferences">
+                <label><input type="checkbox" checked /><span><strong>Usar minha cor nos detalhes</strong><small>Botões, bordas e marcações pessoais usam sua cor.</small></span></label>
+                <label><input type="checkbox" checked /><span><strong>Destacar minha nota no acervo</strong><small>O modal do anime prioriza sua avaliação.</small></span></label>
+                <label><input type="checkbox" /><span><strong>Modo compacto no acervo</strong><small>Menos altura nos cards e mais informação por tela.</small></span></label>
+                <label><input type="checkbox" checked /><span><strong>Mostrar recomendações da Nyx</strong><small>Sugestões aparecem no blog e nas áreas de perfil.</small></span></label>
+                <label><input type="checkbox" /><span><strong>Esconder spoilers por padrão</strong><small>Comentários longos ficam recolhidos primeiro.</small></span></label>
+                <label><input type="checkbox" /><span><strong>Lembrar pendências</strong><small>Alertas quando tiver anime aguardando seu voto.</small></span></label>
+              </div>
+            </section>
+
+            <section class="account-v2-section is-muted">
+              <div class="account-v2-section-head">
+                <span class="account-v2-index">04</span>
+                <div>
+                  <h2>Privacidade</h2>
+                  <p>Controles de visibilidade para quando ligarmos essa tela ao banco.</p>
+                </div>
+              </div>
+              <div class="account-v2-chips">
+                <button type="button">Mostrar bio para membros</button>
+                <button type="button">Ocultar email</button>
+                <button type="button">Permitir menções no blog</button>
+              </div>
+            </section>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="js/account.js?v=profile-ui-3"></script>
+    <script type="module" src="js/nyx-widget.js?v=platform-v15"></script>
+  </body>
+</html>

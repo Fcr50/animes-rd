@@ -106,10 +106,39 @@ function renderUserNav(user) {
   if (!userNav) return;
 
   if (user) {
+    const displayName = user.user_metadata?.full_name || user.email || "Meu perfil";
+    const avatarUrl = user.user_metadata?.avatar_url || "";
+    const fallbackInitial = displayName.trim().charAt(0).toUpperCase() || "U";
+    const avatarHtml = avatarUrl
+      ? `<img src="${escapeHTML(avatarUrl)}" alt="" width="30" height="30" referrerpolicy="no-referrer" />`
+      : `<span>${escapeHTML(fallbackInitial)}</span>`;
+
     userNav.innerHTML = `
       <a href="index.html" class="nav-btn-link" title="Acessar meu Dashboard">Dashboard</a>
-      <button id="btn-logout" class="nav-btn-action" title="Sair">Sair</button>
+      <div class="nav-profile-menu" data-profile-menu>
+        <button class="nav-profile-trigger" type="button" data-profile-trigger aria-label="Abrir menu do perfil" aria-expanded="false">
+          <span class="nav-profile-avatar" data-profile-avatar>${avatarHtml}</span>
+        </button>
+        <div class="nav-profile-dropdown" data-profile-dropdown>
+          <a href="account.html" class="nav-profile-item" data-profile-link>Ver perfil</a>
+          <button id="btn-logout" class="nav-profile-item nav-profile-logout" type="button">Sair</button>
+        </div>
+      </div>
     `;
+    const profileMenu = userNav.querySelector("[data-profile-menu]");
+    const profileTrigger = userNav.querySelector("[data-profile-trigger]");
+    profileTrigger?.addEventListener("click", (e) => {
+      e.preventDefault();
+      const isOpen = profileMenu?.classList.toggle("open");
+      profileTrigger.setAttribute("aria-expanded", String(Boolean(isOpen)));
+    });
+    document.addEventListener("click", (e) => {
+      if (!profileMenu?.classList.contains("open")) return;
+      if (profileMenu.contains(e.target)) return;
+      profileMenu.classList.remove("open");
+      profileTrigger?.setAttribute("aria-expanded", "false");
+    });
+
     document.getElementById("btn-logout")?.addEventListener("click", (e) => {
       e.preventDefault();
       // Ao sair, limpamos tudo
