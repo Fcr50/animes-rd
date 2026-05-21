@@ -17,6 +17,12 @@ function modalScoreColor(score) {
   return "#f87171";
 }
 
+function clampEditScore(value) {
+  const score = Number(String(value).replace(",", "."));
+  if (Number.isNaN(score)) return 5;
+  return Math.min(10, Math.max(0, score));
+}
+
 let allAnimes = [];
 let filtered = [];
 let sortCol = "notaSort";
@@ -470,7 +476,13 @@ function renderEditPanel(anime) {
       <div class="anime-edit-body">
         <label class="edit-field">
           <span>Nota</span>
-          <input id="anime-edit-score" type="number" min="0" max="10" step="0.1" value="${score}" />
+          <div class="anime-score-stepper">
+            <input id="anime-edit-score" type="number" min="0" max="10" step="0.1" inputmode="decimal" value="${score}" aria-label="Nota" />
+            <div class="anime-score-stepper-buttons">
+              <button class="anime-score-stepper-btn is-up" type="button" data-anime-score-step="0.1" aria-label="Aumentar nota"></button>
+              <button class="anime-score-stepper-btn is-down" type="button" data-anime-score-step="-0.1" aria-label="Diminuir nota"></button>
+            </div>
+          </div>
         </label>
         <label class="edit-field">
           <span>Comentário</span>
@@ -490,6 +502,19 @@ window.supabaseLogin = async () => {
 };
 
 document.addEventListener("click", async (e) => {
+  const scoreStepBtn = e.target.closest("[data-anime-score-step]");
+  if (scoreStepBtn) {
+    const scoreEl = document.getElementById("anime-edit-score");
+    if (!scoreEl) return;
+
+    const step = Number(scoreStepBtn.dataset.animeScoreStep || 0);
+    const nextScore = clampEditScore(clampEditScore(scoreEl.value || scoreEl.defaultValue) + step);
+    scoreEl.value = nextScore.toFixed(1);
+    scoreEl.dispatchEvent(new Event("input", { bubbles: true }));
+    scoreEl.focus();
+    return;
+  }
+
   const saveBtn = e.target.closest("[data-save-anime-edit]");
   if (!saveBtn || !currentUser) return;
 
@@ -499,7 +524,7 @@ document.addEventListener("click", async (e) => {
   const statusEl = document.getElementById("anime-edit-status");
 
   const rawScore = scoreEl?.value.trim();
-  const score = rawScore === "" ? null : Number(rawScore);
+  const score = rawScore === "" ? null : Number(rawScore.replace(",", "."));
   const comment = commentEl?.value.trim() || "";
 
   if (score !== null && (isNaN(score) || score < 0 || score > 10)) {
