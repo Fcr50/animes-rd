@@ -591,7 +591,7 @@ async function handleImport() {
   if (errors.length > 0) {
     alert(`Importação concluída com avisos:\n${successCount} sucesso(s)\n${errors.length} erro(s).`);
   } else {
-    alert(`${successCount} animes importados com sucesso para a fila de aprovação!`);
+    alert(`${successCount} animes importados com sucesso para as avaliações pendentes!`);
   }
 
   window.location.href = `pending.html#g=${currentGroupId}`;

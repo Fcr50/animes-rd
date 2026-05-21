@@ -1200,6 +1200,18 @@ thead th.sorted {
   color: var(--paper);
 }
 
+thead th.sorted::after {
+  content: " ▼";
+  display: inline-block;
+  font-size: 8px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+thead th.sort-asc::after {
+  content: " ▲";
+}
+
 tbody tr {
   border-bottom: 1px solid rgba(243, 239, 230, 0.1);
   cursor: pointer;
@@ -10357,7 +10369,7 @@ body.pending-page .nav-person span[title] {
   box-shadow: 0 0 0 3px rgba(26, 107, 120, 0.08);
 }
 
-/* ── Link chips (fila de aprovação + histórico) ── */
+/* ── Link chips (avaliações pendentes + histórico) ── */
 .pending-link-chip-wrap {
   align-items: center;
   display: inline-flex;
