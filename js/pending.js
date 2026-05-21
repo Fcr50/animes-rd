@@ -75,7 +75,6 @@ function renderList(list) {
         <div style="font-size: 52px; margin-bottom: 20px;">✅</div>
         <p style="font-size: 20px; font-weight: 800; color: #4ade80; margin: 0 0 8px;">Você está em dia!</p>
         <p style="color: rgba(134,239,172,0.5); font-size: 14px; margin: 0 0 28px;">Nenhum anime aguardando sua avaliação.</p>
-        <a href="historico.html" class="pending-history-btn">Ver histórico →</a>
       </div>`;
     return;
   }
