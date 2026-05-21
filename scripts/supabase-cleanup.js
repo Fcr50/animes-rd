@@ -26,85 +26,95 @@ if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
 async function runCleanup() {
-  console.log("🚀 Iniciando processo de limpeza...");
+  const projectId = SUPABASE_URL.split('.')[0].replace('https://', '');
+  console.log(`🚀 Conectando ao projeto: ${projectId}`);
+  console.log("🚀 Iniciando Diagnóstico de Segurança e Dados...");
+
   try {
-    // 1. Buscar animes pendentes há mais de 5 dias OU que já tenham votos suficientes
+    // 0. Verifica se estamos usando a Service Role Key (necessária para bypassar RLS)
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    if (authError && authError.message.includes("JWTPayloadEnumerator")) {
+       console.log("✅ Autenticação: Usando SERVICE_ROLE_KEY (Bypass de RLS ativo)");
+    } else {
+       console.log("⚠️ Autenticação: O script parece estar usando uma chave comum ou sem permissões de admin.");
+    }
+
+    // 1. Diagnóstico: Varredura Total
+    console.log("🔍 Fazendo varredura total na tabela group_animes (sem filtros)...");
+    const { data: allRows, error: scanError } = await supabase
+      .from('group_animes')
+      .select('group_id, mal_id, created_at, status');
+
+    if (scanError) {
+      console.error("❌ Erro ao acessar a tabela:", scanError.message);
+      return;
+    }
+
+    console.log(`📊 A tabela group_animes tem ${allRows?.length || 0} linhas no total.`);
+    
+    if (allRows?.length > 0) {
+      const statusCounts = allRows.reduce((acc, row) => {
+        acc[row.status] = (acc[row.status] || 0) + 1;
+        return acc;
+      }, {});
+      console.log("📈 Distribuição de status encontrados no banco:", statusCounts);
+    } else {
+      console.log("⚠️ ATENÇÃO: O banco de dados para o qual este script aponta está VAZIO.");
+      return;
+    }
+
+    // 2. Processamento de Limpeza
     const fiveDaysAgo = new Date();
     fiveDaysAgo.setDate(fiveDaysAgo.getDate() - 5);
-
-    console.log(`🔍 Buscando animes com status 'pending'...`);
     
-    const { data: allPending, error: animeError } = await supabase
-      .from('group_animes')
-      .select('group_id, mal_id, created_at')
-      .eq('status', 'pending');
+    const filteredPending = allRows.filter(a => a.status && String(a.status).toLowerCase() === 'pending');
 
-    if (animeError) {
-      console.error("❌ Erro na query do Supabase:", animeError.message);
-      console.error("Detalhes:", animeError);
+    if (filteredPending.length === 0) {
+      console.log("ℹ️ Nenhum anime com status 'pending' encontrado após varredura total.");
       return;
     }
 
-    if (!allPending || allPending.length === 0) {
-      console.log("ℹ️ Nenhuma linha encontrada na tabela group_animes com status 'pending'.");
-      return;
-    }
+    console.log(`📊 Encontrados ${filteredPending.length} animes pendentes. Analisando...`);
 
-    console.log(`📊 Encontrados ${allPending.length} animes pendentes no total. Analisando cada um...`);
-
-    for (const item of allPending) {
+    for (const item of filteredPending) {
       const { group_id, mal_id, created_at } = item;
       
-      // Busca o nome apenas para o log, para não quebrar a query principal
+      if (!group_id || !mal_id) {
+          console.warn("⚠️ Pulando item com ID inválido:", item);
+          continue;
+      }
+      
+      // Busca o nome apenas para o log
       const { data: animeData } = await supabase.from('animes').select('name').eq('mal_id', mal_id).single();
       const animeName = animeData?.name || `ID:${mal_id}`;
 
-      const isExpired = new Date(created_at) < fiveDaysAgo;
-      console.log(`   - Analisando "${animeName}" (Criado em: ${created_at}, Expirado: ${isExpired})`);
+      const isExpired = created_at ? new Date(created_at) < fiveDaysAgo : false;
+      console.log(`   - Analisando "${animeName}" (Status: ${item.status}, Criado: ${created_at})`);
 
-      // 2. Buscar todos os membros ATUAIS desse grupo
-      const { data: members } = await supabase
-        .from('group_members')
-        .select('user_id')
-        .eq('group_id', group_id);
-
-      // 3. Buscar quem já votou nesse anime
-      const { data: votes } = await supabase
-        .from('votes')
-        .select('user_id')
-        .eq('group_id', group_id)
-        .eq('mal_id', mal_id);
-
+      const { data: members } = await supabase.from('group_members').select('user_id').eq('group_id', group_id);
+      const { data: votes } = await supabase.from('votes').select('user_id').eq('group_id', group_id).eq('mal_id', mal_id);
+      
       const votedUserIds = new Set(votes?.map(v => v.user_id));
       const missingMembers = members?.filter(m => !votedUserIds.has(m.user_id)) || [];
 
-      console.log(`     -> Votos: ${votes?.length || 0} | Membros no grupo: ${members?.length || 0} | Faltam: ${missingMembers.length}`);
+      console.log(`     -> Votos: ${votes?.length || 0}/${members?.length || 0}. Faltam: ${missingMembers.length}`);
 
-      // LÓGICA A: Se já tem votos de todos os membros atuais, aprova
       if (missingMembers.length === 0) {
-        console.log(`     ✅ Votos completos! Forçando aprovação...`);
+        console.log(`     ✅ Votos completos! Aprovando...`);
         const { error: upError } = await supabase.from('group_animes').update({ status: 'approved' }).eq('group_id', group_id).eq('mal_id', mal_id);
-        if (upError) console.error(`     ❌ Erro ao aprovar:`, upError.message);
+        if (upError) console.error("     ❌ Erro ao atualizar status:", upError.message);
         continue;
       }
 
-      // LÓGICA B: Se expirou os 5 dias, vota automaticamente
       if (isExpired) {
-        console.log(`     ⏳ Tempo expirado! Inserindo ${missingMembers.length} votos automáticos...`);
+        console.log(`     ⏳ Expirou! Votando por ${missingMembers.length} pessoas...`);
         for (const member of missingMembers) {
-          const { error: insError } = await supabase.from('votes').insert([{
-            group_id: group_id,
-            mal_id: mal_id,
-            user_id: member.user_id,
-            score: null,
-            comment: "Voto automático (Sistema: Expirou 5 dias)"
-          }]);
-          if (insError) console.error(`     ❌ Erro no voto automático:`, insError.message);
+          const { error: insError } = await supabase.from('votes').insert([{ group_id, mal_id, user_id: member.user_id, score: null, comment: "Voto automático (Expirou 5 dias)" }]);
+          if (insError) console.error("     ❌ Erro ao inserir voto:", insError.message);
         }
       }
     }
-
-    console.log("🏁 Fim do processo de limpeza.");
+    console.log("🏁 Fim do processo.");
 
   } catch (err) {
     console.error("💥 Erro durante a limpeza:", err);
