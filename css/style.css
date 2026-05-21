@@ -17747,7 +17747,8 @@ body.account-v2-page {
 }
 
 .account-v2-field input,
-.account-v2-field textarea {
+.account-v2-field textarea,
+.account-v2-field select {
   background: rgba(4, 9, 18, 0.58);
   border: 1px solid rgba(226, 232, 240, 0.14);
   border-radius: 12px;
@@ -17758,9 +17759,14 @@ body.account-v2-page {
 }
 
 .account-v2-field input:focus,
-.account-v2-field textarea:focus {
+.account-v2-field textarea:focus,
+.account-v2-field select:focus {
   border-color: color-mix(in srgb, var(--account-profile-color) 66%, rgba(255, 255, 255, 0.18));
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--account-profile-color) 18%, transparent);
+}
+
+.account-v2-field select {
+  cursor: pointer;
 }
 
 .account-v2-field input:disabled {
@@ -17835,6 +17841,12 @@ body.account-v2-page {
 .account-v2-color-field {
   margin-top: 14px;
   max-width: 220px;
+}
+
+.account-v2-preference-grid {
+  display: grid;
+  gap: 13px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .account-v2-color-field input {
@@ -17956,6 +17968,7 @@ body.account-v2-page {
   .account-v2-grid,
   .account-v2-palette,
   .account-v2-preferences,
+  .account-v2-preference-grid,
   .account-v2-favorites {
     grid-template-columns: 1fr;
   }

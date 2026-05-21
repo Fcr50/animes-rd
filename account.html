@@ -33,6 +33,7 @@
             <nav class="account-v2-profile-index" aria-label="Seções do perfil">
               <a href="#account-profile-section">Perfil</a>
               <a href="#account-appearance-section">Aparência</a>
+              <a href="#account-preferences-section">Preferências</a>
               <a href="#account-favorites-section">Favoritos</a>
             </nav>
           </aside>
@@ -91,6 +92,44 @@
                 <span>Cor personalizada</span>
                 <input id="account-color" type="color" value="#22c55e" />
               </label>
+            </section>
+
+            <section class="account-v2-section" id="account-preferences-section">
+              <div class="account-v2-section-head">
+                <div>
+                  <h2>Preferências</h2>
+                  <p>Algumas pistas do seu gosto para recomendações e filtros pessoais.</p>
+                </div>
+              </div>
+
+              <div class="account-v2-preference-grid">
+                <label class="account-v2-field">
+                  <span>Gênero favorito</span>
+                  <select>
+                    <option>Ação</option>
+                    <option>Aventura</option>
+                    <option>Comédia</option>
+                    <option>Drama</option>
+                    <option>Fantasia</option>
+                    <option>Romance</option>
+                    <option>Slice of Life</option>
+                    <option>Suspense</option>
+                    <option>Psicológico</option>
+                    <option>Mecha</option>
+                  </select>
+                </label>
+
+                <label class="account-v2-field">
+                  <span>Vibe preferida</span>
+                  <select>
+                    <option>Algo leve pra relaxar</option>
+                    <option>História pesada e emocional</option>
+                    <option>Ação sem enrolação</option>
+                    <option>Mistério pra teorizar</option>
+                    <option>Romance com drama</option>
+                  </select>
+                </label>
+              </div>
             </section>
 
             <section class="account-v2-section is-muted" id="account-favorites-section">
