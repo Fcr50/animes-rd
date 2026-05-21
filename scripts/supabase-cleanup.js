@@ -7,12 +7,19 @@
  */
 
 const { createClient } = require("@supabase/supabase-js");
-require("dotenv").config({ path: ".env.migration" });
+
+// Tenta carregar o .env apenas se o arquivo existir (útil para dev local)
+try {
+  require("dotenv").config();
+} catch (e) {
+  // No GitHub Actions, as variáveis vêm dos Secrets, então o dotenv pode falhar sem problemas
+}
 
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
+  console.error("❌ Erro: Variáveis de ambiente SUPABASE_URL ou SUPABASE_SERVICE_ROLE_KEY não encontradas.");
   process.exit(1);
 }
 
@@ -20,26 +27,29 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
 async function runCleanup() {
   try {
-    // 1. Buscar animes pendentes há mais de 5 dias
+    // 1. Buscar animes pendentes há mais de 5 dias OU que já tenham votos suficientes
     const fiveDaysAgo = new Date();
     fiveDaysAgo.setDate(fiveDaysAgo.getDate() - 5);
 
-    const { data: pendingAnimes, error: animeError } = await supabase
+    const { data: allPending, error: animeError } = await supabase
       .from('group_animes')
       .select('group_id, mal_id, created_at, animes(name)')
-      .eq('status', 'pending')
-      .lt('created_at', fiveDaysAgo.toISOString());
+      .eq('status', 'pending');
 
     if (animeError) throw animeError;
 
-    if (!pendingAnimes || pendingAnimes.length === 0) {
+    if (!allPending || allPending.length === 0) {
+      console.log("Nenhum anime pendente encontrado.");
       return;
     }
 
-    for (const item of pendingAnimes) {
-      const { group_id, mal_id } = item;
+    console.log(`Analisando ${allPending.length} animes pendentes...`);
 
-      // 2. Buscar todos os membros desse grupo
+    for (const item of allPending) {
+      const { group_id, mal_id, created_at } = item;
+      const isExpired = new Date(created_at) < fiveDaysAgo;
+
+      // 2. Buscar todos os membros ATUAIS desse grupo
       const { data: members } = await supabase
         .from('group_members')
         .select('user_id')
@@ -53,27 +63,28 @@ async function runCleanup() {
         .eq('mal_id', mal_id);
 
       const votedUserIds = new Set(votes?.map(v => v.user_id));
-      const missingMembers = members?.filter(m => !votedUserIds.has(m.user_id));
+      const missingMembers = members?.filter(m => !votedUserIds.has(m.user_id)) || [];
 
-      if (!missingMembers || missingMembers.length === 0) {
+      // LÓGICA A: Se já tem votos de todos os membros atuais (ex: membro expulso), aprova direto
+      if (missingMembers.length === 0) {
+        console.log(`   ✅ Forçando aprovação de "${item.animes?.name}" (Votos completos)`);
+        await supabase.from('group_animes').update({ status: 'approved' }).eq('group_id', group_id).eq('mal_id', mal_id);
         continue;
       }
 
-      // 4. Inserir votos "Não Assisti" para os membros faltantes
-      for (const member of missingMembers) {
-        const { error: voteError } = await supabase
-          .from('votes')
-          .insert([{
+      // LÓGICA B: Se expirou os 5 dias, vota automaticamente pelos faltantes
+      if (isExpired) {
+        console.log(`   ⏳ Expirou 5 dias para "${item.animes?.name}". Votando por ${missingMembers.length} pessoas...`);
+        for (const member of missingMembers) {
+          await supabase.from('votes').insert([{
             group_id: group_id,
             mal_id: mal_id,
             user_id: member.user_id,
-            score: null, // "Não Assisti"
+            score: null,
             comment: "Voto automático (Sistema: Expirou 5 dias)"
           }]);
-
-        if (voteError) {
-          console.error(`   ❌ Erro ao votar para ${member.user_id}:`, voteError.message);
         }
+        // O Trigger do banco cuidará de mudar para 'approved' após os inserts acima
       }
     }
 
