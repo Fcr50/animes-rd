@@ -163,28 +163,23 @@ async function updatePendingBadge(user, groupId) {
   if (!user || !groupId) return;
 
   try {
-    // 1. Busca animes pendentes no grupo
-    const { data: pendingAnimes } = await supabase
+    // 1. Busca TODOS os animes no grupo
+    const { data: allAnimes } = await supabase
       .from("group_animes")
       .select("mal_id")
-      .eq("group_id", groupId)
-      .eq("status", "pending");
+      .eq("group_id", groupId);
 
-    if (!pendingAnimes || pendingAnimes.length === 0) return;
+    const animeList = allAnimes || [];
 
     // 2. Busca em quais o usuário já votou
     const { data: userVotes } = await supabase
       .from("votes")
       .select("mal_id")
       .eq("group_id", groupId)
-      .eq("user_id", user.id)
-      .in(
-        "mal_id",
-        pendingAnimes.map((a) => a.mal_id),
-      );
+      .eq("user_id", user.id);
 
     const votedIds = new Set(userVotes?.map((v) => v.mal_id));
-    const pendingCount = pendingAnimes.filter((a) => !votedIds.has(a.mal_id)).length;
+    const pendingCount = animeList.filter((a) => !votedIds.has(a.mal_id)).length;
 
     // 3. Atualiza a UI (Desktop e Mobile)
     const links = document.querySelectorAll('a[href^="pending.html"]');
