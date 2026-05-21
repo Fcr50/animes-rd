@@ -104,36 +104,63 @@
               </div>
 
               <div class="account-v2-favorites">
-                <div>
+                <div class="account-v2-favorites-col">
                   <h3>Top 3 animes</h3>
-                  <label class="account-v2-field">
-                    <span>1º anime</span>
-                    <input type="text" placeholder="Ex: Frieren" />
-                  </label>
-                  <label class="account-v2-field">
-                    <span>2º anime</span>
-                    <input type="text" placeholder="Ex: Hunter x Hunter" />
-                  </label>
-                  <label class="account-v2-field">
-                    <span>3º anime</span>
-                    <input type="text" placeholder="Ex: Steins;Gate" />
-                  </label>
+                  <div class="fav-anime-search-wrap">
+                    <label class="account-v2-field">
+                      <span>1º anime</span>
+                      <input type="text" id="fav-anime-input-1" placeholder="Pesquisar anime...">
+                    </label>
+                    <div id="fav-anime-results-1" class="search-results-dropdown hidden" style="position: relative;"></div>
+                  </div>
+                  <div class="fav-anime-search-wrap">
+                    <label class="account-v2-field">
+                      <span>2º anime</span>
+                      <input type="text" id="fav-anime-input-2" placeholder="Pesquisar anime...">
+                    </label>
+                    <div id="fav-anime-results-2" class="search-results-dropdown hidden" style="position: relative;"></div>
+                  </div>
+                  <div class="fav-anime-search-wrap">
+                    <label class="account-v2-field">
+                      <span>3º anime</span>
+                      <input type="text" id="fav-anime-input-3" placeholder="Pesquisar anime...">
+                    </label>
+                    <div id="fav-anime-results-3" class="search-results-dropdown hidden" style="position: relative;"></div>
+                  </div>
                 </div>
 
-                <div>
+                <div class="account-v2-favorites-col">
                   <h3>Top 3 openings</h3>
-                  <label class="account-v2-field">
-                    <span>1ª opening</span>
-                    <input type="text" placeholder="Ex: Again - Fullmetal Alchemist" />
-                  </label>
-                  <label class="account-v2-field">
-                    <span>2ª opening</span>
-                    <input type="text" placeholder="Ex: Unravel - Tokyo Ghoul" />
-                  </label>
-                  <label class="account-v2-field">
-                    <span>3ª opening</span>
-                    <input type="text" placeholder="Ex: Tank! - Cowboy Bebop" />
-                  </label>
+                  <div class="opening-field-group" style="margin-bottom: 20px;">
+                    <label class="account-v2-field">
+                      <span>1ª Opening (Nome)</span>
+                      <input type="text" id="fav-opening-name-1" placeholder="Ex: Again">
+                    </label>
+                    <label class="account-v2-field" style="margin-top: 5px;">
+                      <span>1ª Opening (Link)</span>
+                      <input type="url" id="fav-opening-url-1" placeholder="https://youtube.com/...">
+                    </label>
+                  </div>
+                  <div class="opening-field-group" style="margin-bottom: 20px;">
+                    <label class="account-v2-field">
+                      <span>2ª Opening (Nome)</span>
+                      <input type="text" id="fav-opening-name-2" placeholder="Ex: Unravel">
+                    </label>
+                    <label class="account-v2-field" style="margin-top: 5px;">
+                      <span>2ª Opening (Link)</span>
+                      <input type="url" id="fav-opening-url-2" placeholder="https://youtube.com/...">
+                    </label>
+                  </div>
+                  <div class="opening-field-group" style="margin-bottom: 20px;">
+                    <label class="account-v2-field">
+                      <span>3ª Opening (Nome)</span>
+                      <input type="text" id="fav-opening-name-3" placeholder="Ex: Tank!">
+                    </label>
+                    <label class="account-v2-field" style="margin-top: 5px;">
+                      <span>3ª Opening (Link)</span>
+                      <input type="url" id="fav-opening-url-3" placeholder="https://youtube.com/...">
+                    </label>
+                  </div>
                 </div>
               </div>
             </section>
