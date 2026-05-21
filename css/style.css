@@ -2735,6 +2735,109 @@ body.profile-page .page.profile-dashboard-page {
   font-size: 14px;
 }
 
+/* Global Favorites Section */
+.profile-favorites-section {
+  margin-bottom: 14px;
+}
+
+.profile-favorites-section.hidden {
+  display: none;
+}
+
+.profile-favorites-main {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 24px;
+  align-items: start;
+}
+
+.profile-fav-animes {
+  display: flex;
+  gap: 16px;
+}
+
+.profile-fav-anime-poster {
+  flex: 1;
+  position: relative;
+  aspect-ratio: 2 / 3;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s;
+}
+
+.profile-fav-anime-poster:hover {
+  transform: translateY(-4px);
+  border-color: var(--profile-accent);
+}
+
+.profile-fav-anime-poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-fav-anime-name {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px 12px 10px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.profile-openings-links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.profile-opening-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: #edf0fd;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.profile-opening-link:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--profile-accent);
+  color: white;
+}
+
+.profile-opening-link::before {
+  content: "▶";
+  font-size: 10px;
+  color: var(--profile-accent);
+}
+
+@media (max-width: 880px) {
+  .profile-favorites-main {
+    grid-template-columns: 1fr;
+  }
+  
+  .profile-fav-animes {
+    flex-wrap: wrap;
+  }
+  
+  .profile-fav-anime-poster {
+    flex: 1 1 100px;
+  }
+}
+
 @media (max-width: 1180px) {
   .profile-main-grid,
   .profile-highlight-grid {

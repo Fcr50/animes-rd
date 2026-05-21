@@ -12,6 +12,7 @@ import {
   prettyGenre,
 } from "./data.js";
 import { escapeHTML, shortText } from "./utils.js";
+import { supabase } from "./supabase-client.js";
 
 const PROFILE_TAGLINES = {
   Rafael: "Explorando historias, vivendo mundos.",
@@ -41,6 +42,13 @@ async function init() {
       return;
     }
 
+    // Carregar perfil global para bio e favoritos
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("bio, favorites")
+      .eq("id", member.user_id)
+      .single();
+
     const watched = animesOf(data.animes, personNickname);
     const average = avgNota(data.animes, personNickname);
     const best = favoriteAnime(data.animes, personNickname);
@@ -54,7 +62,7 @@ async function init() {
       watched,
       average,
       favoriteGenreLabel,
-    });
+    }, profile);
     renderHighlights(
       {
         best,
@@ -64,6 +72,11 @@ async function init() {
       },
       member.color
     );
+    
+    if (profile && profile.favorites) {
+      renderGlobalFavorites(profile.favorites);
+    }
+
     renderStats({
       watched,
       average,
@@ -87,7 +100,7 @@ function applyProfileTheme(member) {
   document.body.style.setProperty("--profile-hero-image", "url('assets/nyx-hero-profile.png')");
 }
 
-function renderHeader(member, context) {
+function renderHeader(member, context, profile) {
   const header = document.getElementById("profile-header");
   const accent = member.color || "#8b5cf6";
   const watchedCount = context.watched.length;
@@ -101,7 +114,7 @@ function renderHeader(member, context) {
             <h1>${escapeHTML(member.nickname)}</h1>
           </div>
           <p class="profile-tagline">${escapeHTML(
-            PROFILE_TAGLINES[member.nickname] || PROFILE_TAGLINES.default
+            profile?.bio || PROFILE_TAGLINES[member.nickname] || PROFILE_TAGLINES.default
           )}</p>
           <div class="profile-meta-grid">
             <article class="profile-meta-chip is-level">
@@ -364,6 +377,51 @@ function buildSparkline(values, tone) {
       <path class="profile-sparkline-line" d="${path}"></path>
     </svg>
   `;
+}
+
+function renderGlobalFavorites(favorites) {
+  const container = document.getElementById("global-favorites");
+  const posterContainer = document.getElementById("fav-animes-posters");
+  const openingContainer = document.getElementById("fav-openings-list");
+
+  if (!favorites || (!favorites.animes?.length && !favorites.openings?.length)) {
+    container.classList.add("hidden");
+    return;
+  }
+
+  container.classList.remove("hidden");
+
+  // Render Posters
+  if (favorites.animes && favorites.animes.length > 0) {
+    posterContainer.innerHTML = favorites.animes
+      .map(
+        (anime) => `
+        <article class="profile-fav-anime-poster">
+          <img src="${anime.img || "assets/nyx-icon.webp"}" alt="${escapeHTML(anime.name)}" />
+          <div class="profile-fav-anime-name">${escapeHTML(anime.name)}</div>
+        </article>
+      `
+      )
+      .join("");
+  } else {
+    posterContainer.innerHTML = "<p class='profile-empty-state'>Nenhum anime favorito selecionado.</p>";
+  }
+
+  // Render Openings
+  if (favorites.openings && favorites.openings.length > 0) {
+    openingContainer.innerHTML = favorites.openings
+      .filter((op) => op.name && op.url)
+      .map(
+        (op) => `
+        <a href="${op.url}" target="_blank" class="profile-opening-link">
+          ${escapeHTML(op.name)}
+        </a>
+      `
+      )
+      .join("");
+  } else {
+    openingContainer.innerHTML = "<p class='profile-empty-state'>Nenhuma opening favorita.</p>";
+  }
 }
 
 function withAlpha(hex, alpha) {
