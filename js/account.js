@@ -18,16 +18,7 @@ const largeAvatar = document.getElementById("account-avatar-large");
 const previewName = document.getElementById("account-preview-name");
 const previewRole = document.getElementById("account-preview-role");
 const bioPreview = document.getElementById("account-bio-preview");
-const colorLabel = document.getElementById("account-color-label");
 const colorButtons = document.querySelectorAll("[data-account-color]");
-
-const COLOR_NAMES = {
-  "#06b6d4": "Ciano",
-  "#22c55e": "Verde AniLiber",
-  "#8b5cf6": "Roxo",
-  "#f472b6": "Rosa",
-  "#f59e0b": "Dourado",
-};
 
 function initialOf(value) {
   return (value || "A").trim().charAt(0).toUpperCase() || "A";
@@ -65,7 +56,6 @@ function updatePreview() {
   if (previewName) previewName.textContent = name;
   if (previewRole) previewRole.textContent = `@${nick.replace(/^@/, "")}`;
   if (bioPreview) bioPreview.textContent = bio;
-  if (colorLabel) colorLabel.textContent = COLOR_NAMES[color.toLowerCase()] || color.toUpperCase();
 
   setAvatar(previewAvatar, avatarUrl, name, color);
   setAvatar(largeAvatar, avatarUrl, name, color);

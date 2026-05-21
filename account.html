@@ -30,14 +30,15 @@
             <strong id="account-preview-name">Seu nome</strong>
             <span id="account-preview-role">@usuario</span>
             <p id="account-bio-preview">Sua biografia aparece aqui como uma prévia pública.</p>
-            <div class="account-v2-preview-meta">
-              <span>Cor do perfil</span>
-              <strong id="account-color-label">Verde AniLiber</strong>
-            </div>
+            <nav class="account-v2-profile-index" aria-label="Seções do perfil">
+              <a href="#account-profile-section">Perfil</a>
+              <a href="#account-appearance-section">Aparência</a>
+              <a href="#account-favorites-section">Favoritos</a>
+            </nav>
           </aside>
 
           <div class="account-v2-sections">
-            <section class="account-v2-section">
+            <section class="account-v2-section" id="account-profile-section">
               <div class="account-v2-section-head">
                 <div>
                   <h2>Perfil</h2>
@@ -70,7 +71,7 @@
               <span id="account-status" class="account-v2-status"></span>
             </section>
 
-            <section class="account-v2-section">
+            <section class="account-v2-section" id="account-appearance-section">
               <div class="account-v2-section-head">
                 <div>
                   <h2>Aparência do perfil</h2>
@@ -92,17 +93,46 @@
               </label>
             </section>
 
-            <section class="account-v2-section is-muted">
+            <section class="account-v2-section is-muted" id="account-favorites-section">
               <div class="account-v2-section-head">
                 <div>
-                  <h2>Privacidade</h2>
-                  <p>Controles de visibilidade para quando ligarmos essa tela ao banco.</p>
+                  <h2>Favoritos</h2>
+                  <p>Escolha seus top 3 animes e openings para aparecerem no seu perfil.</p>
                 </div>
               </div>
-              <div class="account-v2-chips">
-                <button type="button">Mostrar bio para membros</button>
-                <button type="button">Ocultar email</button>
-                <button type="button">Permitir menções no blog</button>
+
+              <div class="account-v2-favorites">
+                <div>
+                  <h3>Top 3 animes</h3>
+                  <label class="account-v2-field">
+                    <span>1º anime</span>
+                    <input type="text" placeholder="Ex: Frieren" />
+                  </label>
+                  <label class="account-v2-field">
+                    <span>2º anime</span>
+                    <input type="text" placeholder="Ex: Hunter x Hunter" />
+                  </label>
+                  <label class="account-v2-field">
+                    <span>3º anime</span>
+                    <input type="text" placeholder="Ex: Steins;Gate" />
+                  </label>
+                </div>
+
+                <div>
+                  <h3>Top 3 openings</h3>
+                  <label class="account-v2-field">
+                    <span>1ª opening</span>
+                    <input type="text" placeholder="Ex: Again - Fullmetal Alchemist" />
+                  </label>
+                  <label class="account-v2-field">
+                    <span>2ª opening</span>
+                    <input type="text" placeholder="Ex: Unravel - Tokyo Ghoul" />
+                  </label>
+                  <label class="account-v2-field">
+                    <span>3ª opening</span>
+                    <input type="text" placeholder="Ex: Tank! - Cowboy Bebop" />
+                  </label>
+                </div>
               </div>
             </section>
           </div>
