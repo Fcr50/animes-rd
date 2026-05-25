@@ -18205,3 +18205,39 @@ body.account-v2-page {
   color: var(--paper);
   background: rgba(255, 255, 255, 0.1);
 }
+
+/* REACTION POPOVER (CUSTOM) */
+.reaction-popover {
+  position: absolute;
+  top: -45px;
+  left: 0;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 6px;
+  display: flex;
+  gap: 4px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  z-index: 100;
+  animation: popoverFadeIn 0.15s ease-out;
+}
+
+@keyframes popoverFadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.reaction-popover-btn {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 8px;
+  transition: transform 0.1s, background 0.1s;
+}
+
+.reaction-popover-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.1);
+}

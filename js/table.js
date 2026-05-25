@@ -348,32 +348,46 @@ function renderModal() {
   document.body.appendChild(div);
 }
 
-window.setupReactionPickers = async (malId, comments) => {
-  if (!window.picmoPopup) {
-    // Dynamically import to ensure modules are loaded when needed
-    const { createPopup } = await import('https://unpkg.com/@picmo/popup-picker@latest/dist/index.js');
-    window.picmoPopup = createPopup;
+const QUICK_REACTIONS = ["❤️", "😂", "👍", "👎", "🔥", "😮", "😢"];
+
+window.toggleReactionMenu = (commentId) => {
+  // Remove qualquer menu aberto
+  document.querySelectorAll('.reaction-popover').forEach(el => {
+    if (el.id !== `popover-${commentId}`) el.remove();
+  });
+
+  const btn = document.getElementById(`add-reaction-${commentId}`);
+  const bar = document.getElementById(`reaction-bar-${commentId}`);
+  if (!btn || !bar) return;
+
+  let popover = document.getElementById(`popover-${commentId}`);
+  
+  if (popover) {
+    popover.remove();
+    return;
   }
 
-  comments.forEach(c => {
-    const trigger = document.getElementById(`add-reaction-${c.id}`);
-    if (!trigger) return;
+  popover = document.createElement('div');
+  popover.id = `popover-${commentId}`;
+  popover.className = 'reaction-popover';
+  
+  const malId = document.getElementById("modal-links").dataset.animeId; // Pega o ID atual do modal
+  // Na verdade mal_id original estava no dataset do overlay, let's get it right
+  const modalMalId = document.getElementById("modal-content").dataset.malId;
 
-    const picker = window.picmoPopup({}, {
-      referenceElement: trigger,
-      triggerElement: trigger,
-      position: 'bottom-start'
-    });
+  popover.innerHTML = QUICK_REACTIONS.map(emoji => 
+    `<button class="reaction-popover-btn" onclick="window.toggleReaction('${modalMalId}', '${commentId}', '${emoji}'); document.getElementById('popover-${commentId}').remove();">${emoji}</button>`
+  ).join("");
 
-    trigger.addEventListener('click', () => picker.toggle());
-
-    picker.addEventListener('emoji:select', (selection) => {
-      if (window.toggleReaction) {
-        window.toggleReaction(malId, c.id, selection.emoji);
-      }
-    });
-  });
+  bar.appendChild(popover);
 };
+
+// Clicar fora fecha o popover
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.reaction-popover') && !e.target.closest('.add-reaction-btn')) {
+    document.querySelectorAll('.reaction-popover').forEach(el => el.remove());
+  }
+});
 
 window.openModal = function (idx) {
   const a = allAnimes[idx];
@@ -445,7 +459,15 @@ window.openModal = function (idx) {
   document.getElementById("modal-links").dataset.animeId = a.id;
 
   // Comentários
-  const comments = a.comentarios_array || [];
+  let comments = [...(a.comentarios_array || [])];
+  
+  // Ordenar comentários por número de reações (decrescente)
+  comments.sort((c1, c2) => {
+    const r1 = (c1.reactions || []).length;
+    const r2 = (c2.reactions || []).length;
+    return r2 - r1; // Maior número de reações primeiro
+  });
+
   document.getElementById("modal-comment").innerHTML = comments.length
     ? `
     <section class="modal-comments"><h3><span class="modal-section-icon" aria-hidden="true">☯</span>Comentários</h3>
@@ -461,18 +483,20 @@ window.openModal = function (idx) {
                 : "";
 
             // Agrupar reações por emoji
-            const reactionCounts = {};
+            const reactionUsers = {};
             const myReactions = new Set();
             (c.reactions || []).forEach(r => {
-              if (!reactionCounts[r.emoji]) reactionCounts[r.emoji] = 0;
-              reactionCounts[r.emoji]++;
+              if (!reactionUsers[r.emoji]) reactionUsers[r.emoji] = [];
+              const reactor = members.find(m => m.user_id === r.user_id);
+              if (reactor) reactionUsers[r.emoji].push(reactor.nickname);
               if (currentUser && r.user_id === currentUser.id) myReactions.add(r.emoji);
             });
 
-            const reactionPills = Object.entries(reactionCounts).map(([emoji, count]) => {
+            const reactionPills = Object.entries(reactionUsers).map(([emoji, users]) => {
               const isMine = myReactions.has(emoji);
-              return `<button class="reaction-pill ${isMine ? 'reacted-by-me' : ''}" onclick="window.toggleReaction('${a.mal_id}', '${c.id}', '${emoji}')">
-                <span>${emoji}</span> <span>${count}</span>
+              const titleText = escapeHTML(users.join(", "));
+              return `<button class="reaction-pill ${isMine ? 'reacted-by-me' : ''}" onclick="window.toggleReaction('${a.mal_id}', '${c.id}', '${emoji}')" title="${titleText}">
+                <span>${emoji}</span> <span>${users.length}</span>
               </button>`;
             }).join("");
 
@@ -482,9 +506,9 @@ window.openModal = function (idx) {
               ${notaHtml}
             </div>
             <p>${safeText}</p>
-            <div class="reaction-bar" id="reaction-bar-${c.id}">
+            <div class="reaction-bar" id="reaction-bar-${c.id}" style="position: relative;">
               ${reactionPills}
-              <button class="add-reaction-btn" id="add-reaction-${c.id}" aria-label="Adicionar reação">☻+</button>
+              <button class="add-reaction-btn" id="add-reaction-${c.id}" onclick="window.toggleReactionMenu('${c.id}')" aria-label="Adicionar reação">☻+</button>
             </div>
           </article>`;
           })
@@ -493,10 +517,6 @@ window.openModal = function (idx) {
     </section>
   `
     : "";
-
-  if (comments.length) {
-    window.setupReactionPickers(a.mal_id, comments);
-  }
 
   // Edição de nota
   document.getElementById("modal-edit").innerHTML = renderEditPanel(a);

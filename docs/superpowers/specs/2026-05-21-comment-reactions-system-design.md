@@ -4,7 +4,7 @@
 **Status:** Approved
 
 ## 1. Overview
-The Comment Reactions System enhances user interaction by allowing group members to react to each other's anime comments with a fixed set of emojis. This feature promotes social engagement and provides quick feedback on reviews.
+The Comment Reactions System enhances user interaction by allowing group members to react to each other's anime comments with any emoji. This feature promotes social engagement and provides quick feedback on reviews.
 
 ## 2. Database Schema (Supabase)
 
@@ -13,7 +13,7 @@ A new table will be created to track reactions:
 - `id`: uuid (Primary Key)
 - `vote_id`: uuid (Foreign Key to `public.votes.id`) - **This ensures the reaction is tied to a specific comment.**
 - `user_id`: uuid (The ID of the user giving the reaction)
-- `emoji`: text (One of: ❤️, 😂, 👍, 🔥, 😮)
+- `emoji`: text (Any unicode emoji character)
 - `created_at`: timestamp with time zone
 
 ### 2.2. Constraints
@@ -30,12 +30,12 @@ A new table will be created to track reactions:
 - **Display:** Shows a list of unique emojis used, followed by the total count for each.
 - Emojis reacted to by the current user should be highlighted.
 
-### 3.3. Reaction Picker
+### 3.3. Reaction Picker (External Library)
 - A small "Add Reaction" button (icon-only) next to the comment.
-- **UI:** Clicking opens a popover menu with the 5 fixed emojis.
+- **UI:** Clicking opens a full emoji picker modal using a lightweight vanilla JS library (e.g., `picmo`).
 - **Toggle Logic:** 
     - Clicking a new emoji replaces the previous reaction for that `vote_id`.
-    - Clicking the *same* emoji removes the reaction.
+    - Clicking the *same* emoji (from the reaction bar) removes the reaction.
 
 ### 3.4. Realtime Updates
 - The modal will subscribe to the `comment_reactions` table changes via Supabase Realtime, filtered by the `vote_id`s visible in the current modal.
