@@ -101,8 +101,19 @@ export async function loadData() {
   // 4. Carregar votos brutos para montar a matriz de notas individuais
   const { data: rawVotes } = await supabase
     .from("votes")
-    .select("mal_id, user_id, score, comment")
+    .select("id, mal_id, user_id, score, comment")
     .eq("group_id", groupId);
+
+  const { data: rawReactions } = await supabase
+    .from("comment_reactions")
+    .select("vote_id, user_id, emoji")
+    .eq("group_id", groupId);
+
+  const reactionsByVote = {};
+  (rawReactions || []).forEach((r) => {
+    if (!reactionsByVote[r.vote_id]) reactionsByVote[r.vote_id] = [];
+    reactionsByVote[r.vote_id].push(r);
+  });
 
   const votesByAnime = {};
   (rawVotes || []).forEach((v) => {
@@ -148,7 +159,13 @@ export async function loadData() {
         .filter((v) => v.comment)
         .map((v) => {
           const m = _members.find((member) => member.user_id === v.user_id);
-          return { nickname: m ? m.nickname : "Desconhecido", text: v.comment };
+          return { 
+            id: v.id, 
+            user_id: v.user_id,
+            nickname: m ? m.nickname : "Desconhecido", 
+            text: v.comment,
+            reactions: reactionsByVote[v.id] || []
+          };
         }),
     };
 
