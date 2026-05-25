@@ -870,6 +870,55 @@ window.deleteAnimeLink = async (animeId, idx) => {
   }
 };
 
+window.toggleReaction = async (malId, voteId, emoji) => {
+  if (!currentUser) {
+      alert("Você precisa estar logado para reagir.");
+      return;
+  }
+  const groupId = getGroupId();
+
+  try {
+    // 1. Verificar se já existe uma reação desse usuário nesse comentário
+    const { data: existing } = await supabase
+      .from("comment_reactions")
+      .select("id, emoji")
+      .eq("vote_id", voteId)
+      .eq("user_id", currentUser.id)
+      .single();
+
+    if (existing) {
+      if (existing.emoji === emoji) {
+        // Clicou no mesmo -> Deleta
+        await supabase.from("comment_reactions").delete().eq("id", existing.id);
+      } else {
+        // Clicou em outro -> Atualiza
+        await supabase.from("comment_reactions").update({ emoji }).eq("id", existing.id);
+      }
+    } else {
+      // Não existe -> Insere
+      await supabase.from("comment_reactions").insert([{
+        group_id: groupId,
+        mal_id: parseInt(malId),
+        vote_id: voteId,
+        user_id: currentUser.id,
+        emoji: emoji
+      }]);
+    }
+    
+    // Atualiza a tela recarregando os dados. 
+    // Usaremos a lógica de atualização silenciosa sem fechar o modal.
+    invalidateCache();
+    const data = await loadData();
+    allAnimes = data.animes;
+    applyFilters();
+    
+    if (currentModalIndex !== null) window.openModal(currentModalIndex);
+
+  } catch (err) {
+    console.error("Erro ao processar reação:", err);
+  }
+};
+
 window.closeModal = function () {
   document.getElementById("modal-overlay")?.classList.remove("open");
   document.body.style.overflow = "";
@@ -882,7 +931,33 @@ function refreshModal() {
 
 // ── Column sort ──────────────────────────────────────────────────────────────
 
+// Listen for reaction changes
+let reactionsChannel = null;
+
+function setupReactionsRealtime() {
+  const groupId = getGroupId();
+  if (!groupId) return;
+
+  if (reactionsChannel) return; // Already setup
+
+  reactionsChannel = supabase.channel('public:comment_reactions')
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'comment_reactions', filter: `group_id=eq.${groupId}` }, async () => {
+      // Re-fetch data and re-render modal if open, silently
+      invalidateCache();
+      const data = await loadData();
+      allAnimes = data.animes;
+      applyFilters(); // This keeps the background table correct
+      
+      if (currentModalIndex !== null) {
+          window.openModal(currentModalIndex);
+      }
+    })
+    .subscribe();
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+  setTimeout(setupReactionsRealtime, 1500); // Small delay to ensure auth/group is loaded
+
   document.querySelectorAll("thead th[data-col]").forEach((th) => {
     th.addEventListener("click", () => {
       const col = th.dataset.col;
