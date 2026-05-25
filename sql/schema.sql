@@ -91,3 +91,23 @@ CREATE TABLE public.votes (
   CONSTRAINT votes_group_id_mal_id_fkey FOREIGN KEY (group_id) REFERENCES public.group_animes(mal_id),
   CONSTRAINT votes_group_id_mal_id_fkey FOREIGN KEY (mal_id) REFERENCES public.group_animes(mal_id)
 );
+CREATE TABLE public.comment_reactions (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  group_id uuid NOT NULL,
+  mal_id integer NOT NULL,
+  vote_id uuid NOT NULL,
+  user_id uuid NOT NULL,
+  emoji text NOT NULL,
+  created_at timestamp with time zone DEFAULT now(),
+  CONSTRAINT comment_reactions_pkey PRIMARY KEY (id),
+  CONSTRAINT comment_reactions_vote_id_fkey FOREIGN KEY (vote_id) REFERENCES public.votes(id) ON DELETE CASCADE,
+  CONSTRAINT comment_reactions_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE,
+  CONSTRAINT comment_reactions_unique UNIQUE (vote_id, user_id)
+);
+
+-- RLS Policies for comment_reactions:
+-- ALTER TABLE public.comment_reactions ENABLE ROW LEVEL SECURITY;
+-- CREATE POLICY "Enable read access for all users" ON public.comment_reactions FOR SELECT USING (true);
+-- CREATE POLICY "Enable insert for authenticated users" ON public.comment_reactions FOR INSERT TO authenticated WITH CHECK (auth.uid() = user_id);
+-- CREATE POLICY "Enable update for users based on user_id" ON public.comment_reactions FOR UPDATE TO authenticated USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id);
+-- CREATE POLICY "Enable delete for users based on user_id" ON public.comment_reactions FOR DELETE TO authenticated USING (auth.uid() = user_id);
