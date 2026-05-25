@@ -18154,3 +18154,54 @@ body.account-v2-page {
     grid-template-columns: 1fr;
   }
 }
+
+/* COMMENT REACTIONS STYLES */
+.reaction-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+  align-items: center;
+}
+
+.reaction-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  padding: 4px 8px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  color: var(--paper);
+}
+
+.reaction-pill:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.reaction-pill.reacted-by-me {
+  background: rgba(139, 92, 246, 0.2);
+  border-color: rgba(139, 92, 246, 0.5);
+}
+
+.add-reaction-btn {
+  background: transparent;
+  border: none;
+  color: var(--faint);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  transition: color 0.15s, background 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-reaction-btn:hover {
+  color: var(--paper);
+  background: rgba(255, 255, 255, 0.1);
+}

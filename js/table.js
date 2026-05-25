@@ -348,6 +348,33 @@ function renderModal() {
   document.body.appendChild(div);
 }
 
+window.setupReactionPickers = async (malId, comments) => {
+  if (!window.picmoPopup) {
+    // Dynamically import to ensure modules are loaded when needed
+    const { createPopup } = await import('https://unpkg.com/@picmo/popup-picker@latest/dist/index.js');
+    window.picmoPopup = createPopup;
+  }
+
+  comments.forEach(c => {
+    const trigger = document.getElementById(`add-reaction-${c.id}`);
+    if (!trigger) return;
+
+    const picker = window.picmoPopup({}, {
+      referenceElement: trigger,
+      triggerElement: trigger,
+      position: 'bottom-start'
+    });
+
+    trigger.addEventListener('click', () => picker.toggle());
+
+    picker.addEventListener('emoji:select', (selection) => {
+      if (window.toggleReaction) {
+        window.toggleReaction(malId, c.id, selection.emoji);
+      }
+    });
+  });
+};
+
 window.openModal = function (idx) {
   const a = allAnimes[idx];
   if (!a) return;
@@ -433,12 +460,32 @@ window.openModal = function (idx) {
                 ? `<span class="comment-score-badge" style="background: color-mix(in srgb, ${color} 15%, transparent); border: 1px solid color-mix(in srgb, ${color} 30%, transparent);"><span style="color:#fde047; margin-right:4px;">★</span><span class="${notaColor(nota)}">${Number(nota).toFixed(1)}</span></span>`
                 : "";
 
+            // Agrupar reações por emoji
+            const reactionCounts = {};
+            const myReactions = new Set();
+            (c.reactions || []).forEach(r => {
+              if (!reactionCounts[r.emoji]) reactionCounts[r.emoji] = 0;
+              reactionCounts[r.emoji]++;
+              if (currentUser && r.user_id === currentUser.id) myReactions.add(r.emoji);
+            });
+
+            const reactionPills = Object.entries(reactionCounts).map(([emoji, count]) => {
+              const isMine = myReactions.has(emoji);
+              return `<button class="reaction-pill ${isMine ? 'reacted-by-me' : ''}" onclick="window.toggleReaction('${a.mal_id}', '${c.id}', '${emoji}')">
+                <span>${emoji}</span> <span>${count}</span>
+              </button>`;
+            }).join("");
+
             return `<article class="comment-item" style="--comment-accent:${color}">
             <div class="comment-header">
               <strong style="color:${color}">${escapeHTML(c.nickname.trim())}</strong>
               ${notaHtml}
             </div>
             <p>${safeText}</p>
+            <div class="reaction-bar" id="reaction-bar-${c.id}">
+              ${reactionPills}
+              <button class="add-reaction-btn" id="add-reaction-${c.id}" aria-label="Adicionar reação">☻+</button>
+            </div>
           </article>`;
           })
           .join("")}
@@ -446,6 +493,10 @@ window.openModal = function (idx) {
     </section>
   `
     : "";
+
+  if (comments.length) {
+    window.setupReactionPickers(a.mal_id, comments);
+  }
 
   // Edição de nota
   document.getElementById("modal-edit").innerHTML = renderEditPanel(a);
