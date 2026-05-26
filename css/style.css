@@ -4477,10 +4477,10 @@ body.compare-page .compare-native-select {
   .nav > .nav-link,
   .nav > .nav-person,
   .nav-dropdown-container,
-  #nav-person-group-container {
+  #nav-person-group-container,
+  .nav-btn-link {
     display: none;
-  }
-  .nav > .theme-toggle {
+  }  .nav > .theme-toggle {
     align-items: center;
     background: rgba(243, 239, 230, 0.06);
     border: 1px solid rgba(243, 239, 230, 0.12);
