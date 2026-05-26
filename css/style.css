@@ -16888,9 +16888,9 @@ body.acervo-page .edit-expand-arrow {
   body.acervo-page .modal {
     max-height: 92vh;
     padding: 22px;
-    width: calc(100vw - 20px);
+    width: 100%;
+    max-width: calc(100vw - 32px);
   }
-
   body.acervo-page .modal-title {
     font-size: clamp(26px, 8vw, 34px);
   }

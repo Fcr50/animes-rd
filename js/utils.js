@@ -356,7 +356,7 @@ export async function loadNavbar() {
   if (!nav) return;
 
   try {
-    const response = await fetch(`navbar.html?v=platform-v17`);
+    const response = await fetch(`navbar.html?v=platform-v18`);
     if (!response.ok) throw new Error("Falha ao carregar navbar.html");
 
     nav.innerHTML = await response.text();
@@ -365,6 +365,30 @@ export async function loadNavbar() {
       renderUserNav(user);
       updateNavbarState(user);
     });
+
+    // Mobile Drawer Logic
+    const hamburger = nav.querySelector("[data-nav-toggle]");
+    const drawer = nav.querySelector("#mobile-drawer");
+    const closeBtns = nav.querySelectorAll("[data-nav-close]");
+
+    if (hamburger && drawer) {
+      hamburger.addEventListener("click", () => {
+        const isExpanded = hamburger.getAttribute("aria-expanded") === "true";
+        hamburger.setAttribute("aria-expanded", String(!isExpanded));
+        hamburger.classList.toggle("is-open", !isExpanded);
+        drawer.setAttribute("aria-hidden", String(isExpanded));
+        drawer.classList.toggle("open", !isExpanded);
+      });
+
+      closeBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          hamburger.setAttribute("aria-expanded", "false");
+          hamburger.classList.remove("is-open");
+          drawer.setAttribute("aria-hidden", "true");
+          drawer.classList.remove("open");
+        });
+      });
+    }
 
     document.dispatchEvent(new CustomEvent("navbar-loaded"));
   } catch (error) {
