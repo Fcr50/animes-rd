@@ -377,7 +377,7 @@ export async function loadNavbar() {
         hamburger.setAttribute("aria-expanded", String(!isExpanded));
         hamburger.classList.toggle("is-open", !isExpanded);
         drawer.setAttribute("aria-hidden", String(isExpanded));
-        drawer.classList.toggle("open", !isExpanded);
+        drawer.classList.toggle("is-open", !isExpanded);
       });
 
       closeBtns.forEach((btn) => {
@@ -385,7 +385,7 @@ export async function loadNavbar() {
           hamburger.setAttribute("aria-expanded", "false");
           hamburger.classList.remove("is-open");
           drawer.setAttribute("aria-hidden", "true");
-          drawer.classList.remove("open");
+          drawer.classList.remove("is-open");
         });
       });
     }
