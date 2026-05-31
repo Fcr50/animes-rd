@@ -3,13 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    (function () {
+      var params = window.location.search + window.location.hash;
+      var hasAuthPayload = /[?&#](code|access_token|refresh_token|error|error_code)=/.test(params);
+      var isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      if (isMobile && hasAuthPayload) {
+        window.location.replace("aniliber://login-callback/" + params);
+      }
+    })();
+  </script>
   <title>Dashboard | AniLiber</title>
   <link rel="icon" type="image/png" sizes="32x32" href="assets/aniliber-icon-32.png?v=aniliber-icon-v4" />
   <link rel="icon" type="image/png" sizes="192x192" href="assets/aniliber-icon-192.png?v=aniliber-icon-v4" />
   <link rel="apple-touch-icon" href="assets/aniliber-icon-512.png?v=aniliber-icon-v4" />
-  <link rel="stylesheet" href="css/style.css?v=platform-v16" />
+  <link rel="stylesheet" href="css/style.css?v=platform-v24" />
   <script type="module" src="./js/theme.js?v=platform-v6"></script>
-  <script type="module" src="./js/utils.js?v=platform-v16"></script>
+  <script type="module" src="./js/utils.js?v=platform-v24"></script>
   <style>
     .nyx-floating-link { display: none !important; }
 
