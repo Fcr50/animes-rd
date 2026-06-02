@@ -83,9 +83,10 @@ async function init() {
       exclusives,
     });
     renderTopAnimes(data.animes, personNickname, member.color);
-    renderActivity(watched);
+    fetchAndRenderActivity(member.user_id, data.groupId);
     renderGenres(genreBreakdown);
     renderExclusives(exclusives, personNickname);
+    renderGlobalFavorites(profile?.favorites);
   } catch (err) {
     console.error("Erro ao carregar perfil:", err);
   }
@@ -253,49 +254,91 @@ function renderTopAnimes(animes, person, color) {
     .join("");
 }
 
-function renderActivity(watched) {
+async function fetchAndRenderActivity(userId, groupId) {
   const container = document.getElementById("profile-activity");
   if (!container) return;
 
-  const sorted = watched
-    .slice()
-    .sort((a, b) => Number(b.notaSort || b.nota || 0) - Number(a.notaSort || a.nota || 0));
+  try {
+    const { data: recentVotes, error } = await supabase
+      .from("votes")
+      .select("score, comment, created_at, mal_id")
+      .eq("group_id", groupId)
+      .eq("user_id", userId)
+      .order("created_at", { ascending: false })
+      .limit(5);
 
-  const labels = ["Hoje", "Ontem", "2 dias atras", "3 dias atras", "4 dias atras"];
-  const items = sorted.slice(0, 5).map((anime, index) => {
-    const action =
-      index === 1
-        ? `Avaliou ${anime.name}`
-        : index === 2
-          ? `Adicionou 3 animes a lista`
-          : index === 3
-            ? `Assistiu ${anime.name}`
-            : index === 4
-              ? `Avaliou ${anime.name}`
-              : `Assistiu ${anime.name}`;
+    if (error) throw error;
 
-    return {
-      action,
-      when: labels[index] || `${index + 1} dias atras`,
+    if (!recentVotes || recentVotes.length === 0) {
+      container.innerHTML = "<p class='profile-empty-state'>Sem atividade recente.</p>";
+      return;
+    }
+
+    // Para pegar o nome dos animes de forma eficiente, vamos buscar na view anime_details
+    const malIds = recentVotes.map(v => v.mal_id);
+    const { data: animesInfo } = await supabase
+      .from("anime_details")
+      .select("mal_id, name")
+      .eq("group_id", groupId)
+      .in("mal_id", malIds);
+
+    const animeNameMap = {};
+    if (animesInfo) {
+       animesInfo.forEach(a => animeNameMap[a.mal_id] = a.name);
+    }
+
+    const formatRelativeTime = (dateString) => {
+      const date = new Date(dateString);
+      const now = new Date();
+      const diffMs = now - date;
+      const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+      
+      if (diffDays === 0) {
+        const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+        if (diffHours === 0) {
+           const diffMins = Math.floor(diffMs / (1000 * 60));
+           return diffMins <= 1 ? "Agora mesmo" : `Há ${diffMins} min`;
+        }
+        return `Há ${diffHours}h`;
+      }
+      if (diffDays === 1) return "Ontem";
+      if (diffDays < 7) return `Há ${diffDays} dias`;
+      return date.toLocaleDateString("pt-BR", { day: "2-digit", month: "short" });
     };
-  });
 
-  if (!items.length) {
-    container.innerHTML = "<p class='profile-empty-state'>Sem atividade recente.</p>";
-    return;
+    const items = recentVotes.map(vote => {
+      const animeName = animeNameMap[vote.mal_id] || "um anime";
+      let actionText = "";
+      if (vote.score === null) {
+          actionText = `Marcou "${animeName}" como não assistido`;
+      } else if (vote.comment) {
+          actionText = `Comentou sobre "${animeName}"`;
+      } else {
+          actionText = `Avaliou "${animeName}" com nota ${Number(vote.score).toFixed(1)}`;
+      }
+
+      return {
+        action: actionText,
+        when: formatRelativeTime(vote.created_at)
+      };
+    });
+
+    container.innerHTML = items
+      .map(
+        (item) => `
+          <article class="profile-activity-item">
+            <span class="profile-activity-dot" aria-hidden="true"></span>
+            <span class="profile-activity-text">${escapeHTML(item.action)}</span>
+            <span class="profile-activity-time">${escapeHTML(item.when)}</span>
+          </article>
+        `
+      )
+      .join("");
+
+  } catch (err) {
+    console.error("Erro ao carregar atividade:", err);
+    container.innerHTML = "<p class='profile-empty-state'>Erro ao carregar atividade.</p>";
   }
-
-  container.innerHTML = items
-    .map(
-      (item) => `
-        <article class="profile-activity-item">
-          <span class="profile-activity-dot" aria-hidden="true"></span>
-          <span class="profile-activity-text">${escapeHTML(item.action)}</span>
-          <span class="profile-activity-time">${escapeHTML(item.when)}</span>
-        </article>
-      `
-    )
-    .join("");
 }
 
 function renderGenres(genres) {
