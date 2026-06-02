@@ -115,7 +115,7 @@ function renderFeaturedPost(animes) {
         malId: a.mal_id // Guardamos o ID para o link
       };
     });
-  }).filter(c => c.text.length > 5);
+  }).filter(c => c.text && c.text.length > 5);
   const shuffled = shuffleItems(allComments);
   const container = document.getElementById("featured-comments");
 
