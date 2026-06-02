@@ -156,7 +156,7 @@ export async function loadData() {
         })
         .join("\n"),
       comentarios_array: animeVotes
-        .filter((v) => v.comment)
+        .filter((v) => v.score !== null || v.comment)
         .map((v) => {
           const m = _members.find((member) => member.user_id === v.user_id);
           return { 

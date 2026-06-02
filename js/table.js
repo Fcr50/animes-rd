@@ -475,7 +475,6 @@ window.openModal = function (idx) {
         ${comments
           .map((c) => {
             const color = getPersonColor(c.nickname.trim());
-            const safeText = escapeHTML(c.text).replace(/\n/g, "<br>");
             const nota = a[`nota${c.nickname.trim()}`];
             const notaHtml =
               nota !== null && nota !== undefined
@@ -500,12 +499,14 @@ window.openModal = function (idx) {
               </button>`;
             }).join("");
 
+            const textHtml = c.text ? `<p>${escapeHTML(c.text).replace(/\n/g, "<br>")}</p>` : "";
+
             return `<article class="comment-item" style="--comment-accent:${color}">
             <div class="comment-header">
               <strong style="color:${color}">${escapeHTML(c.nickname.trim())}</strong>
               ${notaHtml}
             </div>
-            <p>${safeText}</p>
+            ${textHtml}
             <div class="reaction-bar" id="reaction-bar-${c.id}" style="position: relative;">
               ${reactionPills}
               <button class="add-reaction-btn" id="add-reaction-${c.id}" onclick="window.toggleReactionMenu('${c.id}')" aria-label="Adicionar reação">☻+</button>
