@@ -163,7 +163,7 @@ export async function fetchTodaySchedules() {
   const gqlQuery = `
     query ($airingAtGreater: Int, $airingAtLesser: Int) {
       Page(perPage: 50) {
-        airingSchedules(airingAt_greater: $airingAtGreater, airingAt_lesser: $airingAtLesser, sort: TIME_ASC) {
+        airingSchedules(airingAt_greater: $airingAtGreater, airingAt_lesser: $airingAtLesser, sort: TIME) {
           airingAt
           episode
           media {
@@ -187,30 +187,35 @@ export async function fetchTodaySchedules() {
     }
   `;
 
-  const data = await fetchAniListGraphQL(gqlQuery, { airingAtGreater: startOfDay, airingAtLesser: endOfDay });
-  const items = data?.Page?.airingSchedules || [];
+  try {
+    const data = await fetchAniListGraphQL(gqlQuery, { airingAtGreater: startOfDay, airingAtLesser: endOfDay });
+    const items = data?.Page?.airingSchedules || [];
 
-  return items
-    .filter((item) => item.media)
-    .map((item) => {
-      const media = item.media;
-      const title = media.title?.english || media.title?.romaji || media.title?.native || "Sem título";
-      const score = media.averageScore ? media.averageScore / 10 : null;
-      const malId = media.idMal || media.id;
-      const date = new Date(item.airingAt * 1000);
-      const hours = String(date.getHours()).padStart(2, "0");
-      const minutes = String(date.getMinutes()).padStart(2, "0");
+    return items
+      .filter((item) => item.media)
+      .map((item) => {
+        const media = item.media;
+        const title = media.title?.english || media.title?.romaji || media.title?.native || "Sem título";
+        const score = media.averageScore ? media.averageScore / 10 : null;
+        const malId = media.idMal || media.id;
+        const date = new Date(item.airingAt * 1000);
+        const hours = String(date.getHours()).padStart(2, "0");
+        const minutes = String(date.getMinutes()).padStart(2, "0");
 
-      return {
-        mal_id: malId,
-        title,
-        score,
-        popularity: media.popularity || 0,
-        airingAt: item.airingAt,
-        timeDisplay: `${hours}:${minutes} BR`,
-        url: media.siteUrl || `https://myanimelist.net/anime/${malId}`,
-        image_url: media.coverImage?.extraLarge || media.coverImage?.large || "",
-      };
-    })
-    .sort((a, b) => (b.score || 0) - (a.score || 0));
+        return {
+          mal_id: malId,
+          title,
+          score,
+          popularity: media.popularity || 0,
+          airingAt: item.airingAt,
+          timeDisplay: `${hours}:${minutes} BR`,
+          url: media.siteUrl || `https://myanimelist.net/anime/${malId}`,
+          image_url: media.coverImage?.extraLarge || media.coverImage?.large || "",
+        };
+      })
+      .sort((a, b) => (b.score || 0) - (a.score || 0));
+  } catch (err) {
+    console.error("Erro ao buscar a programação de hoje no AniList:", err);
+    return [];
+  }
 }
