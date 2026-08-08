@@ -35,7 +35,12 @@ async function enrich() {
 
     for (const anime of animes) {
       try {
-        const res = await fetch(`https://api.jikan.moe/v4/anime/${anime.mal_id}`);
+        const query = `query ($idMal: Int) { Media(idMal: $idMal, type: ANIME) { coverImage { extraLarge large medium } } }`;
+        const res = await fetch("https://graphql.anilist.co", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({ query, variables: { idMal: parseInt(anime.mal_id, 10) } }),
+        });
         
         if (res.status === 429) {
           await new Promise(r => setTimeout(r, 5000));
@@ -47,7 +52,8 @@ async function enrich() {
         }
 
         const payload = await res.json();
-        const imageUrl = payload.data?.images?.webp?.large_image_url || payload.data?.images?.jpg?.large_image_url;
+        const media = payload.data?.Media;
+        const imageUrl = media?.coverImage?.extraLarge || media?.coverImage?.large || media?.coverImage?.medium;
 
         if (imageUrl) {
           const { error: updateError } = await supabase
@@ -58,8 +64,8 @@ async function enrich() {
           if (updateError) console.error(`   ❌ Erro ao salvar no banco:`, updateError.message);
         }
 
-        // Aguarda 1 segundo entre as chamadas para respeitar o Jikan (3 req/sec)
-        await new Promise(r => setTimeout(r, 1000));
+        // Aguarda 300ms entre as chamadas (AniList rate limit: 90 req/min)
+        await new Promise(r => setTimeout(r, 300));
 
       } catch (err) {
         console.error(`   💥 Erro no processamento de ${anime.name}:`, err.message);

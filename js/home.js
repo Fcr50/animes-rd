@@ -2,6 +2,7 @@
 import { supabase } from './supabase-client.js';
 import { animesOf, avgNota, favoriteGenre, formatNota, getPersonNota, loadData, mostControversial } from "./data.js";
 import { escapeHTML, shortText, shuffleItems, getGroupId, stripEmoji } from "./utils.js";
+import { fetchTodaySchedules } from "./anilist-api.js";
 
 let _members = [];
 let _currentUser = null;
@@ -242,32 +243,22 @@ async function init() {
   renderFeaturedPost(data.animes);
   renderMemberPosts(data.animes, data.members);
   renderPulse(data.animes);
-  const days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
-  fetch(`https://api.jikan.moe/v4/schedules?filter=${days[new Date().getDay()]}`).then(r => r.json()).then(d => {
+  fetchTodaySchedules().then((schedules) => {
     const el = document.getElementById("calendar-card");
-    if(el) {
-      // Filtra e ordena os animes antes de renderizar
-      const filteredData = d.data
-        .filter(a => a.score && a.score > 6.5 && a.members && a.members > 20000)
-        .sort((a, b) => b.score - a.score)
+    if (el) {
+      const filteredData = (schedules || [])
+        .filter((a) => a.score && a.score > 6.5)
         .slice(0, 6);
 
       el.innerHTML = `
-        <span class="eyebrow">MAL</span>
+        <span class="eyebrow">AniList</span>
         <h2>No ar hoje</h2>
         <div class="calendar-list">
-          ${filteredData.map(a => {
-            let timeDisplay = "N/A";
-            if (a.broadcast?.time) {
-              const [h, m] = a.broadcast.time.split(':').map(Number);
-              // JST (UTC+9) para BRT (UTC-3) é -12h
-              let brH = h - 12;
-              if (brH < 0) brH += 24;
-              timeDisplay = `${String(brH).padStart(2, '0')}:${String(m).padStart(2, '0')} BR`;
-            }
+          ${filteredData.map((a) => {
+            const timeDisplay = a.timeDisplay || "N/A";
             const score = a.score ? a.score.toFixed(1) : "—";
             return `
-              <a class="calendar-item" href="https://myanimelist.net/anime/${a.mal_id}" target="_blank" style="display:flex; justify-content:space-between; align-items:center; width:100%; gap:10px;">
+              <a class="calendar-item" href="${a.url}" target="_blank" style="display:flex; justify-content:space-between; align-items:center; width:100%; gap:10px;">
                 <div style="display:flex; align-items:center; gap:8px; overflow:hidden; flex:1;">
                   <span class="calendar-dot"></span>
                   <span class="calendar-title" style="font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${shortText(a.title, 22)}</span>
@@ -280,6 +271,8 @@ async function init() {
           }).join("")}
         </div>`;
     }
+  }).catch((err) => {
+    console.error("Erro ao carregar calendário do AniList:", err);
   });
   const rss = encodeURIComponent("https://news.google.com/rss/search?q=anime&hl=pt-BR&gl=BR");
   fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rss}`).then(r => r.json()).then(d => {

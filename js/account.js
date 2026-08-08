@@ -1,5 +1,6 @@
 import { supabase } from "./supabase-client.js";
 import { signInWithGoogle } from "./auth.js";
+import { searchAnime } from "./anilist-api.js";
 
 const authGate = document.getElementById("account-auth-gate");
 const content = document.getElementById("account-content");
@@ -94,8 +95,7 @@ async function searchFavAnime(query, index) {
     return;
   }
   try {
-    const response = await fetch(`https://api.jikan.moe/v4/anime?q=${encodeURIComponent(query)}&limit=5`);
-    const { data } = await response.json();
+    const data = await searchAnime(query, 5);
     renderFavResults(data, index);
   } catch (err) {
     console.error("Error searching favorite anime:", err);

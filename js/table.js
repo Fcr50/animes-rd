@@ -2,6 +2,7 @@
 import { supabase } from "./supabase-client.js";
 import { getGroupId, normalizeText, escapeHTML, stripEmoji, shortText } from "./utils.js";
 import { loadData, notaColor, formatNota, getPersonColor, invalidateCache } from "./data.js";
+import { fetchAnimeByMalId } from "./anilist-api.js";
 
 function genreToneClass(genre) {
   const clean = normalizeText(stripEmoji(genre))
@@ -91,23 +92,14 @@ async function runImageQueue() {
     const [malId] = queuedImageMalIds;
     queuedImageMalIds.delete(malId);
     try {
-      const res = await fetch(`https://api.jikan.moe/v4/anime/${encodeURIComponent(malId)}`);
-      if (res.ok) {
-        const payload = await res.json();
-        const imageUrl =
-          payload?.data?.images?.webp?.large_image_url ||
-          payload?.data?.images?.jpg?.large_image_url ||
-          payload?.data?.images?.webp?.image_url ||
-          payload?.data?.images?.jpg?.image_url ||
-          payload?.data?.images?.webp?.small_image_url ||
-          payload?.data?.images?.jpg?.small_image_url;
-        if (imageUrl) {
-          setCachedImage(malId, imageUrl);
-          updateRenderedImages(malId, imageUrl);
-        }
+      const animeData = await fetchAnimeByMalId(malId);
+      const imageUrl = animeData?.images?.jpg?.large_image_url || animeData?.images?.jpg?.image_url;
+      if (imageUrl) {
+        setCachedImage(malId, imageUrl);
+        updateRenderedImages(malId, imageUrl);
       }
     } catch {}
-    await new Promise((r) => setTimeout(r, 450));
+    await new Promise((r) => setTimeout(r, 200));
   }
   imageQueueRunning = false;
 }

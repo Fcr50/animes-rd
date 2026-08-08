@@ -45,25 +45,35 @@ async function backfillAnimeTitles() {
   }
 
   console.log(`Encontrados ${animes.length} animes para atualizar. Iniciando o processo...`);
-  console.log('Isso pode levar vários minutos. A API do Jikan tem um limite de requisições.');
+  console.log('Utilizando a API GraphQL do AniList.');
 
   for (let i = 0; i < animes.length; i++) {
     const anime = animes[i];
     const { mal_id, name } = anime;
 
     try {
-      await new Promise(resolve => setTimeout(resolve, 500)); 
+      await new Promise(resolve => setTimeout(resolve, 300)); 
 
       console.log(`[${i + 1}/${animes.length}] Buscando títulos para: ${name} (ID: ${mal_id})`);
 
-      const response = await fetch(`https://api.jikan.moe/v4/anime/${mal_id}/full`);
+      const query = `query ($idMal: Int) { Media(idMal: $idMal, type: ANIME) { title { romaji english native } } }`;
+      const response = await fetch("https://graphql.anilist.co", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({ query, variables: { idMal: parseInt(mal_id, 10) } }),
+      });
+
       if (!response.ok) {
         console.warn(`  -> Falha ao buscar dados para o ID ${mal_id}. Status: ${response.status}. Pulando.`);
         continue;
       }
       
-      const { data: apiData } = await response.json();
-      const titles = apiData.titles || [];
+      const payload = await response.json();
+      const mediaTitle = payload.data?.Media?.title;
+      const titles = [];
+      if (mediaTitle?.romaji) titles.push({ type: 'Japanese', title: mediaTitle.romaji });
+      if (mediaTitle?.english) titles.push({ type: 'English', title: mediaTitle.english });
+      if (mediaTitle?.native) titles.push({ type: 'Native', title: mediaTitle.native });
 
       if (titles.length > 0) {
         const { error: updateError } = await supabase

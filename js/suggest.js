@@ -1,6 +1,7 @@
 import { supabase } from "./supabase-client.js";
 import { getGroupId, escapeHTML } from "./utils.js";
 import { prettyGenre } from "./data.js";
+import { searchAnime } from "./anilist-api.js";
 
 const animeNameInput = document.getElementById("anime-name");
 const resultsDropdown = document.getElementById("search-results-list");
@@ -184,7 +185,7 @@ function setupSearch() {
       return;
     }
 
-    timeoutId = setTimeout(() => fetchJikan(query), 500);
+    timeoutId = setTimeout(() => fetchAniList(query), 500);
   });
 
   document.addEventListener("click", (event) => {
@@ -194,16 +195,14 @@ function setupSearch() {
   });
 }
 
-async function fetchJikan(query) {
+async function fetchAniList(query) {
   try {
-    const response = await fetch(
-      `https://api.jikan.moe/v4/anime?q=${encodeURIComponent(query)}&limit=5`,
-    );
-
-    if (!response.ok) throw new Error("Jikan offline");
-
-    const { data } = await response.json();
-    renderResults(data || [], false, false);
+    const list = await searchAnime(query, 5);
+    if (!list || list.length === 0) {
+      fetchLocalSearch(query);
+      return;
+    }
+    renderResults(list, false, false);
   } catch (_error) {
     fetchLocalSearch(query);
   }
